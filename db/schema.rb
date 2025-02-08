@@ -15,33 +15,28 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_08_223942) do
   enable_extension "plpgsql"
 
   create_table "event_infos", force: :cascade do |t|
-    t.string "title"
-    t.date "date"
-    t.time "start_time"
-    t.time "end_time"
-    t.text "description"
-    t.integer "adult_signup_slots"
-    t.integer "teenager_slots"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "groups", force: :cascade do |t|
-    t.string "name"
+    t.string "title", null: false
+    t.date "date", null: false
+    t.time "start_time", null: false
+    t.time "end_time", null: false
+    t.text "description", null: false
+    t.integer "adult_signup_slots", null: false
+    t.integer "teenager_slots", null: false
+    t.integer "creator_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "signup_groups", force: :cascade do |t|
-    t.integer "user_id"
-    t.string "group_name"
+    t.string "group_name", null: false
+    t.integer "primary_user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "signups", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "event_id"
+    t.integer "user_id", null: false
+    t.integer "event_id", null: false
     t.text "volunteer_notes"
     t.text "post_event_coordinator_notes"
     t.datetime "checked_in_at"
@@ -50,16 +45,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_08_223942) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "teams", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "user_types", force: :cascade do |t|
-    t.string "role"
+    t.string "role", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "phone_number"
-    t.boolean "is_over_18"
+    t.string "name", null: false
+    t.string "phone_number", null: false
+    t.boolean "is_over_18", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", default: "", null: false
@@ -71,12 +72,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_08_223942) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "users_types_groups", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "user_type_id"
-    t.integer "group_id"
+  create_table "users_types_teams", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "user_type_id", null: false
+    t.integer "team_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "event_infos", "users", column: "creator_id"
+  add_foreign_key "signup_groups", "users", column: "primary_user_id"
+  add_foreign_key "users_types_teams", "teams"
+  add_foreign_key "users_types_teams", "user_types"
+  add_foreign_key "users_types_teams", "users"
 end

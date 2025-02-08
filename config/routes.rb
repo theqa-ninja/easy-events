@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
-  resources :users_types_groups
-  resources :signup_groups
+  resources :users_types_teams
   resources :signups
   resources :event_infos
   resources :user_types
   devise_for :users
   resources :users
-  resources :groups
+  resources :teams
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
