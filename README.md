@@ -2,7 +2,7 @@
 
 ## Get up and running
 
-1. Create your user `d_deets` for postgres
+1. Create your user `ez_admin` for postgres
 2. Run `bin/setup` or run the following set of commands
 
 ```
