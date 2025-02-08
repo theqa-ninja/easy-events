@@ -1,24 +1,24 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Get up and running
 
-Things you may want to cover:
+1. Create your user `d_deets` for postgres
+2. Run `bin/setup` or run the following set of commands
 
-* Ruby version
+```
+bundle install
+bundle exec rails db:create
+bundle exec rails db:migrate
+bundle exec rails db:seed
+```
 
-* System dependencies
+3. Run `bundle exec rails s` to get your backend server running.
 
-* Configuration
+## one-time setup
+psql commands ran
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+psql
+CREATE USER ez_admin WITH PASSWORD 'c0rny-pa$$word%';
+ALTER ROLE ez_admin createrole createdb;
+```
