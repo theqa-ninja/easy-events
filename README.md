@@ -15,10 +15,12 @@ bundle exec rails db:seed
 3. Run `bundle exec rails s` to get your backend server running.
 
 ## one-time setup
-psql commands ran
+
+Run `psql -d postgres`
+
+In the postgres= prompt, run:
 
 ```
-psql
 CREATE USER ez_admin WITH PASSWORD 'c0rny-pa$$word%';
 ALTER ROLE ez_admin createrole createdb;
 ```
