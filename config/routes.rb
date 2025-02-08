@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :event_infos
   resources :user_types
+  devise_for :users
   resources :users
   resources :groups
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -11,4 +12,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  root to: "home#index"
 end
