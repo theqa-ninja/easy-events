@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :signup_groups
   resources :signups
   resources :event_infos
   resources :user_types

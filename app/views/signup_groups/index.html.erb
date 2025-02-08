@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Signup groups</h1>
+
+<div id="signup_groups">
+  <% @signup_groups.each do |signup_group| %>
+    <%= render signup_group %>
+    <p>
+      <%= link_to "Show this signup group", signup_group %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New signup group", new_signup_group_path %>
