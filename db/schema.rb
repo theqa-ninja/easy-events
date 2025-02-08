@@ -27,6 +27,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_08_223942) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "signup_groups", force: :cascade do |t|
     t.string "group_name", null: false
     t.integer "primary_user_id", null: false
@@ -47,6 +53,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_08_223942) do
 
   create_table "teams", force: :cascade do |t|
     t.string "name", null: false
+    t.integer "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -82,6 +89,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_08_223942) do
 
   add_foreign_key "event_infos", "users", column: "creator_id"
   add_foreign_key "signup_groups", "users", column: "primary_user_id"
+  add_foreign_key "teams", "organizations"
   add_foreign_key "users_types_teams", "teams"
   add_foreign_key "users_types_teams", "user_types"
   add_foreign_key "users_types_teams", "users"

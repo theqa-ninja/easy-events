@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :organizations
   resources :users_types_teams
   resources :signups
   resources :event_infos
