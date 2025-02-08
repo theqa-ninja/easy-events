@@ -55,6 +55,7 @@ group :development do
 
   gem 'faker'
   gem 'byebug'
+  gem 'factory_bot_rails'
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
@@ -69,3 +70,7 @@ group :test do
 end
 
 gem "devise", "~> 4.9"
+
+gem "factory_bot", "~> 6.5"
+
+gem "ffaker", "~> 2.24"
