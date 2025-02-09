@@ -51,6 +51,5 @@ if Rails.env != 'production'
       team_id: Team.all.where(organization_id: 1).sample.id)
 
     puts "created #{e.title}"
-    byebug
   end
 end
