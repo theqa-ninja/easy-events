@@ -47,15 +47,16 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
+  gem "ffaker", "~> 2.24"
+  gem 'factory_bot_rails'
+
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
-  gem 'faker'
   gem 'byebug'
-  gem 'factory_bot_rails'
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
@@ -66,11 +67,6 @@ end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem 'factory_bot_rails'
 end
 
 gem "devise", "~> 4.9"
-
-gem "factory_bot", "~> 6.5"
-
-gem "ffaker", "~> 2.24"

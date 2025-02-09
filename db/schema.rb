@@ -16,12 +16,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_08_223942) do
 
   create_table "event_infos", force: :cascade do |t|
     t.string "title", null: false
-    t.date "date", null: false
-    t.time "start_time", null: false
-    t.time "end_time", null: false
+    t.datetime "start_time", null: false
+    t.datetime "end_time", null: false
     t.text "description", null: false
     t.integer "adult_signup_slots", null: false
     t.integer "teenager_slots", null: false
+    t.integer "team_id", null: false
     t.integer "creator_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -66,7 +66,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_08_223942) do
 
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
-    t.string "phone_number", null: false
+    t.string "phone_number"
     t.boolean "is_over_18", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -82,14 +82,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_08_223942) do
   create_table "users_types_teams", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "user_type_id", null: false
+    t.integer "organization_id", null: false
     t.integer "team_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "event_infos", "teams"
   add_foreign_key "event_infos", "users", column: "creator_id"
   add_foreign_key "signup_groups", "users", column: "primary_user_id"
   add_foreign_key "teams", "organizations"
+  add_foreign_key "users_types_teams", "organizations"
   add_foreign_key "users_types_teams", "teams"
   add_foreign_key "users_types_teams", "user_types"
   add_foreign_key "users_types_teams", "users"
