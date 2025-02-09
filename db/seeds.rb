@@ -11,32 +11,32 @@
 require 'ffaker'
 
 if Rails.env != 'production'
-  puts 'creating organization'
+  puts 'creating organizations...'
   org = Organization.find_or_create_by!(name: FFaker::Company.unique.name)
 
-  puts 'creating users'
+  puts 'creating users...'
   5.times do
     phone_number = FFaker::Boolean.maybe ? FFaker::PhoneNumber.unique.phone_number : ""
     user = User.create(email: FFaker::Internet.unique.email, name: FFaker::Name.unique.name, password: 'password', is_over_18: FFaker::Boolean.maybe, phone_number: phone_number)
     puts "created #{user.email}"
   end
 
-  puts 'creating teams'
+  puts 'creating teams...'
   2.times do
     Team.find_or_create_by!(name: FFaker::Company.unique.name, organization_id: org.id)
   end
 
-  puts 'creating user types'
+  puts 'creating user types...'
   UserType.find_or_create_by!(role: 'Admin')
   UserType.find_or_create_by!(role: 'Event Coordinator')
 
-  puts 'creating user types teams'
+  puts 'creating user types teams...'
   UsersTypesTeam.find_or_create_by!(user_id: User.first.id, organization_id: org.id, user_type_id: UserType.first.id)
   puts "made #{User.first.email} as an #{UserType.second.role} for #{org.name}"
   UsersTypesTeam.find_or_create_by!(user_id: User.second.id, organization_id: org.id, team_id: Team.second.id, user_type_id: UserType.second.id)
   puts "made #{User.second.email} as a #{UserType.second.role} for #{org.name} on Team: #{Team.second.name}"
 
-  puts "creating some events"
+  puts "creating events..."
   5.times do |i|
     tempdate = DateTime.now - 1.day + i.day
     starttime = FFaker::Time.between(tempdate, tempdate + 1.day)
