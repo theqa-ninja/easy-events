@@ -1,6 +1,7 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @event_info %>
+<%= render "signups/form", user: @user %>
 
 <div>
   <%= link_to "Edit this event info", edit_event_info_path(@event_info) %> |

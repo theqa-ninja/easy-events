@@ -1,47 +1,27 @@
-<%= form_with(model: signup) do |form| %>
-  <% if signup.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(signup.errors.count, "error") %> prohibited this signup from being saved:</h2>
-
-      <ul>
-        <% signup.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+<%= form_with(model: user) do |f| %>
+  <div>Sign up for this event</div>
   <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.number_field :user_id %>
+    <%= f.label "Name", style: "display: block" %>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label "Email", style: "display: block" %>
+    <%= f.text_field :email %>
+  </div>
+  <div>
+    <%= f.label "Phone number", style: "display: block" %>
+    <%= f.number_field :phone_number %>
+  </div>
+  <div>
+    <%= f.label "Are you over 18?", style: "display: block" %>
+    <%= f.check_box :is_over_18 %>
+  </div>
+  <div>
+    <%= f.label "Is there anything else you'd like us to know?", style: "display: block" %>
+    <%= f.text_area :volunteer_notes %>
   </div>
 
   <div>
-    <%= form.label :event_id, style: "display: block" %>
-    <%= form.number_field :event_id %>
-  </div>
-
-  <div>
-    <%= form.label :volunteer_notes, style: "display: block" %>
-    <%= form.text_area :volunteer_notes %>
-  </div>
-
-  <div>
-    <%= form.label :post_event_coordinator_notes, style: "display: block" %>
-    <%= form.text_area :post_event_coordinator_notes %>
-  </div>
-
-  <div>
-    <%= form.label :checked_in_at, style: "display: block" %>
-    <%= form.datetime_field :checked_in_at %>
-  </div>
-
-  <div>
-    <%= form.label :cancelled_at, style: "display: block" %>
-    <%= form.datetime_field :cancelled_at %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+    <%= f.submit %>
   </div>
 <% end %>
