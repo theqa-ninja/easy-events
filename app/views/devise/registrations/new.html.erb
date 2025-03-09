@@ -19,6 +19,12 @@
   </div>
 
   <div class="form-field">
+    <%= f.label "Are you over 18?", style: "display: block" %>
+    Yes <%= f.radio_button :is_over_18, true %>
+    No <%= f.radio_button :is_over_18, false %>
+  </div>
+
+  <div class="form-field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>

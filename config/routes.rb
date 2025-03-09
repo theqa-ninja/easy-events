@@ -4,11 +4,16 @@ Rails.application.routes.draw do
   resources :signups
   resources :event_infos
   resources :user_types
-  devise_for :users, :path => '', :path_names => {
-    :sign_in => "login", 
-    :sign_out => "logout", 
-    :sign_up => "register" 
-  }
+  devise_for :users, 
+    :path => '', 
+    :path_names => {
+      :sign_in => "login", 
+      :sign_out => "logout", 
+      :sign_up => "register" 
+    }, 
+    :controllers => {
+      :registrations => "registrations"
+    }
   devise_scope :user do
     get '/logout' => 'devise/sessions#destroy'  
   end
