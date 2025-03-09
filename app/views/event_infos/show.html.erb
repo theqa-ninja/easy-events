@@ -1,7 +1,7 @@
 <p style="color: green"><%= notice %></p>
 <%= link_to raw("&laquo; Back to event sign ups"), event_infos_path %>
 <%= render @event_info %>
-<%= render "signups/form", user: @user %>
+<%= render "signups/form", user: @user, current_user: current_user %>
 <%= link_to raw("&laquo; Back to event sign ups"), event_infos_path %>
 <div>
   <h3>Event Coordinator Actions</h3>

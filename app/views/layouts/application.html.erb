@@ -11,6 +11,9 @@
   </head>
 
   <body>
+    <header>
+    <%= link_to " exit", destroy_user_session_path, method: :delete %>
+    </header>
     <main>
     <%= yield %>
     </main>
