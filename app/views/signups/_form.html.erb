@@ -1,14 +1,15 @@
-<%= form_with(model: user) do |f| %>
+<%= form_with(model: @signup, scope: :signup) do |f| %>
   <h3>Sign up for this event</h3>
+  <%= f.hidden_field :event_id, value: @signup.event_id || params[:id] %>
   <% if user_signed_in? == false %>
     Would you like to <%= link_to "log in", :new_user_session %> or <%= link_to "register for an account", :new_user_registration %> to save your account info for future signups?
     <div class="form-field">
       <%= f.label "Name", style: "display: block" %>
-      <%= f.text_field :name %>
+      <%= f.text_field :user_name %>
     </div>
     <div class="form-field">
       <%= f.label "Email", style: "display: block" %>
-      <%= f.text_field :email %>
+      <%= f.text_field :user_email %>
     </div>
     <div class="form-field">
       <%= f.label "Phone number", style: "display: block" %>
@@ -16,32 +17,32 @@
     </div>
     <div class="form-field">
       <%= f.label "Are you over 18?", style: "display: block" %>
-      Yes <%= f.radio_button :is_over_18, true %>
-      No <%= f.radio_button :is_over_18, false %>
+      Yes <%= f.radio_button :user_is_over_18, true %>
+      No <%= f.radio_button :user_is_over_18, false %>
     </div>
   <% end %>
   <% if user_signed_in? && current_user %>
     <div class="form-field">
       <%= f.label "Name", style: "display: block" %>
-      <%= f.text_field :name, value: current_user.name %>
+      <%= f.text_field :user_name, value: current_user.name %>
     </div>
     <div class="form-field">
       <%= f.label "Email", style: "display: block" %>
-      <%= f.text_field :email, value: current_user.email %>
+      <%= f.text_field :user_email, value: current_user.email %>
     </div>
     <div class="form-field">
       <%= f.label "Phone number", style: "display: block" %>
-      <%= f.text_field :phone_number, value: current_user.phone_number %>
+      <%= f.text_field :user_phone_number, value: current_user.phone_number %>
     </div>
     <div class="form-field">
       <%= f.label "Are you over 18?", style: "display: block" %>
-      Yes <%= f.radio_button :is_over_18, true, checked: current_user.is_over_18? %>
-      No <%= f.radio_button :is_over_18, false, checked: !current_user.is_over_18? %>
+      Yes <%= f.radio_button :user_is_over_18, true, checked: current_user.is_over_18? %>
+      No <%= f.radio_button :user_is_over_18, false, checked: !current_user.is_over_18? %>
     </div>
   <% end %>
   <div class="form-field">
     <%= f.label "Is there anything else you'd like us to know?", style: "display: block" %>
-    <%= f.text_area :volunteer_notes %>
+    <%= f.text_area :notes %>
   </div>
 
   <div class="flex justify-content-end">

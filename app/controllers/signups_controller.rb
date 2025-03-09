@@ -21,7 +21,29 @@ class SignupsController < ApplicationController
 
   # POST /signups or /signups.json
   def create
-    @signup = Signup.new(signup_params)
+    event_id = @event_id
+    if current_user
+      user_id = current_user.id
+    else
+      @user = User.new({
+        name: params[:signup][:user_name], 
+        email: params[:signup][:user_email],
+        phone_number: params[:signup][:user_phone_number],
+        is_over_18: params[:signup][:user_is_over_18]
+      })
+      if @user.save
+        user_id = User.last.id
+      end
+    end
+    @signup = Signup.new({
+      user_id: user_id, 
+      event_id: params[:signup][:event_id], 
+      notes: params[:signup][:notes],
+      user_name: params[:signup][:user_name], 
+      user_email: params[:signup][:user_email],
+      user_phone_number: params[:signup][:user_phone_number],
+      user_is_over_18: params[:signup][:user_is_over_18]
+    })
 
     respond_to do |format|
       if @signup.save
@@ -37,7 +59,16 @@ class SignupsController < ApplicationController
   # PATCH/PUT /signups/1 or /signups/1.json
   def update
     respond_to do |format|
-      if @signup.update(signup_params)
+      user_id = current_user.id
+      if @signup.update(
+        user_id: user_id, 
+        event_id: params[:signup][:event_id], 
+        notes: params[:signup][:notes],
+        user_name: params[:signup][:user_name], 
+        user_email: params[:signup][:user_email],
+        user_phone_number: params[:signup][:user_phone_number],
+        user_is_over_18: params[:signup][:user_is_over_18]
+      )
         format.html { redirect_to @signup, notice: "Signup was successfully updated." }
         format.json { render :show, status: :ok, location: @signup }
       else
@@ -65,6 +96,6 @@ class SignupsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def signup_params
-      params.require(:signup).permit(:user_id, :event_id, :volunteer_notes, :post_event_coordinator_notes, :checked_in_at, :cancelled_at)
+      params.require(:signup).permit(:user_name, :user_email, :user_phone_number, :user_is_over_18, :event_id, :notes, :checked_in_at, :cancelled_at)
     end
 end

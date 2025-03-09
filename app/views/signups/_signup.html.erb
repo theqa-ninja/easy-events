@@ -1,22 +1,36 @@
 <div id="<%= dom_id signup %>">
+  <h1>Thank you for signing up to volunteer!</h1>
+  <dl>
+    <dl>
+      <dt>name:</dt>
+      <dd><%= signup.user_name %></dd>
+    </dl>
+    <dl>
+      <dt>email:</dt>
+      <dd><%= signup.user_email %></dd>
+    </dl>
+    <dl>
+      <dt>phone number:</dt>
+      <dd><%= signup.user_phone_number %></dd>
+    </dl>
+  </dl>
+
   <p>
-    <strong>User:</strong>
-    <%= signup.user_id %>
+    <% if signup.user_is_over_18 %>
+    Volunteer is over 18
+    <% else %>
+    Volunteer is under 18
+    <% end %>
   </p>
 
   <p>
     <strong>Event:</strong>
-    <%= signup.event_id %>
+    <%= EventInfo.find(signup.event_id).title %>
   </p>
 
   <p>
     <strong>Volunteer notes:</strong>
-    <%= signup.volunteer_notes %>
-  </p>
-
-  <p>
-    <strong>Post event coordinator notes:</strong>
-    <%= signup.post_event_coordinator_notes %>
+    <%= signup.notes %>
   </p>
 
   <p>
