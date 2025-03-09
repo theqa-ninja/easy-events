@@ -7,15 +7,15 @@ Rails.application.routes.draw do
   devise_for :users, 
     :path => '', 
     :path_names => {
-      :sign_in => "login", 
-      :sign_out => "logout", 
-      :sign_up => "register" 
+      :sign_in => "user/login", 
+      :sign_out => "user/logout", 
+      :sign_up => "user/register" 
     }, 
     :controllers => {
       :registrations => "registrations"
     }
   devise_scope :user do
-    get '/logout' => 'devise/sessions#destroy'  
+    get 'user/logout' => 'devise/sessions#destroy'  
   end
 
   resources :users
