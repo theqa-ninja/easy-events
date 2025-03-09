@@ -74,5 +74,4 @@ if Rails.env != 'production'
       puts "added user #{u_name} to event #{e.title}"
     end
   end
-
 end
