@@ -45,7 +45,7 @@ if Rails.env != 'production'
       description: FFaker::CheesyLingo.paragraph,
       start_time: starttime,
       end_time: starttime + 3.hour,
-      adult_signup_slots: (5..12).to_a.sample,
+      adult_slots: (5..12).to_a.sample,
       teenager_slots: (1..10).to_a.sample,
       creator_id: UsersTypesTeam.all.sample.user_id,
       team_id: Team.all.where(organization_id: 1).sample.id)

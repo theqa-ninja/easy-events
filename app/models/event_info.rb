@@ -5,11 +5,15 @@ class EventInfo < ApplicationRecord
 
   belongs_to :team
 
-  def adult_slots_remaining
+  # remaining_adult_slots = -> { adult_slots - Signup.where(event_id: id).where(user_is_over_18: true).count }
+
+  # remaining_teenager_slots = -> { teenager_slots - Signup.where(event_id: id).where(user_is_over_18: false).count }
+
+  def remaining_adult_slots
     adult_slots - Signup.where(event_id: id).where(user_is_over_18: true).count
   end
 
-  def teenager_slots_remaining
+  def remaining_teenager_slots
     teenager_slots - Signup.where(event_id: id).where(user_is_over_18: false).count
   end
 end

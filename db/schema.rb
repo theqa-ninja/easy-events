@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_09_013443) do
     t.datetime "start_time", null: false
     t.datetime "end_time", null: false
     t.text "description", null: false
-    t.integer "adult_signup_slots", null: false
+    t.integer "adult_slots", null: false
     t.integer "teenager_slots", null: false
     t.integer "team_id", null: false
     t.integer "creator_id", null: false
