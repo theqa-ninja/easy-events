@@ -14,7 +14,8 @@
   </div>
   <div class="form-field">
     <%= f.label "Are you over 18?", style: "display: block" %>
-    Yes <%= f.check_box :is_over_18 %>
+    Yes <%= f.radio_button :is_over_18, true %>
+    No <%= f.radio_button :is_over_18, false %>
   </div>
   <div class="form-field">
     <%= f.label "Is there anything else you'd like us to know?", style: "display: block" %>
