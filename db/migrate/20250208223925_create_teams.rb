@@ -8,5 +8,6 @@ class CreateTeams < ActiveRecord::Migration[7.1]
     end
 
     add_foreign_key :teams, :organizations, column: :organization_id
+    add_foreign_key :event_infos, :teams, column: :team_id
   end
 end

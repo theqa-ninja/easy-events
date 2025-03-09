@@ -3,7 +3,7 @@ class CreateSignups < ActiveRecord::Migration[7.1]
     create_table :signups do |t|
       t.integer :user_id, null: false
       t.integer :event_id, null: false
-      t.text :volunteer_notes
+      t.text :notes
       t.datetime :checked_in_at
       t.datetime :cancelled_at
 

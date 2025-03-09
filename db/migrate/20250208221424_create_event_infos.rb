@@ -14,6 +14,5 @@ class CreateEventInfos < ActiveRecord::Migration[7.1]
     end
 
     add_foreign_key :event_infos, :users, column: :creator_id
-    add_foreign_key :event_infos, :teams, column: :team_id
   end
 end

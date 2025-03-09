@@ -24,3 +24,11 @@ In the postgres= prompt, run:
 CREATE USER ez_admin WITH PASSWORD 'c0rny-pa$$word%';
 ALTER ROLE ez_admin createrole createdb;
 ```
+
+## helpful ruby commands
+
+### Generate only a db migration
+`rails generate migration CreateVolunteerNotes`
+
+### generate a db + models + tests
+`rails generate scaffold organizations`
