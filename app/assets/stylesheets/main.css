@@ -1,0 +1,32 @@
+:root {
+  --font-family: "Avenir", san-serif;
+  --primary-color: rgb(143, 57, 177);
+  --secondary-color: rgb(0, 183, 255);
+  --background-color: white;
+}
+
+body {
+  font-family: var(--font-family);
+}
+
+main {
+  max-width: 800px;
+  margin: auto;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--secondary-color);
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-content-end {
+  justify-content: end;
+}

@@ -1,31 +1,30 @@
-<div id="<%= dom_id event_info %>">
-  <p>
-    <strong>Event title:</strong>
-    <%= event_info.title %>
-  </p>
+<article id="<%= dom_id event_info %>">
+  <header>
+    <h2>
+      <%= event_info.title %>
+    </h2>
 
-  <p>
-    <strong>Event start time:</strong>
-    <%= event_info.start_time %>
-  </p>
+    <%= event_info.start_time.strftime("%B %e, %Y") %>
 
-  <p>
-    <strong>Event end time:</strong>
-    <%= event_info.end_time %>
-  </p>
+    <dl>
+      <dl>
+        <dt>Start time:</dt>
+        <dd><%= event_info.start_time.strftime("%l:%M%P") %></dd>
+      </dl>
+      <dl>
+        <dt>End time:</dt>
+        <dd><%= event_info.end_time.strftime("%l:%M%P") %></dd>
+      </dl>
+      <dl>
+        <dt>Max adult volunteers needed:</dt>
+        <dd><%= event_info.adult_signup_slots %></dd>
+      </dl>
+      <dl>
+        <dt>Max teen volunteers needed:</strong>
+        <dd><%= event_info.teenager_slots %></dd>
+      </dl>
+    </dl>
+  </header>
 
-  <p>
-    <strong>Event description:</strong>
-    <%= event_info.description %>
-  </p>
-
-  <p>
-    <strong>Max adult volunteers needed:</strong>
-    <%= event_info.adult_signup_slots %>
-  </p>
-
-  <p>
-    <strong>Max teen volunteers needed:</strong>
-    <%= event_info.teenager_slots %>
-  </p>
-</div>
+  <p><%= event_info.description %></p>
+</article>

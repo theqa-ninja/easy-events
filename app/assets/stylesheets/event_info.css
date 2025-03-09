@@ -1,0 +1,12 @@
+dl > dl {
+  display: flex;
+  gap: .5rem;
+  margin: 0;
+
+  dt {
+    font-weight: 700;
+  }
+  dd {
+    margin: 0;
+  }
+}

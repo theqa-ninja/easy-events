@@ -11,37 +11,37 @@
     </div>
   <% end %>
 
-  <div>
+  <div class="form-field">
     <%= form.label :title, style: "display: block" %>
     <%= form.text_field :title %>
   </div>
 
-  <div>
+  <div class="form-field">
     <%= form.label :start_time, style: "display: block" %>
     <%= form.time_field :start_time %>
   </div>
 
-  <div>
+  <div class="form-field">
     <%= form.label :end_time, style: "display: block" %>
     <%= form.time_field :end_time %>
   </div>
 
-  <div>
+  <div class="form-field">
     <%= form.label :description, style: "display: block" %>
     <%= form.text_area :description %>
   </div>
 
-  <div>
+  <div class="form-field">
     <%= form.label :adult_signup_slots, style: "display: block" %>
     <%= form.number_field :adult_signup_slots %>
   </div>
 
-  <div>
+  <div class="form-field">
     <%= form.label :teenager_slots, style: "display: block" %>
     <%= form.number_field :teenager_slots %>
   </div>
 
-  <div>
+  <div class="form-field">
     <%= form.submit %>
   </div>
 <% end %>

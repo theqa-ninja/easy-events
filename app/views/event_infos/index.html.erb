@@ -1,12 +1,12 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Event infos</h1>
+<h1>Event sign ups</h1>
 
 <div id="event_infos">
   <% @event_infos.each do |event_info| %>
     <%= render event_info %>
     <p>
-      <%= link_to "View event detail", event_info %>
+      <%= link_to raw("Sign up for this event &raquo;"), event_info %>
     </p>
   <% end %>
 </div>

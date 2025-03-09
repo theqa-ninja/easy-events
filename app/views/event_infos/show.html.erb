@@ -1,11 +1,11 @@
 <p style="color: green"><%= notice %></p>
-
+<%= link_to raw("&laquo; Back to event sign ups"), event_infos_path %>
 <%= render @event_info %>
 <%= render "signups/form", user: @user %>
-
+<%= link_to raw("&laquo; Back to event sign ups"), event_infos_path %>
 <div>
-  <%= link_to "Edit this event info", edit_event_info_path(@event_info) %> |
-  <%= link_to "Back to event infos", event_infos_path %>
+  <h3>Event Coordinator Actions</h3>
+  <%= link_to "Edit this event info", edit_event_info_path(@event_info) %>
 
   <%= button_to "Destroy this event info", @event_info, method: :delete %>
 </div>

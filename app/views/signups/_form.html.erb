@@ -1,27 +1,27 @@
 <%= form_with(model: user) do |f| %>
-  <div>Sign up for this event</div>
-  <div>
+  <h3>Sign up for this event</h3>
+  <div class="form-field">
     <%= f.label "Name", style: "display: block" %>
     <%= f.text_field :name %>
   </div>
-  <div>
+  <div class="form-field">
     <%= f.label "Email", style: "display: block" %>
     <%= f.text_field :email %>
   </div>
-  <div>
+  <div class="form-field">
     <%= f.label "Phone number", style: "display: block" %>
     <%= f.number_field :phone_number %>
   </div>
-  <div>
+  <div class="form-field">
     <%= f.label "Are you over 18?", style: "display: block" %>
-    <%= f.check_box :is_over_18 %>
+    Yes <%= f.check_box :is_over_18 %>
   </div>
-  <div>
+  <div class="form-field">
     <%= f.label "Is there anything else you'd like us to know?", style: "display: block" %>
     <%= f.text_area :volunteer_notes %>
   </div>
 
-  <div>
-    <%= f.submit %>
+  <div class="flex justify-content-end">
+    <%= f.submit "Sign up" %>
   </div>
 <% end %>
