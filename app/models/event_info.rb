@@ -16,4 +16,8 @@ class EventInfo < ApplicationRecord
   def remaining_teenager_slots
     teenager_slots - Signup.where(event_id: id).where(user_is_over_18: false).count
   end
+
+  # def as_json(options = {})
+  #   super(options).merge(remaining_adult_slots: remaining_adult_slots).merge(remaining_teenager_slots: remaining_teenager_slots)
+  # end
 end
