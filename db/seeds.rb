@@ -37,7 +37,7 @@ if Rails.env != 'production'
   puts "made #{User.second.email} as a #{UserType.second.role} for #{org.name} on Team: #{Team.second.name}"
 
   puts "creating events..."
-  5.times do |i|
+  3.times do |i|
     tempdate = DateTime.now - 1.day + i.day
     starttime = FFaker::Time.between(tempdate, tempdate + 1.day)
     e = EventInfo.create(
@@ -50,6 +50,28 @@ if Rails.env != 'production'
       creator_id: UsersTypesTeam.all.sample.user_id,
       team_id: Team.all.where(organization_id: 1).sample.id)
 
-    puts "created #{e.title}"
+    puts "created Event: #{e.title}"
+
+    puts "creating sign ups..."
+    (3..6).to_a.sample.times do
+      if FFaker::Boolean.maybe
+        u = User.all.sample
+        u_name = u.name
+        u_email = u.email
+        u_phone_number = u.phone_number
+        u_is_over_18 = u.is_over_18
+        u_notes = FFaker::FreedomIpsum.sentence if FFaker::Number.number % 5 == 0
+      else
+        u = nil
+        u_name = FFaker::Name.unique.name
+        u_email = FFaker::Internet.unique.email
+        u_phone_number = FFaker::PhoneNumber.unique.phone_number if FFaker::Boolean.maybe
+        u_is_over_18 = FFaker::Boolean.maybe
+        u_notes = FFaker::FreedomIpsum.sentence if FFaker::Number.number % 5 == 0
+      end
+      Signup.create(event_id: e.id, user_id: u, user_name: u_name, user_email: u_email, user_phone_number: u_phone_number, user_is_over_18: u_is_over_18, notes: u_notes)
+      puts "added user #{u_name} to event #{e.title}"
+    end
   end
+
 end

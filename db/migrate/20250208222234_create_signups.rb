@@ -6,7 +6,7 @@ class CreateSignups < ActiveRecord::Migration[7.1]
       t.string :user_name, null: false
       t.string :user_email, null: false
       t.string :user_phone_number
-      t.boolean :is_over_18, null: false
+      t.boolean :user_is_over_18, null: false
       t.text :notes
       t.datetime :checked_in_at
       t.datetime :cancelled_at
