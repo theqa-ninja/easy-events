@@ -1,5 +1,6 @@
 form {
   max-width: 600px;
+  margin-bottom: 1rem;
 }
 .form-field {
   margin-bottom: 1rem;
@@ -16,8 +17,9 @@ form {
 input[type="submit"],
 button[type="submit"] {
   background-color: var(--primary-color);
-  padding: .5rem 1rem;
-  border-radius: 5px;
   border: none;
+  border-radius: 5px;
   color: var(--background-color);
+  cursor: pointer;
+  padding: .5rem 1rem;
 }

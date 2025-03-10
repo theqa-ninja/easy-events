@@ -3,6 +3,7 @@
   --primary-color: rgb(143, 57, 177);
   --secondary-color: rgb(0, 183, 255);
   --background-color: white;
+  --success: green;
 }
 
 body {
@@ -12,6 +13,24 @@ body {
 main {
   max-width: 800px;
   margin: auto;
+  padding-bottom: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+body > header {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+nav menu {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -29,4 +48,8 @@ a:hover {
 
 .justify-content-end {
   justify-content: end;
+}
+
+.notice {
+  color: var(--success);
 }
