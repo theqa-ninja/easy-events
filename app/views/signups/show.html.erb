@@ -1,4 +1,4 @@
-<p style="color: green"><%= notice %></p>
+<p class="notice"><%= notice %></p>
 
 <%= render @signup %>
 
@@ -6,5 +6,5 @@
   <%= link_to "Edit this signup", edit_signup_path(@signup) %> |
   <%= link_to "Back to signups", signups_path %>
 
-  <%= button_to "Destroy this signup", @signup, method: :delete %>
+  <%= button_to "Delete your signup submission", @signup, method: :delete %>
 </div>
