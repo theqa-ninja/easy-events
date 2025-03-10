@@ -1,4 +1,5 @@
 class UserTypesController < ApplicationController
+  before_action :set_permissions
   before_action :set_user_type, only: %i[ show edit update destroy ]
 
   # GET /user_types or /user_types.json
@@ -66,5 +67,13 @@ class UserTypesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def user_type_params
       params.require(:user_type).permit(:role)
+    end
+
+    def set_permissions
+      if current_user
+        @user_type_team = UsersTypesTeam.find_by(user_id: current_user.id)
+        @user_is_admin = @user_type_team&.user_type == "admin"
+      end
+      redirect_to event_infos_path if !@user_is_admin
     end
 end
