@@ -1,14 +1,18 @@
-<p style="color: green"><%= notice %></p>
+<p class="notice"><%= notice %></p>
 
-<h1>Event sign ups</h1>
+<h1>Events</h1>
 
 <div id="event_infos">
-  <% @event_infos.each do |event_info| %>
+  <% @event_infos.each_with_index do |event_info, i| %>
     <%= render event_info %>
     <p>
-      <%= link_to raw("Sign up for this event &raquo;"), event_info %>
+      <%= link_to raw("Sign up for this event &raquo;"), event_info_signup_path(event_info.id) %>
     </p>
+    <% if i + 1 < @event_infos.size %>
+      <hr>
+    <% end %>
   <% end %>
 </div>
-
-<%= link_to "New event info", new_event_info_path %>
+<% if @user_is_event_coordenator_or_admin %>
+  <p><%= link_to "Create a new event", new_event_info_path %></p>
+<% end %>

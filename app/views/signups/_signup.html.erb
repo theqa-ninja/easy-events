@@ -1,5 +1,5 @@
 <div id="<%= dom_id signup %>">
-  <h1>Thank you for signing up to volunteer!</h1>
+  <h1>Thank you for volunteering!</h1>
   <dl>
     <dl>
       <dt>name:</dt>
@@ -24,23 +24,38 @@
   </p>
 
   <p>
-    <strong>Event:</strong>
-    <%= EventInfo.find(signup.event_id).title %>
+    <%= link_to "Event: #{EventInfo.find(signup.event_id).title}", event_info_path(signup.event_id)  %>
   </p>
+  <dl>
+    <dl>
+      <dt>Date:</dt>
+      <dd><%= EventInfo.find(signup.event_id).start_time.strftime("%B %e, %Y") %></dd>
+    </dl>
+    <dl>
+      <dt>Start time:</dt>
+      <dd><%= EventInfo.find(signup.event_id).start_time.strftime("%l:%M%P") %>
+    </dl>
+    <dl>
+      <dt>End time:</dt>
+      <dd><%= EventInfo.find(signup.event_id).end_time.strftime("%l:%M%P") %>
+    </dl>
+  </dl>
 
   <p>
-    <strong>Volunteer notes:</strong>
+    <strong>Volunteer notes:</strong><br>
     <%= signup.notes %>
   </p>
 
-  <p>
-    <strong>Checked in at:</strong>
-    <%= signup.checked_in_at %>
-  </p>
+  <% if @user_is_event_coordenator_or_admin %>
+    <p>
+      <strong>Checked in at:</strong>
+      <%= signup.checked_in_at %>
+    </p>
 
-  <p>
-    <strong>Cancelled at:</strong>
-    <%= signup.cancelled_at %>
-  </p>
+    <p>
+      <strong>Cancelled at:</strong>
+      <%= signup.cancelled_at %>
+    </p>
+  <% end %>
 
 </div>

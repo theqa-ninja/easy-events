@@ -1,7 +1,7 @@
 <article id="<%= dom_id event_info %>">
   <header>
     <h2>
-      <%= event_info.title %>
+      <%= link_to event_info.title, event_info_path(event_info.id) %>
     </h2>
 
     <%= event_info.start_time.strftime("%B %e, %Y") %>
