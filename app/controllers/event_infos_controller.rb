@@ -1,5 +1,6 @@
 class EventInfosController < ApplicationController
-  before_action :set_event_info, only: %i[ show edit update destroy ]
+  before_action :set_permissions
+  before_action :set_event_info, only: %i[ show signup edit update destroy ]
 
   # GET /event_infos or /event_infos.json
   def index
@@ -8,6 +9,10 @@ class EventInfosController < ApplicationController
 
   # GET /event_infos/1 or /event_infos/1.json
   def show
+  end
+
+  # GET /event_info/signup/1
+  def signup
   end
 
   # GET /event_infos/new
@@ -66,5 +71,9 @@ class EventInfosController < ApplicationController
     # Only allow a list of trusted parameters through.
     def event_info_params
       params.require(:event_info).permit(:title, :date, :start_time, :end_time, :description, :adult_slots, :teenager_slots)
+    end
+
+    def set_permissions
+      @user_is_event_coordenator_or_admin = current_user && UsersTypesTeam.find_by(user_id: current_user.id)
     end
 end

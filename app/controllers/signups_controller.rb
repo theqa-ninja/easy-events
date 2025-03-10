@@ -1,5 +1,7 @@
 class SignupsController < ApplicationController
+  before_action :set_permissions
   before_action :set_signup, only: %i[ show edit update destroy ]
+  before_action :check_if_admin, only: %i[ index ]
 
   # GET /signups or /signups.json
   def index
@@ -10,36 +12,20 @@ class SignupsController < ApplicationController
   def show
   end
 
-  # GET /signups/new
-  def new
-    @signup = Signup.new
-  end
-
   # GET /signups/1/edit
   def edit
   end
 
   # POST /signups or /signups.json
   def create
-    event_id = @event_id
     if current_user
       user_id = current_user.id
-    else
-      @user = User.new({
-        name: params[:signup][:user_name], 
-        email: params[:signup][:user_email],
-        phone_number: params[:signup][:user_phone_number],
-        is_over_18: params[:signup][:user_is_over_18]
-      })
-      if @user.save
-        user_id = User.last.id
-      end
     end
     @signup = Signup.new({
-      user_id: user_id, 
-      event_id: params[:signup][:event_id], 
+      user_id: user_id,
+      event_id: params[:signup][:event_id],
       notes: params[:signup][:notes],
-      user_name: params[:signup][:user_name], 
+      user_name: params[:signup][:user_name],
       user_email: params[:signup][:user_email],
       user_phone_number: params[:signup][:user_phone_number],
       user_is_over_18: params[:signup][:user_is_over_18]
@@ -59,10 +45,9 @@ class SignupsController < ApplicationController
   # PATCH/PUT /signups/1 or /signups/1.json
   def update
     respond_to do |format|
-      user_id = current_user.id
       if @signup.update(
-        user_id: user_id, 
-        event_id: params[:signup][:event_id], 
+        user_id: @signup.user_id,
+        event_id: @signup.event_id, 
         notes: params[:signup][:notes],
         user_name: params[:signup][:user_name], 
         user_email: params[:signup][:user_email],
@@ -92,10 +77,23 @@ class SignupsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_signup
       @signup = Signup.find(params[:id])
+      
+      redirect_to event_infos_path if !@user_is_event_coordenator_or_admin && @signup.user_id != current_user&.id
     end
 
     # Only allow a list of trusted parameters through.
     def signup_params
       params.require(:signup).permit(:user_name, :user_email, :user_phone_number, :user_is_over_18, :event_id, :notes, :checked_in_at, :cancelled_at)
+    end
+
+    def set_permissions
+      @user_is_event_coordenator_or_admin = current_user && UsersTypesTeam.find_by(user_id: current_user.id)
+    end
+
+    # Only allow event coordinators and admin users to view the index
+    def check_if_admin
+      if !@user_is_event_coordenator_or_admin
+        redirect_to event_infos_path
+      end
     end
 end

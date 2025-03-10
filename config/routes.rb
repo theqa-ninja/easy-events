@@ -1,26 +1,29 @@
 Rails.application.routes.draw do
   resources :organizations
   resources :users_types_teams
-  resources :signups
+  resources :signups, only: %i[:index, :show, :edit, :create, :destroy]
   resources :event_infos
   resources :user_types
-  devise_for :users, 
-    :path => '', 
+  devise_for :users,
+    :path => '',
     :path_names => {
-      :sign_in => "user/login", 
-      :sign_out => "user/logout", 
-      :sign_up => "user/register" 
-    }, 
+      :sign_in => "user/login",
+      :sign_out => "user/logout",
+      :sign_up => "user/register"
+    },
     :controllers => {
       :registrations => "registrations"
     }
   devise_scope :user do
-    get 'user/logout' => 'devise/sessions#destroy'  
+    get 'user/logout' => 'devise/sessions#destroy'
   end
 
   resources :users
   resources :teams
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+
+  # Defines event signup page that has the event info and signup form
+  get "event_infos/:id/signup" => "event_infos#signup", as: :event_info_signup
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
@@ -29,4 +32,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   root to: "home#index"
+
 end
