@@ -16,12 +16,12 @@
         <dd><%= event_info.end_time.strftime("%l:%M%P") %></dd>
       </dl>
       <dl>
-        <dt>Max adult volunteers needed:</dt>
-        <dd><%= event_info.remaining_adult_slots %> / <%= event_info.adult_slots %></dd>
+        <dt>Adult volunteer slots remaining:</dt>
+        <dd><%= event_info.remaining_adult_slots %></dd>
       </dl>
       <dl>
-        <dt>Max teen volunteers needed:</strong>
-        <dd><%= event_info.remaining_teenager_slots %> / <%= event_info.teenager_slots %></dd>
+        <dt>Teen volunteer slots remaining:</strong>
+        <dd><%= event_info.remaining_teenager_slots %></dd>
       </dl>
     </dl>
   </header>

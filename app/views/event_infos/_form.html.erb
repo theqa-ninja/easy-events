@@ -18,13 +18,15 @@
 
   <div class="form-field">
     <%= form.label :start_time, style: "display: block" %>
-    <%= form.time_field :start_time %>
+    <%= form.datetime_field :start_time %>
   </div>
 
   <div class="form-field">
     <%= form.label :end_time, style: "display: block" %>
-    <%= form.time_field :end_time %>
+    <%= form.datetime_field :end_time %>
   </div>
+
+  <p>Duration: end_time - start_time</p>
 
   <div class="form-field">
     <%= form.label :description, style: "display: block" %>

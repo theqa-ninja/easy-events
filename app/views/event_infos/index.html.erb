@@ -9,6 +9,7 @@
       <%= link_to raw("Sign up for this event &raquo;"), event_info_signup_path(event_info.id) %>
       <% if @user_is_event_coordenator_or_admin %>
       | <%= link_to raw("View signups &raquo;"), event_info_signups_path(event_info.id) %>
+      | Check in
       <% end %>
     </p>
     <% if i + 1 < @event_infos.size %>
