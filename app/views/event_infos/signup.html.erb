@@ -1,7 +1,7 @@
 <p class="notice"><%= notice %></p>
 <%= link_to raw("&laquo; Back to events"), event_infos_path %>
 <%= render @event_info %>
-<%= render "signups/form", user: @user, event: @event %>
+<%= render "signups/form" %>
 <% if @user_is_event_coordenator_or_admin %>
 <div>
   <h3>Event Coordinator Actions</h3>

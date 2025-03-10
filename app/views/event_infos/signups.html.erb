@@ -1,0 +1,52 @@
+<p class="notice"><%= notice %></p>
+<%= link_to raw("&laquo; Back to events"), event_infos_path %>
+<%= render @event_info %>
+<h3>Volunteers over 18</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @signups_over_18.each_with_index do | signup, i | %>
+      <tr class="<%= i % 2 == 0 ? 'even' : 'odd' %>">
+        <td data-th="Name:"><%= signup.user_name %></td>
+        <td data-th="Email:"><span class="break-word"><%= signup.user_email %></span></td>
+        <td data-th="Phone Number:"><%= signup.user_phone_number %></td>
+      </tr>
+      <% if signup.notes %>
+      <tr class="<%= i % 2 == 0 ? 'even' : 'odd' %>">
+        <td colspan="3"><b>Notes:</b> <%= signup.notes %></td>
+      </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+<h3>Volunteers under 18</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @signups_under_18.each_with_index do | signup, i | %>
+      <tr class="<%= i % 2 == 0 ? 'even' : 'odd' %>">
+        <td data-th="Name:"><%= signup.user_name %></td>
+        <td data-th="Email:"><span class="break-word"><%= signup.user_email %></span></td>
+        <td data-th="Phone Number:"><%= signup.user_phone_number %></td>
+      </tr>
+      <% if signup.notes %>
+      <tr class="<%= i % 2 == 0 ? 'even' : 'odd' %>">
+        <td colspan="3"><b>Notes:</b> <%= signup.notes %></td>
+      </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to raw("&laquo; Back to events"), event_infos_path %>

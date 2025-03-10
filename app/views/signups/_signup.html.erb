@@ -1,5 +1,7 @@
 <div id="<%= dom_id signup %>">
-  <h1>Thank you for volunteering!</h1>
+  <% if current_page?(signup_path(signup.id)) %>
+    <h1>Thank you for volunteering!</h1>
+  <% end %>
   <dl>
     <dl>
       <dt>name:</dt>

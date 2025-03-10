@@ -1,6 +1,6 @@
 class EventInfosController < ApplicationController
   before_action :set_permissions
-  before_action :set_event_info, only: %i[ show signup edit update destroy ]
+  before_action :set_event_info, only: %i[ show signup signups edit update destroy ]
 
   # GET /event_infos or /event_infos.json
   def index
@@ -11,8 +11,14 @@ class EventInfosController < ApplicationController
   def show
   end
 
-  # GET /event_info/signup/1
+  # GET /event_info/1/signup
   def signup
+  end
+
+  # GET /event_info/1/signups
+  def signups
+    @signups_over_18 = Signup.where(event_id: @event_info.id, user_is_over_18: true)
+    @signups_under_18 = Signup.where(event_id: @event_info.id, user_is_over_18: false)
   end
 
   # GET /event_infos/new

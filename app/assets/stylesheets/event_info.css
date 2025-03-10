@@ -10,3 +10,57 @@ dl > dl {
     margin: 0;
   }
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  table-layout: fixed;
+
+  th {
+    text-align: left;
+    background-color: var(--secondary-color);
+  }
+
+  tr.odd,
+  tr.odd {
+    background-color: #e1e1e1;
+  }
+  tr.even,
+  tr.even {
+    background-color: #efefef;
+  }
+
+  th, td {
+    padding: .5rem;
+    min-width: 8rem;
+  }
+
+  @media (max-width: 600px) {
+    table {
+      display: block;
+    }
+    thead {
+      display: none;
+    }
+
+    tr {
+      display: block;
+      padding: 1rem 0;
+    }
+
+    td {
+      display: flex;
+      gap: .5rem;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    td:before {
+      content: attr(data-th);
+      display: inline;
+      font-weight: 700;
+    }
+  }
+
+}

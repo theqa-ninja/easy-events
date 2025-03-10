@@ -8,10 +8,11 @@
 
 body {
   font-family: var(--font-family);
+  line-height: 1.6;
 }
 
 main {
-  max-width: 800px;
+  max-width: 1000px;
   margin: auto;
   padding-bottom: 2rem;
   padding-left: 1rem;
@@ -52,4 +53,9 @@ a:hover {
 
 .notice {
   color: var(--success);
+}
+
+.break-word {
+  display: inline-block;
+  word-wrap: break-word;
 }
