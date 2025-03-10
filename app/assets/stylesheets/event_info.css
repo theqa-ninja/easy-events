@@ -1,6 +1,6 @@
 dl > dl {
   display: flex;
-  gap: .5rem;
+  gap: 0.5rem;
   margin: 0;
 
   dt {
@@ -16,24 +16,37 @@ table {
   border-collapse: collapse;
   margin-bottom: 2rem;
   table-layout: fixed;
+  border-radius: 10px;
+  border-style: hidden;
+  box-shadow: 0 0 1rem 1px #eee;
 
   th {
     text-align: left;
-    background-color: var(--secondary-color);
+    position: sticky;
+    top: 0;
+    background-color: #fff;
   }
 
-  tr.odd,
   tr.odd {
     background-color: #e1e1e1;
   }
-  tr.even,
-  tr.even {
-    background-color: #efefef;
-  }
 
-  th, td {
-    padding: .5rem;
+  th,
+  td {
+    padding: 0.5rem;
     min-width: 8rem;
+  }
+  th:first-of-type {
+    border-top-left-radius: 10px;
+  }
+  th:last-of-type {
+    border-top-right-radius: 10px;
+  }
+  tr:last-of-type td:first-of-type {
+    border-bottom-left-radius: 10px;
+  }
+  tr:last-of-type td:last-of-type {
+    border-bottom-right-radius: 10px;
   }
 
   @media (max-width: 600px) {
@@ -51,7 +64,7 @@ table {
 
     td {
       display: flex;
-      gap: .5rem;
+      gap: 0.5rem;
       padding-top: 0;
       padding-bottom: 0;
     }
@@ -62,5 +75,4 @@ table {
       font-weight: 700;
     }
   }
-
 }
