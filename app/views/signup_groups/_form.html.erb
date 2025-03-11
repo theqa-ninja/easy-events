@@ -1,6 +1,6 @@
 <%= form_with(model: signup_group) do |form| %>
   <% if signup_group.errors.any? %>
-    <div style="color: red">
+    <div class="error-message">
       <h2><%= pluralize(signup_group.errors.count, "error") %> prohibited this signup_group from being saved:</h2>
 
       <ul>

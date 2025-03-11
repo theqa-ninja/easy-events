@@ -10,11 +10,15 @@ class EventInfo < ApplicationRecord
   # remaining_teenager_slots = -> { teenager_slots - Signup.where(event_id: id).where(user_is_over_18: false).count }
 
   def remaining_adult_slots
-    adult_slots - Signup.where(event_id: id).where(user_is_over_18: true).count
+    remaining = adult_slots - Signup.where(event_id: id).where(user_is_over_18: true).count
+    return remaining if remaining > 0
+    "full"
   end
 
   def remaining_teenager_slots
-    teenager_slots - Signup.where(event_id: id).where(user_is_over_18: false).count
+    remaining = teenager_slots - Signup.where(event_id: id).where(user_is_over_18: false).count
+    return remaining if remaining > 0
+    "full"
   end
 
   # def as_json(options = {})

@@ -76,3 +76,12 @@ table {
     }
   }
 }
+.check-in {
+  form {
+    margin-bottom: 0;
+  }
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

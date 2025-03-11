@@ -4,7 +4,7 @@ form {
 }
 .form-field {
   margin-bottom: 1rem;
-  input:not([type="checkbox"], [type="radio"]),
+  input:not([type="checkbox"], [type="radio"], [type="number"], [type="submit"]),
   textarea {
     box-sizing: border-box;
     padding: .5rem;
@@ -12,6 +12,10 @@ form {
   }
   textarea {
     height: 4rem;
+  }
+  input[type="number"] {
+    box-sizing: border-box;
+    padding: .5rem;
   }
 }
 input[type="submit"],
@@ -22,4 +26,8 @@ button[type="submit"] {
   color: var(--background-color);
   cursor: pointer;
   padding: .5rem 1rem;
+}
+
+.error-message {
+  color: red;
 }

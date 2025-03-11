@@ -1,6 +1,6 @@
 <%= form_with(model: users_types_team) do |form| %>
   <% if users_types_team.errors.any? %>
-    <div style="color: red">
+    <div class="error-message">
       <h2><%= pluralize(users_types_team.errors.count, "error") %> prohibited this users_types_team from being saved:</h2>
 
       <ul>

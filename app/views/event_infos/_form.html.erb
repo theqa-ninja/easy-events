@@ -1,6 +1,6 @@
 <%= form_with(model: event_info) do |form| %>
   <% if event_info.errors.any? %>
-    <div style="color: red">
+    <div class="error-message">
       <h2><%= pluralize(event_info.errors.count, "error") %> prohibited this event_info from being saved:</h2>
 
       <ul>

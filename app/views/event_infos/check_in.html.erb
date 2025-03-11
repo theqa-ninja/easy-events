@@ -1,0 +1,121 @@
+<p class="notice"><%= notice %></p>
+<%= link_to raw("&laquo; Back to events"), event_infos_path %>
+<h2>Check-ins</h2>
+<%= render @event_info %>
+<h3>Volunteers over 18</h3>
+<table class="check-in">
+  <thead>
+    <th>Name</th>
+    <th>Check-in or Cancel</th>
+    <th>Add a note</th>
+  </thead>
+  <tbody>
+    <% @signups_over_18.each_with_index do | signup, i | %>
+      <tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
+        <td data-th="Name:"><%= signup.user_name %></td>
+        <td>
+          <%= form_with(
+            model: @signup, 
+            scope: :signup, 
+            url: signup_path(signup.id),
+            method: :put,
+            remote: true
+          ) do |f| %>
+            <%= f.hidden_field :is_check_in_form, value: true %>
+            <%= f.label "Check-in" %>
+            <%= f.radio_button :check_in_cancel,
+              {checked_in_at: Time.now.to_s},
+              id: :checked_in_at,
+              checked: signup.checked_in_at != nil,
+              onchange: "this.form.requestSubmit()"
+            %>
+            <%= f.label "Cancel" %>
+            <%= f.radio_button :check_in_cancel,
+              {cancelled_at: Time.now.to_s},
+              id: :cancelled_at,
+              checked: signup.cancelled_at != nil,
+              onchange: "this.form.requestSubmit()"
+            %>
+          <% end %>
+        </td>
+        <td>
+          <%= form_with(
+            model: @signup, 
+            scope: :signup, 
+            url: signup_path(signup.id),
+            method: :put,
+            remote: true
+          ) do |f| %>
+            <%= f.hidden_field :is_check_in_form, value: true %>
+            <%= f.text_area :notes, value: signup.notes %>
+            <button>Add a note</button>
+          <% end %>
+        </td>
+      </tr>
+      <% if signup.notes %>
+        <tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
+          <td colspan="3"><b>Notes:</b> <%= signup.notes %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+<h3>Volunteers under 18</h3>
+<table class="check-in">
+  <thead>
+    <th>Name</th>
+    <th>Check-in or Cancel</th>
+    <th>Add a note</th>
+  </thead>
+  <tbody>
+    <% @signups_under_18.each_with_index do | signup, i | %>
+      <tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
+        <td data-th="Name:"><%= signup.user_name %></td>
+        <td>
+          <%= form_with(
+            model: @signup, 
+            scope: :signup, 
+            url: signup_path(signup.id),
+            method: :put,
+            remote: true
+          ) do |f| %>
+            <%= f.hidden_field :is_check_in_form, value: true %>
+            <%= f.label "Check-in" %>
+            <%= f.radio_button :check_in_cancel,
+              {checked_in_at: Time.now.to_s},
+              id: :checked_in_at,
+              checked: signup.checked_in_at != nil,
+              onchange: "this.form.requestSubmit()"
+            %>
+            <%= f.label "Cancel" %>
+            <%= f.radio_button :check_in_cancel,
+              {cancelled_at: Time.now.to_s},
+              id: :cancelled_at,
+              checked: signup.cancelled_at != nil,
+              onchange: "this.form.requestSubmit()"
+            %>
+          <% end %>
+        </td>
+        <td>
+          <%= form_with(
+            model: @signup, 
+            scope: :signup, 
+            url: signup_path(signup.id),
+            method: :put,
+            remote: true
+          ) do |f| %>
+            <%= f.hidden_field :is_check_in_form, value: true %>
+            <%= f.text_area :notes, value: signup.notes %>
+            <button>Add a note</button>
+          <% end %>
+        </td>
+      </tr>
+      <% if signup.notes %>
+        <tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
+          <td colspan="3"><b>Notes:</b> <%= signup.notes %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to raw("&laquo; Back to events"), event_infos_path %>

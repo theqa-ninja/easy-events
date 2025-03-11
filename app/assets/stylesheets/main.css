@@ -1,13 +1,21 @@
 :root {
   --font-family: "Avenir", san-serif;
+  --font-size: 1rem;
   --primary-color: rgb(143, 57, 177);
   --secondary-color: rgb(0, 183, 255);
   --background-color: white;
   --success: green;
 }
 
+html {
+  @media (max-width: 600px) {
+    font-size: 20px;
+  }
+}
+
 body {
   font-family: var(--font-family);
+  font-size: var(--font-size);
   line-height: 1.6;
 }
 
@@ -41,6 +49,10 @@ a {
 
 a:hover {
   color: var(--secondary-color);
+}
+
+.block {
+  display: block;
 }
 
 .flex {
