@@ -1,0 +1,52 @@
+<tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
+  <td data-th="Name:"><%= signup.user_name %></td>
+  <td>
+    <%= form_with(
+      model: @signup, 
+      scope: :signup, 
+      url: signup_path(signup.id),
+      method: :put,
+      remote: true
+    ) do |f| %>
+      <%= f.hidden_field :is_check_in_form, value: true %>
+      <%= f.label "Check-in" %>
+      <%= f.radio_button :check_in_cancel,
+        {checked_in_at: Time.now.to_s},
+        id: :checked_in_at,
+        checked: signup.checked_in_at != nil,
+        onchange: "this.form.requestSubmit()"
+      %>
+      <%= f.label "Cancel" %>
+      <%= f.radio_button :check_in_cancel,
+        {cancelled_at: Time.now.to_s},
+        id: :cancelled_at,
+        checked: signup.cancelled_at != nil,
+        onchange: "this.form.requestSubmit()"
+      %>
+    <% end %>
+  </td>
+  <td>
+    <details>
+      <summary>Add a note</summary>
+      <%= form_with(
+        model: @signup, 
+        scope: :signup, 
+        url: signup_path(signup.id),
+        method: :put,
+        remote: true
+      ) do |f| %>
+        <%= f.hidden_field :is_check_in_form, value: true %>
+        <%= f.text_area :notes, value: signup.notes %>
+        <button class="float-right">Add</button>
+      <% end %>
+    </details>
+  </td>
+  <td>
+    <%= link_to "Edit", edit_signup_path(signup.id), class: "float-right" %>
+  </td>
+</tr>
+<% if signup.notes %>
+  <tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
+    <td colspan="4"><%= signup.notes %></td>
+  </tr>
+<% end %>

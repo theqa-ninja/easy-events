@@ -5,7 +5,9 @@
 <br>
 
 <div>
-  <%= link_to "Event info", @event_info %> |
-  <%= link_to "Sign up!", event_info_signup_path(@event_info.id) %> |
+  <%= link_to "Event info", @event_info %>
+  <span class="pipe">|</span>
+  <%= link_to "Sign up!", event_info_signup_path(@event_info.id) %>
+  <span class="pipe">|</span>
   <%= link_to "Back to events", event_infos_path %>
 </div>

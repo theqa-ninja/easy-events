@@ -3,28 +3,35 @@ form {
   margin-bottom: 1rem;
 }
 .form-field {
+  font-family: var(--font-family);
   margin-bottom: 1rem;
   input:not([type="checkbox"], [type="radio"], [type="number"], [type="submit"]),
   textarea {
     box-sizing: border-box;
+    font-family: var(--font-family);
+    font-size: var(--font-size);
     padding: .5rem;
     width: 100%;
   }
   textarea {
-    height: 4rem;
+    height: 20rem;
   }
   input[type="number"] {
     box-sizing: border-box;
+    font-family: var(--font-family);
+    font-size: var(--font-size);
     padding: .5rem;
   }
 }
 input[type="submit"],
-button[type="submit"] {
+button {
   background-color: var(--primary-color);
   border: none;
   border-radius: 5px;
   color: var(--background-color);
   cursor: pointer;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
   padding: .5rem 1rem;
 }
 

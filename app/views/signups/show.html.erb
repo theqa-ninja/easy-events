@@ -3,8 +3,11 @@
 <%= render @signup %>
 
 <div>
-  <%= link_to "Edit this signup", edit_signup_path(@signup) %> |
-  <%= link_to "Back to signups", signups_path %>
+  <%= link_to "Edit this signup", edit_signup_path(@signup) %>
+  <span class="pipe">|</span>
+  <%= link_to "Back to signups", event_info_signups_path(@signup.event_id) %>
+  <span class="pipe">|</span>
+  <%= link_to "Back to check-ins", event_info_check_ins_path(@signup.event_id) %>
 
   <%= button_to "Delete your signup submission", @signup, method: :delete %>
 </div>

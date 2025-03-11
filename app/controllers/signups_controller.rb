@@ -74,7 +74,7 @@ class SignupsController < ApplicationController
         cancelled_at: cancelled_at
       )
         if params[:signup][:is_check_in_form]
-          format.html { redirect_to event_info_check_in_path(@signup.event_id), status: :ok, notice: "Signup was successfully updated." }
+          format.html { redirect_to event_info_check_ins_path(@signup.event_id), status: :ok, notice: "Signup was successfully updated." }
         else
           format.html { redirect_to @signup, notice: "Signup was successfully updated." }
         end

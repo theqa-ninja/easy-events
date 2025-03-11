@@ -1,0 +1,15 @@
+<tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
+  <td data-th="Name:"><%= signup.user_name %></td>
+  <td data-th="Email:"><span class="break-word"><%= signup.user_email %></span></td>
+  <td data-th="Phone Number:">
+    <%= signup.user_phone_number %>
+  </td>
+  <td>
+    <%= link_to "Edit", edit_signup_path(signup.id), class: "float-right" %>
+  </td>
+</tr>
+<% if signup.notes %>
+  <tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
+    <td colspan="4"><b>Notes:</b> <%= signup.notes %></td>
+  </tr>
+<% end %>

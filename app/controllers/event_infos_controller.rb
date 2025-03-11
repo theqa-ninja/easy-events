@@ -1,7 +1,7 @@
 class EventInfosController < ApplicationController
   before_action :set_permissions
-  before_action :redirect_if_not_admin, only: %i[ signups check_in edit update destroy ]
-  before_action :set_event_info, only: %i[ show signup signups check_in edit update destroy ]
+  before_action :redirect_if_not_admin, only: %i[ signups check_ins edit update destroy ]
+  before_action :set_event_info, only: %i[ show signup signups check_ins edit update destroy ]
 
   # GET /event_infos or /event_infos.json
   def index
@@ -22,8 +22,8 @@ class EventInfosController < ApplicationController
     @signups_under_18 = Signup.where(event_id: @event_info.id, user_is_over_18: false).order(:user_name)
   end
 
-  # GET /event_info/1/check-in
-  def check_in
+  # GET /event_info/1/check-ins
+  def check_ins
     @signups_over_18 = Signup.where(event_id: @event_info.id, user_is_over_18: true).order(:user_name)
     @signups_under_18 = Signup.where(event_id: @event_info.id, user_is_over_18: false).order(:user_name)
   end

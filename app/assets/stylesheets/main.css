@@ -1,5 +1,5 @@
 :root {
-  --font-family: "Avenir", san-serif;
+  --font-family: "Avenir", "Helvetica", "Arial", san-serif;
   --font-size: 1rem;
   --primary-color: rgb(143, 57, 177);
   --secondary-color: rgb(0, 183, 255);
@@ -68,6 +68,16 @@ a:hover {
 }
 
 .break-word {
-  display: inline-block;
   word-wrap: break-word;
+  word-break: break-all;
+}
+
+.float-right{
+  float: right;
+}
+
+.pipe {
+  color: #aaa;
+  margin-left: .5rem;
+  margin-right: .5rem;
 }

@@ -3,7 +3,8 @@
 <%= render @signup_group %>
 
 <div>
-  <%= link_to "Edit this signup group", edit_signup_group_path(@signup_group) %> |
+  <%= link_to "Edit this signup group", edit_signup_group_path(@signup_group) %>
+  <span class="pipe">|</span>
   <%= link_to "Back to signup groups", signup_groups_path %>
 
   <%= button_to "Destroy this signup group", @signup_group, method: :delete %>

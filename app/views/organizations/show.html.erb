@@ -3,7 +3,7 @@
 <%= render @organization %>
 
 <div>
-  <%= link_to "Edit this organization", edit_organization_path(@organization) %> |
+  <%= link_to "Edit this organization", edit_organization_path(@organization) %><span class="pipe">|</span>
   <%= link_to "Back to organizations", organizations_path %>
 
   <%= button_to "Destroy this organization", @organization, method: :delete %>
