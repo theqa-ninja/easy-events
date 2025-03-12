@@ -96,12 +96,6 @@ table {
   }
 }
 .check-in {
-  td:last-of-type {
-    width: 2rem;
-  }
-  th:last-of-type {
-    width: 2rem;
-  }
   form {
     margin-bottom: 0;
   }

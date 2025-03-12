@@ -27,7 +27,7 @@
   </td>
   <td>
     <details>
-      <summary>Add a note</summary>
+      <summary>Add a comment</summary>
       <%= form_with(
         model: @signup, 
         scope: :signup, 
@@ -47,6 +47,6 @@
 </tr>
 <% if signup.notes %>
   <tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
-    <td colspan="4"><%= signup.notes %></td>
+    <td colspan="4"><b>Signup Note:</b> <%= signup.notes %></td>
   </tr>
 <% end %>
