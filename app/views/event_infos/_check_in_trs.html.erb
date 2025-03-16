@@ -1,31 +1,41 @@
+<%= turbo_stream_from signup %>
 <tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
-  <td data-th="Name:"><%= signup.user_name %></td>
+  <td data-th="Name:" class="vertical-middle"><%= signup.user_name %></td>
   <td>
-    <%= form_with(
-      model: @signup, 
-      scope: :signup, 
-      url: signup_path(signup.id),
-      method: :put,
-      remote: true
-    ) do |f| %>
-      <%= f.hidden_field :is_check_in_form, value: true %>
-      <%= f.label "Check-in" %>
-      <%= f.radio_button :check_in_cancel,
-        {checked_in_at: Time.now.to_s},
-        id: :checked_in_at,
-        checked: signup.checked_in_at != nil,
-        onchange: "this.form.requestSubmit()"
+    <% if signup.checked_in_at.nil? || signup.checked_in_at == "" %>
+      <%= form_with(
+        model: @signup,
+        scope: :signup,
+        url: signup_path(signup.id),
+        method: :put,
+        remote: true
+      ) do |f| %>
+        <%= f.hidden_field :checked_in_at,
+          value: Time.now.to_s,
+          id: :checked_in_at
+        %>
+        <button onclick="this.form.requestSubmit()">Check in</button>
+      <% end %>
+    <% else %>
+      <div class="flex justify-space-between align-center w-100">
+        <b class="success">checked in</b>
+        <%= form_with(
+          model: @signup,
+          scope: :signup,
+          url: signup_path(signup.id),
+          method: :put,
+          remote: true
+        ) do |f| %>
+          <%= f.hidden_field :checked_in_at,
+        value: nil,
+        id: :checked_in_at
       %>
-      <%= f.label "Cancel" %>
-      <%= f.radio_button :check_in_cancel,
-        {cancelled_at: Time.now.to_s},
-        id: :cancelled_at,
-        checked: signup.cancelled_at != nil,
-        onchange: "this.form.requestSubmit()"
-      %>
+          <button onclick="this.form.requestSubmit()">Undo</button>
+        <% end %>
+      </div>
     <% end %>
   </td>
-  <td>
+  <td class="vertical-middle">
     <details>
       <summary>Add a comment</summary>
       <%= form_with(

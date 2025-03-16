@@ -44,23 +44,6 @@ class SignupsController < ApplicationController
 
   # PATCH/PUT /signups/1 or /signups/1.json
   def update
-    check_in_cancel = params[:signup][:check_in_cancel]
-    if check_in_cancel
-      key_value = check_in_cancel.split(" ")
-      key = key_value[0]
-      value = key_value[1]
-      if key == "checked_in_at"
-        checked_in_at = value
-        cancelled_at = nil
-      elsif key == "cancelled_at"
-        cancelled_at = value
-        checked_in_at = nil
-      end
-    else
-      checked_in_at = @signup.checked_in_at
-      cancelled_at = @signup.cancelled_at
-    end
-
     respond_to do |format|
       if @signup.update(
         user_id: @signup.user_id,
@@ -70,11 +53,13 @@ class SignupsController < ApplicationController
         user_email: params[:signup][:user_email] || @signup.user_email,
         user_phone_number: params[:signup][:user_phone_number] || @signup.user_phone_number,
         user_is_over_18: params[:signup][:user_is_over_18] || @signup.user_is_over_18,
-        checked_in_at: checked_in_at,
-        cancelled_at: cancelled_at
+        checked_in_at: params[:signup][:checked_in_at],
+        cancelled_at: params[:signup][:cancelled_at]
       )
-        if params[:signup][:is_check_in_form]
-          format.html { redirect_to event_info_check_ins_path(@signup.event_id), status: :ok, notice: "Signup was successfully updated." }
+        # If it's the check-ins page, we don't want to redirect them to another page
+        # TODO: replace params[:signup][:notes] with coordinator notes
+        if params[:signup][:checked_in_at] || params[:signup][:notes]
+          format.html { redirect_to event_info_check_ins_path(@signup.event_id), notice: "Signup was successfully updated." }
         else
           format.html { redirect_to @signup, notice: "Signup was successfully updated." }
         end
