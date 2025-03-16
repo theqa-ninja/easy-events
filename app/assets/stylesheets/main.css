@@ -55,15 +55,12 @@ a:hover {
   display: block;
 }
 
-.flex {
-  display: flex;
+.w-100 {
+  width: 100% !important;
 }
 
-.justify-content-end {
-  justify-content: end;
-}
-
-.notice {
+.notice,
+.success {
   color: var(--success);
 }
 
@@ -80,4 +77,8 @@ a:hover {
   color: #aaa;
   margin-left: .5rem;
   margin-right: .5rem;
+}
+
+.vertical-middle {
+  vertical-align: middle;
 }
