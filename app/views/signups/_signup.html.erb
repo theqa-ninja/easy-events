@@ -31,15 +31,15 @@
   <dl>
     <dl>
       <dt>Date:</dt>
-      <dd><%= EventInfo.find(signup.event_id).start_time.strftime("%B %e, %Y") %></dd>
+      <dd><%= format_date(EventInfo.find(signup.event_id).start_time) %></dd>
     </dl>
     <dl>
       <dt>Start time:</dt>
-      <dd><%= EventInfo.find(signup.event_id).start_time.strftime("%l:%M%P") %>
+      <dd><%= format_time(EventInfo.find(signup.event_id).start_time) %>
     </dl>
     <dl>
       <dt>End time:</dt>
-      <dd><%= EventInfo.find(signup.event_id).end_time.strftime("%l:%M%P") %>
+      <dd><%= format_time(EventInfo.find(signup.event_id).end_time) %>
     </dl>
   </dl>
 

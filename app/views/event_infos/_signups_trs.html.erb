@@ -4,12 +4,16 @@
   <td data-th="Phone Number:">
     <%= signup.user_phone_number %>
   </td>
+  <td data-th="Status">
+    <%= signup.checked_in_at && "Checked in at #{format_date_time(signup.checked_in_at)}" %>
+    <%= signup.cancelled_at && "Cancelled at #{format_date_time(signup.cancelled_at)}" %>
+  </td>
   <td>
     <%= link_to "Edit", edit_signup_path(signup.id), class: "float-right" %>
   </td>
 </tr>
 <% if signup.notes %>
   <tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
-    <td colspan="4"><b>Signup Notes:</b> <%= signup.notes %></td>
+    <td colspan="5"><b>Signup Notes:</b> <%= signup.notes %></td>
   </tr>
 <% end %>

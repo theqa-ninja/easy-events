@@ -4,16 +4,16 @@
       <%= link_to event_info.title, event_info_path(event_info.id) %>
     </h2>
 
-    <%= event_info.start_time.strftime("%B %e, %Y") %>
+    <%= format_date(event_info.start_time) %>
 
     <dl>
       <dl>
         <dt>Start time:</dt>
-        <dd><%= event_info.start_time.strftime("%l:%M%P") %></dd>
+        <dd><%= format_time(event_info.start_time) %></dd>
       </dl>
       <dl>
         <dt>End time:</dt>
-        <dd><%= event_info.end_time.strftime("%l:%M%P") %></dd>
+        <dd><%= format_time(event_info.end_time) %></dd>
       </dl>
       <dl>
         <dt>Adult volunteer slots remaining:</dt>
