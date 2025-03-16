@@ -42,11 +42,6 @@ table {
     vertical-align: top;
     width: auto;
   }
-  
-  th:nth-of-type(2),
-  td:nth-of-type(2) {
-    width: 15rem;
-  }
   th:first-of-type {
     border-top-left-radius: 10px;
   }
