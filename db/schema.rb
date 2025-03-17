@@ -94,7 +94,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_09_013443) do
   create_table "volunteer_notes", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "author_id", null: false
-    t.integer "event_id"
+    t.integer "signup_id"
     t.text "volunteer_notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -110,7 +110,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_09_013443) do
   add_foreign_key "users_types_teams", "teams"
   add_foreign_key "users_types_teams", "user_types"
   add_foreign_key "users_types_teams", "users"
-  add_foreign_key "volunteer_notes", "event_infos", column: "event_id"
+  add_foreign_key "volunteer_notes", "signups"
   add_foreign_key "volunteer_notes", "users"
   add_foreign_key "volunteer_notes", "users", column: "author_id"
 end

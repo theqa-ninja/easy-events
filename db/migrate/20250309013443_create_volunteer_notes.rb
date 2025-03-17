@@ -4,7 +4,7 @@ class CreateVolunteerNotes < ActiveRecord::Migration[7.1]
 
       t.integer :user_id, null: false
       t.integer :author_id, null: false
-      t.integer :event_id, null: true
+      t.integer :signup_id, null: true
       t.text :volunteer_notes
 
       t.timestamps
@@ -12,6 +12,6 @@ class CreateVolunteerNotes < ActiveRecord::Migration[7.1]
 
     add_foreign_key :volunteer_notes, :users, column: :user_id
     add_foreign_key :volunteer_notes, :users, column: :author_id
-    add_foreign_key :volunteer_notes, :event_infos, column: :event_id
+    add_foreign_key :volunteer_notes, :signups, column: :signup_id
   end
 end
