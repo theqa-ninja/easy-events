@@ -24,6 +24,12 @@ In the postgres= prompt, run:
 CREATE USER ez_admin WITH PASSWORD 'c0rny-pa$$word%';
 ALTER ROLE ez_admin createrole createdb;
 ```
+## turn on postgres
+`brew services start postgresql@14`
+
+## undo a table migration
+this way you can redo the columns or foreign keys
+`rails db:rollback STEP=1`
 
 ## helpful ruby commands
 

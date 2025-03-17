@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Volunteer roles</h1>
+
+<div id="volunteer_roles">
+  <% @volunteer_roles.each do |volunteer_role| %>
+    <%= render volunteer_role %>
+    <p>
+      <%= link_to "Show this volunteer role", volunteer_role %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New volunteer role", new_volunteer_role_path %>

@@ -36,6 +36,15 @@ if Rails.env != 'production'
   UsersTypesTeam.find_or_create_by!(user_id: User.second.id, organization_id: org.id, team_id: Team.second.id, user_type_id: UserType.second.id)
   puts "made #{User.second.email} as a #{UserType.second.role} for #{org.name} on Team: #{Team.second.name}"
 
+  puts "creating volunteer roles for team #{Team.first.name}"
+  VolunteerRole.find_or_create_by!(role: 'Cart Runner', team_id: Team.first.id)
+  VolunteerRole.find_or_create_by!(role: 'Personal Shopper', team_id: Team.first.id)
+  VolunteerRole.find_or_create_by!(role: 'Restocker', team_id: Team.first.id)
+
+  puts "creating volunteer roles for team #{Team.second.name}"
+  VolunteerRole.find_or_create_by!(role: 'Clothes Sorter', team_id: Team.second.id)
+  VolunteerRole.find_or_create_by!(role: 'Cashier', team_id: Team.second.id)
+
   puts "creating events..."
   3.times do |i|
     tempdate = DateTime.now - 1.day + i.day

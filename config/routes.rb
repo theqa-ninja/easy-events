@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :volunteer_roles
   resources :organizations
   resources :users_types_teams
   resources :signups, only: [:show, :edit, :create, :update, :destroy]

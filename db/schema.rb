@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_09_013443) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_17_013605) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -52,6 +52,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_09_013443) do
     t.datetime "cancelled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "volunteer_role_id"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -100,11 +101,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_09_013443) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "volunteer_roles", force: :cascade do |t|
+    t.string "role", null: false
+    t.integer "team_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "event_infos", "teams"
   add_foreign_key "event_infos", "users", column: "creator_id"
   add_foreign_key "signup_groups", "users", column: "primary_user_id"
   add_foreign_key "signups", "event_infos", column: "event_id"
   add_foreign_key "signups", "users"
+  add_foreign_key "signups", "volunteer_roles"
   add_foreign_key "teams", "organizations"
   add_foreign_key "users_types_teams", "organizations"
   add_foreign_key "users_types_teams", "teams"
@@ -113,4 +122,5 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_09_013443) do
   add_foreign_key "volunteer_notes", "signups"
   add_foreign_key "volunteer_notes", "users"
   add_foreign_key "volunteer_notes", "users", column: "author_id"
+  add_foreign_key "volunteer_roles", "teams"
 end
