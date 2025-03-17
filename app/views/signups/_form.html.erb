@@ -2,7 +2,7 @@
     model: @signup, 
     scope: :signup, 
     remote: true,
-    url: current_page?(event_info_signup_path) && signups_path || current_page?(edit_signup_path) && signup_path
+    url: current_page?(event_info_signup_path) && signups_path || current_page?(edit_signup_path) && signup_path(@signup.id)
   ) do |f| %>
   <h3>Sign up for this event</h3>
   <%= f.hidden_field :event_id, value: @signup&.event_id || params[:id] %>
