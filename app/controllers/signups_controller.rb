@@ -21,25 +21,35 @@ class SignupsController < ApplicationController
     if current_user
       user_id = current_user.id
     end
-    @signup = Signup.new({
-      user_id: user_id,
-      event_id: params[:signup][:event_id],
-      notes: params[:signup][:notes],
-      user_name: params[:signup][:user_name],
-      user_email: params[:signup][:user_email],
-      user_phone_number: params[:signup][:user_phone_number],
-      user_is_over_18: params[:signup][:user_is_over_18]
-    })
 
-    respond_to do |format|
-      if @signup.save
-        format.html { redirect_to @signup, notice: "Signup was successfully created." }
-        format.json { render :show, status: :created, location: @signup }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @signup.errors, status: :unprocessable_entity }
+    @event_info = EventInfo.find(params[:signup][:event_id])
+    teen_slots_full = @event_info.remaining_teenager_slots == "full"
+    adult_slots_full = @event_info.remaining_adult_slots == "full"
+    if params[:signup][:user_is_over_18] && adult_slots_full && !teen_slots_full
+      redirect_to event_info_signup_path(@event_info.id), alert: "Sorry, this event has reached the maximum adult signups."
+    elsif !!params[:signup][:user_is_over_18] && teen_slots_full && !adult_slots_full
+      redirect_to event_info_signup_path(@event_info.id), alert: "Sorry, this event has reached the maximum teenager signups."
+    else
+      @signup = Signup.new({
+        user_id: user_id,
+        event_id: params[:signup][:event_id],
+        notes: params[:signup][:notes],
+        user_name: params[:signup][:user_name],
+        user_email: params[:signup][:user_email],
+        user_phone_number: params[:signup][:user_phone_number],
+        user_is_over_18: params[:signup][:user_is_over_18]
+      })
+      respond_to do |format|
+        if @signup.save
+          format.html { redirect_to @signup, notice: "Signup was successfully created." }
+          format.json { render :show, status: :created, location: @signup }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @signup.errors, status: :unprocessable_entity }
+        end
       end
     end
+
   end
 
   # PATCH/PUT /signups/1 or /signups/1.json

@@ -69,16 +69,40 @@ a:hover {
   word-break: break-all;
 }
 
-.float-right{
+.float-right {
   float: right;
 }
 
 .pipe {
   color: #aaa;
-  margin-left: .5rem;
-  margin-right: .5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .vertical-middle {
   vertical-align: middle;
+}
+
+.flash-messages {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+.flash-message {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.flash-message.notice {
+  background-color: #d4edda; /* Light green */
+  color: #155724; /* Dark green text */
+}
+
+.flash-message.alert {
+  background-color: #f8d7da; /* Light red */
+  color: #721c24; /* Dark red text */
 }
