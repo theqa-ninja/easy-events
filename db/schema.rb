@@ -93,9 +93,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_17_013605) do
   end
 
   create_table "volunteer_notes", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.integer "user_id"
     t.integer "author_id", null: false
-    t.integer "signup_id"
+    t.integer "signup_id", null: false
     t.text "volunteer_notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

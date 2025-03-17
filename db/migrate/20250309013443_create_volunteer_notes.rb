@@ -2,9 +2,9 @@ class CreateVolunteerNotes < ActiveRecord::Migration[7.1]
   def change
     create_table :volunteer_notes do |t|
 
-      t.integer :user_id, null: false
+      t.integer :user_id
       t.integer :author_id, null: false
-      t.integer :signup_id, null: true
+      t.integer :signup_id, null: false
       t.text :volunteer_notes
 
       t.timestamps
