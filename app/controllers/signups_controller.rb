@@ -58,7 +58,25 @@ class SignupsController < ApplicationController
       )
         # If it's the check-ins page, we don't want to redirect them to another page
         # TODO: replace params[:signup][:notes] with coordinator notes
-        if params[:signup][:checked_in_at] || params[:signup][:notes]
+        if params[:signup][:checked_in_at]
+          format.html { redirect_to event_info_check_ins_path(@signup.event_id), notice: "Signup was successfully updated." }
+        elsif params[:signup][:volunteer_notes]
+          note_params = { 
+            user_id: @signup.user_id,
+            author_id: current_user.id,
+            signup_id: @signup.id
+          }
+          if @signup.volunteer_note
+            puts "already has a volunteer note, updating..."
+            @signup.volunteer_note.update(
+              volunteer_notes: params[:signup][:volunteer_notes]
+            )
+          else
+            puts "adding a new note"
+            note_params[:volunteer_notes] = params[:signup][:volunteer_notes]
+            puts note_params
+            VolunteerNote.create!(note_params)
+          end
           format.html { redirect_to event_info_check_ins_path(@signup.event_id), notice: "Signup was successfully updated." }
         else
           format.html { redirect_to @signup, notice: "Signup was successfully updated." }
@@ -97,11 +115,10 @@ class SignupsController < ApplicationController
         :user_phone_number, 
         :user_is_over_18, 
         :event_id, 
-        :notes, 
+        :notes,
+        :volunteer_notes,
         :checked_in_at, 
-        :cancelled_at, 
-        :check_in_cancel,
-        :is_check_in_form
+        :cancelled_at
       )
     end
 

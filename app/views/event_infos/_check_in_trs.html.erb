@@ -18,7 +18,7 @@
       <% end %>
     <% else %>
       <div class="flex justify-space-between align-center w-100">
-        <b class="success">checked in</b>
+        <b class="success">Checked in at <%= format_date_time(signup.checked_in_at) %></b>
         <%= form_with(
           model: @signup,
           scope: :signup,
@@ -45,16 +45,20 @@
         method: :put,
         remote: true
       ) do |f| %>
-        <%= f.hidden_field :is_check_in_form, value: true %>
-        <%= f.text_area :notes, value: signup.notes %>
+        <%= f.text_area :volunteer_notes, value: signup.volunteer_note.volunteer_notes %>
         <button class="float-right">Add</button>
       <% end %>
     </details>
   </td>
-  <td>
+  <td class="small-col">
     <%= link_to "Edit", edit_signup_path(signup.id), class: "float-right" %>
   </td>
 </tr>
+<% if signup.volunteer_note %>
+  <tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
+    <td colspan="4"><b>Volunteer Note:</b> <%= signup.volunteer_note.volunteer_notes %></td>
+  </tr>
+<% end %>
 <% if signup.notes %>
   <tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
     <td colspan="4"><b>Signup Note:</b> <%= signup.notes %></td>

@@ -1,5 +1,6 @@
-class VolunteerNotes < ApplicationRecord
+class VolunteerNote < ApplicationRecord
   belongs_to :user
   has_one :author, through: :user
   belongs_to :event_info, optional: true
+  belongs_to :signup, optional: true
 end
