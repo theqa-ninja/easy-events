@@ -1,12 +1,11 @@
 class Signup < ApplicationRecord
-  has_one :event_info
+  belongs_to :event_info
   has_one :user
   has_one :volunteer_note
 
-  belongs_to :event_info
-
   # Every saved signup must have name, email address, and whether the user is over 18
-  validates :user_name, :user_email, :user_is_over_18, presence: true
+  validates :user_name, :user_email, presence: true
+  validates :user_is_over_18, inclusion: { in: [true, false] }
   validates :user_email, uniqueness: true
 
   # when submitting a form, preserves scroll position with turbo broadcasts
