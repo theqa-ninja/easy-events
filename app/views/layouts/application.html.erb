@@ -21,7 +21,7 @@
           <li>
             <%= link_to "Events", event_infos_path %>
           </li>
-          <% if current_user.is_leader %>
+          <% if current_user&.is_leader %>
               <li>
                 <%= link_to "Organization", organization_path(current_user.current_organization.id) %>
               </li>
