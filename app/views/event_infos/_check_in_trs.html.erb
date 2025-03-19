@@ -45,7 +45,7 @@
         method: :put,
         remote: true
       ) do |f| %>
-        <%= f.text_area :volunteer_notes, value: signup.volunteer_note.volunteer_notes %>
+        <%= f.text_area :volunteer_notes, value: signup&.volunteer_note&.volunteer_notes %>
         <button class="float-right">Add</button>
       <% end %>
     </details>
