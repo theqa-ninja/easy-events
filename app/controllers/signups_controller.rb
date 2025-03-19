@@ -69,6 +69,8 @@ class SignupsController < ApplicationController
         # If it's the check-ins page, we don't want to redirect them to another page
         if params[:signup][:checked_in_at]
           format.html { redirect_to event_info_check_ins_path(@signup.event_id), notice: "Signup was successfully updated." }
+        # If it's volunteer notes, it goes in a different table,
+        # and we don't want to redirect them to another page 
         elsif params[:signup][:volunteer_notes]
           note_params = { 
             user_id: @signup.user_id,
