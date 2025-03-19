@@ -41,8 +41,9 @@
     </div>
     <div class="form-field">
       <%= f.label "Are you over 18?", class: "block" %>
-      Yes <%= f.radio_button :user_is_over_18, true, checked: current_user.is_over_18? %>
-      No <%= f.radio_button :user_is_over_18, false, checked: !current_user.is_over_18? %>
+      <%= current_user.is_over_18? %>
+      Yes <%= f.radio_button :user_is_over_18, true, checked: current_user.is_over_18? == "true" %>
+      No <%= f.radio_button :user_is_over_18, false, checked: current_user.is_over_18? == "false" %>
     </div>
   <% end %>
   <div class="form-field">
