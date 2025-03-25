@@ -56,8 +56,6 @@ class SignupsController < ApplicationController
   def update
     respond_to do |format|
       if @signup.update(
-        user_id: @signup.user_id,
-        event_id: @signup.event_id,
         notes: params[:signup][:notes] || @signup.notes,
         user_name: params[:signup][:user_name] || @signup.user_name, 
         user_email: params[:signup][:user_email] || @signup.user_email,
@@ -73,10 +71,12 @@ class SignupsController < ApplicationController
         # and we don't want to redirect them to another page 
         elsif params[:signup][:volunteer_notes]
           note_params = { 
-            user_id: @signup.user_id,
             author_id: current_user.id,
             signup_id: @signup.id
           }
+          if @signup.user_id
+            note_params.user_id = @signup.user_id
+          end
           if @signup.volunteer_note
             @signup.volunteer_note.update(
               volunteer_notes: params[:signup][:volunteer_notes]
