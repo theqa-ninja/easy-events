@@ -49,7 +49,7 @@ if Rails.env != 'production'
   3.times do |i|
     tempdate = DateTime.now - 1.day + i.day
     starttime = FFaker::Time.between(tempdate, tempdate + 1.day)
-    e = EventInfo.create(
+    e = EventInfo.create!(
       title: FFaker::CheesyLingo.title,
       description: FFaker::CheesyLingo.paragraph,
       start_time: starttime,
