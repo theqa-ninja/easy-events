@@ -6,7 +6,11 @@
   <% @event_infos.each_with_index do |event_info, i| %>
     <%= render event_info %>
     <p>
-      <%= link_to "Sign up for this event", event_info_signup_path(event_info.id) %>
+      <% if event_info.remaining_adult_slots == "full" && event_info.remaining_teenager_slots == "full" %>
+        This event has reached its maximum capacity for volunteers.
+      <% else %>
+        <%= link_to "Sign up for this event", event_info_signup_path(event_info.id) %>
+      <% end %>
       <% if @user_is_event_coordenator_or_admin %>
       <span class="pipe">|</span>
       <%= link_to "Signups", event_info_signups_path(event_info.id) %>
