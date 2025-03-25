@@ -86,9 +86,12 @@ class SignupsController < ApplicationController
             note_params[:volunteer_notes] = params[:signup][:volunteer_notes]
             VolunteerNote.create!(note_params)
           end
-          format.html { redirect_to event_info_check_ins_path(@signup.event_id), notice: "Signup was successfully updated." }
+          format.html { redirect_to event_info_check_ins_path(@signup.event_id), notice: "Note was successfully saved." }
+        elsif params[:signup][:volunteer_role_id]
+          @signup.update(volunteer_role_id: params[:signup][:volunteer_role_id])
+          format.html { redirect_to event_info_check_ins_path(@signup.event_id), notice: "Role was successfully saved." }
         else
-          format.html { redirect_to @signup, notice: "Signup was successfully updated." }
+          format.html { redirect_to @signup, notice: "Try again." }
         end
         format.json { render :show, status: :ok, location: @signup }
       else

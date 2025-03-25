@@ -24,6 +24,10 @@
         <dd><%= event_info.remaining_teenager_slots %></dd>
       </dl>
     </dl>
+    <h1>Roles</h1>
+    <%= VolunteerRole.all.each do |role| %>
+      <%= role.role %>
+    <% end %>
   </header>
 
   <p><%= event_info.description %></p>

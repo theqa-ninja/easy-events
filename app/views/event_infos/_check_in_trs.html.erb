@@ -39,8 +39,8 @@
     <details>
       <summary>Add a comment</summary>
       <%= form_with(
-        model: @signup, 
-        scope: :signup, 
+        model: @signup,
+        scope: :signup,
         url: signup_path(signup.id),
         method: :put,
         remote: true
@@ -49,18 +49,28 @@
         <button class="float-right">Add</button>
       <% end %>
     </details>
+  <td class="vertical-middle">
+    <%= form_with(
+        model: @signup,
+        scope: :signup,
+        url: signup_path(signup.id),
+        method: :put,
+        remote: true
+      ) do |f| %>
+        <%= f.collection_select :volunteer_role_id, VolunteerRole.all, :id, :role, include_blank: true, prompt: true %>
+        <%= f.submit "Assign role" %>
+      <% end %>
   </td>
   <td class="small-col">
-    <%= link_to "Edit", edit_signup_path(signup.id), class: "float-right" %>
+    <%= link_to "Edit signup", edit_signup_path(signup.id), class: "float-right" %>
   </td>
 </tr>
-<% if signup.volunteer_note %>
-  <tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
-    <td colspan="4"><b>Leader's comments:</b> <%= signup.volunteer_note.volunteer_notes %></td>
-  </tr>
-<% end %>
-<% if signup.notes %>
-  <tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
-    <td colspan="4"><b>Signup Note:</b> <%= signup.notes %></td>
-  </tr>
-<% end %>
+<tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
+  <td colspan="5"><b>Role:</b> <% if signup.volunteer_role_id %><%= VolunteerRole.find(signup.volunteer_role_id).role %><% end %></td>
+</tr>
+<tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
+  <td colspan="5"><b>Leader's comments:</b> <% if signup.volunteer_note %><%= signup.volunteer_note.volunteer_notes %><% end %></td>
+</tr>
+<tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
+  <td colspan="5"><b>Signup Note:</b> <% if signup.notes %><%= signup.notes %><% end %></td>
+</tr>
