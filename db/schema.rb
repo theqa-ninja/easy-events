@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_17_013605) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_25_024743) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,6 +53,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_17_013605) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "volunteer_role_id"
+    t.index ["event_id", "user_email", "user_name"], name: "index_signups_on_event_id_and_user_email_and_user_name", unique: true
   end
 
   create_table "teams", force: :cascade do |t|
