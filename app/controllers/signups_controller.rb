@@ -25,9 +25,10 @@ class SignupsController < ApplicationController
     @event_info = EventInfo.find(params[:signup][:event_id])
     teen_slots_full = @event_info.remaining_teenager_slots == "full"
     adult_slots_full = @event_info.remaining_adult_slots == "full"
-    if params[:signup][:user_is_over_18] && adult_slots_full && !teen_slots_full
+    byebug
+    if !!params[:signup][:user_is_over_18] && adult_slots_full
       redirect_to event_info_signup_path(@event_info.id), alert: "Sorry, this event has reached the maximum adult signups."
-    elsif !!params[:signup][:user_is_over_18] && teen_slots_full && !adult_slots_full
+    elsif !!!params[:signup][:user_is_over_18] && teen_slots_full
       redirect_to event_info_signup_path(@event_info.id), alert: "Sorry, this event has reached the maximum teenager signups."
     else
       @signup = Signup.new({
