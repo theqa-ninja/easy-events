@@ -1,16 +1,16 @@
 <h2>Register for an account</h2>
 <p>Although registering for an account is optional, it allows you to save your account info for faster future event signups.</p>
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: { controller: "validation", validation_target: "form" }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="form-field">
     <%= f.label :name %><br />
-    <%= f.text_field :name, autofocus: true %>
+    <%= f.text_field :name, autofocus: true, data: { validation_target: "required", label: "Name" } %>
   </div>
 
   <div class="form-field">
     <%= f.label :email %><br />
-    <%= f.email_field :email, autocomplete: "email" %>
+    <%= f.email_field :email, autocomplete: "email", data: { validation_target: "email" } %>
   </div>
 
   <div class="form-field">
@@ -20,8 +20,8 @@
 
   <div class="form-field">
     <%= f.label "Are you over 18?", style: "display: block" %>
-    Yes <%= f.radio_button :is_over_18, true %>
-    No <%= f.radio_button :is_over_18, false %>
+    Yes <%= f.radio_button :is_over_18, true, data: { validation_target: "radioRequired"} %>
+    No <%= f.radio_button :is_over_18, false, data: { validation_target: "radioRequired"} %>
   </div>
 
   <div class="form-field">
@@ -38,7 +38,7 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit "Sign up", data: { action: "validation#validate" } %>
   </div>
 <% end %>
 

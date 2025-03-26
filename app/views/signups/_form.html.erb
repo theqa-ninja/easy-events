@@ -1,7 +1,9 @@
+<%= turbo_frame_tag "signup_form" do %>
 <%= form_with(
-    model: @signup, 
-    scope: :signup, 
+    model: @signup,
+    scope: :signup,
     remote: true,
+    data: { controller: "validation", validation_target: "form" },
     url: current_page?(event_info_signup_path) && signups_path || current_page?(edit_signup_path) && signup_path(@signup.id)
   ) do |f| %>
   <h3>Sign up for this event</h3>
@@ -9,21 +11,21 @@
   <% if user_signed_in? == false %>
     <p>Would you like to <%= link_to "log in", :new_user_session %> or <%= link_to "register for an account", :new_user_registration %> to save your account info for future signups?</p>
     <div class="form-field">
-      <%= f.label "Name", class: "block" %>
-      <%= f.text_field :user_name %>
+      <%= f.label "Name *", class: "block" %>
+      <%= f.text_field :user_name, data: { validation_target: "required", label: "Name" } %>
     </div>
     <div class="form-field">
-      <%= f.label "Email", class: "block" %>
-      <%= f.text_field :user_email %>
+      <%= f.label "Email *", class: "block" %>
+      <%= f.text_field :user_email, data: { validation_target: "email" } %>
     </div>
     <div class="form-field">
       <%= f.label "Phone number", class: "block" %>
       <%= f.text_field :user_phone_number %>
     </div>
     <div class="form-field">
-      <%= f.label "Are you over 18?", class: "block" %>
-      Yes <%= f.radio_button :user_is_over_18, true %>
-      No <%= f.radio_button :user_is_over_18, false %>
+      <%= f.label :user_is_over_18,  "Are you over 18? *", class: "block" %>
+      Yes <%= f.radio_button :user_is_over_18, true, data: { validation_target: "radioRequired" } %>
+      No <%= f.radio_button :user_is_over_18, false, data: { validation_target: "radioRequired" } %>
     </div>
   <% end %>
   <% if user_signed_in? && current_user %>
@@ -51,6 +53,7 @@
     <%= f.text_area :notes %>
   </div>
   <div class="flex justify-end">
-    <%= f.submit "Sign up" %>
+    <%= f.submit "Sign up", data: { action: "validation#validate" }  %>
   </div>
+<% end %>
 <% end %>

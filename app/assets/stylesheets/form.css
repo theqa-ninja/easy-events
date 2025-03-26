@@ -38,3 +38,15 @@ button {
 .error-message {
   color: red;
 }
+
+.form-field p {
+  margin-top: 0;
+}
+
+.error {
+  color: red;
+}
+
+.invalid {
+  border: 1px solid red;
+}
