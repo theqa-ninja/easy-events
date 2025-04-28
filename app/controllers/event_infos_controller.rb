@@ -83,7 +83,7 @@ class EventInfosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_info_params
-      params.require(:event_info).permit(:title, :date, :start_time, :end_time, :description, :adult_slots, :teenager_slots)
+      params.require(:event_info).permit(:title, :start_time, :end_time, :team_id, :creator_id, :description, :adult_slots, :teenager_slots)
     end
 
     def set_permissions

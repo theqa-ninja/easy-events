@@ -31,6 +31,8 @@
     <%= form.collection_select :team_id, Team.all, :id, :name, include_blank: true, prompt: true %>
   </div>
 
+  <%= form.hidden_field :creator_id, value: current_user.id %>
+
   <p>Duration: end_time - start_time</p>
 
   <div class="form-field">
