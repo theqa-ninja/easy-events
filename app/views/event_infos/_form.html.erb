@@ -13,7 +13,7 @@
 
   <div class="form-field">
     <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+    <%= form.text_field :title, placeholder: 'Event name' %>
   </div>
 
   <div class="form-field">
@@ -24,6 +24,11 @@
   <div class="form-field">
     <%= form.label :end_time, style: "display: block" %>
     <%= form.datetime_field :end_time %>
+  </div>
+
+  <div>
+    <%= form.label :team, style: "display: block" %>
+    <%= form.collection_select :team_id, Team.all, :id, :name, include_blank: true, prompt: true %>
   </div>
 
   <p>Duration: end_time - start_time</p>
