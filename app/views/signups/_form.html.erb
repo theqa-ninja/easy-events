@@ -31,11 +31,11 @@
   <% if user_signed_in? && current_user %>
     <div class="form-field">
       <%= f.label "Name", class: "block" %>
-      <%= f.text_field :user_name, value: current_user.name %>
+      <%= f.text_field :user_name, value: current_user.name, data: { validation_target: "required", label: "Name" } %>
     </div>
     <div class="form-field">
       <%= f.label "Email", class: "block" %>
-      <%= f.text_field :user_email, value: current_user.email %>
+      <%= f.text_field :user_email, value: current_user.email, data: { validation_target: "email" } %>
     </div>
     <div class="form-field">
       <%= f.label "Phone number", class: "block" %>
@@ -43,9 +43,8 @@
     </div>
     <div class="form-field">
       <%= f.label "Are you over 18?", class: "block" %>
-      <%= current_user.is_over_18? %>
-      Yes <%= f.radio_button :user_is_over_18, true, checked: current_user.is_over_18? == "true" %>
-      No <%= f.radio_button :user_is_over_18, false, checked: current_user.is_over_18? == "false" %>
+      Yes <%= f.radio_button :user_is_over_18, true, checked: current_user.is_over_18? == true, data: { validation_target: "radioRequired" } %>
+      No <%= f.radio_button :user_is_over_18, false, checked: current_user.is_over_18? == false, data: { validation_target: "radioRequired" } %>
     </div>
   <% end %>
   <div class="form-field">
