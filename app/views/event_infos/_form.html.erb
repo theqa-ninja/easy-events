@@ -28,7 +28,7 @@
 
   <div>
     <%= form.label :team, style: "display: block" %>
-    <%= form.collection_select :team_id, Team.all, :id, :name, include_blank: true, prompt: true %>
+    <%= form.collection_select :team_id, Team.all, :id, :name, prompt: true %>
   </div>
 
   <%= form.hidden_field :creator_id, value: current_user.id %>
