@@ -12,7 +12,8 @@ require 'ffaker'
 
 if Rails.env != 'production'
   puts 'creating organizations...'
-  org = Organization.find_or_create_by!(name: FFaker::Company.unique.name)
+  # org = Organization.find_or_create_by!(name: FFaker::Company.unique.name)
+  org = Organization.find_or_create_by!(name: "Vineyard Church")
 
   puts 'creating users...'
   5.times do
@@ -22,9 +23,12 @@ if Rails.env != 'production'
   end
 
   puts 'creating teams...'
-  2.times do
-    Team.find_or_create_by!(name: FFaker::Company.unique.name, organization_id: org.id)
-  end
+  Team.find_or_create_by!(name: "Food Pantry", organization_id: org.id)
+  Team.find_or_create_by!(name: "Clothes Closet", organization_id: org.id)
+  Team.find_or_create_by!(name: "Resource Center", organization_id: org.id)
+  # 2.times do
+  #   Team.find_or_create_by!(name: FFaker::Company.unique.name, organization_id: org.id)
+  # end
 
   puts 'creating user types...'
   UserType.find_or_create_by!(role: 'Admin')
@@ -37,9 +41,11 @@ if Rails.env != 'production'
   puts "made #{User.second.email} as a #{UserType.second.role} for #{org.name} on Team: #{Team.second.name}"
 
   puts "creating volunteer roles for team #{Team.first.name}"
-  VolunteerRole.find_or_create_by!(role: 'Cart Runner', team_id: Team.first.id)
-  VolunteerRole.find_or_create_by!(role: 'Personal Shopper', team_id: Team.first.id)
-  VolunteerRole.find_or_create_by!(role: 'Restocker', team_id: Team.first.id)
+  VolunteerRole.find_or_create_by!(role: 'Cart Runner', description: 'Runs the cart to the car', team_id: Team.first.id)
+  VolunteerRole.find_or_create_by!(role: 'Personal Shopper', description: 'Helps patrons pick out the food', team_id: Team.first.id)
+  VolunteerRole.find_or_create_by!(role: 'Restocker', description: 'Restocks the lines', team_id: Team.first.id)
+  VolunteerRole.find_or_create_by!(role: 'Registration', description: 'Checks patrons in', team_id: Team.first.id)
+  VolunteerRole.find_or_create_by!(role: 'Greeter', description: 'Greets people', team_id: Team.first.id)
 
   puts "creating volunteer roles for team #{Team.second.name}"
   VolunteerRole.find_or_create_by!(role: 'Clothes Sorter', team_id: Team.second.id)
