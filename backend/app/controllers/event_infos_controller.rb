@@ -31,11 +31,12 @@ class EventInfosController < ApplicationController
     render json: { signups_over_18: @signups_over_18.as_json, signups_under_18: @signups_under_18.as_json }, status: :ok
   end
 
-  # GET /event_infos/new
-  def new
-    @event_info = EventInfo.new
-    render json: @event_info, status: :ok
-  end
+  # don't think we're using this... pretty sure it was auto-generated
+  # # GET /event_infos/new
+  # def new
+  #   @event_info = EventInfo.new
+  #   render json: @event_info, status: :ok
+  # end
 
   # GET /event_infos/1/edit
   def edit
