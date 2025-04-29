@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  namespace :api do
+    namespace :v1 do
+      resources :event_infos
+    end
+  end
   resources :volunteer_roles
   resources :organizations
   resources :users_types_teams
