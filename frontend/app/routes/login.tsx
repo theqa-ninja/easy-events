@@ -11,12 +11,14 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Login() {
   return (
-    <main className="p-5 max-w-3xl mx-auto">
+    <main className="p-5 max-w-lg mx-auto">
       <h1 className="text-2xl">Login</h1>
       <form className="flex flex-col gap-4 mt-4">
         <Input name="email" label="Email" />
         <Input name="password" label="Password" type="password" />
-        <Button label="Login" variant="primary" />
+        <div className="flex justify-end">
+          <Button label="Login" variant="primary" />
+        </div>
       </form>
     </main>
   );
