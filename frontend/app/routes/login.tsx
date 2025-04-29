@@ -16,7 +16,7 @@ export default function Login() {
       <form className="flex flex-col gap-4 mt-4">
         <Input name="email" label="Email" />
         <Input name="password" label="Password" type="password" />
-        <Button label="Login" />
+        <Button label="Login" variant="primary" />
       </form>
     </main>
   );
