@@ -5,11 +5,12 @@ class EventInfosController < ApplicationController
 
   # GET /event_infos or /event_infos.json
   def index
-    @event_infos = EventInfo.all
+    render json: EventInfo.all.as_json
   end
 
   # GET /event_infos/1 or /event_infos/1.json
   def show
+    render json: @event_info.as_json
   end
 
   # GET /event_info/1/signup
