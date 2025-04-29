@@ -33,7 +33,7 @@ class SignupsController < ApplicationController
     else
       @signup = Signup.new({
         user_id: user_id,
-        event_id: params[:signup][:event_id],
+        event_info_id: params[:signup][:event_info_id],
         notes: params[:signup][:notes],
         user_name: params[:signup][:user_name],
         user_email: params[:signup][:user_email],

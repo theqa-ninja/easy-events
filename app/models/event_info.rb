@@ -5,25 +5,25 @@ class EventInfo < ApplicationRecord
 
   belongs_to :team
 
-  # remaining_adult_slots = -> { adult_slots - Signup.where(event_id: id).where(user_is_over_18: true).count }
+  # remaining_adult_slots = -> { adult_slots - Signup.where(event_info_id: id).where(user_is_over_18: true).count }
 
-  # remaining_teenager_slots = -> { teenager_slots - Signup.where(event_id: id).where(user_is_over_18: false).count }
+  # remaining_teenager_slots = -> { teenager_slots - Signup.where(event_info_id: id).where(user_is_over_18: false).count }
 
   def remaining_adult_slots
-    remaining = adult_slots - Signup.where(event_id: id).where(user_is_over_18: true).count
+    remaining = adult_slots - Signup.where(event_info_id: id).where(user_is_over_18: true).count
     return remaining if remaining > 0
     "full"
   end
 
   def remaining_teenager_slots
-    remaining = teenager_slots - Signup.where(event_id: id).where(user_is_over_18: false).count
+    remaining = teenager_slots - Signup.where(event_info_id: id).where(user_is_over_18: false).count
     return remaining if remaining > 0
     "full"
   end
 
   def volunteer_role_counts
     # get all the unique volunteer roles for this event
-    signups = Signup.where(event_id: id)
+    signups = Signup.where(event_info_id: id)
     # query the sign ups
     roles = VolunteerRole.where(team_id: team_id)
     # return a hash of role => count

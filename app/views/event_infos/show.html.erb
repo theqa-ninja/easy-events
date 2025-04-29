@@ -3,8 +3,8 @@
 <% if @user_is_event_coordenator_or_admin %>
 <div>
   <h3>Event Coordinator Actions</h3>
-  <p><%= link_to "Edit this event info", edit_event_info_path(@event_info) %></p>
-  <p><%= button_to "Destroy this event info", @event_info, method: :delete %></p>
+  <p><%= link_to "Edit this event", edit_event_info_path(@event_info) %></p>
+  <p><%= button_to "Destroy this event", @event_info, method: :delete %></p>
 </div>
 <% end %>
 <%= link_to raw("&laquo; Back to events"), event_infos_path %>

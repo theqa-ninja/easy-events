@@ -42,12 +42,12 @@
 
   <div class="form-field">
     <%= form.label :adult_slots, style: "display: block" %>
-    <%= form.number_field :adult_slots %>
+    <%= form.number_field :adult_slots, :in => 0..20 %>
   </div>
 
   <div class="form-field">
     <%= form.label :teenager_slots, style: "display: block" %>
-    <%= form.number_field :teenager_slots %>
+    <%= form.number_field :teenager_slots, :in => 0..20 %>
   </div>
 
   <div class="form-field">
