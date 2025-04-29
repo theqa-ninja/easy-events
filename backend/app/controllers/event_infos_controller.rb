@@ -64,7 +64,7 @@ class EventInfosController < ApplicationController
   def destroy
     @event_info.destroy!
 
-    render json: @event_info, status: :no_content
+    render json: @event_info, status: :accepted
   end
 
   private
