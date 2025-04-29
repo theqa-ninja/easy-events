@@ -5,12 +5,12 @@ class EventInfosController < ApplicationController
 
   # GET /event_infos or /event_infos.json
   def index
-    render json: EventInfo.all.as_json
+    render json: EventInfo.all.as_json, status: :ok
   end
 
   # GET /event_infos/1 or /event_infos/1.json
   def show
-    render json: @event_info.as_json
+    render json: @event_info.as_json, status: :ok
   end
 
   # GET /event_info/1/signup
@@ -21,17 +21,20 @@ class EventInfosController < ApplicationController
   def signups
     @signups_over_18 = Signup.where(event_id: @event_info.id, user_is_over_18: true).order(:user_name)
     @signups_under_18 = Signup.where(event_id: @event_info.id, user_is_over_18: false).order(:user_name)
+    render json: { signups_over_18: @signups_over_18.as_json, signups_under_18: @signups_under_18.as_json }, status: :ok
   end
 
   # GET /event_info/1/check-ins
   def check_ins
     @signups_over_18 = Signup.where(event_id: @event_info.id, user_is_over_18: true).order(:user_name)
     @signups_under_18 = Signup.where(event_id: @event_info.id, user_is_over_18: false).order(:user_name)
+    render json: { signups_over_18: @signups_over_18.as_json, signups_under_18: @signups_under_18.as_json }, status: :ok
   end
 
   # GET /event_infos/new
   def new
     @event_info = EventInfo.new
+    render json: @event_info, status: :ok
   end
 
   # GET /event_infos/1/edit
@@ -41,28 +44,19 @@ class EventInfosController < ApplicationController
   # POST /event_infos or /event_infos.json
   def create
     @event_info = EventInfo.new(event_info_params)
-
-    respond_to do |format|
-      if @event_info.save
-        format.html { redirect_to @event_info, notice: "Event info was successfully created." }
-        format.json { render :show, status: :created, location: @event_info }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @event_info.errors, status: :unprocessable_entity }
-      end
+    if @event_info.save
+      render json: @event_info, status: :created
+    else
+      render json: @event_info.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /event_infos/1 or /event_infos/1.json
   def update
-    respond_to do |format|
-      if @event_info.update(event_info_params)
-        format.html { redirect_to @event_info, notice: "Event info was successfully updated." }
-        format.json { render :show, status: :ok, location: @event_info }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @event_info.errors, status: :unprocessable_entity }
-      end
+    if @event_info.update(event_info_params)
+      render json: @event_info, status: :ok
+    else
+      render json: @event_info.errors, status: :unprocessable_entity
     end
   end
 
@@ -70,10 +64,7 @@ class EventInfosController < ApplicationController
   def destroy
     @event_info.destroy!
 
-    respond_to do |format|
-      format.html { redirect_to event_infos_path, status: :see_other, notice: "Event info was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    render json: @event_info, status: :no_content
   end
 
   private
