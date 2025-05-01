@@ -11,8 +11,9 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Register() {
   return (
-    <main className="p-5 max-w-lg mx-auto">
-      <h1 className="text-2xl">Register</h1>
+    <main className="p-5 max-w-xl mx-auto">
+      <h1 className="text-2xl">Register for an account</h1>
+      <p>Although registering for an account is optional, it allows you to save your account info for faster future event signups.</p>
       <form className="flex flex-col gap-4 mt-4">
         <Input name="name" label="Name" />
         <Input name="email" label="Email" />
