@@ -20,6 +20,13 @@ export default function Login() {
           <Button label="Login" variant="primary" />
         </div>
       </form>
+      <hr className="my-5 border-gray-300 dark:border-gray-600" />
+      <p>
+        Don&apos;t have an account?{" "}
+        <a href="/register" className="underline">
+          Register
+        </a>
+      </p>
     </main>
   );
 }
