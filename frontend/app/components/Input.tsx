@@ -15,7 +15,7 @@ export const Input: FC<InputProps> = ({
   ...props
 }) => {
   return (
-    <div className="flex flex-col">
+    <div className={type === 'radio' || type === 'checkbox' ? "flex flex-row-reverse gap-2 justify-end w-auto [&>input]:w-auto" : "flex flex-col"}>
       {label && <label htmlFor={name}>{label}</label>}
       <input
         id={name}
