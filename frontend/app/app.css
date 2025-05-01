@@ -3,6 +3,44 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --color-primary-50: #fbfefe;
+  --color-primary-100: #eef9f9;
+  --color-primary-200: #d9f2f2;
+  --color-primary-300: #bce9e9;
+  --color-primary-400: #96dcdc;
+  --color-primary-500: #68cdcd;
+  --color-primary-600: #3bb2b2;
+  --color-primary-700: #267373;
+  --color-primary-800: #184848;
+  --color-primary-900: #102f2f;
+  --color-primary-950: #0d2626;
+  --color-secondary-50: #fefdfb;
+  --color-secondary-100: #fdf7ef;
+  --color-secondary-200: #faeedb;
+  --color-secondary-300: #f6e1c0;
+  --color-secondary-400: #f0d09c;
+  --color-secondary-500: #eabb71;
+  --color-secondary-600: #e2a33d;
+  --color-secondary-700: #bf811d;
+  --color-secondary-800: #6d4a10;
+  --color-secondary-900: #3d2909;
+  --color-secondary-950: #2c1e07;
+  --color-tertiary-50: #fefdfd;
+  --color-tertiary-100: #fcf6f6;
+  --color-tertiary-200: #f9e9f1;
+  --color-tertiary-300: #f2d1e1;
+  --color-tertiary-400: #e9b8d3;
+  --color-tertiary-500: #d98bc5;
+  --color-tertiary-600: #c86ab6;
+  --color-tertiary-700: #ad4e9a;
+  --color-tertiary-800: #8c3e7b;
+  --color-tertiary-900: #6b2d5d;
+  --color-tertiary-950: #4b1e3e;
+  --color-error: colors.red;
+  --color-success: colors.green;
+  --color-neutral: colors.gray;
+  --color-background: rgb(var(--background-rgb));
+  --color-foreground: rgb(var(--foreground-rgb));
 }
 
 html,
@@ -12,4 +50,41 @@ body {
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+}
+
+h1 {
+  @apply text-5xl; /* 48px */
+  @apply leading-none;
+  @apply my-4;
+}
+
+h2 {
+  @apply text-4xl; /* 36px */
+  @apply leading-none;
+}
+
+h3 {
+  @apply text-3xl; /* 30px */
+}
+
+h4 {
+  @apply text-2xl; /* 24px */
+}
+
+h5 {
+  @apply text-xl; /* 20px */
+}
+
+p {
+  @apply text-lg; /* 18px */
+}
+
+a {
+  @apply text-primary-700;
+  @apply dark:text-primary-300;
+}
+
+a:hover {
+  @apply text-primary-900;
+  @apply dark:text-primary-500;
 }
