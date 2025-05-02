@@ -85,7 +85,7 @@ if Rails.env != 'production'
         u_is_over_18 = FFaker::Boolean.maybe
         u_notes = FFaker::FreedomIpsum.sentence if FFaker::Number.number % 5 == 0
       end
-      Signup.create(event_id: e.id, user_id: u_id, user_name: u_name, user_email: u_email, user_phone_number: u_phone_number, user_is_over_18: u_is_over_18, notes: u_notes)
+      Signup.create(event_info_id: e.id, user_id: u_id, user_name: u_name, user_email: u_email, user_phone_number: u_phone_number, user_is_over_18: u_is_over_18, notes: u_notes)
       puts "added user #{u_name} to event #{e.title}"
     end
   end
