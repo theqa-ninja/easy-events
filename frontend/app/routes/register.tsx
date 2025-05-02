@@ -1,6 +1,6 @@
 import { Input } from "~/components/Input";
 import { Button } from "~/components/Button";
-import type { Route } from "./+types/login";
+import type { Route } from "./+types/register";
 
 export function meta({}: Route.MetaArgs) {
   return [
