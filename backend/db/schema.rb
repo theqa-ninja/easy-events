@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_29_004723) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_04_180925) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "event_infos", force: :cascade do |t|
+  create_table "events", force: :cascade do |t|
     t.string "title", null: false
     t.datetime "start_time", null: false
     t.datetime "end_time", null: false
@@ -43,7 +43,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_29_004723) do
   end
 
   create_table "signups", force: :cascade do |t|
-    t.integer "event_info_id", null: false
+    t.integer "event_id", null: false
     t.integer "user_id"
     t.string "user_name", null: false
     t.string "user_email", null: false
@@ -57,7 +57,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_29_004723) do
     t.integer "volunteer_role_id"
     t.boolean "soft_deleted", default: false, null: false
     t.datetime "deleted_at"
-    t.index ["event_info_id", "user_email", "user_name"], name: "index_signups_on_event_info_id_and_user_email_and_user_name", unique: true
+    t.index ["event_id", "user_email", "user_name"], name: "index_signups_on_event_id_and_user_email_and_user_name", unique: true
   end
 
   create_table "teams", force: :cascade do |t|
@@ -122,10 +122,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_29_004723) do
     t.text "description"
   end
 
-  add_foreign_key "event_infos", "teams"
-  add_foreign_key "event_infos", "users", column: "creator_id"
+  add_foreign_key "events", "teams"
+  add_foreign_key "events", "users", column: "creator_id"
   add_foreign_key "signup_groups", "users", column: "primary_user_id"
-  add_foreign_key "signups", "event_infos"
+  add_foreign_key "signups", "events"
   add_foreign_key "signups", "users"
   add_foreign_key "signups", "volunteer_roles"
   add_foreign_key "teams", "organizations"

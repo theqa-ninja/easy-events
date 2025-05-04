@@ -4,12 +4,12 @@
     scope: :signup,
     remote: true,
     data: { controller: "validation", validation_target: "form" },
-    url: current_page?(event_info_signup_path) && signups_path || current_page?(edit_signup_path) && signup_path(@signup.id)
+    url: current_page?(event_signup_path) && signups_path || current_page?(edit_signup_path) && signup_path(@signup.id)
   ) do |f| %>
   <h3>Sign up for this event</h3>
   <%= f.hidden_field :event_id, value: @signup&.event_id || params[:id] %>
   <% if user_signed_in? == false %>
-    <p>Would you like to <%= link_to "log in", :new_user_session %> or <%= link_to "register for an account", :new_user_registration %> to save your account info for future signups?</p>
+    <p>Would you like to <%= link_to "log in", :new_user_session %> or <%= link_to "register for an account", :new_user_registration %> to save your account to signup more quickly in the future?</p>
     <div class="form-field">
       <%= f.label "Name *", class: "block" %>
       <%= f.text_field :user_name, data: { validation_target: "required", label: "Name" } %>

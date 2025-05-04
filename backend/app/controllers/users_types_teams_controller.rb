@@ -74,6 +74,6 @@ class UsersTypesTeamsController < ApplicationController
         @user_type_team = UsersTypesTeam.find_by(user_id: current_user.id)
         @user_is_admin = @user_type_team&.user_type == "admin"
       end
-      redirect_to event_infos_path if !@user_is_admin
+      redirect_to events_path if !@user_is_admin
     end
 end

@@ -1,10 +1,10 @@
-<%= form_with(model: event_info) do |form| %>
-  <% if event_info.errors.any? %>
+<%= form_with(model: event) do |form| %>
+  <% if event.errors.any? %>
     <div class="error-message">
-      <h2><%= pluralize(event_info.errors.count, "error") %> prohibited this event_info from being saved:</h2>
+      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
 
       <ul>
-        <% event_info.errors.each do |error| %>
+        <% event.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
@@ -13,7 +13,7 @@
 
   <%# Specify how many roles are needed for this event. %>
   <div class="form-field">
-    <%= @event_info.team.volunteer_roles.each do |role| %>
+    <%= @event.team.volunteer_roles.each do |role| %>
       <%= form.fields_for :volunteer_roles do |role| %>
         <div class="row">
           <%= role.label :role, "How many needed?", style: "display: block" %>

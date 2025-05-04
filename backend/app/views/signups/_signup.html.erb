@@ -26,20 +26,20 @@
   </p>
 
   <p>
-    <%= link_to "Event: #{EventInfo.find(signup.event_id).title}", event_info_path(signup.event_id)  %>
+    <%= link_to "Event: #{Event.find(signup.event_id).title}", event_path(signup.event_id)  %>
   </p>
   <dl>
     <dl>
       <dt>Date:</dt>
-      <dd><%= format_date(EventInfo.find(signup.event_id).start_time) %></dd>
+      <dd><%= format_date(Event.find(signup.event_id).start_time) %></dd>
     </dl>
     <dl>
       <dt>Start time:</dt>
-      <dd><%= format_time(EventInfo.find(signup.event_id).start_time) %>
+      <dd><%= format_time(Event.find(signup.event_id).start_time) %>
     </dl>
     <dl>
       <dt>End time:</dt>
-      <dd><%= format_time(EventInfo.find(signup.event_id).end_time) %>
+      <dd><%= format_time(Event.find(signup.event_id).end_time) %>
     </dl>
   </dl>
 
@@ -48,7 +48,7 @@
     <%= signup.notes %>
   </p>
 
-  <% if @user_is_event_coordenator_or_admin %>
+  <% if @user_is_event_coordinator_or_admin %>
     <p>
       <strong>Checked in at:</strong>
       <%= signup.checked_in_at %>

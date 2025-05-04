@@ -70,6 +70,6 @@ class OrganizationsController < ApplicationController
     end
 
     def redirect_if_not_leader
-      redirect_to event_infos_path if !current_user.is_leader
+      redirect_to events_path if !current_user.is_leader
     end
 end
