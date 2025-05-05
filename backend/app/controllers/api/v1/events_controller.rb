@@ -24,18 +24,18 @@ module Api
 
       # GET /events/1/signups
       def signups
+        @signups_over_18 = Signup.where(event_id: @event.id, user_is_over_18: true).order(:user_name)
+        @signups_under_18 = Signup.where(event_id: @event.id, user_is_over_18: false).order(:user_name)
         # comment out for now
-        # @signups_over_18 = Signup.where(event_id: @event.id, user_is_over_18: true).order(:user_name)
-        # @signups_under_18 = Signup.where(event_id: @event.id, user_is_over_18: false).order(:user_name)
         # render json: { signups_over_18: @signups_over_18.as_json, signups_under_18: @signups_under_18.as_json }, status: :ok
-        @signups = Signup.where(event_id: @event.id).order(:user_name)
+        # @signups = Signup.where(event_id: @event.id).order(:user_name)
       end
 
       # GET /events/1/check-ins
       def check_ins
         @signups_over_18 = Signup.where(event_id: @event.id, user_is_over_18: true).order(:user_name)
         @signups_under_18 = Signup.where(event_id: @event.id, user_is_over_18: false).order(:user_name)
-        render json: { signups_over_18: @signups_over_18.as_json, signups_under_18: @signups_under_18.as_json }, status: :ok
+        # render json: { signups_over_18: @signups_over_18.as_json, signups_under_18: @signups_under_18.as_json }, status: :ok
       end
 
       # GET /events/1/edit

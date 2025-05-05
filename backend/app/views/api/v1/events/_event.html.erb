@@ -1,7 +1,7 @@
 <article id="<%= dom_id event %>">
   <header>
     <h2>
-      <%= link_to event.title, event_path(event.id) %>
+      <%= link_to event.title, api_v1_event_path(event.id) %>
     </h2>
 
     <%= format_date(event.start_time) %>
