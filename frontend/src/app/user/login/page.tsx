@@ -7,7 +7,7 @@ import Link from "next/link";
 const LoginPage = () => {
   return (
     <div className="h-screen bg-fuchsia-100 flex items-center justify-center">
-      <div className="bg-slate-50 rounded-md px-10 py-10 shadow-md w-1/3 h-1/2">
+      <div className="bg-slate-50 rounded-md px-10 py-10 shadow-md min-w-1/3">
         <h1 className="text-2xl font-bold mb-8">Log in</h1>
         <div className="flex flex-col gap-4">
           <Input
