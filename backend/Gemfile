@@ -72,4 +72,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
 end
 
+# logger gem
+gem 'logger'
+
 gem "devise", "~> 4.9"

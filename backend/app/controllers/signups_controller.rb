@@ -22,7 +22,7 @@ class SignupsController < ApplicationController
       user_id = current_user.id
     end
 
-    @event = Event.find(params[:signup][:event_id])
+    @event = Event.where(soft_deleted: false).find(params[:signup][:event_id])
     teen_slots_full = @event.remaining_teenager_slots == "full"
     adult_slots_full = @event.remaining_adult_slots == "full"
     reported_as_adult = params[:signup][:user_is_over_18] == "true"

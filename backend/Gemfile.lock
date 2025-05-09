@@ -272,6 +272,7 @@ DEPENDENCIES
   ffaker (~> 2.24)
   importmap-rails
   jbuilder
+  logger
   pg
   puma (>= 5.0)
   rack-cors
