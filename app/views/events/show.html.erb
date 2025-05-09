@@ -1,0 +1,10 @@
+<%= link_to raw("&laquo; Back to events"), events_path %>
+<%= render @event %>
+<% if @user_is_event_coordenator_or_admin %>
+<div>
+  <h3>Event Coordinator Actions</h3>
+  <p><%= link_to "Edit this event", edit_event_path(@event) %></p>
+  <p><%= button_to "Destroy this event", @event, method: :delete %></p>
+</div>
+<% end %>
+<%= link_to raw("&laquo; Back to events"), events_path %>

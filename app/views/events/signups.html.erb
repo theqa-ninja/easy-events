@@ -1,10 +1,10 @@
 
-<%= link_to raw("&laquo; Back to events"), event_infos_path %>
+<%= link_to raw("&laquo; Back to events"), events_path %>
 <span class="pipe">|</span>
-<%= link_to "Check-ins", event_info_check_ins_path(@event_info.id) %>
+<%= link_to "Check-ins", event_check_ins_path(@event.id) %>
 
 <h2>Signups</h2>
-<%= render @event_info %>
+<%= render @event %>
 <h3>Volunteers over 18</h3>
 <table class="signups">
   <thead>
@@ -39,6 +39,6 @@
     <% end %>
   </tbody>
 </table>
-<%= link_to raw("&laquo; Back to events"), event_infos_path %>
+<%= link_to raw("&laquo; Back to events"), events_path %>
 <span class="pipe">|</span>
-<%= link_to "Check-ins", event_info_check_ins_path(@event_info.id) %>
+<%= link_to "Check-ins", event_check_ins_path(@event.id) %>

@@ -15,6 +15,6 @@ class CreateSignups < ActiveRecord::Migration[7.1]
     end
 
     add_foreign_key :signups, :users, column: :user_id
-    add_foreign_key :signups, :event_infos, column: :event_id
+    add_foreign_key :signups, :events, column: :event_id
   end
 end

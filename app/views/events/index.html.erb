@@ -1,0 +1,28 @@
+<h1>Events</h1>
+<% if @user_is_event_coordenator_or_admin %>
+  <p><%= link_to "Create a new event", new_event_path %></p>
+<% end %>
+<div id="events">
+  <% @events.each_with_index do |event, i| %>
+    <%= render event %>
+    <p>
+      <% if event.remaining_adult_slots == "full" && event.remaining_teenager_slots == "full" %>
+        This event has reached its maximum capacity for volunteers.
+      <% else %>
+        <%= link_to "Sign up for this event", event_signup_path(event.id) %>
+      <% end %>
+      <% if @user_is_event_coordenator_or_admin %>
+      <span class="pipe">|</span>
+      <%= link_to "Signups", event_signups_path(event.id) %>
+      <span class="pipe">|</span>
+      <%= link_to "Check-ins", event_check_ins_path(event.id) %>
+      <% end %>
+    </p>
+    <% if i + 1 < @events.size %>
+      <hr>
+    <% end %>
+  <% end %>
+</div>
+<% if @user_is_event_coordenator_or_admin %>
+  <p><%= link_to "Create a new event", new_event_path %></p>
+<% end %>

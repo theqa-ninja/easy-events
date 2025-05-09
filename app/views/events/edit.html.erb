@@ -1,0 +1,13 @@
+<h1>Editing event info</h1>
+
+<%= render "form", event: @event %>
+
+<br>
+
+<div>
+  <%= link_to "Event info", @event %>
+  <span class="pipe">|</span>
+  <%= link_to "Sign up!", event_signup_path(@event.id) %>
+  <span class="pipe">|</span>
+  <%= link_to "Back to events", events_path %>
+</div>

@@ -1,6 +1,6 @@
-class CreateEventInfos < ActiveRecord::Migration[7.1]
+class CreateEvents < ActiveRecord::Migration[7.1]
   def change
-    create_table :event_infos do |t|
+    create_table :events do |t|
       t.string :title, null: false
       t.datetime :start_time, null: false
       t.datetime :end_time, null: false
@@ -13,6 +13,6 @@ class CreateEventInfos < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    add_foreign_key :event_infos, :users, column: :creator_id
+    add_foreign_key :events, :users, column: :creator_id
   end
 end

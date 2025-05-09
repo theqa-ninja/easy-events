@@ -22,18 +22,18 @@ class SignupsController < ApplicationController
       user_id = current_user.id
     end
 
-    @event_info = EventInfo.find(params[:signup][:event_id])
-    teen_slots_full = @event_info.remaining_teenager_slots == "full"
-    adult_slots_full = @event_info.remaining_adult_slots == "full"
+    @event = Event.find(params[:signup][:event_id])
+    teen_slots_full = @event.remaining_teenager_slots == "full"
+    adult_slots_full = @event.remaining_adult_slots == "full"
     reported_as_adult = params[:signup][:user_is_over_18] == "true"
     if reported_as_adult && adult_slots_full
-      redirect_to event_info_signup_path(@event_info.id), alert: "Sorry, this event has reached the maximum adult signups."
+      redirect_to event_signup_path(@event.id), alert: "Sorry, this event has reached the maximum adult signups."
     elsif !reported_as_adult && teen_slots_full
-      redirect_to event_info_signup_path(@event_info.id), alert: "Sorry, this event has reached the maximum teenager signups."
+      redirect_to event_signup_path(@event.id), alert: "Sorry, this event has reached the maximum teenager signups."
     else
       @signup = Signup.new({
         user_id: user_id,
-        event_info_id: params[:signup][:event_info_id],
+        event_id: params[:signup][:event_id],
         notes: params[:signup][:notes],
         user_name: params[:signup][:user_name],
         user_email: params[:signup][:user_email],
@@ -67,7 +67,7 @@ class SignupsController < ApplicationController
       )
         # If it's the check-ins page, we don't want to redirect them to another page
         if params[:signup][:checked_in_at]
-          format.html { redirect_to event_info_check_ins_path(@signup.event_id), notice: "Signup was successfully updated." }
+          format.html { redirect_to event_check_ins_path(@signup.event_id), notice: "Signup was successfully updated." }
         # If it's volunteer notes, it goes in a different table,
         # and we don't want to redirect them to another page 
         elsif params[:signup][:volunteer_notes]
@@ -86,10 +86,10 @@ class SignupsController < ApplicationController
             note_params[:volunteer_notes] = params[:signup][:volunteer_notes]
             VolunteerNote.create!(note_params)
           end
-          format.html { redirect_to event_info_check_ins_path(@signup.event_id), notice: "Note was successfully saved." }
+          format.html { redirect_to event_check_ins_path(@signup.event_id), notice: "Note was successfully saved." }
         elsif params[:signup][:volunteer_role_id]
           @signup.update(volunteer_role_id: params[:signup][:volunteer_role_id])
-          format.html { redirect_to event_info_check_ins_path(@signup.event_id), notice: "Role was successfully saved." }
+          format.html { redirect_to event_check_ins_path(@signup.event_id), notice: "Role was successfully saved." }
         else
           format.html { redirect_to @signup, notice: "Try again." }
         end
@@ -116,7 +116,7 @@ class SignupsController < ApplicationController
     def set_signup
       @signup = Signup.find(params[:id])
       
-      redirect_to event_infos_path if !@user_is_event_coordenator_or_admin && @signup.user_id != current_user&.id
+      redirect_to events_path if !@user_is_event_coordenator_or_admin && @signup.user_id != current_user&.id
     end
 
     # Only allow a list of trusted parameters through.
@@ -141,7 +141,7 @@ class SignupsController < ApplicationController
     # Only allow event coordinators and admin users to view the index
     def check_if_admin
       if !@user_is_event_coordenator_or_admin
-        redirect_to event_infos_path
+        redirect_to events_path
       end
     end
 end

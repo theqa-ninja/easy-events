@@ -5,7 +5,7 @@ class AddSoftDeletes < ActiveRecord::Migration[7.1]
       t.datetime :deleted_at
     end
 
-    change_table :event_infos do |t|
+    change_table :events do |t|
       t.boolean :soft_deleted, null: false, default: false
       t.datetime :deleted_at
     end

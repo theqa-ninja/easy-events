@@ -7,7 +7,7 @@
 <div>
   <%= link_to "Show this signup", @signup %>
   <span class="pipe">|</span>
-  <%= link_to "Back to signups", event_info_signups_path(@signup.event_id) %>
+  <%= link_to "Back to signups", event_signups_path(@signup.event_id) %>
   <span class="pipe">|</span>
-  <%= link_to "Back to check-ins", event_info_check_ins_path(@signup.event_id) %>
+  <%= link_to "Back to check-ins", event_check_ins_path(@signup.event_id) %>
 </div>
