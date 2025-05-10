@@ -65,5 +65,5 @@ DeviseTokenAuth.setup do |config|
   # config.send_confirmation_email = true
 
   # default confirm URL
-  config.default_confirm_success_url = Rails.env.production? ? 'TODO: add production url' : 'http://localhost:3000/login'
+  config.default_confirm_success_url = Rails.env.production? ? 'TODO: add production url' : 'http://localhost:3001/user/login'
 end
