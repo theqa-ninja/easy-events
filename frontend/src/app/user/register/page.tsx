@@ -40,26 +40,22 @@ const RegisterPage = () => {
         <h1 className="text-2xl font-bold mb-8">Create an account</h1>
         <div className="flex flex-col gap-4">
           <Input
-            className="rounded-md bg-slate-100 border-1 border-fuchsia-800 p-2"
             name="name"
             label="Name"
             placeholder="Firstname Lastname"
           />
           <Input
-            className="rounded-md bg-slate-100 border-1 border-fuchsia-800 p-2"
             name="email"
             label="Email"
             placeholder="youremail@example.com"
             type="email"
           />
           <Input
-            className="rounded-md bg-slate-100 border-1 border-fuchsia-800 p-2"
             name="phone_number"
             label="Phone number"
             placeholder="5555555555"
           />
           <BinaryRadioInput
-            className="rounded-md bg-slate-100 border-1 border-fuchsia-800 p-2"
             name="is_over_18"
             idA="yes"
             idB="no"
@@ -68,14 +64,12 @@ const RegisterPage = () => {
             question="Are you over 18?"
           />
           <Input
-            className="rounded-md bg-slate-100 border-1 border-fuchsia-800 p-2"
             name="password"
             label="Password"
             placeholder="********"
             type="password"
           />
           <Input
-            className="rounded-md bg-slate-100 border-1 border-fuchsia-800 p-2"
             name="password_confirmation"
             label="Password confirmation"
             placeholder="********"

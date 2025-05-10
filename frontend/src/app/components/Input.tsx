@@ -35,7 +35,7 @@ export const Input: FC<InputProps> = ({
         name={name}
         placeholder={placeholder}
         type={type}
-        className="block w-full p-2 border border-neutral-300 rounded-md shadow-inner active:outline-none active:ring-2 active:ring-primary-600 active:ring-offset-2 bg-background"
+        className="rounded-md bg-slate-100 border-1 border-fuchsia-800 p-2"
         {...props}
       />
     </div>

@@ -56,13 +56,11 @@ const LoginPage = () => {
         <h1 className="text-2xl font-bold mb-8">Log in</h1>
         <div className="flex flex-col gap-4">
           <Input
-            className="rounded-md bg-slate-100 border-1 border-fuchsia-800 p-2"
             name="email"
             label="Email"
             placeholder="youremail@example.com"
           />
           <Input
-            className="rounded-md bg-slate-100 border-1 border-fuchsia-800 p-2"
             name="password"
             label="Password"
             placeholder="********"
