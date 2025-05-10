@@ -5,11 +5,20 @@ import { Button } from "../../components/Button";
 import Link from "next/link";
 import { setCookie } from "cookies-next";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Toast } from "../../components/Toast";
 
 const LoginPage = () => {
   const route = useRouter();
+  const [toast, setToast] = React.useState<{message:string, status:"success" | "error"}>();
+
   const accountConfirmationIsSuccess =
       useSearchParams().get('account_confirmation_success') || false;
+
+  React.useEffect(() => {
+    if (accountConfirmationIsSuccess) {
+      setToast({message:"Account confirmation successful", status:"success"});
+    }
+  }, [accountConfirmationIsSuccess]);
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,13 +37,21 @@ const LoginPage = () => {
         const authorizationToken = response.headers.get('Authorization');
         if (authorizationToken) {
           setCookie('token', authorizationToken);
-          route.push('/');
+          setToast({message:"Login successful", status:"success"});
+          route.push('/events');
         }
+      } else {
+        setToast({message:"Login failed", status:"error"});
       }
-    }).catch((error) => console.log(error));
+    }).catch((error) => {
+      setToast({message:"Something went wrong", status:"error"});
+      console.log(error)
+    });
   };
+
   return (
     <div className="h-screen bg-fuchsia-100 flex items-center justify-center">
+      {toast && <Toast message={toast.message} status={toast.status} onClose={() => setToast(undefined)} />}
       <form onSubmit={handleLogin} className="bg-slate-50 rounded-md px-10 py-10 shadow-md min-w-1/3">
         <h1 className="text-2xl font-bold mb-8">Log in</h1>
         <div className="flex flex-col gap-4">

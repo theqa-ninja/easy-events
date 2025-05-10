@@ -5,9 +5,12 @@ import { BinaryRadioInput } from "../../components/BinaryRadioInput";
 import { Button } from "../../components/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Toast } from "../../components/Toast";
 
 const RegisterPage = () => {
   const route = useRouter();
+  const [toast, setToast] = React.useState<{message:string, status:"success" | "error"}>();
+
   const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -21,15 +24,18 @@ const RegisterPage = () => {
       body: body,
     }).then((response) => {
       if(response.ok) {
-        console.log('success');
-        // TODO: setup messaging for success
+        setToast({message:"Registration successful", status:"success"});
+        setTimeout(() => {
+          route.push('/user/login');
+        }, 3000);
+      } else {
+        setToast({message:"Registration failed", status:"error"});
       }
-    }).then(() => {
-      route.push('/user/login');
     }).catch((error) => console.log(error));
   };
   return (
     <div className="h-screen bg-fuchsia-100 flex items-center justify-center">
+      {toast && <Toast message={toast.message} status={toast.status} onClose={() => setToast(undefined)} />}
       <form onSubmit={handleRegister} className="bg-slate-50 rounded-md px-10 py-10 shadow-md min-w-1/3">
         <h1 className="text-2xl font-bold mb-8">Create an account</h1>
         <div className="flex flex-col gap-4">
