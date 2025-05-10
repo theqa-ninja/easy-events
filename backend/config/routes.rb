@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount_devise_token_auth_for 'User', at: 'auth'
   namespace :api do
     namespace :v1 do
       resources :events
@@ -14,19 +15,19 @@ Rails.application.routes.draw do
   get '/events/:id/edit', to: 'api/v1/events#edit'
 
   resources :user_types
-  devise_for :users,
-    :path => '',
-    :path_names => {
-      :sign_in => "user/login",
-      :sign_out => "user/logout",
-      :sign_up => "user/register"
-    },
-    :controllers => {
-      :registrations => "registrations"
-    }
-  devise_scope :user do
-    get 'user/logout' => 'devise/sessions#destroy'
-  end
+  # devise_for :users,
+  #   :path => '',
+  #   :path_names => {
+  #     :sign_in => "user/login",
+  #     :sign_out => "user/logout",
+  #     :sign_up => "user/register"
+  #   },
+  #   :controllers => {
+  #     :registrations => "registrations"
+  #   }
+  # devise_scope :user do
+  #   get 'user/logout' => 'devise/sessions#destroy'
+  # end
 
   resources :users
   resources :teams
