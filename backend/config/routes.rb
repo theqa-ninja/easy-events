@@ -1,15 +1,19 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :events, only: [:index, :show, :create, :update, :destroy]
-      get "events/:id/signups", to: "events#signups"
-      get "events/:id/checkins", to: "events#check_ins"
+      resources :events, only: [:index, :show, :create, :update, :destroy] do
+        member do
+          get 'signups'
+          get 'checkins', to: 'events#check_ins'
+        end
+      end
+
+      resources :signups, only: [:index, :show, :edit, :create, :update, :destroy]
     end
   end
   resources :volunteer_roles
   resources :organizations
   resources :users_types_teams
-  resources :signups, only: [:show, :edit, :create, :update, :destroy]
 
   # get '/events', to: 'api/v1/events#index'
   # get '/events/:id', to: 'api/v1/events#show'

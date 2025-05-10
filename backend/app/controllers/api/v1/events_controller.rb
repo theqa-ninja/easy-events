@@ -88,7 +88,7 @@ module Api
 
       def redirect_if_not_admin
         # redirect_to events_path if !@user_is_event_coordinator_or_admin
-        render json: { message: 'You are not high enough to do that' }, status: :unauthorized if @user_is_event_coordinator_or_admin
+        render json: { message: 'You are not high enough to do that' }, status: :unauthorized if !@user_is_event_coordinator_or_admin
       end
     end
   end
