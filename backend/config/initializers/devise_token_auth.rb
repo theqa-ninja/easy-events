@@ -37,6 +37,8 @@ DeviseTokenAuth.setup do |config|
   # password is updated.
   config.check_current_password_before_update = :attributes
 
+  config.default_password_reset_url = Rails.env.production? ? 'TODO: add production url' : 'http://localhost:3001/user/new-password'
+
   # By default we will use callbacks for single omniauth.
   # It depends on fields like email, provider and uid.
   # config.default_callbacks = true
