@@ -67,7 +67,7 @@ const NewPasswordPage = () => {
       )}
       <form
         onSubmit={handleNewPassword}
-        className="bg-slate-50 rounded-md px-10 py-10 shadow-md min-w-1/3 max-w-sm"
+        className="bg-background-50 rounded-md px-10 py-10 shadow-md min-w-1/3 max-w-sm"
       >
         <h1 className="text-2xl font-bold mb-8">Change my password</h1>
         <div className="flex flex-col gap-4 my-4">

@@ -36,7 +36,7 @@ const RegisterPage = () => {
   return (
     <div className="h-screen bg-fuchsia-100 flex items-center justify-center">
       {toast && <Toast message={toast.message} status={toast.status} onClose={() => setToast(undefined)} />}
-      <form onSubmit={handleRegister} className="bg-slate-50 rounded-md px-10 py-10 shadow-md min-w-1/3">
+      <form onSubmit={handleRegister} className="bg-background-50 rounded-md px-10 py-10 shadow-md min-w-1/3">
         <h1 className="text-2xl font-bold mb-8">Create an account</h1>
         <div className="flex flex-col gap-4">
           <Input

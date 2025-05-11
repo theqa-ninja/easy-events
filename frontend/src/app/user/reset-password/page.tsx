@@ -53,7 +53,7 @@ const ResetPasswordPage = () => {
       )}
       <form
         onSubmit={handleResetPassword}
-        className="bg-slate-50 rounded-md px-10 py-10 shadow-md min-w-1/3 max-w-sm"
+        className="bg-background-50 rounded-md px-10 py-10 shadow-md min-w-1/3 max-w-sm"
       >
         <h1 className="text-2xl font-bold mb-4">Reset password</h1>
         <p>
