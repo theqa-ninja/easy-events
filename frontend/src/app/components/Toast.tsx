@@ -34,7 +34,7 @@ export const Toast: React.FC<ToastProps> = ({
   return open && (
     <output
       id="toast"
-      className="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800 fixed top-4 right-0 left-0 mx-auto z-50"
+      className="flex items-center w-full max-w-lg p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800 fixed top-4 right-0 left-0 mx-auto z-50"
       role="alert"
     >
       {status === "success" && (
