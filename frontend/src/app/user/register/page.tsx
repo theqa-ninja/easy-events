@@ -80,7 +80,7 @@ const RegisterPage = () => {
           <Button
             type="submit"
             alignSelf="start"
-            backgroundColor="rgb(143, 57, 177)"
+            variant="primary"
             label="Sign up"
           />
         </div>

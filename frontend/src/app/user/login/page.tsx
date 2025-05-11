@@ -23,15 +23,14 @@ const LoginPage = () => {
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email");
-    const password = formData.get("password");
+    const body = JSON.stringify(Object.fromEntries(formData));
 
     fetch("http://localhost:3000/auth/sign_in", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: body,
     }).then((response) => {
       if(response.ok) {
         const authorizationToken = response.headers.get('Authorization');
@@ -66,13 +65,13 @@ const LoginPage = () => {
             placeholder="********"
             type="password"
           />
-          <Input name="remember-me" label="Remember me" type="checkbox" />
+          <Input name="remember_me" label="Remember me" type="checkbox" />
         </div>
         <div className="my-4">
           <Button
             type="submit"
             alignSelf="start"
-            backgroundColor="rgb(143, 57, 177)"
+            variant="primary"
             label="Log in"
           />
         </div>
@@ -83,7 +82,7 @@ const LoginPage = () => {
           >
             Sign up
           </Link>
-          <Link href="/password/new" className="text-fuchsia-800 leading-5">
+          <Link href="/user/reset-password" className="text-fuchsia-800 leading-5">
             Forgot your password?
           </Link>
         </div>
