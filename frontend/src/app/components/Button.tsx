@@ -57,7 +57,7 @@ export const Button: FC<ButtonProps> = ({
     "flex items-center gap-2 justify-center leading-none shadow-sm shadow-primary-700 active:outline-none active:ring-2 active:ring-primary-600 active:ring-offset-2 cursor-pointer";
   const mode =
     variant === "primary"
-      ? "text-primary-100 bg-primary-700 hover:bg-primary-900 hover:dark:bg-primary-800 px-3 py-2 rounded-md"
+      ? "text-white bg-primary-700 hover:bg-primary-900 hover:dark:bg-primary-800 px-3 py-2 rounded-md"
       : "text-primary-700 bg-primary-100 hover:bg-primary-200 px-3 py-2 rounded-md border border-1 border-primary-600";
   const buttonSize =
     size === "small"
