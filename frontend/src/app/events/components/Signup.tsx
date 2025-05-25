@@ -7,7 +7,7 @@ import { Button } from "@/app/components/Button";
 
 export const Signup = ({ eventId } : { eventId: string }) => {
     const signupsData = getSignups(eventId);
-    const userId = 1;
+    const userId = 1; // TODO: get user id from logged in user
     const signupData = signupsData && signupsData?.length > 0 && signupsData.find(signup => signup.user_id === userId);
     const signup: ISignup = {
         event_id: parseInt(eventId),
@@ -23,6 +23,7 @@ export const Signup = ({ eventId } : { eventId: string }) => {
         const formData = new FormData(event.currentTarget);
         const body = JSON.stringify(Object.fromEntries(formData));
         createSignup(eventId, JSON.parse(body));
+        // TODO: show success or error message in Toast
     }
     return (
         <form onSubmit={submitSignup} className="flex flex-col gap-4 w-100">
