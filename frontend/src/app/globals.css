@@ -24,3 +24,45 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+h1 {
+  @apply text-3xl;
+}
+
+h2 {
+  @apply text-2xl;
+}
+
+h3 {
+  @apply text-xl;
+}
+
+h4 {
+  @apply text-lg;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply mb-4;
+}
+
+a {
+  @apply text-fuchsia-800;
+}
+
+a:hover {
+  @apply text-fuchsia-600;
+}
+
+p {
+  @apply mb-4;
+}
+
+dt {
+  @apply font-bold;
+  @apply inline-block;
+}
+
+dd {
+  @apply ml-2;
+  @apply inline-block;
+}
