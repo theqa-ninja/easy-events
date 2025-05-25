@@ -13,7 +13,7 @@ module Api
 
       # GET /events/1 or /events/1.json
       def show
-        return render json: @event, status: :no_content if @event.empty?
+        return render json: @event, status: :no_content if @event.nil?
         render json: @event.as_json, status: :ok
       end
 
