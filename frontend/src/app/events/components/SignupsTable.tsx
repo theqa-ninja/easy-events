@@ -1,4 +1,5 @@
 import { ISignup } from "../events.service";
+import { Fragment } from "react";
 
 export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
   return (
@@ -15,8 +16,8 @@ export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
       <tbody>
         {signupsData &&
           Object.values(signupsData).map((signup) => (
-            <>
-              <tr key={signup.id}>
+            <Fragment key={signup.id}>
+              <tr>
                 <td className="font-bold">{signup.user_name}</td>
                 <td>{signup.user_email}</td>
                 <td>{signup.user_phone_number}</td>
@@ -26,7 +27,7 @@ export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
               <tr className="border-b-1 border-primary-900">
                 <td colSpan={5}>{signup.notes && <b>Notes from volunteer: </b>}{signup.notes}</td>
               </tr>
-            </>
+            </Fragment>
           ))}
       </tbody>
     </table>
