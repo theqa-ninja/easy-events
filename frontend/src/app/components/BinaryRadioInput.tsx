@@ -7,6 +7,8 @@ interface BinaryRadioInputProps extends InputHTMLAttributes<HTMLInputElement> {
   idB?: string;
   labelA?: string;
   labelB?: string;
+  valueA?: string;
+  valueB?: string;
   labelSize?: string;
   question: string;
   type?: string;
@@ -19,6 +21,8 @@ export const BinaryRadioInput: FC<BinaryRadioInputProps> = ({
   idB,
   labelA,
   labelB,
+  valueA,
+  valueB,
   labelSize = "text-md",
   question,
   type = "radio",
@@ -43,6 +47,7 @@ export const BinaryRadioInput: FC<BinaryRadioInputProps> = ({
           data-testid={name}
           name={name}
           type={type}
+          defaultValue={valueA}
           className="block w-full p-2 border border-neutral-300 rounded-md shadow-inner active:outline-none active:ring-2 active:ring-primary-600 active:ring-offset-2 bg-background"
           {...props}
         />
@@ -56,6 +61,7 @@ export const BinaryRadioInput: FC<BinaryRadioInputProps> = ({
           data-testid={name}
           name={name}
           type={type}
+          defaultValue={valueB}
           className="block w-full p-2 border border-neutral-300 rounded-md shadow-inner active:outline-none active:ring-2 active:ring-primary-600 active:ring-offset-2 bg-background"
           {...props}
         />
