@@ -1,17 +1,26 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Toast } from "../../components/Toast";
+import { object, string } from "yup";
+import { validateOnBlur } from "../../utilities";
 
 const ResetPasswordPage = () => {
-  const route = useRouter();
-  const [toast, setToast] = React.useState<{
+  const [toast, setToast] = useState<{
     message: string;
     status: "success" | "error";
   }>();
+  const [errors, setErrors] = useState<{ [name: string]: string }>({});
+
+  let resetPasswordSchema = object({
+    email: string().email("Invalid email").required("Email is required"),
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    validateOnBlur(event, resetPasswordSchema, setErrors);
+  };
 
   const handleResetPassword = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,6 +74,9 @@ const ResetPasswordPage = () => {
             name="email"
             label="Email"
             placeholder="youremail@example.com"
+            type="email"
+            errorMessage={errors.email}
+            onBlur={handleChange}
           />
         </div>
         <div className="my-5">

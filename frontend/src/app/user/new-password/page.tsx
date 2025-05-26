@@ -1,10 +1,12 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { object, string, ref } from "yup";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Toast } from "../../components/Toast";
+import { validateOnBlur } from "@/app/utilities";
 
 const NewPasswordPage = () => {
   const route = useRouter();
@@ -16,44 +18,73 @@ const NewPasswordPage = () => {
     message: string;
     status: "success" | "error";
   }>();
+  const [errors, setErrors] = useState<{ [name: string]: string }>({});
 
-  const handleNewPassword = (e: React.FormEvent<HTMLFormElement>) => {
+  let resetPasswordSchema = object({
+    password: string()
+      .required("Password is required")
+      .length(8, "Password must be at least 8 characters"),
+    password_confirmation: string()
+      .required("Password confirmation is required")
+      .oneOf([ref("password")], "Passwords must match"),
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    validateOnBlur(event, resetPasswordSchema, setErrors);
+  };
+
+  const handleNewPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const password = formData.get("password");
-    const passwordConfirmation = formData.get("password_confirmation");
-    const body = JSON.stringify({ 
-      password, password_confirmation: passwordConfirmation, 
-      redirect_url: "http://localhost:3001/user/login"
-    });
+    const formDataEntries = Object.fromEntries(formData);
 
-    fetch("http://localhost:3000/auth/password/", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "access-token": accessToken || "",
-        client: client || "",
-        uid: uid || "",
-      },
-      body: body,
-    })
-      .then((response) => {
-        if (response.ok) {
-          setToast({
-            message: "Your password has been changed, and you may log in with your new password.",
-            status: "success",
-          });
-          setTimeout(() => {
-            route.push("/user/login");
-          }, 3000);
-        } else {
-          setToast({ message: "Password reset failed", status: "error" });
-        }
-      })
-      .catch((error) => {
-        setToast({ message: "Something went wrong", status: "error" });
-        console.log(error);
+    try {
+      await resetPasswordSchema.validate(formDataEntries, { abortEarly: false });
+      setErrors({});
+
+      const body = JSON.stringify({
+        ...formDataEntries,
+        redirect_url: "http://localhost:3001/user/login",
       });
+
+      fetch("http://localhost:3000/auth/password/", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "access-token": accessToken || "",
+          client: client || "",
+          uid: uid || "",
+        },
+        body: body,
+      })
+        .then((response) => {
+          if (response.ok) {
+            setToast({
+              message:
+                "Your password has been changed, and you may log in with your new password.",
+              status: "success",
+            });
+            setTimeout(() => {
+              route.push("/user/login");
+            }, 3000);
+          } else {
+            setToast({ message: "Password reset failed", status: "error" });
+          }
+        })
+        .catch((error) => {
+          setToast({ message: "Something went wrong", status: "error" });
+          console.log(error);
+        });
+    } catch (validationError: any) {
+      const formattedError = validationError.inner.reduce(
+        (acc: any, err: any) => {
+          acc[err.path] = err.message;
+          return acc;
+        },
+        {}
+      );
+      setErrors(formattedError);
+    }
   };
 
   return (
@@ -76,6 +107,8 @@ const NewPasswordPage = () => {
             label="password"
             placeholder="********"
             type="password"
+            onBlur={handleChange}
+            errorMessage={errors.password}
           />
         </div>
         <div className="flex flex-col gap-4 my-4">
@@ -84,6 +117,8 @@ const NewPasswordPage = () => {
             label="password confirmation"
             placeholder="********"
             type="password"
+            onBlur={handleChange}
+            errorMessage={errors.password_confirmation}
           />
         </div>
         <div className="my-4">
@@ -95,16 +130,11 @@ const NewPasswordPage = () => {
           />
         </div>
         <div className="flex flex-row gap-2 align-end">
-          <Link 
-            href="/user/login" 
-            className="leading-5">
+          <Link href="/user/login" className="leading-5">
             Log in
           </Link>
           |
-          <Link
-            href="/user/create-account"
-            className="leading-5"
-          >
+          <Link href="/user/create-account" className="leading-5">
             Sign up
           </Link>
         </div>
