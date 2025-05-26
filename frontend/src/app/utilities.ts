@@ -22,4 +22,18 @@ const defaultDateTimeOptions: Intl.DateTimeFormatOptions = {
     date: string | number,
     options: Intl.DateTimeFormatOptions = defaultDateTimeOptions,
   ) => new Date(date).toLocaleString('en-US', options);
+
+
+  export const getToken = async () => {
+    let token = '';
+    if (typeof window === 'undefined') {
+      const { cookies: serverCookies } = await import('next/headers');
+      const cookieStore = await serverCookies();
+      token = cookieStore ? await cookieStore.get('token')?.value.toString() || '' : '';
+    } else {
+      const { getCookie: clientCookies } = await import('cookies-next');
+      token = clientCookies('token')?.toString() || '';
+    }
+    return token;
+  };
   

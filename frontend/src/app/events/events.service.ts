@@ -1,4 +1,4 @@
-import { getCookie } from "cookies-next";
+import { getToken } from "../utilities";
 
 export interface IEvent {
   id: number;
@@ -11,6 +11,7 @@ export interface IEvent {
 }
 
 export interface ISignup {
+  id: number;
   event_id: number;
   user_id: number;
   role?: string;
@@ -55,7 +56,7 @@ export const getEvent = async (id: string): Promise<IEvent> => {
 
 export const createEvent = async (event: IEvent): Promise<IEvent> => {
   try {
-    const token = await getCookie("token")?.toString();
+    const token = await getToken();
     const headers: HeadersInit = {
       "Content-Type": "application/json",
       Authorization: token || "",
@@ -74,7 +75,7 @@ export const createEvent = async (event: IEvent): Promise<IEvent> => {
 
 export const editEvent = async (id: string, event: IEvent): Promise<IEvent> => {
   try {
-    const token = await getCookie("token")?.toString();
+    const token = await getToken();
     const headers: HeadersInit = {
       "Content-Type": "application/json",
       Authorization: token || "",
@@ -112,9 +113,12 @@ export const getSignup = async (
   }
 };
 
-export const getSignups = async (id: string): Promise<ISignup[]> => {
+export const getSignups = async (id: string): Promise<{
+  adults: {filled: number, signups: ISignup[]}, 
+  under_18: {filled: number, signups: ISignup[]}
+}> => {
   try {
-    const token = await getCookie("token")?.toString();
+    const token = await getToken();
     const headers: HeadersInit = {
       "Content-Type": "application/json",
       Authorization: token || "",
@@ -138,7 +142,7 @@ export const createSignup = async (
   signup: ISignup
 ): Promise<ISignup> => {
   try {
-    const token = await getCookie("token")?.toString();
+    const token = await getToken();
     const headers: HeadersInit = {
       "Content-Type": "application/json",
       Authorization: token || "",
@@ -163,7 +167,7 @@ export const editSignup = async (
   signup: ISignup
 ): Promise<ISignup> => {
   try {
-    const token = await getCookie("token")?.toString();
+    const token = await getToken();
     const headers: HeadersInit = {
       "Content-Type": "application/json",
       Authorization: token || "",
