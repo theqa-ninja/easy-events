@@ -3,31 +3,76 @@ import React from "react";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import Link from "next/link";
+import { setCookie } from "cookies-next";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Toast } from "../../components/Toast";
 
 const LoginPage = () => {
+  const route = useRouter();
+  const [toast, setToast] = React.useState<{message:string, status:"success" | "error"}>();
+  const searchParam = useSearchParams();
+
+  const accountConfirmationIsSuccess = searchParam.get('account_confirmation_success') || false;
+
+  React.useEffect(() => {
+    if (accountConfirmationIsSuccess) {
+      setToast({message:"Account confirmation successful", status:"success"});
+    }
+  }, [accountConfirmationIsSuccess]);
+
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const body = JSON.stringify(Object.fromEntries(formData));
+
+    fetch("http://localhost:3000/auth/sign_in", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body,
+    }).then((response) => {
+      if(response.ok) {
+        const authorizationToken = response.headers.get('Authorization');
+        if (authorizationToken) {
+          setCookie('token', authorizationToken);
+          setToast({message:"Login successful", status:"success"});
+          route.push('/events');
+        }
+      } else {
+        console.log(response);
+        setToast({message:"Login failed", status:"error"});
+      }
+    }).catch((error) => {
+      setToast({message:"Something went wrong", status:"error"});
+      console.log(error)
+    });
+  };
+
   return (
     <div className="h-screen bg-fuchsia-100 flex items-center justify-center">
-      <div className="bg-slate-50 rounded-md px-10 py-10 shadow-md min-w-1/3">
+      {toast && <Toast message={toast.message} status={toast.status} onClose={() => setToast(undefined)} />}
+      <form onSubmit={handleLogin} className="bg-background-50 rounded-md px-10 py-10 shadow-md min-w-1/3">
         <h1 className="text-2xl font-bold mb-8">Log in</h1>
         <div className="flex flex-col gap-4">
           <Input
-            className="rounded-md bg-slate-100 border-1 border-fuchsia-800 p-2"
             name="email"
             label="Email"
             placeholder="youremail@example.com"
           />
           <Input
-            className="rounded-md bg-slate-100 border-1 border-fuchsia-800 p-2"
             name="password"
             label="Password"
             placeholder="********"
+            type="password"
           />
-          <Input name="remember-me" label="Remember me" type="checkbox" />
+          <Input name="remember_me" label="Remember me" type="checkbox" />
         </div>
         <div className="my-4">
           <Button
+            type="submit"
             alignSelf="start"
-            backgroundColor="rgb(143, 57, 177)"
+            variant="primary"
             label="Log in"
           />
         </div>
@@ -38,11 +83,11 @@ const LoginPage = () => {
           >
             Sign up
           </Link>
-          <Link href="/password/new" className="text-fuchsia-800 leading-5">
+          <Link href="/user/reset-password" className="text-fuchsia-800 leading-5">
             Forgot your password?
           </Link>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
