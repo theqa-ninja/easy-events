@@ -2,7 +2,6 @@ class ApplicationController < ActionController::API
   include LoggerHelper
   include DeviseTokenAuth::Concerns::SetUserByToken
 
-  protect_from_forgery with: :null_session
   before_action :update_sanitized_params, if: :devise_controller?
 
   def update_sanitized_params
