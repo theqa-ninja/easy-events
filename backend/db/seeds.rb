@@ -18,7 +18,7 @@ if Rails.env != 'production'
   puts 'creating users...'
   5.times do
     phone_number = FFaker::Boolean.maybe ? FFaker::PhoneNumber.unique.phone_number : ""
-    user = User.create(email: FFaker::Internet.unique.email, name: FFaker::Name.unique.name, password: 'password', is_over_18: FFaker::Boolean.maybe, phone_number: phone_number)
+    user = User.create(email: FFaker::Internet.unique.email, name: FFaker::Name.unique.name, password: 'password', is_over_18: FFaker::Boolean.maybe, phone_number: phone_number, confirmed_at: Time.now)
     puts "created #{user.email}"
   end
 
