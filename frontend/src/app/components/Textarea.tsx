@@ -35,7 +35,7 @@ export const Textarea: FC<TextareaProps> = ({
       <textarea
         id={name}
         name={name}
-        className="block w-full h-32 p-2 border border-neutral-300 rounded-md shadow-inner active:outline-none active:ring-2 active:ring-primary-600 active:ring-offset-2 dark:bg-neutral-800"
+        className="rounded-md bg-background-100 border-1 border-fuchsia-800 p-2"
         placeholder={placeholder}
       >
         {value}
