@@ -10,15 +10,14 @@ class Event < ApplicationRecord
   # remaining_teenager_slots = -> { teenager_slots - Signup.where(event_id: id).where(user_is_over_18: false).count }
 
   def remaining_adult_slots
-    remaining = adult_slots - Signup.where(event_id: id).where(user_is_over_18: true).count
-    return remaining if remaining > 0
-    "full"
+    remaining = adult_slots - Signup.where(event_id: id).where(soft_deleted: false).where(user_is_over_18: true).length
+    return remaining
   end
 
   def remaining_teenager_slots
-    remaining = teenager_slots - Signup.where(event_id: id).where(user_is_over_18: false).count
-    return remaining if remaining > 0
-    "full"
+    byebug
+    remaining = teenager_slots - Signup.where(event_id: id).where(soft_deleted: false).where(user_is_over_18: false).length
+    return remaining
   end
 
   def volunteer_role_counts

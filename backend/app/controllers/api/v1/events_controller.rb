@@ -17,13 +17,63 @@ module Api
         render json: @event.as_json, status: :ok
       end
 
-      # GET /events/1/signup
-      def signup
-        # TODO
+      # POST /events/1/signup
+      def create_signup
         # check if event is full
-        # check if user is already signed up
-        # create new signup entry if not
-        # render json if signup.save passes or not
+        curr_event = Event.find(params[:id])
+        return render json: { message: 'Event not found' }, status: :not_found if curr_event.nil?
+        if current_user.nil?
+          # fill in from sign up info
+          current_user = User.new
+          current_user.email = params[:email]
+          current_user.name = params[:name]
+          current_user.is_over_18 = params[:is_over_18]
+          current_user.phone_number = params[:phone_number]
+        end
+
+        # check if the event slots are full
+        if current_user.is_over_18
+          if curr_event.remaining_adult_slots === 0
+            # unless they're admin/event coordinator return event is full
+            return render json: { message: 'Sorry, this event has reached the maximum adult signups' }, status: :precondition_failed if !@user_is_event_coordinator_or_admin
+          end
+        else
+          if curr_event.remaining_teenager_slots === 0
+            # unless they're admin/event coordinator return event is full
+            return render json: { message: 'Sorry, this event has reached the maximum teenager signups' }, status: :precondition_failed if !@user_is_event_coordinator_or_admin
+          end
+        end
+        new_signup = Signup.new({
+          user_id: current_user.id,
+          event_id: curr_event.id,
+          notes: params[:notes],
+          user_name: current_user.name,
+          user_email: current_user.email,
+          user_phone_number: current_user.phone_number,
+          user_is_over_18: current_user.is_over_18
+        })
+
+        if new_signup.save
+          render json: new_signup, status: :created
+        else
+          render json: new_signup.errors, status: :unprocessable_entity
+        end
+      end
+
+      # UPDATE /events/1/signup
+      def update_signup
+        # TODO
+        # validate the user is the creator of the signup or admin
+        # save the changes
+        # return the updated signup
+      end
+
+      # DELETE /events/1/signup
+      def destroy_signup
+        # TODO
+        # validate the user is the creator of the signup or admin
+        # soft delete the signup
+        # return the deleted signup
       end
 
       # GET /events/1/signups

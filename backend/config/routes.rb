@@ -4,14 +4,17 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :events, only: [:index, :show, :create, :update, :destroy] do
         member do
-          get 'signups'
+          get 'signups' # get list of all signups
           get 'checkins', to: 'events#check_ins'
+          post 'signup', to: 'events#create_signup' # volunteer signing up
+          patch 'signup', to: 'events#update_signup' # TODO: volunteer updating signup
+          delete 'signup', to: 'events#destroy_signup' # TODO: volunteer deleting signup
+          # resources :signup, only: [:show, :create, :update, :destroy], shallow: true
         end
       end
-
-      resources :signups, only: [:index, :show, :edit, :create, :update, :destroy]
     end
   end
+  # resources :signups, only: [:index, :show, :edit, :create, :update, :destroy]
   resources :volunteer_roles
   resources :organizations
   resources :users_types_teams
