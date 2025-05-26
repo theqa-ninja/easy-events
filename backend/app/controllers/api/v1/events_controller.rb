@@ -72,7 +72,6 @@ module Api
         else
           current_user = @current_user
         end
-        byebug
 
         current_user.email = params[:email]
         current_user.name = params[:name]
