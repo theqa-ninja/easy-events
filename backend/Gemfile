@@ -55,6 +55,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem "ffaker", "~> 2.24"
   gem 'factory_bot_rails'
+  gem 'mailcatcher'
 
 end
 

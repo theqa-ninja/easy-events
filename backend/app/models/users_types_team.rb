@@ -1,7 +1,8 @@
 class UsersTypesTeam < ApplicationRecord
   # Associations
   belongs_to :user
-  belongs_to :user_type
+  # belongs_to :user_type # TODO: had to comment this out due to mismatch on 
+  ## UsersTypesTeam.find_or_create_by!(user_id: User.first.id, organization_id: org.id, user_type_id: UserType.first.id)
   belongs_to :organization
 
   # Validations
