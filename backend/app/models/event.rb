@@ -1,3 +1,4 @@
+# backend/app/models/event.rb
 class Event < ApplicationRecord
   has_many :signups, dependent: :destroy
   has_one :creator, through: :team
@@ -10,13 +11,11 @@ class Event < ApplicationRecord
   # remaining_teenager_slots = -> { teenager_slots - Signup.where(event_id: id).where(user_is_over_18: false).count }
 
   def remaining_adult_slots
-    remaining = adult_slots - Signup.where(event_id: id).where(soft_deleted: false).where(user_is_over_18: true).length
-    return remaining
+    adult_slots - Signup.where(event_id: id).where(soft_deleted: false).where(user_is_over_18: true).length
   end
 
   def remaining_teenager_slots
-    remaining = teenager_slots - Signup.where(event_id: id).where(soft_deleted: false).where(user_is_over_18: false).length
-    return remaining
+    teenager_slots - Signup.where(event_id: id).where(soft_deleted: false).where(user_is_over_18: false).length
   end
 
   def volunteer_role_counts
@@ -26,11 +25,7 @@ class Event < ApplicationRecord
     roles = VolunteerRole.where(team_id: team_id)
     # return a hash of role => count
     roles.map do |role|
-      {"role": role.role, "role_id": role.id, "count": signups.where(volunteer_role_id: role.id).count}
+      { "role": role.role, "role_id": role.id, "count": signups.where(volunteer_role_id: role.id).count }
     end.to_ary
   end
-
-  # def as_json(options = {})
-  #   super(options).merge(remaining_adult_slots: remaining_adult_slots).merge(remaining_teenager_slots: remaining_teenager_slots)
-  # end
 end
