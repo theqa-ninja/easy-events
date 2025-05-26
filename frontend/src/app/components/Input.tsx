@@ -1,4 +1,5 @@
 import { type FC, type InputHTMLAttributes } from "react";
+import { ErrorMessage } from "./ErrorMessage";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -6,16 +7,19 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   labelSize?: string;
   placeholder?: string;
   type?: string;
+  errorMessage?: string;
+  validationSchema?: any;
 }
 
-export const Input: FC<InputProps> = ({
+export const Input = ({
   label,
   labelSize = "text-md",
   name,
   placeholder,
   type,
+  errorMessage,
   ...props
-}) => {
+}: InputProps) => {
   return (
     <div
       className={
@@ -38,6 +42,7 @@ export const Input: FC<InputProps> = ({
         className="rounded-md bg-background-100 border-1 border-fuchsia-800 p-2"
         {...props}
       />
+      <ErrorMessage message={errorMessage} />
     </div>
   );
 };
