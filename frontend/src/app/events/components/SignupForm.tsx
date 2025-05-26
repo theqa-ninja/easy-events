@@ -28,6 +28,11 @@ export const SignupForm = ({
     is_over_18: string().required("Age is required"),
   });
 
+  const errorKeyValuePairs = [
+    { name: 'user_name', value: "User's name"},
+    { name: 'user_email', value: "User's email"},
+  ]
+
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     validateOnBlur(event, signupSchema, setErrors);
   };
@@ -43,11 +48,16 @@ export const SignupForm = ({
       });
       setErrors({});
       createSignup(eventId, JSON.parse(body))
-      .then(() => {
+      .then(async (response) => {
+        if (!response.id) {
+          const errorData:any = await response;
+          const message = Object.keys(errorData).map((key) => errorKeyValuePairs.find((pair) => pair.name === key)?.value + " " + errorData[key]);
+          throw new Error(message.join() || "Signup failed");
+        }
         setToast({ message: "Signup successful", status: "success" });
       })
-      .catch(() => {
-        setToast({ message: "Signup failed", status: "error" });
+      .catch((error) => {
+        setToast({ message: error.message, status: "error" });
       });
     } catch (validationError: any) {
       const formattedError = validationError.inner.reduce(
