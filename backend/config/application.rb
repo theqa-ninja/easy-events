@@ -26,5 +26,8 @@ module EasyEvents
 
     # Set the application to API-only mode
     config.api_only = true
+    config.session_store :cookie_store, expire_after: 14.days, key: '_food_key'
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use config.session_store, config.session_options
   end
 end
