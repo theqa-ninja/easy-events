@@ -1,20 +1,49 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "../../components/Input";
 import { BinaryRadioInput } from "../../components/BinaryRadioInput";
 import { Button } from "../../components/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Toast } from "../../components/Toast";
+import { object, string, ref } from 'yup';
 
 const RegisterPage = () => {
   const route = useRouter();
-  const [toast, setToast] = React.useState<{message:string, status:"success" | "error"}>();
+  const [toast, setToast] = useState<{message:string, status:"success" | "error"}>();
+  const [errors, setErrors] = useState<{[name: string]: string}>({});
 
-  const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+  let createAccount = object({
+    email: string().email("Invalid email").required("Email is required"),
+    password: string().required("Password is required").length(8, "Password must be at least 8 characters"),
+    password_confirmation: string().required("Password confirmation is required").oneOf([ref('password')], "Passwords must match"),
+    name: string().required("Name is required"),
+    is_over_18: string().required("Age is required"),
+  });
+
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = {[event.target.name]: event.target.value };
+
+    try {
+      await createAccount.validate(value, { abortEarly: false });
+      setErrors({});
+    } catch (validationError: any) {
+      const formattedError = validationError.inner.reduce((acc: any, err: any) => {
+        acc[err.path] = err.message;
+        return acc;
+      }, {});
+      setErrors({[event.target.name]: formattedError[event.target.name]});
+    }
+  };
+
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const body = JSON.stringify(Object.fromEntries(formData));
+    const formDataEntries = Object.fromEntries(formData);
+    try {
+    await createAccount.validate(formDataEntries, { abortEarly: false });
+    setErrors({});
+    const body = JSON.stringify(formDataEntries);
 
     fetch("http://localhost:3000/auth/", {
       method: "POST",
@@ -32,6 +61,13 @@ const RegisterPage = () => {
         setToast({message:"Registration failed", status:"error"});
       }
     }).catch((error) => console.log(error));
+    } catch (validationError: any) {
+      const formattedError = validationError.inner.reduce((acc: any, err: any) => {
+        acc[err.path] = err.message;
+        return acc;
+      }, {});
+      setErrors(formattedError);
+    }
   };
   return (
     <div className="h-screen bg-fuchsia-100 flex items-center justify-center">
@@ -43,12 +79,16 @@ const RegisterPage = () => {
             name="name"
             label="Name"
             placeholder="Firstname Lastname"
+            onBlur={handleChange}
+            errorMessage={errors.name}
           />
           <Input
             name="email"
             label="Email"
             placeholder="youremail@example.com"
             type="email"
+            onBlur={handleChange}
+            errorMessage={errors.email}
           />
           <Input
             name="phone_number"
@@ -62,18 +102,24 @@ const RegisterPage = () => {
             labelA="Yes"
             labelB="No"
             question="Are you over 18?"
+            onBlur={handleChange}
+            errorMessage={errors.is_over_18}
           />
           <Input
             name="password"
             label="Password"
             placeholder="********"
             type="password"
+            onBlur={handleChange}
+            errorMessage={errors.password}
           />
           <Input
             name="password_confirmation"
             label="Password confirmation"
             placeholder="********"
             type="password"
+            onBlur={handleChange}
+            errorMessage={errors.password_confirmation}
           />
         </div>
         <div className="my-4">

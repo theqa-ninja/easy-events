@@ -1,15 +1,38 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import Link from "next/link";
 import { setCookie } from "cookies-next";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Toast } from "../../components/Toast";
+import { object, string } from 'yup';
 
 const LoginPage = () => {
   const route = useRouter();
-  const [toast, setToast] = React.useState<{message:string, status:"success" | "error"}>();
+  const [toast, setToast] = useState<{message:string, status:"success" | "error"}>();
+  const [errors, setErrors] = useState<{[name: string]: string}>({});
+
+  let loginSchema = object({
+    email: string().email("Invalid email").required("Email is required"),
+    password: string().required("Password is required"),
+  });
+
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = {[event.target.name]: event.target.value };
+
+    try {
+      await loginSchema.validate(value, { abortEarly: false });
+      setErrors({});
+    } catch (validationError: any) {
+      const formattedError = validationError.inner.reduce((acc: any, err: any) => {
+        acc[err.path] = err.message;
+        return acc;
+      }, {});
+      setErrors({[event.target.name]: formattedError[event.target.name]});
+    }
+  };
+
   const searchParam = useSearchParams();
 
   const accountConfirmationIsSuccess = searchParam.get('account_confirmation_success') || false;
@@ -20,33 +43,45 @@ const LoginPage = () => {
     }
   }, [accountConfirmationIsSuccess]);
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const body = JSON.stringify(Object.fromEntries(formData));
+    const formDataEntries = Object.fromEntries(formData);
 
-    fetch("http://localhost:3000/auth/sign_in", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: body,
-    }).then((response) => {
-      if(response.ok) {
-        const authorizationToken = response.headers.get('Authorization');
-        if (authorizationToken) {
-          setCookie('token', authorizationToken);
-          setToast({message:"Login successful", status:"success"});
-          route.push('/events');
+    try {
+      await loginSchema.validate(formDataEntries, { abortEarly: false });
+      setErrors({});
+      const body = JSON.stringify(formDataEntries);
+
+      fetch("http://localhost:3000/auth/sign_in", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: body,
+      }).then((response) => {
+        if(response.ok) {
+          const authorizationToken = response.headers.get('Authorization');
+          if (authorizationToken) {
+            setCookie('token', authorizationToken);
+            setToast({message:"Login successful", status:"success"});
+            route.push('/events');
+          }
+        } else {
+          console.log(response);
+          setToast({message:"Login failed", status:"error"});
         }
-      } else {
-        console.log(response);
-        setToast({message:"Login failed", status:"error"});
-      }
-    }).catch((error) => {
-      setToast({message:"Something went wrong", status:"error"});
-      console.log(error)
-    });
+      }).catch((error) => {
+        setToast({message:"Something went wrong", status:"error"});
+        console.log(error)
+      });
+    } catch (validationErrors: any) {
+      const formattedErrors = validationErrors.inner.reduce((acc: any, err: any) => {
+        acc[err.path] = err.message;
+        return acc;
+      }, {});
+      setErrors(formattedErrors);
+    }
   };
 
   return (
@@ -59,12 +94,16 @@ const LoginPage = () => {
             name="email"
             label="Email"
             placeholder="youremail@example.com"
+            errorMessage={errors.email}
+            onBlur={handleChange}
           />
           <Input
             name="password"
             label="Password"
             placeholder="********"
             type="password"
+            errorMessage={errors.password}
+            onBlur={handleChange}
           />
           <Input name="remember_me" label="Remember me" type="checkbox" />
         </div>
