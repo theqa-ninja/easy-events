@@ -1,5 +1,5 @@
 import React from "react";
-import { getEvent, getSignups, ISignup, IEvent } from "../events.service";
+import { getEvent } from "../events.service";
 import { Event } from "../components/Event";
 import { Signup } from "../components/Signup";
 
