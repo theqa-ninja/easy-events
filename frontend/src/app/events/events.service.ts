@@ -144,7 +144,7 @@ export const createSignup = async (
       Authorization: token || "",
     };
     const response = await fetch(
-      `http://localhost:3000/api/v1/events/${id}/signups`,
+      `http://localhost:3000/api/v1/signups/${id}`,
       {
         method: "POST",
         headers,
@@ -160,7 +160,6 @@ export const createSignup = async (
 
 export const editSignup = async (
   id: string,
-  signupId: string,
   signup: ISignup
 ): Promise<ISignup> => {
   try {
@@ -170,7 +169,7 @@ export const editSignup = async (
       Authorization: token || "",
     };
     const response = await fetch(
-      `http://localhost:3000/api/v1/events/${id}/signups/${signupId}`,
+      `http://localhost:3000/api/v1/signups/${id}`,
       {
         method: "PUT",
         headers,
