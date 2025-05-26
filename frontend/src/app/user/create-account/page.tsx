@@ -6,18 +6,25 @@ import { Button } from "../../components/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Toast } from "../../components/Toast";
-import { object, string, ref } from 'yup';
+import { object, string, ref } from "yup";
 import { validateOnBlur } from "../../utilities";
 
 const RegisterPage = () => {
   const route = useRouter();
-  const [toast, setToast] = useState<{message:string, status:"success" | "error"}>();
-  const [errors, setErrors] = useState<{[name: string]: string}>({});
+  const [toast, setToast] = useState<{
+    message: string;
+    status: "success" | "error";
+  }>();
+  const [errors, setErrors] = useState<{ [name: string]: string }>({});
 
   let createAccountSchema = object({
     email: string().email("Invalid email").required("Email is required"),
-    password: string().required("Password is required").length(8, "Password must be at least 8 characters"),
-    password_confirmation: string().required("Password confirmation is required").oneOf([ref('password')], "Passwords must match"),
+    password: string()
+      .required("Password is required")
+      .length(8, "Password must be at least 8 characters"),
+    password_confirmation: string()
+      .required("Password confirmation is required")
+      .oneOf([ref("password")], "Passwords must match"),
     name: string().required("Name is required"),
     is_over_18: string().required("Age is required"),
   });
@@ -31,38 +38,54 @@ const RegisterPage = () => {
     const formData = new FormData(e.currentTarget);
     const formDataEntries = Object.fromEntries(formData);
     try {
-    await createAccountSchema.validate(formDataEntries, { abortEarly: false });
-    setErrors({});
-    const body = JSON.stringify(formDataEntries);
+      await createAccountSchema.validate(formDataEntries, {
+        abortEarly: false,
+      });
+      setErrors({});
+      const body = JSON.stringify(formDataEntries);
 
-    fetch("http://localhost:3000/auth/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: body,
-    }).then((response) => {
-      if(response.ok) {
-        setToast({message:"Registration successful", status:"success"});
-        setTimeout(() => {
-          route.push('/user/login');
-        }, 3000);
-      } else {
-        setToast({message:"Registration failed", status:"error"});
-      }
-    }).catch((error) => console.log(error));
+      fetch("http://localhost:3000/auth/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: body,
+      })
+        .then((response) => {
+          if (response.ok) {
+            setToast({ message: "Registration successful", status: "success" });
+            setTimeout(() => {
+              route.push("/user/login");
+            }, 3000);
+          } else {
+            setToast({ message: "Registration failed", status: "error" });
+          }
+        })
+        .catch((error) => console.log(error));
     } catch (validationError: any) {
-      const formattedError = validationError.inner.reduce((acc: any, err: any) => {
-        acc[err.path] = err.message;
-        return acc;
-      }, {});
+      const formattedError = validationError.inner.reduce(
+        (acc: any, err: any) => {
+          acc[err.path] = err.message;
+          return acc;
+        },
+        {}
+      );
       setErrors(formattedError);
     }
   };
   return (
     <div className="h-screen bg-fuchsia-100 flex items-center justify-center">
-      {toast && <Toast message={toast.message} status={toast.status} onClose={() => setToast(undefined)} />}
-      <form onSubmit={handleRegister} className="bg-background-50 rounded-md px-10 py-10 shadow-md min-w-1/3">
+      {toast && (
+        <Toast
+          message={toast.message}
+          status={toast.status}
+          onClose={() => setToast(undefined)}
+        />
+      )}
+      <form
+        onSubmit={handleRegister}
+        className="bg-background-50 rounded-md px-10 py-10 shadow-md min-w-1/3"
+      >
         <h1 className="text-2xl font-bold mb-8">Create an account</h1>
         <div className="flex flex-col gap-4">
           <Input

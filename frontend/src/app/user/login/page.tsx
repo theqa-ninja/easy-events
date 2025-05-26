@@ -6,13 +6,16 @@ import Link from "next/link";
 import { setCookie } from "cookies-next";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Toast } from "../../components/Toast";
-import { object, string } from 'yup';
+import { object, string } from "yup";
 import { validateOnBlur } from "../../utilities";
 
 const LoginPage = () => {
   const route = useRouter();
-  const [toast, setToast] = useState<{message:string, status:"success" | "error"}>();
-  const [errors, setErrors] = useState<{[name: string]: string}>({});
+  const [toast, setToast] = useState<{
+    message: string;
+    status: "success" | "error";
+  }>();
+  const [errors, setErrors] = useState<{ [name: string]: string }>({});
 
   let loginSchema = object({
     email: string().email("Invalid email").required("Email is required"),
@@ -25,11 +28,15 @@ const LoginPage = () => {
 
   const searchParam = useSearchParams();
 
-  const accountConfirmationIsSuccess = searchParam.get('account_confirmation_success') || false;
+  const accountConfirmationIsSuccess =
+    searchParam.get("account_confirmation_success") || false;
 
   React.useEffect(() => {
     if (accountConfirmationIsSuccess) {
-      setToast({message:"Account confirmation successful", status:"success"});
+      setToast({
+        message: "Account confirmation successful",
+        status: "success",
+      });
     }
   }, [accountConfirmationIsSuccess]);
 
@@ -49,35 +56,49 @@ const LoginPage = () => {
           "Content-Type": "application/json",
         },
         body: body,
-      }).then((response) => {
-        if(response.ok) {
-          const authorizationToken = response.headers.get('Authorization');
-          if (authorizationToken) {
-            setCookie('token', authorizationToken);
-            setToast({message:"Login successful", status:"success"});
-            route.push('/events');
+      })
+        .then((response) => {
+          if (response.ok) {
+            const authorizationToken = response.headers.get("Authorization");
+            if (authorizationToken) {
+              setCookie("token", authorizationToken);
+              setToast({ message: "Login successful", status: "success" });
+              route.push("/events");
+            }
+          } else {
+            console.log(response);
+            setToast({ message: "Login failed", status: "error" });
           }
-        } else {
-          console.log(response);
-          setToast({message:"Login failed", status:"error"});
-        }
-      }).catch((error) => {
-        setToast({message:"Something went wrong", status:"error"});
-        console.log(error)
-      });
+        })
+        .catch((error) => {
+          setToast({ message: "Something went wrong", status: "error" });
+          console.log(error);
+        });
     } catch (validationErrors: any) {
-      const formattedErrors = validationErrors.inner.reduce((acc: any, err: any) => {
-        acc[err.path] = err.message;
-        return acc;
-      }, {});
+      const formattedErrors = validationErrors.inner.reduce(
+        (acc: any, err: any) => {
+          acc[err.path] = err.message;
+          return acc;
+        },
+        {}
+      );
       setErrors(formattedErrors);
     }
   };
 
   return (
     <div className="h-screen bg-fuchsia-100 flex items-center justify-center">
-      {toast && <Toast message={toast.message} status={toast.status} onClose={() => setToast(undefined)} />}
-      <form onSubmit={handleLogin} className="bg-background-50 rounded-md px-10 py-10 shadow-md min-w-1/3">
+      {toast && (
+        <Toast
+          message={toast.message}
+          status={toast.status}
+          onClose={() => setToast(undefined)}
+        />
+      )}
+      <form
+        onSubmit={handleLogin}
+        className="bg-background-50 rounded-md px-10 py-10 shadow-md min-w-1/3"
+      >
         <h1 className="text-2xl font-bold mb-8">Log in</h1>
         <div className="flex flex-col gap-4">
           <Input
@@ -112,7 +133,10 @@ const LoginPage = () => {
           >
             Sign up
           </Link>
-          <Link href="/user/reset-password" className="text-fuchsia-800 leading-5">
+          <Link
+            href="/user/reset-password"
+            className="text-fuchsia-800 leading-5"
+          >
             Forgot your password?
           </Link>
         </div>
