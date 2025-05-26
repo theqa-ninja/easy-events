@@ -67,6 +67,22 @@ export const createEvent = async (event: IEvent): Promise<IEvent> => {
     }
 }
 
+export const editEvent = async (id: string, event: IEvent): Promise<IEvent> => {
+  try {
+        const response = await fetch(`http://localhost:3000/api/v1/events/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(event),
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const getSignup = async (id: string, signupId: string): Promise<ISignup[]> => {
   try {
         const response = await fetch(`http://localhost:3000/api/v1/events/${id}/signups/${signupId}`, {
@@ -101,6 +117,22 @@ export const createSignup = async (id: string, signup: ISignup): Promise<ISignup
   try {
         const response = await fetch(`http://localhost:3000/api/v1/events/${id}/signups`, {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(signup),
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const editSignup = async (id: string, signupId: string, signup: ISignup): Promise<ISignup> => {
+  try {
+        const response = await fetch(`http://localhost:3000/api/v1/events/${id}/signups/${signupId}`, {
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
