@@ -102,7 +102,7 @@ const NewPasswordPage = () => {
           </Link>
           |
           <Link
-            href="/user/register"
+            href="/user/create-account"
             className="leading-5"
           >
             Sign up

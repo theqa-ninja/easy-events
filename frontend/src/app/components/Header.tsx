@@ -10,7 +10,7 @@ export default function Header() {
         </div>
         <div className="flex gap-4">
           <Link href="/user/login">Login</Link>
-          <Link href="/user/register">Create an account</Link>
+          <Link href="/user/create-account">Create an account</Link>
         </div>
       </nav>
     </header>

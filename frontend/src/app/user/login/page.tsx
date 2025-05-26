@@ -117,7 +117,7 @@ const LoginPage = () => {
         </div>
         <div className="flex flex-col gap-2">
           <Link
-            href="/user/register"
+            href="/user/create-account"
             className="text-fuchsia-800 leading-5 mt-4"
           >
             Sign up
