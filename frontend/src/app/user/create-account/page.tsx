@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { Toast } from "../../components/Toast";
 import { object, string, ref } from "yup";
 import { validateOnBlur } from "../../utilities";
+import { error } from "console";
 
 const RegisterPage = () => {
   const route = useRouter();
@@ -51,17 +52,21 @@ const RegisterPage = () => {
         },
         body: body,
       })
-        .then((response) => {
+        .then(async (response) => {
           if (response.ok) {
             setToast({ message: "Registration successful", status: "success" });
             setTimeout(() => {
               route.push("/user/login");
             }, 3000);
           } else {
-            setToast({ message: "Registration failed", status: "error" });
+            const errorData = await response.json();
+            const message = errorData.errors.full_messages.join(", ");
+            throw new Error(message || "Signup failed");
           }
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          setToast({ message: error.message, status: "error" });
+        });
     } catch (validationError: any) {
       const formattedError = validationError.inner.reduce(
         (acc: any, err: any) => {
