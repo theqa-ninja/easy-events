@@ -11,8 +11,11 @@ const EventDetails = async ({params}:{
 
   return (
     <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
-      {eventData && eventData && (
+      {eventData && (
+        <>
         <Event eventData={eventData} />
+        {/* TODO: add volunteer roles here */}
+        </>
       )}
       {eventData && (
         <Signup eventId={id} />
