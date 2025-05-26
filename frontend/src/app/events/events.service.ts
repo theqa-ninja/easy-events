@@ -1,13 +1,14 @@
 import { getToken } from "../utilities";
 
 export interface IEvent {
-  id: number;
   title: string;
   description: string;
   start_time: string;
   end_time: string;
   adult_slots: number;
   teenager_slots: number;
+  team_id: number;
+  creator_id: number;
 }
 
 export interface ISignup {
@@ -92,9 +93,7 @@ export const editEvent = async (id: string, event: IEvent): Promise<IEvent> => {
   }
 };
 
-export const getSignup = async (
-  id: string
-): Promise<ISignup> => {
+export const getSignup = async (id: string): Promise<ISignup> => {
   try {
     const response = await fetch(
       `http://localhost:3000/api/v1/events/${id}/signup`,
@@ -112,9 +111,11 @@ export const getSignup = async (
   }
 };
 
-export const getSignups = async (id: string): Promise<{
-  adults: {filled: number, signups: ISignup[]}, 
-  under_18: {filled: number, signups: ISignup[]}
+export const getSignups = async (
+  id: string
+): Promise<{
+  adults: { filled: number; signups: ISignup[] };
+  under_18: { filled: number; signups: ISignup[] };
 }> => {
   try {
     const token = await getToken();
@@ -171,14 +172,11 @@ export const editSignup = async (
       "Content-Type": "application/json",
       Authorization: token || "",
     };
-    const response = await fetch(
-      `http://localhost:3000/api/v1/events/${id}/signup`,
-      {
-        method: "PUT",
-        headers,
-        body: JSON.stringify(signup),
-      }
-    );
+    const response = await fetch(`http://localhost:3000/api/v1/signups/${id}`, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(signup),
+    });
     const data = await response.json();
     return data;
   } catch (error) {
