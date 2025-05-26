@@ -10,9 +10,9 @@ import { Toast } from "../../components/Toast";
 const LoginPage = () => {
   const route = useRouter();
   const [toast, setToast] = React.useState<{message:string, status:"success" | "error"}>();
+  const searchParam = useSearchParams();
 
-  const accountConfirmationIsSuccess =
-      useSearchParams().get('account_confirmation_success') || false;
+  const accountConfirmationIsSuccess = searchParam.get('account_confirmation_success') || false;
 
   React.useEffect(() => {
     if (accountConfirmationIsSuccess) {
