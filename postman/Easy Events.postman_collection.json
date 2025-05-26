@@ -32,7 +32,7 @@
 								"method": "GET",
 								"header": [
 									{
-										"key": "access-token",
+										"key": "Authorization",
 										"value": "{{access_token}}",
 										"type": "text"
 									}
@@ -59,7 +59,7 @@
 								"method": "GET",
 								"header": [
 									{
-										"key": "access-token",
+										"key": "Authorization",
 										"value": "{{access_token}}",
 										"type": "text"
 									}
@@ -98,13 +98,29 @@
 										"type": "text/javascript",
 										"packages": {}
 									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"",
+											"// this auto-saves the chain_id to the collection variables",
+											"let new_event_id = jsonData.id;",
+											"",
+											"// this auto-saves the message_id to the collection variables",
+											"pm.collectionVariables.set('new_event_id', new_event_id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
 								}
 							],
 							"request": {
 								"method": "POST",
 								"header": [
 									{
-										"key": "access-token",
+										"key": "Authorization",
 										"value": "{{access_token}}",
 										"type": "text"
 									}
@@ -157,7 +173,7 @@
 								"method": "PATCH",
 								"header": [
 									{
-										"key": "access-token",
+										"key": "Authorization",
 										"value": "{{access_token}}",
 										"type": "text"
 									}
@@ -172,7 +188,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{backend_url}}/api/v1/events/1",
+									"raw": "{{backend_url}}/api/v1/events/{{new_event_id}}",
 									"host": [
 										"{{backend_url}}"
 									],
@@ -180,7 +196,7 @@
 										"api",
 										"v1",
 										"events",
-										"1"
+										"{{new_event_id}}"
 									]
 								}
 							},
@@ -204,22 +220,13 @@
 								"method": "DELETE",
 								"header": [
 									{
-										"key": "access-token",
+										"key": "Authorization",
 										"value": "{{access_token}}",
 										"type": "text"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "{{backend_url}}/api/v1/events/1",
+									"raw": "{{backend_url}}/api/v1/events/{{new_event_id}}",
 									"host": [
 										"{{backend_url}}"
 									],
@@ -227,7 +234,7 @@
 										"api",
 										"v1",
 										"events",
-										"1"
+										"{{new_event_id}}"
 									]
 								}
 							},
@@ -294,7 +301,7 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "access-token",
+								"key": "Authorization",
 								"value": "{{access_token}}",
 								"type": "text"
 							}
@@ -364,6 +371,18 @@
 			"key": "event_id",
 			"value": "1",
 			"type": "string"
+		},
+		{
+			"key": "new_event_id",
+			"value": ""
+		},
+		{
+			"key": "user_auth_key",
+			"value": ""
+		},
+		{
+			"key": "access_token",
+			"value": ""
 		}
 	]
 }

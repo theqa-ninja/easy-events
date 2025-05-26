@@ -66,14 +66,18 @@ module Api
         # check if event is full
         curr_event = Event.find(params[:id])
         return render json: { message: 'Event not found' }, status: :not_found if curr_event.nil?
-        if current_user.nil?
+        if @current_user.nil?
           # fill in from sign up info
           current_user = User.new
-          current_user.email = params[:email]
-          current_user.name = params[:name]
-          current_user.is_over_18 = params[:is_over_18]
-          current_user.phone_number = params[:phone_number]
+        else
+          current_user = @current_user
         end
+        byebug
+
+        current_user.email = params[:email]
+        current_user.name = params[:name]
+        current_user.is_over_18 = params[:is_over_18]
+        current_user.phone_number = params[:phone_number]
 
         # check if the event slots are full
         if current_user.is_over_18
@@ -134,6 +138,7 @@ module Api
       end
 
       def set_permissions
+        @current_user = current_user
         # @user_is_event_coordinator_or_admin = true # uncomment to test authorized areas
         @user_is_event_coordinator_or_admin = current_user && UsersTypesTeam.find_by(user_id: current_user.id)
       end
