@@ -11,7 +11,7 @@ export interface IEvent {
 }
 
 export interface ISignup {
-  id: number;
+  id?: number;
   event_id: number;
   user_id: number;
   role?: string;
@@ -93,12 +93,11 @@ export const editEvent = async (id: string, event: IEvent): Promise<IEvent> => {
 };
 
 export const getSignup = async (
-  id: string,
-  signupId: string
-): Promise<ISignup[]> => {
+  id: string
+): Promise<ISignup> => {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/v1/events/${id}/signups/${signupId}`,
+      `http://localhost:3000/api/v1/events/${id}/signup`,
       {
         method: "GET",
         headers: {
@@ -138,7 +137,7 @@ export const getSignups = async (id: string): Promise<{
 };
 
 export const createSignup = async (
-  id: string,
+  id: number,
   signup: ISignup
 ): Promise<ISignup> => {
   try {
@@ -148,7 +147,7 @@ export const createSignup = async (
       Authorization: token || "",
     };
     const response = await fetch(
-      `http://localhost:3000/api/v1/signups/${id}`,
+      `http://localhost:3000/api/v1/events/${id}/signup`,
       {
         method: "POST",
         headers,
@@ -173,7 +172,7 @@ export const editSignup = async (
       Authorization: token || "",
     };
     const response = await fetch(
-      `http://localhost:3000/api/v1/signups/${id}`,
+      `http://localhost:3000/api/v1/events/${id}/signup`,
       {
         method: "PUT",
         headers,
