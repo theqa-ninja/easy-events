@@ -14,7 +14,6 @@ class ApplicationRecord < ActiveRecord::Base
     save
   end
 
-
   def delete
     set_soft_delete
   end

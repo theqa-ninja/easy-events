@@ -83,12 +83,12 @@ module Api
 
         # check if the event slots are full
         if current_user.is_over_18
-          if (curr_event.remaining_adult_slots === 0) && !@user_is_event_coordinator_or_admin
+          if curr_event.remaining_adult_slots.include?(0) && !@user_is_event_coordinator_or_admin
             # unless they're admin/event coordinator return event is full
             return render json: { message: 'Sorry, this event has reached the maximum adult signups' },
                           status: :precondition_failed
           end
-        elsif (curr_event.remaining_teenager_slots === 0) && !@user_is_event_coordinator_or_admin
+        elsif curr_event.remaining_teenager_slots.include?(0) && !@user_is_event_coordinator_or_admin
           # unless they're admin/event coordinator return event is full
           return render json: { message: 'Sorry, this event has reached the maximum teenager signups' },
                         status: :precondition_failed
