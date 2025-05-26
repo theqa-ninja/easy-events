@@ -38,6 +38,29 @@ export const getToken = async () => {
   return token;
 };
 
+export const validateToken = async () => {
+  const { deleteCookie } = await import("cookies-next");
+
+  return await fetch("http://localhost:3000/auth/validate_token", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: (await getToken()) || "",
+    },
+  })
+    .then((response: Response) => {
+      if (response.statusText === "Unauthorized") {
+        deleteCookie("token");
+        return false;
+      } else if (response.ok) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+    .catch((error: Error) => false);
+};
+
 export const validateOnBlur = async (
   event: React.ChangeEvent<HTMLInputElement>,
   validationSchema: any,
