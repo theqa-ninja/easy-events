@@ -15,7 +15,6 @@ class Event < ApplicationRecord
   end
 
   def remaining_teenager_slots
-    byebug
     remaining = teenager_slots - Signup.where(event_id: id).where(soft_deleted: false).where(user_is_over_18: false).length
     return remaining
   end
