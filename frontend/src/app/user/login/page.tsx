@@ -7,6 +7,7 @@ import { setCookie } from "cookies-next";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Toast } from "../../components/Toast";
 import { object, string } from 'yup';
+import { validateOnBlur } from "../../utilities";
 
 const LoginPage = () => {
   const route = useRouter();
@@ -19,18 +20,7 @@ const LoginPage = () => {
   });
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = {[event.target.name]: event.target.value };
-
-    try {
-      await loginSchema.validate(value, { abortEarly: false });
-      setErrors({});
-    } catch (validationError: any) {
-      const formattedError = validationError.inner.reduce((acc: any, err: any) => {
-        acc[err.path] = err.message;
-        return acc;
-      }, {});
-      setErrors({[event.target.name]: formattedError[event.target.name]});
-    }
+    validateOnBlur(event, loginSchema, setErrors);
   };
 
   const searchParam = useSearchParams();

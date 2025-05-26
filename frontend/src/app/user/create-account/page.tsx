@@ -7,13 +7,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Toast } from "../../components/Toast";
 import { object, string, ref } from 'yup';
+import { validateOnBlur } from "../../utilities";
 
 const RegisterPage = () => {
   const route = useRouter();
   const [toast, setToast] = useState<{message:string, status:"success" | "error"}>();
   const [errors, setErrors] = useState<{[name: string]: string}>({});
 
-  let createAccount = object({
+  let createAccountSchema = object({
     email: string().email("Invalid email").required("Email is required"),
     password: string().required("Password is required").length(8, "Password must be at least 8 characters"),
     password_confirmation: string().required("Password confirmation is required").oneOf([ref('password')], "Passwords must match"),
@@ -22,18 +23,7 @@ const RegisterPage = () => {
   });
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = {[event.target.name]: event.target.value };
-
-    try {
-      await createAccount.validate(value, { abortEarly: false });
-      setErrors({});
-    } catch (validationError: any) {
-      const formattedError = validationError.inner.reduce((acc: any, err: any) => {
-        acc[err.path] = err.message;
-        return acc;
-      }, {});
-      setErrors({[event.target.name]: formattedError[event.target.name]});
-    }
+    validateOnBlur(event, createAccountSchema, setErrors);
   };
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,7 +31,7 @@ const RegisterPage = () => {
     const formData = new FormData(e.currentTarget);
     const formDataEntries = Object.fromEntries(formData);
     try {
-    await createAccount.validate(formDataEntries, { abortEarly: false });
+    await createAccountSchema.validate(formDataEntries, { abortEarly: false });
     setErrors({});
     const body = JSON.stringify(formDataEntries);
 

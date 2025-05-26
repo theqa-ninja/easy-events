@@ -15,25 +15,47 @@
  */
 
 const defaultDateTimeOptions: Intl.DateTimeFormatOptions = {
-    dateStyle: 'long',
-    timeStyle: 'short',
-  };
-  export const formatDateTime = (
-    date: string | number,
-    options: Intl.DateTimeFormatOptions = defaultDateTimeOptions,
-  ) => new Date(date).toLocaleString('en-US', options);
+  dateStyle: "long",
+  timeStyle: "short",
+};
+export const formatDateTime = (
+  date: string | number,
+  options: Intl.DateTimeFormatOptions = defaultDateTimeOptions
+) => new Date(date).toLocaleString("en-US", options);
 
+export const getToken = async () => {
+  let token = "";
+  if (typeof window === "undefined") {
+    const { cookies: serverCookies } = await import("next/headers");
+    const cookieStore = await serverCookies();
+    token = cookieStore
+      ? (await cookieStore.get("token")?.value.toString()) || ""
+      : "";
+  } else {
+    const { getCookie: clientCookies } = await import("cookies-next");
+    token = clientCookies("token")?.toString() || "";
+  }
+  return token;
+};
 
-  export const getToken = async () => {
-    let token = '';
-    if (typeof window === 'undefined') {
-      const { cookies: serverCookies } = await import('next/headers');
-      const cookieStore = await serverCookies();
-      token = cookieStore ? await cookieStore.get('token')?.value.toString() || '' : '';
-    } else {
-      const { getCookie: clientCookies } = await import('cookies-next');
-      token = clientCookies('token')?.toString() || '';
-    }
-    return token;
-  };
-  
+export const validateOnBlur = async (
+  event: React.ChangeEvent<HTMLInputElement>,
+  validationSchema: any,
+  setErrors: any
+) => {
+  const value = { [event.target.name]: event.target.value };
+
+  try {
+    await validationSchema.validate(value, { abortEarly: false });
+    setErrors({});
+  } catch (validationError: any) {
+    const formattedError = validationError.inner.reduce(
+      (acc: any, err: any) => {
+        acc[err.path] = err.message;
+        return acc;
+      },
+      {}
+    );
+    setErrors({ [event.target.name]: formattedError[event.target.name] });
+  }
+};
