@@ -1,6 +1,6 @@
 import React from "react";
-import { getSignups } from "../../events.service";
-import { SignupsTable } from "../../components/SignupsTable";
+import { getSignups } from "@/app/events/events.service";
+import { SignupsTable } from "@/app/events/components/SignupsTable";
 
 const EventDetails = async ({
   params,

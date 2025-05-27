@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
-import { createSignup } from "../events.service";
-import { IUser } from "../../user/users.service";
-import { Input } from "../../components/Input";
-import { Textarea } from "../../components/Textarea";
-import { Button } from "@/app/components/Button";
-import { Toast } from "@/app/components/Toast";
 import { object, string } from "yup";
 import { validateOnBlur } from "@/app/utilities";
+import { createSignup } from "@/app/events/events.service";
+import { IUser } from "@/app/user/users.service";
+import { Input } from "@/app/components/Input";
+import { Textarea } from "@/app/components/Textarea";
+import { Button } from "@/app/components/Button";
+import { Toast } from "@/app/components/Toast";
 
 export const SignupForm = ({
   user,

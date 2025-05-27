@@ -1,5 +1,5 @@
-import { IUser } from "../user/users.service";
-import { getToken } from "../utilities";
+import { IUser } from "@/app/user/users.service";
+import { getToken } from "@/app/utilities";
 
 export interface IEvent {
   id?: number;

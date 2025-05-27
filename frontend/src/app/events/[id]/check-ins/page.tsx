@@ -1,6 +1,6 @@
 import React from "react";
-import { getCheckIns } from "../../events.service";
-import { CheckInsTable } from "../../components/CheckInsTable";
+import { getCheckIns } from "@/app/events/events.service";
+import { CheckInsTable } from "@/app/events/components/CheckInsTable";
 
 const EventDetails = async ({
   params,

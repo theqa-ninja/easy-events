@@ -1,10 +1,10 @@
 import React from "react";
-import { getEvent, getSignup, ISignup } from "../../events.service";
+import { getEvent, getSignup, ISignup } from "@/app/events/events.service";
 import { Event } from "../../components/Event";
 import { SignupForm } from "../../components/SignupForm";
 import { validateToken } from "@/app/utilities";
 import Link from "next/link";
-import { IUser } from "../../../user/users.service";
+import { IUser } from "@/app/user/users.service";
 
 const EventDetails = async ({
   params,

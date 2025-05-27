@@ -1,6 +1,6 @@
 import React from "react";
-import { getEvent } from "../events.service";
-import { Event } from "../components/Event";
+import { getEvent } from "@/app/events/events.service";
+import { Event } from "@/app/events/components/Event";
 
 const EventDetails = async ({
   params,

@@ -1,5 +1,5 @@
-import { ISignup } from "../events.service";
 import { Fragment } from "react";
+import { ISignup } from "@/app/events/events.service";
 
 export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
   return (
