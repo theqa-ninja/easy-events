@@ -1,6 +1,7 @@
 import { getToken } from "../utilities";
 
 export interface IEvent {
+  id?: number;
   title: string;
   description: string;
   start_time: string;
@@ -183,3 +184,30 @@ export const editSignup = async (
     throw error;
   }
 };
+
+export const getCheckIns = async (
+  id: string
+): Promise<{
+  adults: ISignup[];
+  under_18: ISignup[];
+}> => {
+  try {
+    const token = await getToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: token || "",
+    };
+    const response = await fetch(
+      `http://localhost:3000/api/v1/events/${id}/checkins`,
+      {
+        method: "GET",
+        headers,
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
