@@ -82,13 +82,14 @@ module Api
         current_user.phone_number = params[:phone_number]
 
         # check if the event slots are full
+        puts "curr_event.remaining_adult_slots: #{curr_event.remaining_adult_slots} curr_event.remaining_teenager_slots: #{curr_event.remaining_teenager_slots}"
         if current_user.is_over_18
-          if curr_event.remaining_adult_slots.include?(0) && !@user_is_event_coordinator_or_admin
+          if curr_event.remaining_adult_slots <= 0 && !@user_is_event_coordinator_or_admin
             # unless they're admin/event coordinator return event is full
             return render json: { message: 'Sorry, this event has reached the maximum adult signups' },
                           status: :precondition_failed
           end
-        elsif curr_event.remaining_teenager_slots.include?(0) && !@user_is_event_coordinator_or_admin
+        elsif curr_event.remaining_teenager_slots <= 0 && !@user_is_event_coordinator_or_admin
           # unless they're admin/event coordinator return event is full
           return render json: { message: 'Sorry, this event has reached the maximum teenager signups' },
                         status: :precondition_failed
