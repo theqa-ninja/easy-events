@@ -3,7 +3,7 @@ module Api
     class EventsController < ApplicationController
       before_action :set_permissions
       before_action :redirect_if_not_admin, only: %i[signups check_ins create update destroy]
-      before_action :set_event, only: %i[show signups check_ins update destroy]
+      before_action :set_event, only: %i[show signup signups check_ins update destroy]
 
       # GET /events or /events.json
       def index
@@ -16,6 +16,16 @@ module Api
         return render json: @event, status: :no_content if @event.nil?
 
         render json: @event.as_json, status: :ok
+      end
+
+      # GET /events/1/signup
+      def signup
+        signup = Signup.find_by(
+          event_id: @event.id, 
+          user_email: @current_user.email
+        )
+        return render json: { message: 'Signup not found' }, status: :not_found if signup.nil?
+        render json: signup, status: :ok if signup
       end
 
       # GET /events/1/signups

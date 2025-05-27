@@ -13,10 +13,9 @@ const EventDetails = async ({
   const { id } = await params;
   const eventData = await getEvent(id);
   const signupData = await getSignup(id);
-  const userId = (signupData && signupData?.user_id) || 1;
   const signup: ISignup = {
     event_id: Number(id),
-    user_id: Number(userId),
+    user_id: Number(signupData && signupData?.user_id),
     user_name: (signupData && signupData?.user_name) || "",
     user_email: (signupData && signupData?.user_email) || "",
     user_phone_number: (signupData && signupData?.user_phone_number) || "",
@@ -26,10 +25,17 @@ const EventDetails = async ({
 
   const loggedIn = await validateToken();
 
+  const signedUp = (signup: ISignup) => {
+    if (signup.user_email) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
       {eventData && <Event eventData={eventData} />}
-      <h2>Signup for this event</h2>
       {!loggedIn && (
         <p>
           Would you like to <Link href="/user/login">log in</Link> or{" "}
@@ -37,7 +43,19 @@ const EventDetails = async ({
           your account to signup more quickly in the future?
         </p>
       )}
-      {eventData && <SignupForm signup={signup} eventId={eventData.id} />}
+      {loggedIn && signedUp(signup) ? (
+        <div className="text-left w-full mt-5">
+          <h2>Signup Confirmation</h2>
+          <p>Hi <b>{signup?.user_name}</b>, thank you for signing up. Please check your email for confirmation as well as more info about the event.</p>
+          <p>Here's your contact info on file:<br/>{signup?.user_email} {signup?.user_phone_number}<br/>
+          You are {signup?.user_is_over_18 ? "over 18" : "under 18"}</p>
+          <p>Your notes:<br/>{signup?.notes}</p>
+          <p>Thanks for volunteering!</p>
+          <Link href="/events">Back to events</Link> | <Link href={`/events/{id}/signup/edit`}>Edit your signup</Link>
+        </div>
+      ) : (
+        eventData && <SignupForm signup={signup} eventId={Number(id)} />
+      )}
     </main>
   );
 };

@@ -96,13 +96,16 @@ export const editEvent = async (id: string, event: IEvent): Promise<IEvent> => {
 
 export const getSignup = async (id: string): Promise<ISignup> => {
   try {
+    const token = await getToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: token || "",
+    };
     const response = await fetch(
       `http://localhost:3000/api/v1/events/${id}/signup`,
       {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers
       }
     );
     const data = await response.json();
