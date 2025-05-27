@@ -367,7 +367,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"title\": \"Best Event Ever!\",\n    \"description\": \"the coolest event happening since 2000\",\n    \"start_time\": \"{{future_start}}\",\n    \"end_time\": \"{{future_end}}\",\n    \"adult_slots\": 10,\n    \"teenager_slots\": 12,\n    // \"creator_id\": 1, // using the first user for now\n    // \"team_id\": 1 // using the first team for now\n}",
+									"raw": "{\n    \"title\": \"Best Event Ever!\",\n    \"description\": \"the coolest event happening since 2000\",\n    \"start_time\": \"{{future_start}}\",\n    \"end_time\": \"{{future_end}}\",\n    \"adult_slots\": 10,\n    \"teenager_slots\": 12,\n    \"team_id\": 1 //using this as it always exists\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -484,6 +484,185 @@
 				}
 			],
 			"description": "The `/collections` endpoints let you manage your [collections](https://learning.postman.com/docs/sending-requests/intro-to-collections/)."
+		},
+		{
+			"name": "Organization",
+			"item": [
+				{
+					"name": "View All Organizations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{backend_url}}/api/v1/organizations",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"organizations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View one Organization",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{backend_url}}/api/v1/organizations/{{new_org_id}}",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"organizations",
+								"{{new_org_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Organization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"",
+									"// this auto-saves the chain_id to the collection variables",
+									"let new_event_id = jsonData.id;",
+									"",
+									"// this auto-saves the message_id to the collection variables",
+									"pm.collectionVariables.set('new_org_id', new_event_id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test Organization\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/api/v1/organizations/",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"organizations",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Organization",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Vineyard Church EDIT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/api/v1/organizations/{{new_org_id}}",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"organizations",
+								"{{new_org_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Organization",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Vineyard Church EDIT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/api/v1/organizations/{{new_org_id}}",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"organizations",
+								"{{new_org_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -542,6 +721,10 @@
 		},
 		{
 			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "new_org_id",
 			"value": ""
 		}
 	]
