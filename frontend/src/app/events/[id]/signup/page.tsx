@@ -1,16 +1,13 @@
 import React from "react";
-import { getEvent, getSignup, ISignup } from "@/app/events/events.service";
-import { Event } from "../../components/Event";
-import { SignupForm } from "../../components/SignupForm";
-import { validateToken } from "@/app/utilities";
 import Link from "next/link";
+import { getEvent, getSignup, ISignup } from "@/app/events/events.service";
+import { Event } from "@/app/events/components/Event";
+import { SignupForm } from "@/app/events/components/SignupForm";
+import { SignupConfirmation } from "@/app/events/components/SignupConfirmation";
+import { validateToken } from "@/app/utilities";
 import { IUser } from "@/app/user/users.service";
 
-const SignupPage = async ({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) => {
+const SignupPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const eventData = await getEvent(id);
   const signupData = await getSignup(id);
@@ -44,23 +41,10 @@ const SignupPage = async ({
           your account to signup more quickly in the future?
         </p>
       )}
-      {loggedIn && signedUp(signup) === true ? (
-        <div className="text-left w-full mt-5">
-          <h2>Signup Confirmation</h2>
-          <p>Hi <b>{signup?.user_name}</b>, thank you for signing up. Please check your email for confirmation as well as more info about the event.</p>
-          <p>Here's your contact info on file:<br/>{signup?.user_email} {signup?.user_phone_number}<br/>
-          You are {signup?.user_is_over_18 ? "over 18" : "under 18"}</p>
-          <p>Your notes:<br/>{signup?.notes}</p>
-          <p>Thanks for volunteering!</p>
-          <Link href="/events">Back to events</Link> | <Link href={`/events/${id}/signup/edit`}>Edit your signup</Link>
-        </div>
+      {signedUp(signup) === true ? (
+        <SignupConfirmation signup={signup} eventId={Number(id)} />
       ) : (
-        eventData && (
-          <>
-            <h2>Signup for this event</h2>
-            <SignupForm user={signupData} eventId={Number(id)} />
-          </>
-        )
+        eventData && <SignupForm user={signupData} eventId={Number(id)} />
       )}
     </main>
   );
