@@ -9,19 +9,259 @@
 	"item": [
 		{
 			"name": "User",
-			"item": [],
+			"item": [
+				{
+					"name": "Volunteer Sign In",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let auth = pm.response.headers.get('Authorization');",
+									"",
+									"// this auto-saves the message_id to the collection variables",
+									"pm.collectionVariables.set('access_token', auth);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"testuser@example.com\",\n    \"password\": \"passcode\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/auth/sign_in",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"auth",
+								"sign_in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Volunteer User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@postman.com\",\n    \"password\": \"hunter2\",\n    \"name\": \"postman User\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/auth/",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"auth",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
 			"description": "The `/me` endpoints let you manage information about the authenticated user."
 		},
 		{
 			"name": "Events",
 			"item": [
 				{
-					"name": "SignUps",
-					"item": []
+					"name": "Public Calls",
+					"item": [
+						{
+							"name": "Get All Events",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend_url}}/api/v1/events/",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"events",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get an Event",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{backend_url}}/api/v1/events/{{event_id}}",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"events",
+										"{{event_id}}"
+									]
+								},
+								"description": "Gets information about a collection. For a complete list of this endpoint's possible values, use the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json)."
+							},
+							"response": []
+						}
+					]
 				},
 				{
-					"name": "Public Calls",
-					"item": []
+					"name": "SignUps",
+					"item": [
+						{
+							"name": "Create an event signup",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"dude@test.com\",\n    \"name\": \"Booga Last\",\n    \"is_over_18\": false,\n    \"phone_number\": \"867-5309\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend_url}}/api/v1/events/{{event_id}}/signup",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"events",
+										"{{event_id}}",
+										"signup"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "When not signed in",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"dude@test.com\",\n    \"name\": \"Booga Last\",\n    \"is_over_18\": false,\n    \"phone_number\": \"867-5309\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{backend_url}}/api/v1/events/{{event_id}}/signup",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"events",
+												"{{event_id}}",
+												"signup"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "When signed in",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{access_token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"dude+curr_user@test.com\",\n    \"name\": \"Signed In\",\n    \"is_over_18\": false,\n    \"phone_number\": \"234-5678\",\n    \"notes\": \"I was already here\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{backend_url}}/api/v1/events/{{event_id}}/signup",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"events",
+												"{{event_id}}",
+												"signup"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
 				},
 				{
 					"name": "Leads only",
@@ -127,7 +367,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"title\": \"Best Event Ever!\",\n    \"description\": \"the coolest event happening since 2000\",\n    \"start_time\": \"{{future_start}}\",\n    \"end_time\": \"{{future_end}}\",\n    \"adult_slots\": 10,\n    \"teenager_slots\": 12,\n    \"creator_id\": 1, // using the first user for now\n    \"team_id\": 1 // using the first team for now\n}",
+									"raw": "{\n    \"title\": \"Best Event Ever!\",\n    \"description\": \"the coolest event happening since 2000\",\n    \"start_time\": \"{{future_start}}\",\n    \"end_time\": \"{{future_end}}\",\n    \"adult_slots\": 10,\n    \"teenager_slots\": 12,\n    // \"creator_id\": 1, // using the first user for now\n    // \"team_id\": 1 // using the first team for now\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -241,86 +481,6 @@
 							"response": []
 						}
 					]
-				},
-				{
-					"name": "Get an Event",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{backend_url}}/api/v1/events/{{event_id}}",
-							"host": [
-								"{{backend_url}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"events",
-								"{{event_id}}"
-							]
-						},
-						"description": "Gets information about a collection. For a complete list of this endpoint's possible values, use the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json)."
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Events",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{backend_url}}/api/v1/events/",
-							"host": [
-								"{{backend_url}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"events",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "View All Checkins",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{access_token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{backend_url}}/api/v1/events/1/checkins",
-							"host": [
-								"{{backend_url}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"events",
-								"1",
-								"checkins"
-							]
-						}
-					},
-					"response": []
 				}
 			],
 			"description": "The `/collections` endpoints let you manage your [collections](https://learning.postman.com/docs/sending-requests/intro-to-collections/)."
