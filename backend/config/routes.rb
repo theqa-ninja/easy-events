@@ -10,14 +10,13 @@ Rails.application.routes.draw do
           post 'signup', to: 'events#create_signup' # volunteer signing up
           patch 'signup', to: 'events#update_signup' # TODO: volunteer updating signup
           delete 'signup', to: 'events#destroy_signup' # TODO: volunteer deleting signup
-          # resources :signup, only: [:show, :create, :update, :destroy], shallow: true
         end
       end
+      resources :organizations, only: [:index, :show, :create, :update, :destroy]
     end
   end
   # resources :signups, only: [:index, :show, :edit, :create, :update, :destroy]
   resources :volunteer_roles
-  resources :organizations
   resources :users_types_teams
 
   # get '/events', to: 'api/v1/events#index'

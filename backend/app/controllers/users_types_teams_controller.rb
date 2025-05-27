@@ -72,6 +72,7 @@ class UsersTypesTeamsController < ApplicationController
     def set_permissions
       if current_user
         @user_type_team = UsersTypesTeam.find_by(user_id: current_user.id)
+        # TODO: we need to confirm they're in the right organization
         @user_is_admin = @user_type_team&.user_type == "admin"
       end
       redirect_to events_path if !@user_is_admin
