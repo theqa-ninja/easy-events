@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { object, string } from "yup";
 import { validateOnBlur } from "@/app/utilities";
-import { createSignup } from "@/app/events/events.service";
+import { createSignup, editEvent, editSignup, ISignup } from "@/app/events/events.service";
 import { IUser } from "@/app/user/users.service";
 import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
@@ -11,9 +11,11 @@ import { Toast } from "@/app/components/Toast";
 
 export const SignupForm = ({
   user,
+  signupData,
   eventId,
 }: {
-  user: IUser;
+  user?: IUser;
+  signupData?: ISignup;
   eventId: number;
 }) => {
   const [toast, setToast] = useState<{
@@ -47,7 +49,9 @@ export const SignupForm = ({
         abortEarly: false,
       });
       setErrors({});
-      createSignup(eventId, JSON.parse(body))
+      signupData && eventId ?
+        editSignup(eventId.toString(), JSON.parse(body)) :
+        createSignup(eventId, JSON.parse(body))
       .then(async (response) => {
         if (!response.id) {
           const errorData:any = await response;
@@ -83,13 +87,12 @@ export const SignupForm = ({
           onClose={() => setToast(undefined)}
         />
       )}
-      <h2>Signup for this event</h2>
       <form onSubmit={submitSignup} className="flex flex-col gap-4 w-100">
         <Input
           type="text"
           name="name"
           placeholder="Name"
-          defaultValue={user.name}
+          defaultValue={user?.name || signupData?.user_name}
           onBlur={handleChange}
           errorMessage={errors.name}
         />
@@ -97,7 +100,7 @@ export const SignupForm = ({
           type="email"
           name="email"
           placeholder="Email"
-          defaultValue={user.email}
+          defaultValue={user?.email || signupData?.user_email}
           onBlur={handleChange}
           errorMessage={errors.email}
         />
@@ -105,7 +108,7 @@ export const SignupForm = ({
           type="tel"
           name="phone_number"
           placeholder="Phone number"
-          defaultValue={user.phone_number}
+          defaultValue={user?.phone_number || signupData?.user_phone_number}
         />
         Are you over 18 years old?
         <div className="flex gap-4">
@@ -115,7 +118,7 @@ export const SignupForm = ({
             value="true"
             label="Yes"
             onBlur={handleChange}
-            defaultChecked={user.is_over_18 === true}
+            defaultChecked={user?.is_over_18 === true || signupData?.user_is_over_18 === true}
             errorMessage={errors.is_over_18}
           />
           <Input 
@@ -124,7 +127,7 @@ export const SignupForm = ({
             value="false"
             label="No"
             onBlur={handleChange}
-            defaultChecked={user.is_over_18 === false}
+            defaultChecked={user?.is_over_18 === false || signupData?.user_is_over_18 === false}
             errorMessage={errors.is_over_18}
           />
         </div>

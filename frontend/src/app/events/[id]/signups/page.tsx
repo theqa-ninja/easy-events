@@ -2,7 +2,7 @@ import React from "react";
 import { getSignups } from "@/app/events/events.service";
 import { SignupsTable } from "@/app/events/components/SignupsTable";
 
-const EventDetails = async ({
+const SignupsPage = async ({
   params,
 }: {
   params: Promise<{ id: string }>;
@@ -21,4 +21,4 @@ const EventDetails = async ({
   );
 };
 
-export default EventDetails;
+export default SignupsPage;

@@ -6,7 +6,7 @@ import { validateToken } from "@/app/utilities";
 import Link from "next/link";
 import { IUser } from "@/app/user/users.service";
 
-const EventDetails = async ({
+const SignupPage = async ({
   params,
 }: {
   params: Promise<{ id: string }>;
@@ -55,10 +55,15 @@ const EventDetails = async ({
           <Link href="/events">Back to events</Link> | <Link href={`/events/${id}/signup/edit`}>Edit your signup</Link>
         </div>
       ) : (
-        eventData && <SignupForm user={signupData} eventId={Number(id)} />
+        eventData && (
+          <>
+            <h2>Signup for this event</h2>
+            <SignupForm user={signupData} eventId={Number(id)} />
+          </>
+        )
       )}
     </main>
   );
 };
 
-export default EventDetails;
+export default SignupPage;

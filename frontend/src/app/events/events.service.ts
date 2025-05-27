@@ -180,8 +180,8 @@ export const editSignup = async (
       "Content-Type": "application/json",
       Authorization: token || "",
     };
-    const response = await fetch(`http://localhost:3000/api/v1/signups/${id}`, {
-      method: "PUT",
+    const response = await fetch(`http://localhost:3000/api/v1/events/${id}/signup`, {
+      method: "PATCH",
       headers,
       body: JSON.stringify(signup),
     });
