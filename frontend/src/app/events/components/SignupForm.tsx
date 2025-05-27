@@ -56,17 +56,6 @@ export const SignupForm = ({
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const body = JSON.stringify(Object.fromEntries(formData));
-    localStorage.setItem(
-      "signup",
-      JSON.stringify({
-        user_name: formData.get("name") || "",
-        user_email: formData.get("email") || "",
-        user_phone_number: formData.get("phone_number") || "",
-        user_is_over_18: formData.get("is_over_18") || "",
-        notes: formData.get("notes") || "",
-        event_id: eventId,
-      })
-    );
 
     try {
       signupSchema.validateSync(Object.fromEntries(formData), {
@@ -88,6 +77,17 @@ export const SignupForm = ({
                 );
                 throw new Error(message.join() || "Signup failed");
               }
+              localStorage.setItem(
+                "signup",
+                JSON.stringify({
+                  user_name: formData.get("name") || "",
+                  user_email: formData.get("email") || "",
+                  user_phone_number: formData.get("phone_number") || "",
+                  user_is_over_18: formData.get("is_over_18") || "",
+                  notes: formData.get("notes") || "",
+                  event_id: eventId,
+                })
+              );
               setToast({ message: "Signup successful", status: "success" });
             })
             .catch((error) => {
