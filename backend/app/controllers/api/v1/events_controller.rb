@@ -21,10 +21,10 @@ module Api
       # GET /events/1/signup
       def signup
         signup = Signup.find_by(
-          event_id: @event.id, 
-          user_email: @current_user.email
+          event_id: @event.id,
+          user_email: current_user.email
         )
-        return render json: @current_user, status: :not_found if signup.nil?
+        return render json: current_user, status: :not_found if signup.nil?
         render json: signup, status: :ok if signup
       end
 
@@ -50,7 +50,8 @@ module Api
 
       # POST /events or /events.json
       def create
-        @event = Event.new(event_params)
+        creator_id = current_user.id
+        @event = Event.new(event_params.merge(creator_id: creator_id))
         if @event.save
           render json: @event, status: :created
         else
@@ -152,7 +153,7 @@ module Api
       end
 
       def set_permissions
-        @current_user = current_user
+        # @current_user = current_user
         # @user_is_event_coordinator_or_admin = true # uncomment to test authorized areas
         @user_is_event_coordinator_or_admin = current_user && UsersTypesTeam.find_by(user_id: current_user.id)
       end

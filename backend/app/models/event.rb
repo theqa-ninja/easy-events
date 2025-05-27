@@ -28,4 +28,8 @@ class Event < ApplicationRecord
       { "role": role.role, "role_id": role.id, "count": signups.where(volunteer_role_id: role.id).count }
     end.to_ary
   end
+
+  def as_json(_options = {})
+    super(methods: %i[remaining_adult_slots remaining_teenager_slots])
+  end
 end
