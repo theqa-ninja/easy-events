@@ -51,7 +51,8 @@ export const SignupForm = ({
       .then(async (response) => {
         if (!response.id) {
           const errorData:any = await response;
-          const message = Object.keys(errorData).map((key) => errorKeyValuePairs.find((pair) => pair.name === key)?.value + " " + errorData[key]);
+          const message = Object.keys(errorData).map((key) => 
+            errorKeyValuePairs.find((pair) => pair.name === key)?.value || "" + " " + errorData[key]);
           throw new Error(message.join() || "Signup failed");
         }
         setToast({ message: "Signup successful", status: "success" });
