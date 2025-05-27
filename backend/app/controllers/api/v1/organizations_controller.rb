@@ -65,7 +65,6 @@ module Api
       end
 
       def redirect_if_not_admin
-        byebug
         return if current_user.admin?(@current_organization.id)
 
         render json: { message: 'You are not high enough to do that' },
