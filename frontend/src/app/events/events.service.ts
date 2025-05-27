@@ -1,3 +1,4 @@
+import { IUser } from "../user/users.service";
 import { getToken } from "../utilities";
 
 export interface IEvent {
@@ -94,7 +95,7 @@ export const editEvent = async (id: string, event: IEvent): Promise<IEvent> => {
   }
 };
 
-export const getSignup = async (id: string): Promise<ISignup> => {
+export const getSignup = async (id: string): Promise<any> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {
@@ -109,7 +110,10 @@ export const getSignup = async (id: string): Promise<ISignup> => {
       }
     );
     const data = await response.json();
-    return data;
+    if (data.status === "not_found") {
+      return data as IUser;
+    }
+    return data as ISignup;
   } catch (error) {
     throw error;
   }

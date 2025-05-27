@@ -1,19 +1,19 @@
 "use client";
 import { useState } from "react";
-import { createSignup, ISignup } from "../events.service";
+import { createSignup } from "../events.service";
+import { IUser } from "../../user/users.service";
 import { Input } from "../../components/Input";
 import { Textarea } from "../../components/Textarea";
-import { BinaryRadioInput } from "@/app/components/BinaryRadioInput";
 import { Button } from "@/app/components/Button";
 import { Toast } from "@/app/components/Toast";
 import { object, string } from "yup";
 import { validateOnBlur } from "@/app/utilities";
 
 export const SignupForm = ({
-  signup,
+  user,
   eventId,
 }: {
-  signup: ISignup;
+  user: IUser;
   eventId: number;
 }) => {
   const [toast, setToast] = useState<{
@@ -56,6 +56,9 @@ export const SignupForm = ({
           throw new Error(message.join() || "Signup failed");
         }
         setToast({ message: "Signup successful", status: "success" });
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       })
       .catch((error) => {
         setToast({ message: error.message, status: "error" });
@@ -86,7 +89,7 @@ export const SignupForm = ({
           type="text"
           name="name"
           placeholder="Name"
-          defaultValue={signup.user_name}
+          defaultValue={user.name}
           onBlur={handleChange}
           errorMessage={errors.name}
         />
@@ -94,7 +97,7 @@ export const SignupForm = ({
           type="email"
           name="email"
           placeholder="Email"
-          defaultValue={signup.user_email}
+          defaultValue={user.email}
           onBlur={handleChange}
           errorMessage={errors.email}
         />
@@ -102,24 +105,32 @@ export const SignupForm = ({
           type="tel"
           name="phone_number"
           placeholder="Phone number"
-          defaultValue={signup.user_phone_number}
+          defaultValue={user.phone_number}
         />
-        <BinaryRadioInput
-          name="is_over_18"
-          idA="yes"
-          idB="no"
-          labelA="Yes"
-          labelB="No"
-          valueA="true"
-          valueB="false"
-          question="Are you over 18 years old?"
-          onBlur={handleChange}
-          errorMessage={errors.is_over_18}
-        />
+        Are you over 18 years old?
+        <div className="flex gap-4">
+          <Input 
+            type="radio"
+            name="is_over_18"
+            value="true"
+            label="Yes"
+            onBlur={handleChange}
+            defaultChecked={user.is_over_18 === true}
+            errorMessage={errors.is_over_18}
+          />
+          <Input 
+            type="radio"
+            name="is_over_18"
+            value="false"
+            label="No"
+            onBlur={handleChange}
+            defaultChecked={user.is_over_18 === false}
+            errorMessage={errors.is_over_18}
+          />
+        </div>
         <Textarea
           name="notes"
           placeholder="notes..."
-          defaultValue={signup.notes}
         />
 
         <Button type="submit" label="Sign up" />

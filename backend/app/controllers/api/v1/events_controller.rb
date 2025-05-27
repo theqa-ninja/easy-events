@@ -24,7 +24,7 @@ module Api
           event_id: @event.id, 
           user_email: @current_user.email
         )
-        return render json: { message: 'Signup not found' }, status: :not_found if signup.nil?
+        return render json: @current_user, status: :not_found if signup.nil?
         render json: signup, status: :ok if signup
       end
 

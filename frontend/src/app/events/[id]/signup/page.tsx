@@ -4,6 +4,7 @@ import { Event } from "../../components/Event";
 import { SignupForm } from "../../components/SignupForm";
 import { validateToken } from "@/app/utilities";
 import Link from "next/link";
+import { IUser } from "../../../user/users.service";
 
 const EventDetails = async ({
   params,
@@ -29,7 +30,7 @@ const EventDetails = async ({
     if (signup.user_email) {
       return true;
     } else {
-      return false;
+      return signupData as IUser;
     }
   };
 
@@ -43,7 +44,7 @@ const EventDetails = async ({
           your account to signup more quickly in the future?
         </p>
       )}
-      {loggedIn && signedUp(signup) ? (
+      {loggedIn && signedUp(signup) === true ? (
         <div className="text-left w-full mt-5">
           <h2>Signup Confirmation</h2>
           <p>Hi <b>{signup?.user_name}</b>, thank you for signing up. Please check your email for confirmation as well as more info about the event.</p>
@@ -51,10 +52,10 @@ const EventDetails = async ({
           You are {signup?.user_is_over_18 ? "over 18" : "under 18"}</p>
           <p>Your notes:<br/>{signup?.notes}</p>
           <p>Thanks for volunteering!</p>
-          <Link href="/events">Back to events</Link> | <Link href={`/events/{id}/signup/edit`}>Edit your signup</Link>
+          <Link href="/events">Back to events</Link> | <Link href={`/events/${id}/signup/edit`}>Edit your signup</Link>
         </div>
       ) : (
-        eventData && <SignupForm signup={signup} eventId={Number(id)} />
+        eventData && <SignupForm user={signupData} eventId={Number(id)} />
       )}
     </main>
   );
