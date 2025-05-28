@@ -16,7 +16,7 @@ export interface IEvent {
 export interface ISignup {
   id?: number;
   event_id: number;
-  user_id: number;
+  user_id?: number;
   role?: string;
   user_name: string;
   user_email: string;
@@ -25,6 +25,11 @@ export interface ISignup {
   notes?: string;
   checked_in_at?: string;
   cancelled_at?: string;
+}
+
+export interface IVolunteerRole {
+  id: number;
+  name: string;
 }
 
 export const getEvents = async (): Promise<IEvent[]> => {
@@ -213,6 +218,28 @@ export const getCheckIns = async (
     );
     const data = await response.json();
     console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// TODO: update this when volunteer roles are implemented
+export const getVolunteerRoles = async (): Promise<IVolunteerRole[]> => {
+  try {
+    const token = await getToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: token || "",
+    };
+    const response = await fetch(
+      `http://localhost:3000/api/v1/volunteer-roles`,
+      {
+        method: "GET",
+        headers,
+      }
+    );
+    const data = await response.json();
     return data;
   } catch (error) {
     throw error;

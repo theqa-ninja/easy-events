@@ -23,9 +23,14 @@ const Events = async () => {
             <p>Total teenager volunteers needed: {event.teenager_slots}</p>
             {/* TODO: Build remaining slots */}
             <p>{event.description}</p>
-            <Link href={`events/${event.id}/signup`}>
-              Sign up for this event
-            </Link>
+            <nav className="flex gap-4">
+              <Link href={`events/${event.id}/signup`}>
+                Sign up for this event
+              </Link>
+              <Link href={`events/${event.id}/signup/edit`}>
+                Edit your signup
+              </Link>
+            </nav>
           </div>
         ))}
       </div>
