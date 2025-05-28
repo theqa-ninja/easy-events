@@ -13,8 +13,14 @@ Rails.application.routes.draw do
         end
       end
       resources :organizations, only: [:index, :show, :create, :update, :destroy]
+      resources :users do
+        collection do
+          get 'me', to: 'users#me'
+        end
+      end
     end
   end
+
   # resources :signups, only: [:index, :show, :edit, :create, :update, :destroy]
   resources :volunteer_roles
   resources :users_types_teams

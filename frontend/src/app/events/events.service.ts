@@ -10,7 +10,7 @@ export interface IEvent {
   adult_slots: number;
   teenager_slots: number;
   team_id: number;
-  creator_id: number;
+  creator_id?: number;
 }
 
 export interface ISignup {

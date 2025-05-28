@@ -1,5 +1,14 @@
-class UsersController < ApplicationController
+class Api::V1::UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
+
+  def me
+    if current_user
+      render json: current_user
+      # Navigate to /api/v1/users/me to get the current user's info
+    else
+      render json: { error: 'Unauthorized' }, status: :unauthorized
+    end
+  end
 
   # GET /users or /users.json
   def index

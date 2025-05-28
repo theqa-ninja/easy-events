@@ -16,7 +16,7 @@ export const CreateEventForm = () => {
       end_time: formEntries.end_time as string,
       adult_slots: Number(formEntries.adult_slots),
       teenager_slots: Number(formEntries.teenager_slots),
-      creator_id: 1, // TODO: get creator id from logged in user
+      // creator id is set to current_user.id in the events_controller create action
       team_id: Number(formEntries.team_id),
     };
     try {
@@ -28,8 +28,8 @@ export const CreateEventForm = () => {
 
   return (
     <form
-      onSubmit={submitEventInformation}
-      className="flex flex-col gap-4 w-100"
+    onSubmit={submitEventInformation}
+    className="flex flex-col gap-4 w-100"
     >
       <Input
         label="Event Title"
@@ -40,7 +40,7 @@ export const CreateEventForm = () => {
       <Input label="Start" type="datetime-local" name="start_time" />
       <Input label="End" type="datetime-local" name="end_time" />
       <Input
-        label="Adults volunteers needed"
+        label="Adult volunteers needed"
         type="number"
         name="adult_slots"
       />
