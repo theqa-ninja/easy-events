@@ -7,6 +7,11 @@ import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { Toast } from "../../components/Toast";
 import { validateOnBlur } from "@/app/utilities";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "New Password",
+};
 
 const NewPasswordPage = () => {
   const route = useRouter();
@@ -39,7 +44,9 @@ const NewPasswordPage = () => {
     const formDataEntries = Object.fromEntries(formData);
 
     try {
-      await resetPasswordSchema.validate(formDataEntries, { abortEarly: false });
+      await resetPasswordSchema.validate(formDataEntries, {
+        abortEarly: false,
+      });
       setErrors({});
 
       const body = JSON.stringify({

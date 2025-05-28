@@ -6,6 +6,18 @@ import { SignupForm } from "@/app/events/components/SignupForm";
 import { SignupConfirmation } from "@/app/events/components/SignupConfirmation";
 import { validateToken } from "@/app/utilities";
 import { IUser } from "@/app/user/users.service";
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
+  const eventData = await getEvent(id);
+
+  return {
+    title: `Signup for ${eventData?.title}`,
+  };
+}
 
 const SignupPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;

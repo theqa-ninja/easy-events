@@ -3,6 +3,18 @@ import { Event } from "@/app/events/components/Event";
 import { SignupForm } from "@/app/events/components/SignupForm";
 import { validateToken } from "@/app/utilities";
 import Link from "next/link";
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
+  const eventData = await getEvent(id);
+
+  return {
+    title: `Edit your signup for ${eventData?.title}`,
+  };
+}
 
 const EditSignupPage = async ({
   params,

@@ -6,6 +6,11 @@ import Link from "next/link";
 import { Toast } from "../../components/Toast";
 import { object, string } from "yup";
 import { validateOnBlur } from "../../utilities";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Reset Password",
+};
 
 const ResetPasswordPage = () => {
   const [toast, setToast] = useState<{

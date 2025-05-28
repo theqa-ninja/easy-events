@@ -2,6 +2,19 @@ import React from "react";
 import { getEvent } from "@/app/events/events.service";
 import { Event } from "@/app/events/components/Event";
 
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
+  const eventData = await getEvent(id);
+
+  return {
+    title: eventData?.title,
+  };
+}
+
 const EventDetails = async ({
   params,
 }: {

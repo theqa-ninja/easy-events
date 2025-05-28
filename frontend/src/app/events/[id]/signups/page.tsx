@@ -1,6 +1,19 @@
 import React from "react";
 import { getSignups } from "@/app/events/events.service";
 import { SignupsTable } from "@/app/events/components/SignupsTable";
+import { getEvent } from "@/app/events/events.service";
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
+  const eventData = await getEvent(id);
+
+  return {
+    title: `Signups for ${eventData?.title}`,
+  };
+}
 
 const SignupsPage = async ({
   params,
