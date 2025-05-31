@@ -13,7 +13,7 @@ Easy Events is a web app that helps organizations manage their volunteer signups
 While developing this project, we built it to meet the need of a specific organization. That said, we hope that other organizations may find this tool useful and use/repurpose it for their needs. Thus, we have built this with an eye towards multi-tenancy.
 
 ## 🛠️ Tech Stack
-- [React](https://react.dev/) with [TypeScript](https://www.typescriptlang.org/) for the frontend
+- [Next.js](https://nextjs.org/), a [React](https://react.dev/) framework with [TypeScript](https://www.typescriptlang.org/) for the frontend
 - [Ruby on Rails](https://rubyonrails.org/) backend with a [PostgreSQL] database 
 - [Tailwind](https://tailwindcss.com/) for styling components
 - [Yup](https://github.com/jquense/yup) for client-side form validations
@@ -24,14 +24,18 @@ We developed this app using Node version `v23.11.0`.
 
 ```bash
 git clone https://github.com/theqa-ninja/easy-events.git
-cd easy-events
+cd easy-events/frontend
 npm install
 ```
+
+For the backend installation, see [backend README](./backend/README.md)
 
 ## 🔧 Available Scripts
 
 In the project directory, you can run:
 
-`npm install` – Installs packages and dependencies.
+`npm install` – Installs the frontend packages and dependencies.
 
-`npm run dev` – Runs the app in development mode
+`npm run dev` – Runs the frontend in development mode
+
+`bin/rails s` - Runs the backend
