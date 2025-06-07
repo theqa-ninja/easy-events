@@ -23,6 +23,23 @@ export const formatDateTime = (
   options: Intl.DateTimeFormatOptions = defaultDateTimeOptions
 ) => new Date(date).toLocaleString("en-US", options);
 
+/**
+ * format the date and time to a string in the format YYYY-MM-DDTHH:MM
+ * @function
+ * @param {string} date - the date to format such as start_date, end_date
+ * @returns {string} in the format YYYY-MM-DDTHH:MM
+ */
+export const isoDateTime = (date: string) => {
+  const dateObj = new Date(date);
+  const year = dateObj.getFullYear();
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObj.getDate()).padStart(2, "0");
+  const hours = String(dateObj.getHours()).padStart(2, "0");
+  const minutes = String(dateObj.getMinutes()).padStart(2, "0");
+  const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+  return formattedDate;
+};
+
 export const getToken = async () => {
   let token = "";
   if (typeof window === "undefined") {
