@@ -26,20 +26,20 @@ export const Textarea: FC<TextareaProps> = ({
   value,
 }) => {
   return (
-    <>
+    <div>
       {label && (
-        <label htmlFor={name} className="mb-3 block">
+        <label htmlFor={name}>
           {label}
         </label>
       )}
       <textarea
         id={name}
         name={name}
-        className="rounded-md bg-background-100 border-1 border-fuchsia-800 p-2"
+        className="w-full rounded-md bg-background-100 border-1 border-fuchsia-800 p-2"
         placeholder={placeholder}
       >
         {value}
       </textarea>
-    </>
+    </div>
   );
 };

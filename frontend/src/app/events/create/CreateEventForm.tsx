@@ -2,6 +2,7 @@
 import { createEvent, IEvent } from "../events.service";
 import { Input } from "../../components/Input";
 import { Button } from "@/app/components/Button";
+import { Textarea } from "@/app/components/Textarea";
 
 export const CreateEventForm = () => {
   const submitEventInformation = (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,7 +50,7 @@ export const CreateEventForm = () => {
         type="number"
         name="teenager_slots"
       />
-      <Input label="Event description" type="text" name="description" />
+      <Textarea label="Event description" name="description" />
       <Input label="Team ID" type="number" name="team_id" />
 
       <Button type="submit" label="Create event" />
