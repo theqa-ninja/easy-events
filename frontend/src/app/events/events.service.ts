@@ -100,7 +100,7 @@ export const editEvent = async (id: number, event: IEvent): Promise<IEvent> => {
   }
 };
 
-export const getSignup = async (id: string): Promise<any> => {
+export const getSignup = async (id: number): Promise<any> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {

@@ -59,7 +59,6 @@ export const SignupForm = ({
       signupSchema.validateSync(formEntries, {
         abortEarly: false,
       });
-      setErrors({});
       createSignup(eventId, JSON.parse(body))
         .then(async (response) => {
           if (!response.id) {
@@ -113,6 +112,7 @@ export const SignupForm = ({
         <SignupConfirmation signup={localSignup} eventId={eventId} />
       ) : (
         <form onSubmit={submitSignup} className="flex flex-col gap-4 w-100">
+          <h2 className="mt-5">Signup</h2>
           <Input
             type="text"
             name="name"

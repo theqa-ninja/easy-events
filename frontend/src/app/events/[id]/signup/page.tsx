@@ -9,7 +9,7 @@ import { SignupConfirmation } from "./SignupConfirmation";
 export const generateMetadata = async ({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: number }>;
 }) => {
   const { id } = await params;
   const eventData = await getEvent(id);
@@ -19,7 +19,7 @@ export const generateMetadata = async ({
   };
 }
 
-const SignupPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;
   const eventData = await getEvent(id);
   const signupData = await getSignup(id);
