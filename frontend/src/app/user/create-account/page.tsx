@@ -1,4 +1,4 @@
-import { CreateAccountForm } from "@/app/user/components/CreateAccountForm";
+import { CreateAccountForm } from "./CreateAccountForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { Input } from "../../components/Input";
-import { BinaryRadioInput } from "../../components/BinaryRadioInput";
-import { Button } from "../../components/Button";
+import { object, string, ref } from "yup";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Toast } from "../../components/Toast";
-import { object, string, ref } from "yup";
-import { validateOnBlur } from "../../utilities";
+import { validateOnBlur } from "@/app/utilities";
+import { Input } from "@/app/components/Input";
+import { BinaryRadioInput } from "@/app/components/BinaryRadioInput";
+import { Button } from "@/app/components/Button";
+import { Toast } from "@/app/components/Toast";
 
 export const CreateAccountForm = () => {
   const route = useRouter();

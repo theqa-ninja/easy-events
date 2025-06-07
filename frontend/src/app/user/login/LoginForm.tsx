@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { Input } from "../../components/Input";
-import { Button } from "../../components/Button";
-import Link from "next/link";
 import { setCookie } from "cookies-next";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Toast } from "../../components/Toast";
 import { object, string } from "yup";
-import { validateOnBlur } from "../../utilities";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { validateOnBlur } from "@/app/utilities";
+import { Input } from "@/app/components/Input";
+import { Button } from "@/app/components/Button";
+import { Toast } from "@/app/components/Toast";
 
 export const LoginForm = () => {
   const route = useRouter();
