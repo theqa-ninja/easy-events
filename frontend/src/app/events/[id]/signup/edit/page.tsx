@@ -1,6 +1,6 @@
 import { getEvent, getSignup } from "@/app/events/events.service";
 import { Event } from "@/app/events/Event";
-import { SignupForm } from "../SignupForm";
+import { EditSignupForm } from "./EditSignupForm";
 export const generateMetadata = async ({
   params,
 }: {
@@ -26,7 +26,7 @@ const EditSignupPage = async ({
     <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
       {eventData && <Event eventData={eventData} />}
       <h1>Edit signup</h1>
-      {signupData && <SignupForm signupData={signupData} eventId={Number(id)} />}
+      {signupData && <EditSignupForm signupData={signupData} eventId={Number(id)} />}
     </main>
   );
 };
