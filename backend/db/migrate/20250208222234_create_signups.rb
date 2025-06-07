@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CreateSignups < ActiveRecord::Migration[7.1]
   def change
     create_table :signups do |t|

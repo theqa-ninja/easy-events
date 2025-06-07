@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Api
   module V1
     class EventsController < ApplicationController
@@ -79,8 +77,7 @@ module Api
       end
 
       # POST /events/1/signup
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/PerceivedComplexity
+      # rubocop:disable Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/AbcSize, Metrics/CyclomaticComplexity
       def create_signup
         # check if event is full
         curr_event = Event.find(params[:id])
@@ -119,8 +116,7 @@ module Api
           render json: new_signup.errors, status: :unprocessable_entity
         end
       end
-      # rubocop:enable Metrics/MethodLength
-      # rubocop:enable Metrics/PerceivedComplexity
+      # rubocop:enable Metrics/MethodLength, Metrics/PerceivedComplexity, Metrics/AbcSize, Metrics/CyclomaticComplexity
 
       # UPDATE /events/1/signup
       def update_signup

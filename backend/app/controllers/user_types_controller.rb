@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class UserTypesController < ApplicationController
   before_action :set_permissions
   before_action :set_user_type, only: %i[show edit update destroy]

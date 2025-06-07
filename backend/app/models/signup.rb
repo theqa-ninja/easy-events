@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 class Signup < ApplicationRecord
-  has_one :user
-  has_one :volunteer_note
+  has_one :user, dependent: :nullify
+  has_one :volunteer_note, dependent: :nullify
 
   # Every saved signup must have name, email address, and whether the user is over 18
   validates :user_name, :user_email, presence: true

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file should ensure the existence of records required to run the application in every environment (production,
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
@@ -13,6 +11,7 @@
 require 'ffaker'
 
 unless Rails.env.production?
+  # rubocop:disable Metrics/BlockLength
   Rails.logger.debug 'creating organizations...'
   # org = Organization.find_or_create_by!(name: FFaker::Company.unique.name)
   org = Organization.find_or_create_by!(name: 'Vineyard Church')
@@ -109,4 +108,5 @@ unless Rails.env.production?
       Rails.logger.debug "added user #{u_name} to event #{e.title}"
     end
   end
+  # rubocop:enable Metrics/BlockLength
 end
