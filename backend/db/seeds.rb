@@ -15,7 +15,15 @@ if Rails.env != 'production'
   # org = Organization.find_or_create_by!(name: FFaker::Company.unique.name)
   org = Organization.find_or_create_by!(name: 'Vineyard Church')
 
-  user = User.create(email: 'testuser@example.com', name: 'Test User', password: 'passcode', is_over_18: true,
+  user = User.create(email: 'testuser@example.com', name: 'Test SuperAdmin', password: 'passcode', is_over_18: true,
+                     phone_number: '867-5309', confirmed_at: Time.now)
+  puts "created #{user.email}"
+
+  user = User.create(email: 'testuser+admin@example.com', name: 'Test Admin', password: 'passcode', is_over_18: true,
+                     phone_number: '867-5309', confirmed_at: Time.now)
+  puts "created #{user.email}"
+
+  user = User.create(email: 'testuser+lead@example.com', name: 'Test Team Lead', password: 'passcode', is_over_18: true,
                      phone_number: '867-5309', confirmed_at: Time.now)
   puts "created #{user.email}"
 
