@@ -24,6 +24,7 @@ export const Textarea: FC<TextareaProps> = ({
   name,
   placeholder,
   value,
+  ...props
 }) => {
   return (
     <div>
@@ -37,6 +38,7 @@ export const Textarea: FC<TextareaProps> = ({
         name={name}
         className="w-full rounded-md bg-background-100 border-1 border-fuchsia-800 p-2"
         placeholder={placeholder}
+        {...props}
       >
         {value}
       </textarea>

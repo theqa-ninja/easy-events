@@ -1,7 +1,5 @@
-import React from "react";
 import { getEvent } from "@/app/events/events.service";
-import { Event } from "@/app/events/Event";
-import { EventLinks } from "./EventLinks";
+import { EditEventForm } from "./EditEventForm";
 
 export const generateMetadata = async ({
   params,
@@ -16,20 +14,21 @@ export const generateMetadata = async ({
   };
 }
 
-const EventDetails = async ({
+const EditEventPage = async ({
   params,
 }: {
   params: Promise<{ id: number }>;
 }) => {
   const { id } = await params;
-  const eventData = await getEvent(id);
+  const eventId = Number(id);
+  const eventData = await getEvent(eventId);
 
   return (
     <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
-      {eventData && <Event eventData={eventData} />}
-      <EventLinks eventId={Number(id)} />
+      <h1>Edit Event</h1>
+      <EditEventForm eventData={eventData} />
     </main>
   );
-};
+}
 
-export default EventDetails;
+export default EditEventPage;

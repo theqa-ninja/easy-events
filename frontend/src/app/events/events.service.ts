@@ -47,7 +47,7 @@ export const getEvents = async (): Promise<IEvent[]> => {
   }
 };
 
-export const getEvent = async (id: string): Promise<IEvent> => {
+export const getEvent = async (id: number): Promise<IEvent> => {
   try {
     const response = await fetch(`http://localhost:3000/api/v1/events/${id}`, {
       method: "GET",
@@ -81,7 +81,7 @@ export const createEvent = async (event: IEvent): Promise<IEvent> => {
   }
 };
 
-export const editEvent = async (id: string, event: IEvent): Promise<IEvent> => {
+export const editEvent = async (id: number, event: IEvent): Promise<IEvent> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {
