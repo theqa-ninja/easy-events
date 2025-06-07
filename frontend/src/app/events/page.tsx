@@ -2,6 +2,7 @@ import React from "react";
 import { getEvents } from "./events.service";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { SignupLinks } from "./SignupLinks";
 
 export const metadata: Metadata = {
   title: "Upcoming Events",
@@ -24,12 +25,7 @@ const Events = async () => {
             {/* TODO: Build remaining slots */}
             <p>{event.description}</p>
             <nav className="flex gap-4">
-              <Link href={`events/${event.id}/signup`}>
-                Sign up for this event
-              </Link>
-              <Link href={`events/${event.id}/signup/edit`}>
-                Edit your signup
-              </Link>
+              <SignupLinks eventId={Number(event.id)} />
             </nav>
           </div>
         ))}

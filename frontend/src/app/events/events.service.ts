@@ -245,3 +245,28 @@ export const getVolunteerRoles = async (): Promise<IVolunteerRole[]> => {
     throw error;
   }
 }
+
+export const hasUserSignedUp = async (
+  id: number
+): Promise<boolean> => {
+  try {
+    const token = await getToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: token || "",
+    };
+    const response = await fetch(
+      `http://localhost:3000/api/v1/events/${id}/signup`,
+      {
+        method: "GET",
+        headers
+      }
+    );
+    if (response.status === 404) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    throw error;
+  }
+};
