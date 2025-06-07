@@ -36,6 +36,7 @@ if Rails.env != 'production'
   # end
 
   puts 'creating user types...'
+  UserType.find_or_create_by!(role: 'Superadmin')
   UserType.find_or_create_by!(role: 'Admin')
   UserType.find_or_create_by!(role: 'Event Coordinator')
 
@@ -45,6 +46,8 @@ if Rails.env != 'production'
   UsersTypesTeam.find_or_create_by!(user_id: User.second.id, organization_id: org.id, team_id: Team.second.id,
                                     user_type_id: UserType.second.id)
   puts "made #{User.second.email} as a #{UserType.second.role} for #{org.name} on Team: #{Team.second.name}"
+
+  puts "made #{User.third.email} as a #{UserType.third.role} for #{org.name} on Team: #{Team.first.name}"
 
   puts "creating volunteer roles for team #{Team.first.name}"
   VolunteerRole.find_or_create_by!(role: 'Cart Runner', description: 'Runs the cart to the car', team_id: Team.first.id)
