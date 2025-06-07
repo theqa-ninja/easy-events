@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class SignupsController < ApplicationController
   # before_action :set_permissions
   # before_action :set_signup, only: %i[ show edit update destroy ]

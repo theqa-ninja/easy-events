@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class VolunteerRolesController < ApplicationController
   before_action :set_volunteer_role, only: %i[show edit update destroy]
 

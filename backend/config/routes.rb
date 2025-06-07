@@ -1,5 +1,4 @@
-# frozen_string_literal: true
-
+# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
   namespace :api do
@@ -66,3 +65,4 @@ Rails.application.routes.draw do
   # root "posts#index"
   # root to: "home#index"
 end
+# rubocop:enable Metrics/BlockLength

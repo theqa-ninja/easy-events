@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ApplicationHelper
   def format_date(datetime_string)
     datetime_string.strftime('%B %e, %Y')

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # backend/app/models/event.rb
 class Event < ApplicationRecord
   has_many :signups, dependent: :destroy

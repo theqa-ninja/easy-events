@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 ActionView::Base.field_error_proc = proc do |html_tag, instance_tag|
   fragment = Nokogiri::HTML.fragment(html_tag)
   field = fragment.at('input,select,textarea')
@@ -15,5 +13,6 @@ ActionView::Base.field_error_proc = proc do |html_tag, instance_tag|
            html_tag
          end
 
-  html.html_safe
+  # html.html_safe # rubocop said it's not safe to use html_safe on a string
+  html
 end

@@ -1,9 +1,7 @@
-# frozen_string_literal: true
-
 class UsersTypesController < ApplicationController
   # TODO: I think this whole section should be deleted
   before_action :redirect_if_not_admin
-  before_action :set_users_types_team, only: %i[show edit update destroy]
+  before_action :set_users_types_team, only: %i[show update destroy]
 
   # GET /users_types_teams or /users_types_teams.json
   def index
