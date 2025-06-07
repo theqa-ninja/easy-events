@@ -3,9 +3,42 @@ import { editEvent, IEvent } from "@/app/events/events.service";
 import { Button } from "@/app/components/Button";
 import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
-import { isoDateTime } from "@/app/utilities";
+import { isoDateTime, validateOnBlur } from "@/app/utilities";
+import { useState } from "react";
+import { Toast } from "@/app/components/Toast";
+import { object, string } from "yup";
 
 export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
+  const [toast, setToast] = useState<{
+    message: string;
+    status: "success" | "error";
+  }>();
+  const [errors, setErrors] = useState<{ [name: string]: string }>({});
+  const eventSchema = object({
+    title: string().required("Event title is required"),
+    description: string().required("Event description is required"),
+    start_time: string().required("Start time is required"),
+    end_time: string().required("End time is required"),
+    adult_slots: string().required("Adult slots is required"),
+    teenager_slots: string().required("Teenager slots is required"),
+    team_id: string().required("Team ID is required"),
+  });
+
+  const errorKeyValuePairs = [
+    { name: "title", value: "Event title" },
+    { name: "description", value: "Description" },
+    { name: "start_time", value: "Start time" },
+    { name: "end_time", value: "End time" },
+    { name: "adult_slots", value: "Adult slots" },
+    { name: "teenager_slots", value: "Teenager slots" },
+    { name: "team_id", value: "Team ID" },
+  ];
+
+  const handleChange = async (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    validateOnBlur(event, eventSchema, setErrors);
+  };
   const submitEventInformation = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -22,62 +55,110 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
       team_id: Number(formEntries.team_id),
     };
     try {
-      editEvent(Number(eventData.id), event);
-    } catch (error) {
-      console.error("Error creating event:", error);
+      eventSchema.validateSync(formEntries, {
+        abortEarly: false,
+      });
+      editEvent(Number(eventData.id), event)
+        .then((response) => {
+          console.log(response);
+          setToast({
+            message: "Event updated",
+            status: "success",
+          });
+        })
+        .catch((error) => {
+          setToast({
+            message: "Error creating event",
+            status: "error",
+          });
+        });
+    } catch (validationError: any) {
+      const formattedError = validationError.inner.reduce(
+        (acc: any, err: any) => {
+          acc[err.path] = err.message;
+          return acc;
+        },
+        {}
+      );
+      setErrors(formattedError);
     }
   };
 
   return (
-    <form
-      onSubmit={submitEventInformation}
-      className="flex flex-col gap-4 w-100"
-    >
-      <Input
-        label="Event Title"
-        type="text"
-        name="title"
-        placeholder="Event Title"
-        defaultValue={eventData?.title}
-      />
-      <Input
-        label="Start"
-        type="datetime-local"
-        name="start_time"
-        defaultValue={eventData?.start_time && isoDateTime(eventData?.start_time)}
-      />
-      <Input
-        label="End"
-        type="datetime-local"
-        name="end_time"
-        defaultValue={eventData?.end_time && isoDateTime(eventData?.end_time)}
-      />
-      <Input
-        label="Adult volunteers needed"
-        type="number"
-        name="adult_slots"
-        defaultValue={eventData?.adult_slots}
-      />
-      <Input
-        label="Teenager volunteers needed"
-        type="number"
-        name="teenager_slots"
-        defaultValue={eventData?.teenager_slots}
-      />
-      <Textarea
-        label="Event description"
-        name="description"
-        defaultValue={eventData?.description}
-      />
-      <Input
-        label="Team ID"
-        type="number"
-        name="team_id"
-        defaultValue={eventData?.team_id}
-      />
+    <>
+      {toast && (
+        <Toast
+          message={toast.message}
+          status={toast.status}
+          onClose={() => setToast(undefined)}
+        />
+      )}
+      <form
+        onSubmit={submitEventInformation}
+        className="flex flex-col gap-4 w-100"
+      >
+        <Input
+          label="Event Title"
+          type="text"
+          name="title"
+          placeholder="Event Title"
+          defaultValue={eventData?.title}
+          onBlur={handleChange}
+          errorMessage={errors.title}
+        />
+        <Input
+          label="Start"
+          type="datetime-local"
+          name="start_time"
+          defaultValue={
+            eventData?.start_time && isoDateTime(eventData?.start_time)
+          }
+          onBlur={handleChange}
+          errorMessage={errors.start_time}
+        />
+        <Input
+          label="End"
+          type="datetime-local"
+          name="end_time"
+          defaultValue={eventData?.end_time && isoDateTime(eventData?.end_time)}
+          onBlur={handleChange}
+          errorMessage={errors.end_time}
+        />
+        <Input
+          label="Adult volunteers needed"
+          type="number"
+          name="adult_slots"
+          defaultValue={eventData?.adult_slots}
+          onBlur={handleChange}
+          errorMessage={errors.adult_slots}
+        />
+        <Input
+          label="Teenager volunteers needed"
+          type="number"
+          name="teenager_slots"
+          defaultValue={eventData?.teenager_slots}
+          onBlur={handleChange}
+          errorMessage={errors.teenager_slots}
+        />
+        <Textarea
+          label="Event description"
+          name="description"
+          defaultValue={eventData?.description}
+          onBlur={handleChange}
+          errorMessage={errors.description}
+        />
+        <Input
+          label="Team ID"
+          type="number"
+          name="team_id"
+          defaultValue={eventData?.team_id}
+          onBlur={handleChange}
+          errorMessage={errors.team_id}
+        />
 
-      <Button type="submit" label="Edit event" />
-    </form>
+        <Button type="submit" label="Edit event" />
+      </form>
+    </>
   );
 };
 

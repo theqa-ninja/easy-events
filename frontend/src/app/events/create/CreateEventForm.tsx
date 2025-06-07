@@ -1,10 +1,35 @@
 "use client";
+import { useState } from "react";
 import { createEvent, IEvent } from "../events.service";
 import { Input } from "../../components/Input";
 import { Button } from "@/app/components/Button";
 import { Textarea } from "@/app/components/Textarea";
+import { Toast } from "@/app/components/Toast";
+import { object, string } from "yup";
+import { validateOnBlur } from "@/app/utilities";
 
 export const CreateEventForm = () => {
+  const [toast, setToast] = useState<{
+    message: string;
+    status: "success" | "error";
+  }>();
+  const [errors, setErrors] = useState<{ [name: string]: string }>({});
+  const eventSchema = object({
+    title: string().required("Event title is required"),
+    description: string().required("Event description is required"),
+    start_time: string().required("Start time is required"),
+    end_time: string().required("End time is required"),
+    adult_slots: string().required("Adult slots is required"),
+    teenager_slots: string().required("Teenager slots is required"),
+    team_id: string().required("Team ID is required"),
+  });
+
+  const handleChange = async (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    validateOnBlur(event, eventSchema, setErrors);
+  };
+
   const submitEventInformation = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -21,39 +46,96 @@ export const CreateEventForm = () => {
       team_id: Number(formEntries.team_id),
     };
     try {
-      createEvent(event);
-    } catch (error) {
-      console.error("Error creating event:", error);
+      eventSchema.validateSync(formEntries, {
+        abortEarly: false,
+      });
+      createEvent(event)
+        .then(async (response) => {
+          setToast({
+            message: "Event created",
+            status: "success",
+          });
+        })
+        .catch((error) => {
+          setToast({ message: error.message, status: "error" });
+        });
+    } catch (validationError: any) {
+      const formattedError = validationError.inner.reduce(
+        (acc: any, err: any) => {
+          acc[err.path] = err.message;
+          return acc;
+        },
+        {}
+      );
+      setErrors(formattedError);
     }
   };
 
   return (
-    <form
-    onSubmit={submitEventInformation}
-    className="flex flex-col gap-4 w-100"
-    >
-      <Input
-        label="Event Title"
-        type="text"
-        name="title"
-        placeholder="Event Title"
-      />
-      <Input label="Start" type="datetime-local" name="start_time" />
-      <Input label="End" type="datetime-local" name="end_time" />
-      <Input
-        label="Adult volunteers needed"
-        type="number"
-        name="adult_slots"
-      />
-      <Input
-        label="Teenager volunteers needed"
-        type="number"
-        name="teenager_slots"
-      />
-      <Textarea label="Event description" name="description" />
-      <Input label="Team ID" type="number" name="team_id" />
+    <>
+      {toast && (
+        <Toast
+          message={toast.message}
+          status={toast.status}
+          onClose={() => setToast(undefined)}
+        />
+      )}
 
-      <Button type="submit" label="Create event" />
-    </form>
+      <form
+        onSubmit={submitEventInformation}
+        className="flex flex-col gap-4 w-100"
+      >
+        <Input
+          label="Event title"
+          type="text"
+          name="title"
+          onBlur={handleChange}
+          errorMessage={errors.title}
+        />
+        <Input
+          label="Start"
+          type="datetime-local"
+          name="start_time"
+          onBlur={handleChange}
+          errorMessage={errors.start_time}
+        />
+        <Input
+          label="End"
+          type="datetime-local"
+          name="end_time"
+          onBlur={handleChange}
+          errorMessage={errors.end_time}
+        />
+        <Input
+          label="Adult volunteers needed"
+          type="number"
+          name="adult_slots"
+          onBlur={handleChange}
+          errorMessage={errors.adult_slots}
+        />
+        <Input
+          label="Teenager volunteers needed"
+          type="number"
+          name="teenager_slots"
+          onBlur={handleChange}
+          errorMessage={errors.teenager_slots}
+        />
+        <Textarea
+          label="Event description"
+          name="description"
+          onBlur={handleChange}
+          errorMessage={errors.description}
+        />
+        <Input
+          label="Team ID"
+          type="number"
+          name="team_id"
+          onBlur={handleChange}
+          errorMessage={errors.team_id}
+        />
+
+        <Button type="submit" label="Create event" />
+      </form>
+    </>
   );
 };

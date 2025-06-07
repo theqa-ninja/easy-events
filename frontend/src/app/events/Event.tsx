@@ -3,7 +3,7 @@ import { formatDateTime } from "../utilities";
 
 export const Event = ({ eventData } : { eventData: IEvent }) => {
   return (
-    <div key={eventData.id}>
+    <div key={eventData.id} className="w-full">
       <h1>{eventData.title}</h1>
       <p>{eventData.description}</p>
       <dl>

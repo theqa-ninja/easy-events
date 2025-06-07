@@ -1,38 +1,27 @@
 import { type FC, type TextareaHTMLAttributes } from "react";
+import { ErrorMessage } from "./ErrorMessage";
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  /**
-   * Textarea label
-   */
   label?: string;
-  /**
-   * Textarea name, also represents the id
-   */
   name: string;
-  /**
-   * Textarea placeholder text
-   */
   placeholder?: string;
-  /**
-   * Textarea value the user enters
-   */
   value?: string;
+  errorMessage?: string;
+  validationSchema?: any;
 }
 
-export const Textarea: FC<TextareaProps> = ({
+export const Textarea = ({
   label,
   name,
   placeholder,
   value,
+  errorMessage,
+  validationSchema,
   ...props
-}) => {
+}: TextareaProps) => {
   return (
     <div>
-      {label && (
-        <label htmlFor={name}>
-          {label}
-        </label>
-      )}
+      {label && <label htmlFor={name}>{label}</label>}
       <textarea
         id={name}
         name={name}
@@ -42,6 +31,7 @@ export const Textarea: FC<TextareaProps> = ({
       >
         {value}
       </textarea>
+      {errorMessage && <ErrorMessage message={errorMessage} />}
     </div>
   );
 };

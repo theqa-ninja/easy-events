@@ -79,7 +79,7 @@ export const validateToken = async () => {
 };
 
 export const validateOnBlur = async (
-  event: React.ChangeEvent<HTMLInputElement>,
+  event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   validationSchema: any,
   setErrors: any
 ) => {

@@ -1,5 +1,6 @@
 import { getEvent } from "@/app/events/events.service";
 import { EditEventForm } from "./EditEventForm";
+import Link from "next/link";
 
 export const generateMetadata = async ({
   params,
@@ -25,6 +26,7 @@ const EditEventPage = async ({
 
   return (
     <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
+      <Link href={`/events/${eventId}`} className="w-100">&lsaquo;&nbsp;Go back to event details</Link>
       <h1>Edit Event</h1>
       <EditEventForm eventData={eventData} />
     </main>
