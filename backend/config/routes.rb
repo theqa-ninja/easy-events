@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
   # resources :signups, only: [:index, :show, :edit, :create, :update, :destroy]
   resources :volunteer_roles
-  resources :users_types_teams
+  # resources :users_types_teams
 
   # get '/events', to: 'api/v1/events#index'
   # get '/events/:id', to: 'api/v1/events#show'
@@ -62,6 +62,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  root to: "home#index"
+  # root to: "home#index"
 
 end
