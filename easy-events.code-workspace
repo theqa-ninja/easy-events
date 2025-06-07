@@ -21,7 +21,7 @@
 		"files.exclude": {
 			"frontend": true,
 			"backend": true,
-			"postman calls": true,
+			"postman": true,
 		}
 	}
 }
