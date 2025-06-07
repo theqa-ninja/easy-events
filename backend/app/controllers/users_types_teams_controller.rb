@@ -1,80 +1,63 @@
-class UsersTypesTeamsController < ApplicationController
-  before_action :set_permissions
+class UsersTypesController < ApplicationController
+  # TODO: I think this whole section should be deleted
+  before_action :redirect_if_not_admin
   before_action :set_users_types_team, only: %i[ show edit update destroy ]
 
   # GET /users_types_teams or /users_types_teams.json
   def index
-    @users_types_teams = UsersTypesTeam.all
+    render json: UsersTypesTeam.where(soft_deleted: false).as_json, status: :ok
   end
 
   # GET /users_types_teams/1 or /users_types_teams/1.json
   def show
-  end
+    return render json: @users_types_team, status: :no_content if @users_types_team.nil?
 
-  # GET /users_types_teams/new
-  def new
-    @users_types_team = UsersTypesTeam.new
-  end
-
-  # GET /users_types_teams/1/edit
-  def edit
+    render json: @users_types_team.as_json, status: :ok
   end
 
   # POST /users_types_teams or /users_types_teams.json
   def create
     @users_types_team = UsersTypesTeam.new(users_types_team_params)
 
-    respond_to do |format|
-      if @users_types_team.save
-        format.html { redirect_to @users_types_team, notice: "Users types team was successfully created." }
-        format.json { render :show, status: :created, location: @users_types_team }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @users_types_team.errors, status: :unprocessable_entity }
-      end
+    if @users_types_team.save
+      render json: @users_types_team, status: :created
+    else
+      render json: @users_types_team.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /users_types_teams/1 or /users_types_teams/1.json
   def update
-    respond_to do |format|
-      if @users_types_team.update(users_types_team_params)
-        format.html { redirect_to @users_types_team, notice: "Users types team was successfully updated." }
-        format.json { render :show, status: :ok, location: @users_types_team }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @users_types_team.errors, status: :unprocessable_entity }
-      end
+    if @users_types_team.update(users_types_team_params)
+      render json: @users_types_team, status: :ok
+    else
+      render json: @users_types_team.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /users_types_teams/1 or /users_types_teams/1.json
   def destroy
-    @users_types_team.destroy!
+    @users_types_team.delete
 
-    respond_to do |format|
-      format.html { redirect_to users_types_teams_path, status: :see_other, notice: "Users types team was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    render json: @users_types_team, status: :accepted
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_users_types_team
-      @users_types_team = UsersTypesTeam.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_users_types_team
+    @users_types_team = UsersTypesTeam.where(soft_deleted: false).where(id: params[:id]).first
+  end
 
-    # Only allow a list of trusted parameters through.
-    def users_types_team_params
-      params.require(:users_types_team).permit(:user_id, :user_type_id, :team_id)
-    end
+  # Only allow a list of trusted parameters through.
+  def users_types_team_params
+    params.require(:users_types_team).permit(:user_id, :user_type_id, :team_id)
+  end
 
-    def set_permissions
-      if current_user
-        @user_type_team = UsersTypesTeam.find_by(user_id: current_user.id)
-        # TODO: we need to confirm they're in the right organization
-        @user_is_admin = @user_type_team&.user_type == "admin"
-      end
-      redirect_to events_path if !@user_is_admin
-    end
+  def redirect_if_not_admin
+    # TODO: do we have @current_organization?
+    return if current_user.admin?(@current_organization.id)
+
+    render json: { message: 'You are not high enough to do that' },
+            status: :unauthorized
+  end
 end
