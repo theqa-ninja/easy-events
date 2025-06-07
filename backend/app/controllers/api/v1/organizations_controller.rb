@@ -1,6 +1,8 @@
 module Api
   module V1
     class OrganizationsController < ApplicationController
+      before_action :authenticate_user!
+      # before_action :set_permissions
       before_action :set_organization
       before_action :redirect_if_not_superadmin, only: %i[index create]
       before_action :redirect_if_not_admin, only: %i[show update destroy]
@@ -56,26 +58,25 @@ module Api
       # Use callbacks to share common setup or constraints between actions.
       def set_organization
         @current_organization = Organization.where(soft_deleted: false).where(id: params[:id]).first
+
+        render json: { message: 'Organization not found' }, status: :not_found if @current_organization.nil?
       end
 
       # Only allow a list of trusted parameters through.
       def organization_params
         params.require(:organization).permit(:name)
-        # params.fetch(:organization, {})
       end
 
       def redirect_if_not_admin
         return if current_user.admin?(@current_organization.id)
 
-        render json: { message: 'You are not high enough to do that' },
-               status: :unauthorized
+        render json: { message: 'You are not high enough to do that' }, status: :unauthorized
       end
 
       def redirect_if_not_superadmin
         return unless current_user.superadmin?
 
-        render json: { message: 'You are not high enough to do that' },
-               status: :unauthorized
+        render json: { message: 'You are not high enough to do that' }, status: :unauthorized
       end
     end
   end

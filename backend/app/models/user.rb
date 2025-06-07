@@ -25,10 +25,10 @@ class User < ApplicationRecord
   end
 
   def admin?(organization_id)
-    result = UsersTypesTeam.where(organization_id: organization_id).find_by(user_id: id)
+    result = UsersTypesTeam.find_by(user_id: id, organization_id: organization_id)
     return false if result.nil?
 
-    %w[Admin Superadmin].include?(result&.user_type_role)
+    %w[Admin Superadmin].include?(result.user_type_role)
   end
 
   def superadmin?
