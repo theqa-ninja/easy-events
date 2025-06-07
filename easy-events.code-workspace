@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"name": "Javascript Frontend",
+			"path": "frontend",
+		},
+		{
+			"name": "Ruby Backend",
+			"path": "backend"
+		},
+		{
+			"name": "Postman calls",
+			"path": "postman"
+		},
+		{
+			"name": "Everything else",
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"frontend": true,
+			"backend": true,
+			"postman calls": true,
+		}
+	}
+}
