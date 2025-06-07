@@ -38,3 +38,7 @@ this way you can redo the columns or foreign keys
 
 ### generate a db + models + tests
 `rails generate scaffold organizations`
+
+## Linter
+
+we're using Rubocop! `rubocop --plugin rubocop-rails` to see what it finds and `rubocop --plugin rubocop-rails -A` to auto-fix those it can
