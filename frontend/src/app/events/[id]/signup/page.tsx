@@ -1,11 +1,11 @@
 import React from "react";
 import Link from "next/link";
 import { getEvent, getSignup, ISignup } from "@/app/events/events.service";
-import { Event } from "@/app/events/components/Event";
-import { SignupForm } from "@/app/events/components/SignupForm";
-import { SignupConfirmation } from "@/app/events/components/SignupConfirmation";
+import { Event } from "@/app/events/Event";
 import { validateToken } from "@/app/utilities";
 import { IUser } from "@/app/user/users.service";
+import { SignupForm } from "./SignupForm";
+import { SignupConfirmation } from "./SignupConfirmation";
 export const generateMetadata = async ({
   params,
 }: {

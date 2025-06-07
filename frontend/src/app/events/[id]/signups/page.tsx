@@ -1,7 +1,6 @@
 import React from "react";
-import { getSignups } from "@/app/events/events.service";
-import { SignupsTable } from "@/app/events/components/SignupsTable";
-import { getEvent } from "@/app/events/events.service";
+import { getSignups, getEvent } from "@/app/events/events.service";
+import { SignupsTable } from "./SignupsTable";
 export const generateMetadata = async ({
   params,
 }: {

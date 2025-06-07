@@ -1,6 +1,6 @@
 import React from "react";
 import { getEvent } from "@/app/events/events.service";
-import { Event } from "@/app/events/components/Event";
+import { Event } from "@/app/events/Event";
 
 export const generateMetadata = async ({
   params,

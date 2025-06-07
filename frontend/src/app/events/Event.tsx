@@ -1,5 +1,5 @@
-import { IEvent } from "../events.service";
-import { formatDateTime } from "../../utilities";
+import { IEvent } from "./events.service";
+import { formatDateTime } from "../utilities";
 
 export const Event = ({ eventData } : { eventData: IEvent }) => {
   return (

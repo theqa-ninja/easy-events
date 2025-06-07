@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ISignup } from "../events.service";
+import { ISignup } from "../../events.service";
 
 export const SignupConfirmation = ({
   signup,

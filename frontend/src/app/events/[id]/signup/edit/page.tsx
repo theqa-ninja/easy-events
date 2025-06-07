@@ -1,6 +1,6 @@
 import { getEvent, getSignup } from "@/app/events/events.service";
-import { Event } from "@/app/events/components/Event";
-import { SignupForm } from "@/app/events/components/SignupForm";
+import { Event } from "@/app/events/Event";
+import { SignupForm } from "../SignupForm";
 export const generateMetadata = async ({
   params,
 }: {
