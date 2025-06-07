@@ -11,32 +11,32 @@
 require 'ffaker'
 
 unless Rails.env.production?
-  # rubocop:disable Metrics/BlockLength
-  Rails.logger.debug 'creating organizations...'
+  # rubocop:disable Metrics/BlockLength, Rails/Output
+  puts 'creating organizations...'
   # org = Organization.find_or_create_by!(name: FFaker::Company.unique.name)
   org = Organization.find_or_create_by!(name: 'Vineyard Church')
 
   user = User.create(email: 'testuser@example.com', name: 'Test SuperAdmin', password: 'passcode', is_over_18: true,
                      phone_number: '867-5309', confirmed_at: Time.zone.now)
-  Rails.logger.debug "created #{user.email}"
+  puts "created #{user.email}"
 
   user = User.create(email: 'testuser+admin@example.com', name: 'Test Admin', password: 'passcode', is_over_18: true,
                      phone_number: '867-5309', confirmed_at: Time.zone.now)
-  Rails.logger.debug "created #{user.email}"
+  puts "created #{user.email}"
 
   user = User.create(email: 'testuser+lead@example.com', name: 'Test Team Lead', password: 'passcode', is_over_18: true,
                      phone_number: '867-5309', confirmed_at: Time.zone.now)
-  Rails.logger.debug "created #{user.email}"
+  puts "created #{user.email}"
 
-  Rails.logger.debug 'creating users...'
+  puts 'creating users...'
   5.times do
     phone_number = FFaker::Boolean.maybe ? FFaker::PhoneNumber.unique.phone_number : ''
     user = User.create(email: FFaker::Internet.unique.email, name: FFaker::Name.unique.name, password: 'passcode',
                        is_over_18: FFaker::Boolean.maybe, phone_number: phone_number, confirmed_at: Time.zone.now)
-    Rails.logger.debug "created #{user.email}"
+    puts "created #{user.email}"
   end
 
-  Rails.logger.debug 'creating teams...'
+  puts 'creating teams...'
   Team.find_or_create_by!(name: 'Food Pantry', organization_id: org.id)
   Team.find_or_create_by!(name: 'Clothes Closet', organization_id: org.id)
   Team.find_or_create_by!(name: 'Resource Center', organization_id: org.id)
@@ -44,21 +44,21 @@ unless Rails.env.production?
   #   Team.find_or_create_by!(name: FFaker::Company.unique.name, organization_id: org.id)
   # end
 
-  Rails.logger.debug 'creating user types...'
+  puts 'creating user types...'
   UserType.find_or_create_by!(role: 'Superadmin')
   UserType.find_or_create_by!(role: 'Admin')
   UserType.find_or_create_by!(role: 'Event Coordinator')
 
-  Rails.logger.debug 'creating user types teams...'
+  puts 'creating user types teams...'
   UsersTypesTeam.find_or_create_by!(user_id: User.first.id, organization_id: org.id, user_type_id: UserType.first.id)
-  Rails.logger.debug "made #{User.first.email} as an #{UserType.first.role} for #{org.name}"
+  puts "made #{User.first.email} as an #{UserType.first.role} for #{org.name}"
   UsersTypesTeam.find_or_create_by!(user_id: User.second.id, organization_id: org.id, team_id: Team.second.id,
                                     user_type_id: UserType.second.id)
-  Rails.logger.debug "made #{User.second.email} as a #{UserType.second.role} for #{org.name} on Team: #{Team.second.name}"
+  puts "made #{User.second.email} as a #{UserType.second.role} for #{org.name} on Team: #{Team.second.name}"
 
-  Rails.logger.debug "made #{User.third.email} as a #{UserType.third.role} for #{org.name} on Team: #{Team.first.name}"
+  puts "made #{User.third.email} as a #{UserType.third.role} for #{org.name} on Team: #{Team.first.name}"
 
-  Rails.logger.debug "creating volunteer roles for team #{Team.first.name}"
+  puts "creating volunteer roles for team #{Team.first.name}"
   VolunteerRole.find_or_create_by!(role: 'Cart Runner', description: 'Runs the cart to the car', team_id: Team.first.id)
   VolunteerRole.find_or_create_by!(role: 'Personal Shopper', description: 'Helps patrons pick out the food',
                                    team_id: Team.first.id)
@@ -66,11 +66,11 @@ unless Rails.env.production?
   VolunteerRole.find_or_create_by!(role: 'Registration', description: 'Checks patrons in', team_id: Team.first.id)
   VolunteerRole.find_or_create_by!(role: 'Greeter', description: 'Greets people', team_id: Team.first.id)
 
-  Rails.logger.debug "creating volunteer roles for team #{Team.second.name}"
+  puts "creating volunteer roles for team #{Team.second.name}"
   VolunteerRole.find_or_create_by!(role: 'Clothes Sorter', team_id: Team.second.id)
   VolunteerRole.find_or_create_by!(role: 'Cashier', team_id: Team.second.id)
 
-  Rails.logger.debug 'creating events...'
+  puts 'creating events...'
   3.times do |i|
     tempdate = DateTime.now - 1.day + i.day
     starttime = FFaker::Time.between(tempdate, tempdate + 1.day)
@@ -85,9 +85,9 @@ unless Rails.env.production?
       team_id: Team.all.where(organization_id: 1).sample.id
     )
 
-    Rails.logger.debug "created Event: #{e.title}"
+    puts "created Event: #{e.title}"
 
-    Rails.logger.debug 'creating sign ups...'
+    puts 'creating sign ups...'
     (3..6).to_a.sample.times do
       if FFaker::Boolean.maybe
         u = User.all.sample
@@ -105,8 +105,8 @@ unless Rails.env.production?
       u_notes = FFaker::FreedomIpsum.sentence if (FFaker::Number.number % 5).zero?
       Signup.create(event_id: e.id, user_id: u_id, user_name: u_name, user_email: u_email,
                     user_phone_number: u_phone_number, user_is_over_18: u_is_over_18, notes: u_notes)
-      Rails.logger.debug "added user #{u_name} to event #{e.title}"
+      puts "added user #{u_name} to event #{e.title}"
     end
   end
-  # rubocop:enable Metrics/BlockLength
+  # rubocop:enable Metrics/BlockLength, Rails/Output
 end
