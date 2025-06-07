@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class SignupGroupsController < ApplicationController
-  before_action :set_signup_group, only: %i[ show edit update destroy ]
+  before_action :set_signup_group, only: %i[show edit update destroy]
 
   # GET /signup_groups or /signup_groups.json
   def index
@@ -7,8 +9,7 @@ class SignupGroupsController < ApplicationController
   end
 
   # GET /signup_groups/1 or /signup_groups/1.json
-  def show
-  end
+  def show; end
 
   # GET /signup_groups/new
   def new
@@ -16,8 +17,7 @@ class SignupGroupsController < ApplicationController
   end
 
   # GET /signup_groups/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /signup_groups or /signup_groups.json
   def create
@@ -25,7 +25,7 @@ class SignupGroupsController < ApplicationController
 
     respond_to do |format|
       if @signup_group.save
-        format.html { redirect_to @signup_group, notice: "Signup group was successfully created." }
+        format.html { redirect_to @signup_group, notice: 'Signup group was successfully created.' }
         format.json { render :show, status: :created, location: @signup_group }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class SignupGroupsController < ApplicationController
   def update
     respond_to do |format|
       if @signup_group.update(signup_group_params)
-        format.html { redirect_to @signup_group, notice: "Signup group was successfully updated." }
+        format.html { redirect_to @signup_group, notice: 'Signup group was successfully updated.' }
         format.json { render :show, status: :ok, location: @signup_group }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,19 +52,22 @@ class SignupGroupsController < ApplicationController
     @signup_group.destroy!
 
     respond_to do |format|
-      format.html { redirect_to signup_groups_path, status: :see_other, notice: "Signup group was successfully destroyed." }
+      format.html do
+        redirect_to signup_groups_path, status: :see_other, notice: 'Signup group was successfully destroyed.'
+      end
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_signup_group
-      @signup_group = SignupGroup.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def signup_group_params
-      params.require(:signup_group).permit(:user_id, :group_name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_signup_group
+    @signup_group = SignupGroup.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def signup_group_params
+    params.require(:signup_group).permit(:user_id, :group_name)
+  end
 end

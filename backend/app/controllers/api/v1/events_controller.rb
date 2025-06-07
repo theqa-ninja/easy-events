@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class EventsController < ApplicationController
@@ -25,6 +27,7 @@ module Api
           user_email: current_user.email
         )
         return render json: current_user, status: :not_found if signup.nil?
+
         render json: signup, status: :ok if signup
       end
 
@@ -76,24 +79,19 @@ module Api
       end
 
       # POST /events/1/signup
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/PerceivedComplexity
       def create_signup
         # check if event is full
         curr_event = Event.find(params[:id])
         return render json: { message: 'Event not found' }, status: :not_found if curr_event.nil?
 
-        current_user = if @current_user.nil?
-                         User.new
-                       else
-                         @current_user
-                       end
+        current_user = @current_user || User.new
 
-        current_user.email = params[:email]
-        current_user.name = params[:name]
-        current_user.is_over_18 = params[:is_over_18]
-        current_user.phone_number = params[:phone_number]
+        current_user.assign_attributes(email: params[:email], name: params[:name], is_over_18: params[:is_over_18],
+                                       phone_number: params[:phone_number])
 
         # check if the event slots are full
-        puts "curr_event.remaining_adult_slots: #{curr_event.remaining_adult_slots} curr_event.remaining_teenager_slots: #{curr_event.remaining_teenager_slots}"
         if current_user.is_over_18
           if curr_event.remaining_adult_slots <= 0 && !@user_is_event_coordinator_or_admin
             # unless they're admin/event coordinator return event is full
@@ -121,6 +119,8 @@ module Api
           render json: new_signup.errors, status: :unprocessable_entity
         end
       end
+      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/PerceivedComplexity
 
       # UPDATE /events/1/signup
       def update_signup

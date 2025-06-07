@@ -1,1 +1,3 @@
-json.partial! "signups/signup", signup: @signup
+# frozen_string_literal: true
+
+json.partial! 'signups/signup', signup: @signup

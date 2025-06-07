@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
   namespace :api do
     namespace :v1 do
-      resources :events, only: [:index, :show, :create, :update, :destroy] do
+      resources :events, only: %i[index show create update destroy] do
         member do
           get 'signups' # get list of all signups
           get 'checkins', to: 'events#check_ins'
@@ -12,7 +14,7 @@ Rails.application.routes.draw do
           delete 'signup', to: 'events#destroy_signup' # TODO: volunteer deleting signup
         end
       end
-      resources :organizations, only: [:index, :show, :create, :update, :destroy]
+      resources :organizations, only: %i[index show create update destroy]
       resources :users do
         collection do
           get 'me', to: 'users#me'
@@ -58,10 +60,9 @@ Rails.application.routes.draw do
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+  get 'up' => 'rails/health#show', as: :rails_health_check
 
   # Defines the root path route ("/")
   # root "posts#index"
   # root to: "home#index"
-
 end

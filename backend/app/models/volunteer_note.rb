@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class VolunteerNote < ApplicationRecord
   belongs_to :user, optional: true
   has_one :author, through: :user

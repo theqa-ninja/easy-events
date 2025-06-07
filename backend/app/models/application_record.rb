@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationRecord < ActiveRecord::Base
   primary_abstract_class
 
@@ -10,7 +12,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   def set_soft_delete
     self.soft_deleted = true
-    self.deleted_at = Time.now
+    self.deleted_at = Time.zone.now
     save
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersTypesTeam < ApplicationRecord
   # Associations
   belongs_to :user

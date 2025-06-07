@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class UserTypesController < ApplicationController
   before_action :set_permissions
-  before_action :set_user_type, only: %i[ show edit update destroy ]
+  before_action :set_user_type, only: %i[show edit update destroy]
 
   # GET /user_types or /user_types.json
   def index
@@ -8,8 +10,7 @@ class UserTypesController < ApplicationController
   end
 
   # GET /user_types/1 or /user_types/1.json
-  def show
-  end
+  def show; end
 
   # GET /user_types/new
   def new
@@ -17,8 +18,7 @@ class UserTypesController < ApplicationController
   end
 
   # GET /user_types/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /user_types or /user_types.json
   def create
@@ -26,7 +26,7 @@ class UserTypesController < ApplicationController
 
     respond_to do |format|
       if @user_type.save
-        format.html { redirect_to @user_type, notice: "User type was successfully created." }
+        format.html { redirect_to @user_type, notice: 'User type was successfully created.' }
         format.json { render :show, status: :created, location: @user_type }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +39,7 @@ class UserTypesController < ApplicationController
   def update
     respond_to do |format|
       if @user_type.update(user_type_params)
-        format.html { redirect_to @user_type, notice: "User type was successfully updated." }
+        format.html { redirect_to @user_type, notice: 'User type was successfully updated.' }
         format.json { render :show, status: :ok, location: @user_type }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -53,27 +53,28 @@ class UserTypesController < ApplicationController
     @user_type.destroy!
 
     respond_to do |format|
-      format.html { redirect_to user_types_path, status: :see_other, notice: "User type was successfully destroyed." }
+      format.html { redirect_to user_types_path, status: :see_other, notice: 'User type was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user_type
-      @user_type = UserType.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def user_type_params
-      params.require(:user_type).permit(:role)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user_type
+    @user_type = UserType.find(params[:id])
+  end
 
-    def set_permissions
-      if current_user
-        @user_type_team = UsersTypesTeam.find_by(user_id: current_user.id)
-        @user_is_admin = @user_type_team&.user_type == "admin"
-      end
-      redirect_to events_path if !@user_is_admin
+  # Only allow a list of trusted parameters through.
+  def user_type_params
+    params.require(:user_type).permit(:role)
+  end
+
+  def set_permissions
+    if current_user
+      @user_type_team = UsersTypesTeam.find_by(user_id: current_user.id)
+      @user_is_admin = @user_type_team&.user_type == 'admin'
     end
+    redirect_to events_path unless @user_is_admin
+  end
 end

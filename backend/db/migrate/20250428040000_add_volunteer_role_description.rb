@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddVolunteerRoleDescription < ActiveRecord::Migration[7.1]
   def change
     add_column :volunteer_roles, :description, :text
