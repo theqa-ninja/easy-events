@@ -509,7 +509,8 @@
 								"v1",
 								"organizations"
 							]
-						}
+						},
+						"description": "only works if superadmin"
 					},
 					"response": []
 				},
@@ -713,10 +714,6 @@
 		},
 		{
 			"key": "new_event_id",
-			"value": ""
-		},
-		{
-			"key": "user_auth_key",
 			"value": ""
 		},
 		{
