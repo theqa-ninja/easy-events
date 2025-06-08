@@ -1,0 +1,20 @@
+Hi <%= @signup.user_name %>,
+
+Here's your volunteering confirmation for <%= @event.title %> on <%= @event.start_time.strftime("%B %d, %Y") %>
+from <%= @event.start_time.strftime("%I:%M %p") %> to <%= @event.end_time.strftime("%I:%M %p") %>.
+<%= @domain == 'localhost' ? "http://#{@domain}:3001/events/#{@event.id}/signup" : "https://#{@domain}/events/#{@event.id}/signup" %>
+
+<%= @event.description %>
+
+Here's the info you signed up with:
+
+Name: <%= @signup.user_name %>
+Email: <%= @signup.user_email %>
+Phone number: <%= @signup.user_phone_number %>
+<% if @signup.user_is_over_18 %>
+You are over 18
+<% else %>
+You are under 18
+<% end %>
+Your notes for the leaders:
+<%= @signup.notes %>

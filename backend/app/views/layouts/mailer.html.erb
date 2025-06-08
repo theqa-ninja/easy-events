@@ -8,6 +8,25 @@
   </head>
 
   <body>
-    <%= yield %>
+    <table width="100%" style="background-color: #ddd;">
+      <tbody>
+        <tr>
+          <td style="text-align: center; padding-top: 40px; padding-bottom: 40px; padding-left: 10px; padding-right: 10px;">
+            <table style="max-width: 600px; width: 100%; background-color: white; border-radius: 10px; box-shadow: 0 0 10px #aaa; text-align: left; margin: auto;">
+              <tbody>
+                <tr>
+                  <td style="color: white; padding: 20px; background-color: #86198f; border-radius: 10px; font-size: 38px; font-family: Arial, Helvetica, sans-serif; line-height: 1.5;">Easy Events</td>
+                </tr>
+                <tr>
+                  <td style="padding: 20px; font-size: 16px; font-family: Arial, Helvetica, sans-serif; line-height: 1.5;">
+                    <%= yield %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          <td>
+        </tr>
+      </tbody>
+    </table>
   </body>
 </html>

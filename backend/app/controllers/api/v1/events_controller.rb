@@ -111,6 +111,7 @@ module Api
                                 })
 
         if new_signup.save
+          SignupMailer.signup_confirmation(new_signup, curr_event, request.domain).deliver_now
           render json: new_signup, status: :created
         else
           render json: new_signup.errors, status: :unprocessable_entity
