@@ -200,7 +200,7 @@ export const editSignup = async (
 };
 
 export const getCheckIns = async (
-  id: string
+  id: number
 ): Promise<{
   adults: ISignup[];
   under_18: ISignup[];
