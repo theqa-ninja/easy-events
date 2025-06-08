@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ISignup } from "../../events.service";
 import { findLocalSignup } from "@/app/utilities";
+import { useRouter } from "next/navigation";
 
 export const SignupConfirmation = ({
   signup,
@@ -12,11 +13,15 @@ export const SignupConfirmation = ({
   eventId: number;
 }) => {
   const [confirmationSignup, setConfirmationSignup] = useState(signup);
+  const router = useRouter();
+
   useEffect(() => {
     if (!signup?.user_email) {
       const localSignup = findLocalSignup(eventId);
       if (localSignup) {
         setConfirmationSignup(localSignup);
+      } else {
+        router.push(`/events/${eventId}`);
       }
     }
   }, [signup]);

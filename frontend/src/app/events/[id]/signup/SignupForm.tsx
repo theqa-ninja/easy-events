@@ -8,7 +8,7 @@ import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
 import { Button } from "@/app/components/Button";
 import { Toast } from "@/app/components/Toast";
-import { SignupConfirmation } from "./SignupConfirmation";
+import { SignupConfirmation } from "../signup-confirmation/SignupConfirmation";
 
 export const SignupForm = ({
   user,
