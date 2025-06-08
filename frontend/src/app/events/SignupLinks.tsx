@@ -1,27 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { hasUserSignedUp, ISignup } from "@/app/events/events.service";
+import { hasUserSignedUp } from "@/app/events/events.service";
+import { findLocalSignup } from "../utilities";
 
 export const SignupLinks = ({ eventId }: { eventId: number }) => {
   const [signedUp, setSignedUp] = useState(false);
-  const findLocalSignup = () => {
-    if (localStorage.getItem("signups")) {
-      const storedSignups = localStorage.getItem("signups");
-      const parsedSignups = JSON.parse(storedSignups || "");
-      const localSignup = parsedSignups.find(
-        (signup: ISignup) => signup.event_id === eventId
-      );
-      return localSignup;
-    }
-  };
   useEffect(() => {
     hasUserSignedUp(eventId).then((res) => {
       if (res === true) {
         setSignedUp(true);
         return;
       } else {
-        const localSignup = findLocalSignup();
+        const localSignup = findLocalSignup(eventId);
         if (localSignup) {
           setSignedUp(true);
           return;

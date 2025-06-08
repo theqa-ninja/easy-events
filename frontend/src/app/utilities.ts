@@ -14,6 +14,8 @@
  * Thursday, December 20, 2012
  */
 
+import { ISignup } from "./events/events.service";
+
 const defaultDateTimeOptions: Intl.DateTimeFormatOptions = {
   dateStyle: "long",
   timeStyle: "short",
@@ -97,5 +99,16 @@ export const validateOnBlur = async (
       {}
     );
     setErrors({ [event.target.name]: formattedError[event.target.name] });
+  }
+};
+
+export const findLocalSignup = (eventId: number) => {
+  if (typeof window !== "undefined" && localStorage.getItem("signups")) {
+    const storedSignups = localStorage.getItem("signups");
+    const parsedSignups = JSON.parse(storedSignups || "");
+    const localSignup = parsedSignups.find(
+      (signup: ISignup) => signup.event_id === Number(eventId)
+    );
+    return localSignup;
   }
 };

@@ -1,14 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { object, string } from "yup";
-import { validateOnBlur } from "@/app/utilities";
+import { findLocalSignup, validateOnBlur } from "@/app/utilities";
 import { editSignup, ISignup } from "@/app/events/events.service";
 import { IUser } from "@/app/user/users.service";
 import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
 import { Button } from "@/app/components/Button";
 import { Toast } from "@/app/components/Toast";
-import { useRouter } from "next/navigation";
 
 export const EditSignupForm = ({
   user,
@@ -38,22 +37,11 @@ export const EditSignupForm = ({
   ];
 
   useEffect(() => {
-    const localSignup = findLocalSignup();
+    const localSignup = findLocalSignup(eventId);
     if (localSignup) {
       setLocalSignup(localSignup);
     }
   }, []);
-
-  const findLocalSignup = () => {
-    if (localStorage.getItem("signups")) {
-      const storedSignups = localStorage.getItem("signups");
-      const parsedSignups = JSON.parse(storedSignups || "");
-      const localSignup = parsedSignups.find(
-        (signup: ISignup) => signup.event_id === eventId
-      );
-      return localSignup;
-    }
-  };
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     validateOnBlur(event, signupSchema, setErrors);
@@ -91,7 +79,7 @@ export const EditSignupForm = ({
             );
             throw new Error(message.join() || "Edit signup failed");
           }
-          const localSignup = findLocalSignup();
+          const localSignup = findLocalSignup(eventId);
           if (localSignup) {
             const parsedSignups = JSON.parse(
               localStorage.getItem("signups") || ""

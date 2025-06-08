@@ -24,16 +24,6 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
     team_id: string().required("Team ID is required"),
   });
 
-  const errorKeyValuePairs = [
-    { name: "title", value: "Event title" },
-    { name: "description", value: "Description" },
-    { name: "start_time", value: "Start time" },
-    { name: "end_time", value: "End time" },
-    { name: "adult_slots", value: "Adult slots" },
-    { name: "teenager_slots", value: "Teenager slots" },
-    { name: "team_id", value: "Team ID" },
-  ];
-
   const handleChange = async (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {

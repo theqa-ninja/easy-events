@@ -4,7 +4,7 @@ import { EditSignupForm } from "./EditSignupForm";
 export const generateMetadata = async ({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: number }>;
 }) => {
   const { id } = await params;
   const eventData = await getEvent(id);
@@ -17,7 +17,7 @@ export const generateMetadata = async ({
 const EditSignupPage = async ({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: number }>;
 }) => {
   const { id } = await params;
   const eventData = await getEvent(id);
@@ -26,7 +26,7 @@ const EditSignupPage = async ({
     <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
       {eventData && <Event eventData={eventData} />}
       <h1>Edit signup</h1>
-      {signupData && <EditSignupForm signupData={signupData} eventId={Number(id)} />}
+      <EditSignupForm signupData={signupData} eventId={Number(id)} />
     </main>
   );
 };

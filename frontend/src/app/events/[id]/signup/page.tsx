@@ -3,9 +3,7 @@ import Link from "next/link";
 import { getEvent, getSignup, ISignup } from "@/app/events/events.service";
 import { Event } from "@/app/events/Event";
 import { validateToken } from "@/app/utilities";
-import { IUser } from "@/app/user/users.service";
-import { SignupForm } from "./SignupForm";
-import { SignupConfirmation } from "./SignupConfirmation";
+import { SignupConfirmationOrForm } from "./SignupConfirmationOrForm";
 export const generateMetadata = async ({
   params,
 }: {
@@ -26,22 +24,14 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const signup: ISignup = {
     event_id: Number(id),
     user_id: Number(signupData && signupData?.user_id),
-    user_name: (signupData && signupData?.user_name) || "",
-    user_email: (signupData && signupData?.user_email) || "",
-    user_phone_number: (signupData && signupData?.user_phone_number) || "",
-    user_is_over_18: (signupData && signupData?.user_is_over_18) || false,
-    notes: (signupData && signupData?.notes) || "",
+    user_name: signupData?.user_name || "",
+    user_email: signupData?.user_email || "",
+    user_phone_number: signupData?.user_phone_number || "",
+    user_is_over_18: signupData?.user_is_over_18 || false,
+    notes: signupData?.notes || "",
   };
 
   const loggedIn = await validateToken();
-
-  const signedUp = (signup: ISignup) => {
-    if (signup.user_email) {
-      return true;
-    } else {
-      return signupData as IUser;
-    }
-  };
 
   return (
     <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
@@ -53,11 +43,12 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
           your account to signup more quickly in the future?
         </p>
       )}
-      {signedUp(signup) === true ? (
-        <SignupConfirmation signup={signup} eventId={Number(id)} />
-      ) : (
-        eventData && <SignupForm user={signupData} eventId={Number(id)} />
-      )}
+      <SignupConfirmationOrForm
+        signup={signup}
+        eventData={eventData}
+        signupData={signupData}
+        id={id}
+      />
     </main>
   );
 };
