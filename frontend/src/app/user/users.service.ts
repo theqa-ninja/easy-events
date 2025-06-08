@@ -5,6 +5,12 @@ export interface IUser {
     email: string;
     phone_number?: string;
     is_over_18: boolean;
+    team_permissions?: ITeamPermission[];
+}
+
+export interface ITeamPermission {
+    team?: string;
+    user_type: string;
 }
 
 export const getUser = async (): Promise<IUser> => {
