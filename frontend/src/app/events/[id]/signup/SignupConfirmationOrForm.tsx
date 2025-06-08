@@ -1,48 +1,26 @@
 "use client";
-import { IUser } from "@/app/user/users.service";
-import { IEvent, ISignup } from "@/app/events/events.service";
-import { SignupConfirmation } from "./SignupConfirmation";
-import { SignupForm } from "./SignupForm";
+import { ISignup } from "@/app/events/events.service";
 import { findLocalSignup } from "@/app/utilities";
-import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export const SignupConfirmationOrForm = ({
   signup,
-  eventData,
-  signupData,
   id,
 }: {
   signup: ISignup;
-  eventData: IEvent;
-  signupData: IUser;
   id: number;
 }) => {
-  const [confirmationData, setConfirmationData] = useState(signup);
-  const [isSignedUp, setIsSignedUp] = useState(false);
   const localSignup = findLocalSignup(id);
+  const router = useRouter();
   const signedUp = (signup: ISignup) => {
     if (signup?.user_email) {
-      setConfirmationData(signup);
-      setIsSignedUp(true);
-      return true;
+      router.push(`/events/${id}/signup-confirmation`);
     } else {
       if (localSignup) {
-        setConfirmationData(localSignup);
-        setIsSignedUp(true);
-        return true;
+        router.push(`/events/${id}/signup-confirmation`);
       }
-      setIsSignedUp(false);
-      return false;
     }
+    return false;
   };
-
-  useEffect(() => {
-    signedUp(signup);
-  }, [signup]);
-
-  return isSignedUp ? (
-    <SignupConfirmation signup={confirmationData} eventId={Number(id)} />
-  ) : (
-    eventData && <SignupForm user={signupData} eventId={Number(id)} />
-  );
+  return signedUp(signup);
 };

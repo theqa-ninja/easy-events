@@ -29,7 +29,7 @@ export const SignupLinks = ({ eventId }: { eventId: number }) => {
       )}
       {signedUp === true && (
         <>
-        <Link href={`events/${eventId}/signup`}>View your signup confirmation</Link>
+        <Link href={`events/${eventId}/signup-confirmation`}>View your signup confirmation</Link>
         <Link href={`events/${eventId}/signup/edit`}>Edit your signup</Link>
         </>
       )}

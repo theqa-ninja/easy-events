@@ -1,10 +1,7 @@
 import React from "react";
-import Link from "next/link";
 import { getEvent, getSignup, ISignup } from "@/app/events/events.service";
 import { Event } from "@/app/events/Event";
-import { validateToken } from "@/app/utilities";
-import { SignupForm } from "./SignupForm";
-import { SignupConfirmationOrForm } from "./SignupConfirmationOrForm";
+import { SignupConfirmation } from "./SignupConfirmation";
 export const generateMetadata = async ({
   params,
 }: {
@@ -18,7 +15,7 @@ export const generateMetadata = async ({
   };
 }
 
-const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
+const SignupConfirmationPage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;
   const eventData = await getEvent(id);
   const signupData = await getSignup(id);
@@ -31,25 +28,16 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
     user_is_over_18: signupData?.user_is_over_18 || false,
     notes: signupData?.notes || "",
   };
-  const loggedIn = await validateToken();
 
   return (
     <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
       {eventData && <Event eventData={eventData} />}
-      {!loggedIn && (
-        <p>
-          Would you like to <Link href="/user/login">log in</Link> or{" "}
-          <Link href="/user/create-account">create an account</Link> to save
-          your account to signup more quickly in the future?
-        </p>
-      )}
-      {<SignupConfirmationOrForm signup={signup} id={Number(id)} />}
-      <SignupForm
+      <SignupConfirmation
+        signup={signup}
         eventId={Number(id)}
-        signupData={signup}
       />
     </main>
   );
 };
 
-export default SignupPage;
+export default SignupConfirmationPage;
