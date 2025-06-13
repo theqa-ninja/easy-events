@@ -199,6 +199,32 @@ export const editSignup = async (
   }
 };
 
+export const getSignupsSignup = async (id: number, signupId: number): Promise<any> => {
+  try {
+    const token = await getToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: token || "",
+    };
+    const response = await fetch(
+      `http://localhost:3000/api/v1/events/${id}/signup/${signupId}`,
+      {
+        method: "GET",
+        headers
+      }
+    );
+    const data = await response.json();
+    if (data.status === "not_found") {
+      return data as IUser;
+    } else if (data.status === 500) {
+      return false;
+    }
+    return data as ISignup;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getCheckIns = async (
   id: number
 ): Promise<{
