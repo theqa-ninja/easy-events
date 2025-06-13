@@ -5,30 +5,28 @@ import { Switch } from "@/app/components/Switch";
 
 export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
   return (
-    <table className="w-full table-fixed">
+    <table className="w-full mb-5">
       <thead>
-        <tr className="bg-foreground-100 border-b-1 border-primary-900 text-left *:p-2">
-          <th>Name</th>
-          <th>Email</th>
-          <th>Phone number</th>
-          <th>Checked in</th>
-          <th>Cancelled</th>
+        <tr className="bg-foreground-100 border-b-1 border-primary-900 text-left *:py-2 *:text-nowrap">
+          <th>Contact</th>
+          <th className="w-25">Checked-in</th>
+          <th className="w-20">Cancelled</th>
         </tr>
       </thead>
       <tbody>
         {signupsData &&
           Object.values(signupsData).map((signup) => (
             <Fragment key={signup.id}>
-              <tr className="*:p-2">
+              <tr className="*:py-2 *:align-top">
                 <td className="font-bold">
                   <Link
                     href={`/events/${signup.event_id}/signups/${signup.id}`}
                   >
                     {signup.user_name}
                   </Link>
+                  <span className="block break-all">{signup.user_email}</span>
+                  <span className="block">{signup.user_phone_number}</span>
                 </td>
-                <td>{signup.user_email}</td>
-                <td>{signup.user_phone_number}</td>
                 <td>
                   {signup.checked_in_at}
                   <Switch
@@ -51,7 +49,7 @@ export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
                 </td>
               </tr>
               <tr className="border-b-1 border-primary-900">
-                <td colSpan={5}>
+                <td colSpan={3} className={signup.notes && "py-2"}>
                   {signup.notes && <b>Notes from volunteer: </b>}
                   {signup.notes}
                 </td>

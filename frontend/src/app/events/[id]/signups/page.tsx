@@ -24,7 +24,7 @@ const SignupsPage = async ({
   const signupsData = await getSignups(id);
 
   return (
-    <main className="m-auto p-4">
+    <main className="m-auto p-4 max-w-4xl">
       <Link href={`/events/${id}`}>&lsaquo;&nbsp;Back to event details</Link>
       <h1 className="text-center">Signups</h1>
       <h2>Adults</h2>
