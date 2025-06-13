@@ -13,19 +13,18 @@ export const generateMetadata = async ({
   return {
     title: `Signups for ${eventData?.title}`,
   };
-}
+};
 
-const SignupsPage = async ({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) => {
+const SignupsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const signupsData = await getSignups(id);
 
   return (
     <main className="m-auto p-4 max-w-4xl">
-      <Link href={`/events/${id}`}>&lsaquo;&nbsp;Back to event details</Link>
+      <menu className="flex gap-4">
+        <Link href={`/events/${id}`}>&lsaquo;&nbsp;Back to event details</Link>
+        <Link href={`/events/${id}/check-ins`}>View check-ins</Link>
+      </menu>
       <h1 className="text-center">Signups</h1>
       <h2>Adults</h2>
       <SignupsTable signupsData={signupsData.adults.signups} />

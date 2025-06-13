@@ -12,8 +12,11 @@ const EventDetails = async ({
   const checkInsData = await getCheckIns(id);
 
   return (
-    <main className="m-auto p-4">
-      <Link href={`/events/${id}`}>&lsaquo;&nbsp;Back to event details</Link>
+    <main className="m-auto p-4 max-w-4xl">
+      <menu className="flex gap-4">
+        <Link href={`/events/${id}`}>&lsaquo;&nbsp;Back to event details</Link>
+        <Link href={`/events/${id}/signups`}>View signups</Link>
+      </menu>
       <h1 className="text-center">Check-ins</h1>
       <h2>Adults</h2>
       <CheckInsTable checkInsData={checkInsData.adults} />
