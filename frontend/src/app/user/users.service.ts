@@ -13,7 +13,7 @@ export interface ITeamPermission {
     user_type: string;
 }
 
-export const getUser = async (): Promise<IUser> => {
+export const getUser = async (): Promise<IUser|undefined> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {
@@ -26,7 +26,29 @@ export const getUser = async (): Promise<IUser> => {
       headers: headers,
     });
     const data = await res.json();
+    if (res.status === 401) {
+      return;
+    }
     return data
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editUser = async (userId: string, userData: IUser): Promise<IUser> => {
+  try {
+    const token = await getToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: token || "",
+    };
+    const response = await fetch(`http://localhost:3000/api/v1/users/${userId}`, {
+      method: "PATCH",
+      headers,
+      body: JSON.stringify(userData),
+    });
+    const data = await response.json();
+    return data;
   } catch (error) {
     throw error;
   }

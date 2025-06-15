@@ -6,7 +6,7 @@ export default async function Home() {
   return (
     <>
       <h1>Welcome to Easy Events</h1>
-      <h2>Hello {user.name}!</h2>
+      {user?.name && <h2>Hello {user.name}!</h2>}
       <Events />
     </>
   );
