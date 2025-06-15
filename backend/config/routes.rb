@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
   namespace :api do
@@ -14,7 +13,7 @@ Rails.application.routes.draw do
         end
       end
       resources :organizations, only: %i[index show create update destroy]
-      resources :users do
+      resources :users, only: %i[index show create update destroy] do
         collection do
           get 'me', to: 'users#me'
         end
@@ -33,7 +32,7 @@ Rails.application.routes.draw do
   # get "events/:id/signups", to: "events#signups"
   # get "events/:id/check-ins", to: "api/v1/events#check_ins", as: :event_check_ins
 
-  resources :user_types
+  # resources :user_types
   # devise_for :users,
   #   :path => '',
   #   :path_names => {
@@ -48,7 +47,7 @@ Rails.application.routes.draw do
   #   get 'user/logout' => 'devise/sessions#destroy'
   # end
 
-  resources :users
+  # resources :users
   resources :teams
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -65,4 +64,3 @@ Rails.application.routes.draw do
   # root "posts#index"
   # root to: "home#index"
 end
-# rubocop:enable Metrics/BlockLength

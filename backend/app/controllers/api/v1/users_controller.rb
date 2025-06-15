@@ -1,81 +1,96 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action :set_user, only: %i[show edit update destroy]
+      before_action :authenticate_user!, only: %i[index show me update destroy]
+      before_action :redirect_if_not_admin, only: %i[index show]
 
       def me
         if current_user
           render json: current_user
           # Navigate to /api/v1/users/me to get the current user's info
         else
-          render json: { error: 'Unauthorized' }, status: :unauthorized
+          render json: { error: "we can't find you!" }, status: :unauthorized
         end
       end
 
-      # GET /users or /users.json
+      # GET /users
       def index
-        @users = User.all
+        User.where(soft_deleted: false).sort_by(&:start_time)
       end
 
-      # GET /users/1 or /users/1.json
-      def show; end
+      # GET /users/1
+      def show
+        search_user = User.where(soft_deleted: false).where(id: params[:id]).first
+        return render json: search_user, status: :no_content if search_user.nil?
 
-      # GET /users/new
-      def new
-        @user = User.new
+        render json: search_user.as_json, status: :ok
       end
 
-      # GET /users/1/edit
-      def edit; end
-
-      # POST /users or /users.json
+      # POST /users
       def create
-        @user = User.new(user_params)
+        new_user = User.new(user_params)
 
-        respond_to do |format|
-          if @user.save
-            format.html { redirect_to @user, notice: 'User was successfully created.' }
-            format.json { render :show, status: :created, location: @user }
-          else
-            format.html { render :new, status: :unprocessable_entity }
-            format.json { render json: @user.errors, status: :unprocessable_entity }
-          end
+        if new_user.save
+          render json: new_user, status: :created
+        else
+          render json: new_user.errors, status: :unprocessable_entity
         end
       end
 
-      # PATCH/PUT /users/1 or /users/1.json
+      # PATCH/PUT /users/1
       def update
-        respond_to do |format|
-          if @user.update(user_params)
-            format.html { redirect_to @user, notice: 'User was successfully updated.' }
-            format.json { render :show, status: :ok, location: @user }
-          else
-            format.html { render :edit, status: :unprocessable_entity }
-            format.json { render json: @user.errors, status: :unprocessable_entity }
-          end
-        end
+        user = find_user
+        return render_not_found unless user
+        return render_unauthorized unless authorized_to_update?(user)
+
+        update_user(user)
       end
 
-      # DELETE /users/1 or /users/1.json
       def destroy
-        @user.destroy!
+        user = find_user
+        return render_not_found unless user
+        return render_unauthorized unless authorized_to_update?(user)
 
-        respond_to do |format|
-          format.html { redirect_to users_path, status: :see_other, notice: 'User was successfully destroyed.' }
-          format.json { head :no_content }
-        end
+        user.delete
+        render json: { message: "User #{user.email} deleted" }, status: :accepted
       end
 
       private
 
-      # Use callbacks to share common setup or constraints between actions.
-      def set_user
-        @user = User.find(params[:id])
+      def find_user
+        User.where(soft_deleted: false).find_by(id: params[:id])
+      end
+
+      def authorized_to_update?(user)
+        current_user.admin? || current_user.id == user.id
+      end
+
+      def render_not_found
+        render json: { message: 'User not found' }, status: :not_found
+      end
+
+      def render_unauthorized
+        render json: { message: "don't try to delete other people's accounts!" }, status: :unauthorized
+      end
+
+      def update_user(user)
+        if user.update(user_params)
+          render json: user, status: :ok
+        else
+          render json: user.errors, status: :unprocessable_entity
+        end
       end
 
       # Only allow a list of trusted parameters through.
       def user_params
-        params.require(:user).permit(:name, :email, :phone_number, :is_over_18)
+        params.require(:user).permit(:name, :email, :phone_number, :password, :is_over_18)
+      end
+
+      def redirect_if_not_admin
+        return if current_user.admin?
+
+        render json: { message: 'You are not high enough to do that' },
+               status: :unauthorized
       end
     end
   end

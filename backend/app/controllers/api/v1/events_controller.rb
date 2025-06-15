@@ -1,9 +1,9 @@
 module Api
   module V1
     class EventsController < ApplicationController
-      before_action :set_permissions
-      before_action :redirect_if_not_admin, only: %i[signups check_ins create update destroy]
       before_action :set_event, only: %i[show signup signups check_ins update destroy]
+      # before_action :set_permissions
+      before_action :redirect_if_not_admin, only: %i[signups check_ins create update destroy]
 
       # GET /events or /events.json
       def index
@@ -83,7 +83,7 @@ module Api
         curr_event = Event.find(params[:id])
         return render json: { message: 'Event not found' }, status: :not_found if curr_event.nil?
 
-        current_user = @current_user || User.new
+        current_user ||= User.new
 
         current_user.assign_attributes(email: params[:email], name: params[:name], is_over_18: params[:is_over_18],
                                        phone_number: params[:phone_number])
@@ -141,6 +141,10 @@ module Api
       def set_event
         @event = Event.where(soft_deleted: false).where(id: params[:id]).first
         render json: { message: 'Event not found' }, status: :not_found if @event.nil?
+
+        return if current_user.nil?
+
+        @user_is_event_coordinator_or_admin = current_user.leader?(@event.team_id)
       end
 
       # Only allow a list of trusted parameters through.
@@ -149,11 +153,11 @@ module Api
                                       :adult_slots, :teenager_slots)
       end
 
-      def set_permissions
-        # @current_user = current_user
-        # @user_is_event_coordinator_or_admin = true # uncomment to test authorized areas
-        @user_is_event_coordinator_or_admin = current_user && UsersTypesTeam.find_by(user_id: current_user.id)
-      end
+      # def set_permissions
+      #   # @user_is_event_coordinator_or_admin = true # uncomment to test authorized areas
+      #   current_user.leader?(@event.team_id)
+      #   # @user_is_event_coordinator_or_admin = current_user && UsersTypesTeam.find_by(user_id: current_user.id)
+      # end
 
       def redirect_if_not_admin
         return if @user_is_event_coordinator_or_admin

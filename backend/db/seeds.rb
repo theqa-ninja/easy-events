@@ -56,6 +56,8 @@ unless Rails.env.production?
                                     user_type_id: UserType.second.id)
   puts "made #{User.second.email} as a #{UserType.second.role} for #{org.name} on Team: #{Team.second.name}"
 
+  UsersTypesTeam.find_or_create_by!(user_id: User.third.id, organization_id: org.id, team_id: Team.first.id,
+                                    user_type_id: UserType.third.id)
   puts "made #{User.third.email} as a #{UserType.third.role} for #{org.name} on Team: #{Team.first.name}"
 
   puts "creating volunteer roles for team #{Team.first.name}"

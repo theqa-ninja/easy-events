@@ -18,9 +18,23 @@
 							"script": {
 								"exec": [
 									"let auth = pm.response.headers.get('Authorization');",
+									"let jsonData = pm.response.json();",
 									"",
 									"// this auto-saves the message_id to the collection variables",
-									"pm.collectionVariables.set('access_token', auth);"
+									"pm.collectionVariables.set('access_token', auth);",
+									"let uid = jsonData.data['id'] || null;",
+									"",
+									"pm.collectionVariables.set('user_id', uid);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -50,7 +64,38 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Volunteer Sign In via created user",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{new_user_email}}\",\n    \"password\": \"{{new_user_password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend_url}}/auth/sign_in",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"auth",
+										"sign_in"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "Create Volunteer User",
@@ -71,7 +116,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"test@postman.com\",\n    \"password\": \"hunter2\",\n    \"name\": \"postman User\"\n}",
+							"raw": "{\n    \"email\": \"test@postman.com\",\n    \"password\": \"hunter2\",\n    \"name\": \"postman User\",\n    \"is_over_18\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -86,6 +131,270 @@
 							"path": [
 								"auth",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{backend_url}}/api/v1/users/me",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View one User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{backend_url}}/api/v1/users/3",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"",
+									"// this auto-saves the chain_id to the collection variables",
+									"let email = jsonData.email;",
+									"",
+									"pm.collectionVariables.set('new_user_password', 'password');",
+									"pm.collectionVariables.set('new_user_email', email);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": {\n        \"name\": \"john doe 2\",\n        \"password\": \"password\",\n        \"email\": \"postman3@test.com\",\n        \"is_over_18\": true\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/api/v1/users/",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": {\n        \"email\": \"postman@test.com\",\n        \"name\": \"jon man\",\n        \"password\": \"passcode\",\n        \"is_over_18\": true\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/api/v1/users/{{user_id}}",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{backend_url}}/api/v1/users/{{user_id}}",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"{{user_id}}"
 							]
 						}
 					},
@@ -722,6 +1031,18 @@
 		},
 		{
 			"key": "new_org_id",
+			"value": ""
+		},
+		{
+			"key": "new_user_email",
+			"value": ""
+		},
+		{
+			"key": "new_user_password",
+			"value": ""
+		},
+		{
+			"key": "user_id",
 			"value": ""
 		}
 	]

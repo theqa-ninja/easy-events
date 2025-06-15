@@ -7,39 +7,55 @@ class User < ApplicationRecord
 
   attr_reader :current_organization, :current_team
 
-  # TODO: add before_save logic if admin, create entry for each team in the organization
+  default_scope do
+    select(column_names - %w[provider uid created_at
+                             updated_at deleted_at
+                             soft_deleted allow_password_change])
+      .where(soft_deleted: false) # TODO: this isn't hiding everything oddly... test on /me
+  end
+
+  validates :email, uniqueness: true
+  validates :is_over_18, presence: true
 
   def leader?(team_id)
-    # TODO: include admins / superadmins
-    organization_id = Teams.find(team_id)&.organization_id
-    return false if result.nil?
+    organization_id = UsersTypesTeam.find(team_id)&.organization_id
+    return false if organization_id.nil?
 
     # check first if they are superadmin
 
-    # check first if they are admin
-    result = UsersTypesTeam.where(organization_id: organization_id).find_by(user_id: id)
+    result = UsersTypesTeam.where(organization_id: organization_id, user_id: id, team_id: [team_id, nil])
     return false if result.nil?
+
+    # check first if they are admin
 
     # check if they have access
-    team_id.include?(result&.team_id)
+    %w[Admin 'Event Coordinator'].include?(result.first&.user_type_role)
   end
 
-  def admin?(organization_id)
-    result = UsersTypesTeam.find_by(user_id: id, organization_id: organization_id)
-    return false if result.nil?
+  # Check if the user is an admin for the given organization
+  # if no organization_id, just a generic check
+  def admin?(organization_id = nil)
+    result = UsersTypesTeam.where(user_id: id)
+    result = result.where(organization_id: organization_id) unless organization_id.nil?
+    return false if result.first.nil?
 
-    %w[Admin Superadmin].include?(result.user_type_role)
+    %w[Admin Superadmin].include?(result.first&.user_type_role) # TODO: convert these to actual role_ids
   end
 
   def superadmin?
-    result = UsersTypesTeam.find_by(user_id: id)
-    return false if result.nil?
+    result = UsersTypesTeam.where(user_id: id)
+    return false if result.first.nil?
 
-    'Superadmin'.include?(result&.user_type_role)
+    'Superadmin'.include?(result.first&.user_type_role) # TODO: convert these to actual role_ids
   end
 
   def team_permissions
-    UsersTypesTeam.where(user_id: id).includes(:team).map { |ut| { team: ut.team, user_type: ut.user_type_role } }
+    perms = UsersTypesTeam.where(user_id: id)
+    return [] if perms.empty?
+
+    # hide the superadmin from perms if you're not a superadmin
+    perms = perms.where.not(organization_id: current_organization.id) unless superadmin?
+    perms.includes(:team).map { |ut| { team: ut.team, user_type: ut.user_type_role } }
   end
 
   def as_json(_options = {})
