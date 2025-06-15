@@ -53,8 +53,6 @@ class User < ApplicationRecord
     perms = UsersTypesTeam.where(user_id: id)
     return [] if perms.empty?
 
-    # hide the superadmin from perms if you're not a superadmin
-    perms = perms.where.not(organization_id: current_organization.id) unless superadmin?
     perms.includes(:team).map { |ut| { team: ut.team, user_type: ut.user_type_role } }
   end
 

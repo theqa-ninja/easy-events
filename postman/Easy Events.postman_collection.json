@@ -94,6 +94,66 @@
 							"header": null,
 							"cookie": [],
 							"body": null
+						},
+						{
+							"name": "Volunteer Sign In via admin",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"testuser+admin@example.com\",\n    \"password\": \"passcode\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend_url}}/auth/sign_in",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"auth",
+										"sign_in"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Volunteer Sign In via lead",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"testuser+lead@example.com\",\n    \"password\": \"passcode\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend_url}}/auth/sign_in",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"auth",
+										"sign_in"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
 						}
 					]
 				},
