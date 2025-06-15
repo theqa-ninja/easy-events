@@ -1,6 +1,10 @@
 import { doesUserHavePermissions } from "../user/users.service";
 import { getTeams } from "./teams.service";
 
+export const metadata = {
+  title: "Teams",
+};
+
 const TeamsPage = async () => {
   const teamsData = await getTeams();
   const userMayViewTeams = await doesUserHavePermissions(["Admin"]);

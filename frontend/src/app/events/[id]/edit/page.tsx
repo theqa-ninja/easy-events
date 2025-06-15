@@ -12,7 +12,7 @@ export const generateMetadata = async ({
   const eventData = await getEvent(id);
 
   return {
-    title: eventData?.title,
+    title: `Edit ${eventData?.title}`,
   };
 };
 
@@ -35,7 +35,7 @@ const EditEventPage = async ({
       {userMayEditEvents && eventData ? (
         <EditEventForm eventData={eventData} />
       ) : (
-        <p>Event edit page found or you don't have permission to edit the event.</p>
+        <p>Event edit page not found or you don't have permission to edit the event.</p>
       )}
     </main>
   );

@@ -2,6 +2,10 @@ import React from "react";
 import { CreateEventForm } from "./CreateEventForm";
 import { doesUserHavePermissions } from "@/app/user/users.service";
 
+export const metadata = {
+  title: "Create an event",
+};
+
 const CreateEventPage = async () => {
   const userMayCreateEvents = await doesUserHavePermissions([
     "Superadmin",

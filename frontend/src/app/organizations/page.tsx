@@ -1,6 +1,10 @@
 import { doesUserHavePermissions } from "../user/users.service";
 import { getOrganizations } from "./organizations.service";
 
+export const metadata = {
+  title: "Organizations",
+};
+
 const OrganizationsPage = async () => {
   const organizationsData = await getOrganizations();
   const userMayViewOrganizations = await doesUserHavePermissions(["Superadmin"]);
