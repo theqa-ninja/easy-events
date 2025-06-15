@@ -1,7 +1,7 @@
 import { getEvent } from "@/app/events/events.service";
 import { EditEventForm } from "./EditEventForm";
 import Link from "next/link";
-import { getUser } from "@/app/user/users.service";
+import { doesUserHavePermissions } from "@/app/user/users.service";
 
 export const generateMetadata = async ({
   params,
@@ -24,8 +24,7 @@ const EditEventPage = async ({
   const { id } = await params;
   const eventId = Number(id);
   const eventData = await getEvent(eventId);
-  const user = await getUser();
-  const userMayEdit = user && user?.team_permissions?.find(permissions => permissions.user_type === "Superadmin" || permissions.user_type === "Admin" || permissions.user_type === "Event Coordinator");
+  const userMayEditEvents = await doesUserHavePermissions(["Superadmin", "Admin", "Event Coordinator"]);
 
   return (
     <main className="p-4 max-w-4xl m-auto">
@@ -33,7 +32,7 @@ const EditEventPage = async ({
         &lsaquo;&nbsp;Go back to event details
       </Link>
       <h1>Edit Event</h1>
-      {eventData && userMayEdit ? (
+      {eventData && userMayEditEvents ? (
         <EditEventForm eventData={eventData} />
       ) : (
         <p>Event edit page found or you don't have permission to edit the event.</p>

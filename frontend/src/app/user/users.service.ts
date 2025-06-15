@@ -31,3 +31,11 @@ export const getUser = async (): Promise<IUser> => {
     throw error;
   }
 };
+
+export const doesUserHavePermissions = async (userTypes: string[]): Promise<boolean> => {
+  const user = await getUser();
+  if (!user) {
+    return false;
+  }
+  return user?.team_permissions?.find(permissions => userTypes.includes(permissions.user_type)) ? true : false;
+}
