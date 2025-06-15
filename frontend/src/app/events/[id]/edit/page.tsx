@@ -32,7 +32,7 @@ const EditEventPage = async ({
         &lsaquo;&nbsp;Go back to event details
       </Link>
       <h1>Edit Event</h1>
-      {eventData && userMayEditEvents ? (
+      {userMayEditEvents && eventData ? (
         <EditEventForm eventData={eventData} />
       ) : (
         <p>Event edit page found or you don't have permission to edit the event.</p>

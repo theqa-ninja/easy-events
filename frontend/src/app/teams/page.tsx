@@ -1,9 +1,11 @@
+import { doesUserHavePermissions } from "../user/users.service";
 import { getTeams } from "./teams.service";
 
 const TeamsPage = async () => {
   const teamsData = await getTeams();
+  const userMayViewTeams = await doesUserHavePermissions(["Admin"]);
 
-  return teamsData && teamsData.length > 0 ? (
+  return userMayViewTeams && teamsData && teamsData.length > 0 ? (
     <main className="flex flex-col items-center justify-between p-4">
       <h1>Teams</h1>
       <ul>

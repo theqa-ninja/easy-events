@@ -1,10 +1,11 @@
+import { doesUserHavePermissions } from "../user/users.service";
 import { getOrganizations } from "./organizations.service";
 
 const OrganizationsPage = async () => {
   const organizationsData = await getOrganizations();
-  console.log(organizationsData);
+  const userMayViewOrganizations = await doesUserHavePermissions(["Superadmin"]);
 
-  return organizationsData && organizationsData.length > 0 ? (
+  return userMayViewOrganizations && organizationsData && organizationsData.length > 0 ? (
     <main className="flex flex-col items-center justify-between p-4">
       <h1>Organizations</h1>
       <ul>
