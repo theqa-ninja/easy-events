@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { object, string } from "yup";
-import { findLocalSignup, validateOnBlur } from "@/app/utilities";
+import { validateOnBlur } from "@/app/utilities";
 import { editSignup, ISignup } from "@/app/events/events.service";
 import { IUser } from "@/app/user/users.service";
 import { Input } from "@/app/components/Input";
@@ -22,8 +22,6 @@ export const EditSignupForm = ({
     message: string;
     status: "success" | "error";
   }>();
-  const [localSignup, setLocalSignup] = useState<ISignup>();
-
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
   const signupSchema = object({
     name: string().required("Name is required"),
@@ -36,13 +34,6 @@ export const EditSignupForm = ({
     { name: "user_email", value: "User's email" },
   ];
 
-  useEffect(() => {
-    const localSignup = findLocalSignup(eventId);
-    if (localSignup) {
-      setLocalSignup(localSignup);
-    }
-  }, []);
-
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     validateOnBlur(event, signupSchema, setErrors);
   };
@@ -52,14 +43,6 @@ export const EditSignupForm = ({
     const formData = new FormData(event.currentTarget);
     const formEntries = Object.fromEntries(formData);
     const body = JSON.stringify(formEntries);
-    const signupFormat: ISignup = {
-      event_id: eventId,
-      user_name: formEntries.name.toString(),
-      user_email: formEntries.email.toString(),
-      user_is_over_18: formEntries.is_over_18.toString() === "true",
-      user_phone_number: formEntries.phone_number.toString(),
-      notes: formEntries.notes.toString(),
-    };
 
     try {
       signupSchema.validateSync(formEntries, {
@@ -78,19 +61,6 @@ export const EditSignupForm = ({
                 errorData[key]
             );
             throw new Error(message.join() || "Edit signup failed");
-          }
-          const localSignup = findLocalSignup(eventId);
-          if (localSignup) {
-            const parsedSignups = JSON.parse(
-              localStorage.getItem("signups") || ""
-            );
-            const updatedSignups = parsedSignups.map((signup: ISignup) => {
-              if (signup.id === localSignup.id) {
-                return response;
-              }
-              return signup;
-            });
-            localStorage.setItem("signups", JSON.stringify(updatedSignups));
           }
           setToast({
             message: "Your signup has been edited successfully!",
@@ -131,7 +101,7 @@ export const EditSignupForm = ({
           name="name"
           placeholder="Name"
           defaultValue={
-            user?.name || signupData?.user_name || localSignup?.user_name
+            user?.name || signupData?.user_name
           }
           onBlur={handleChange}
           errorMessage={errors.name}
@@ -141,7 +111,7 @@ export const EditSignupForm = ({
           name="email"
           placeholder="Email"
           defaultValue={
-            user?.email || signupData?.user_email || localSignup?.user_email
+            user?.email || signupData?.user_email
           }
           onBlur={handleChange}
           errorMessage={errors.email}
@@ -152,8 +122,7 @@ export const EditSignupForm = ({
           placeholder="Phone number"
           defaultValue={
             user?.phone_number ||
-            signupData?.user_phone_number ||
-            localSignup?.user_phone_number
+            signupData?.user_phone_number
           }
         />
         Are you over 18 years old?
@@ -166,8 +135,7 @@ export const EditSignupForm = ({
             onBlur={handleChange}
             defaultChecked={
               user?.is_over_18 === true ||
-              signupData?.user_is_over_18 === true ||
-              localSignup?.user_is_over_18 === true
+              signupData?.user_is_over_18 === true
             }
             errorMessage={errors.is_over_18}
           />
@@ -179,8 +147,7 @@ export const EditSignupForm = ({
             onBlur={handleChange}
             defaultChecked={
               user?.is_over_18 === false ||
-              signupData?.user_is_over_18 === false ||
-              localSignup?.user_is_over_18 === false
+              signupData?.user_is_over_18 === false
             }
             errorMessage={errors.is_over_18}
           />

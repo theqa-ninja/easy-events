@@ -19,12 +19,11 @@ export const SignupForm = ({
   signupData?: ISignup;
   eventId: number;
 }) => {
+  const [signup, setSignup] = useState<ISignup>();
   const [toast, setToast] = useState<{
     message: string;
     status: "success" | "error";
   }>();
-  const [localSignup, setLocalSignup] = useState<ISignup>();
-
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
   const signupSchema = object({
     name: string().required("Name is required"),
@@ -46,14 +45,6 @@ export const SignupForm = ({
     const formData = new FormData(event.currentTarget);
     const formEntries = Object.fromEntries(formData);
     const body = JSON.stringify(formEntries);
-    const signupFormat: ISignup = {
-      event_id: eventId,
-      user_name: formEntries.name.toString(),
-      user_email: formEntries.email.toString(),
-      user_is_over_18: formEntries.is_over_18.toString() === "true",
-      user_phone_number: formEntries.phone_number.toString(),
-      notes: formEntries.notes.toString(),
-    };
 
     try {
       signupSchema.validateSync(formEntries, {
@@ -72,18 +63,12 @@ export const SignupForm = ({
             );
             throw new Error(message.join() || "Signup failed");
           }
-          if (!localStorage.getItem("signups")) {
-            localStorage.setItem("signups", JSON.stringify([signupFormat]));
-          } else {
-            const storedSignups = localStorage.getItem("signups");
-            const parsedSignups = JSON.parse(storedSignups || "");
-            localStorage.setItem(
-              "signups",
-              JSON.stringify([...parsedSignups, signupFormat])
-            );
-          }
-          setLocalSignup(signupFormat);
-          setToast({ message: "Signup successful", status: "success" });
+          setSignup(response);
+          setToast({
+            message:
+              "Signup successful, please check your email for confirmation.",
+            status: "success",
+          });
         })
         .catch((error) => {
           setToast({ message: error.message, status: "error" });
@@ -105,11 +90,12 @@ export const SignupForm = ({
         <Toast
           message={toast.message}
           status={toast.status}
+          duration={10000}
           onClose={() => setToast(undefined)}
         />
       )}
-      {localSignup ? (
-        <SignupConfirmation signup={localSignup} eventId={eventId} />
+      {signup ? (
+        <SignupConfirmation signup={signup} eventId={eventId} />
       ) : (
         <form onSubmit={submitSignup} className="flex flex-col gap-4 w-100">
           <h2 className="mt-5">Signup</h2>

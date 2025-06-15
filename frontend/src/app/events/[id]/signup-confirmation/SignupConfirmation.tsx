@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ISignup } from "../../events.service";
-import { findLocalSignup } from "@/app/utilities";
 import { useRouter } from "next/navigation";
 
 export const SignupConfirmation = ({
@@ -12,39 +11,33 @@ export const SignupConfirmation = ({
   signup: ISignup;
   eventId: number;
 }) => {
-  const [confirmationSignup, setConfirmationSignup] = useState(signup);
   const router = useRouter();
 
   useEffect(() => {
     if (!signup?.user_email) {
-      const localSignup = findLocalSignup(eventId);
-      if (localSignup) {
-        setConfirmationSignup(localSignup);
-      } else {
-        router.push(`/events/${eventId}`);
-      }
+      router.push(`/events/${eventId}`);
     }
   }, [signup]);
 
-  return (
+  return signup?.user_email && (
     <div className="text-left w-full mt-5">
       <h2>Signup Confirmation</h2>
       <p>
-        Hi <b>{confirmationSignup?.user_name}</b>, thank you for signing up.
+        Hi <b>{signup?.user_name}</b>, thank you for signing up.
         Please check your email for confirmation as well as more info about the
         event.
       </p>
       <p>
         Here's your contact info on file:
         <br />
-        {confirmationSignup?.user_email} {confirmationSignup?.user_phone_number}
+        {signup?.user_email} {signup?.user_phone_number}
         <br />
-        You are {confirmationSignup?.user_is_over_18 ? "over 18" : "under 18"}
+        You are {signup?.user_is_over_18 ? "over 18" : "under 18"}
       </p>
       <p>
         Your notes:
         <br />
-        {confirmationSignup?.notes}
+        {signup?.notes}
       </p>
       <p>Thanks for volunteering!</p>
       <Link href="/events">Back to events</Link> |{" "}

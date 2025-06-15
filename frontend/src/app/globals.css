@@ -73,3 +73,9 @@ dd {
   @apply ml-2;
   @apply inline-block;
 }
+
+hr {
+  @apply my-8;
+  @apply border-gray-300;
+  @apply border-t-1;
+}

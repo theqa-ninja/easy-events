@@ -5,6 +5,7 @@ import { Event } from "@/app/events/Event";
 import { validateToken } from "@/app/utilities";
 import { SignupForm } from "./SignupForm";
 import { SignupConfirmationOrForm } from "./SignupConfirmationOrForm";
+import { redirect } from "next/navigation";
 export const generateMetadata = async ({
   params,
 }: {
@@ -16,7 +17,7 @@ export const generateMetadata = async ({
   return {
     title: `Signup for ${eventData?.title}`,
   };
-}
+};
 
 const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;
@@ -37,17 +38,15 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
     <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
       {eventData && <Event eventData={eventData} />}
       {!loggedIn && (
-        <p>
+        <p className="border border-gray-400 p-4 rounded-2xl mt-4">
           Would you like to <Link href="/user/login">log in</Link> or{" "}
           <Link href="/user/create-account">create an account</Link> to save
-          your account to signup more quickly in the future?
+          your info to signup more quickly in the future? Creating an account
+          would also allow you to edit your signup.
         </p>
       )}
       {<SignupConfirmationOrForm signup={signup} id={Number(id)} />}
-      <SignupForm
-        eventId={Number(id)}
-        signupData={signup}
-      />
+      <SignupForm eventId={Number(id)} signupData={signup} />
     </main>
   );
 };

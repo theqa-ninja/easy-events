@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { hasUserSignedUp } from "@/app/events/events.service";
-import { findLocalSignup } from "../utilities";
 
 export const SignupLinks = ({ eventId }: { eventId: number }) => {
   const [signedUp, setSignedUp] = useState(false);
@@ -11,12 +10,6 @@ export const SignupLinks = ({ eventId }: { eventId: number }) => {
       if (res === true) {
         setSignedUp(true);
         return;
-      } else {
-        const localSignup = findLocalSignup(eventId);
-        if (localSignup) {
-          setSignedUp(true);
-          return;
-        }
       }
       setSignedUp(false);
     });
