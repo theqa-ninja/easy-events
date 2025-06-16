@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
+  mount_devise_token_auth_for 'User', at: 'api/auth'
   namespace :api do
-    mount_devise_token_auth_for 'User', at: '/auth'
     resources :events, only: %i[index show create update destroy] do
       member do
         get 'signups' # get list of all signups
