@@ -8,6 +8,7 @@ import { Input } from "@/app/components/Input";
 import { BinaryRadioInput } from "@/app/components/BinaryRadioInput";
 import { Button } from "@/app/components/Button";
 import { Toast } from "@/app/components/Toast";
+import { createUserAccount } from "../users.service";
 
 export const CreateAccountForm = () => {
   const route = useRouter();
@@ -44,13 +45,7 @@ export const CreateAccountForm = () => {
       setErrors({});
       const body = JSON.stringify(formDataEntries);
 
-      fetch("http://localhost:3000/auth/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: body,
-      })
+      createUserAccount(JSON.parse(body))
         .then(async (response) => {
           if (response.ok) {
             setToast({ message: "Registration successful", status: "success" });

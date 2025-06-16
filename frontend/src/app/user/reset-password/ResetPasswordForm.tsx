@@ -1,11 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { Input } from "../../components/Input";
-import { Button } from "../../components/Button";
 import Link from "next/link";
-import { Toast } from "../../components/Toast";
 import { object, string } from "yup";
-import { validateOnBlur } from "../../utilities";
+import { passwordReset } from "@/app/user/users.service";
+import { validateOnBlur } from "@/app/utilities";
+import { Input } from "@/app/components/Input";
+import { Button } from "@/app/components/Button";
+import { Toast } from "@/app/components/Toast";
 
 export const ResetPasswordForm = () => {
   const [toast, setToast] = useState<{
@@ -26,15 +27,9 @@ export const ResetPasswordForm = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email");
-    const body = JSON.stringify({ email, redirect_url: "http://localhost:3001/user/new-password" });
+    const body = JSON.stringify({ email: email, redirect_url: `${process.env.NEXT_PUBLIC_UI_ROUTE}/user/new-password` });
 
-    fetch("http://localhost:3000/auth/password/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: body,
-    })
+    passwordReset(JSON.parse(body))
       .then((response) => {
         if (response.ok) {
           setToast({

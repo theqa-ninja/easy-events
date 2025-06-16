@@ -34,7 +34,7 @@ export interface IVolunteerRole {
 
 export const getEvents = async (): Promise<IEvent[]> => {
   try {
-    const response = await fetch(`http://localhost:3000/api/v1/events`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/events`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export const getEvents = async (): Promise<IEvent[]> => {
 
 export const getEvent = async (id: number): Promise<IEvent> => {
   try {
-    const response = await fetch(`http://localhost:3000/api/v1/events/${id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -69,7 +69,7 @@ export const createEvent = async (event: IEvent): Promise<IEvent> => {
       "Content-Type": "application/json",
       Authorization: token || "",
     };
-    const response = await fetch(`http://localhost:3000/api/v1/events`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/events`, {
       method: "POST",
       headers,
       body: JSON.stringify(event),
@@ -88,7 +88,7 @@ export const editEvent = async (id: number, event: IEvent): Promise<IEvent> => {
       "Content-Type": "application/json",
       Authorization: token || "",
     };
-    const response = await fetch(`http://localhost:3000/api/v1/events/${id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}`, {
       method: "PUT",
       headers,
       body: JSON.stringify(event),
@@ -108,7 +108,7 @@ export const getSignup = async (id: number): Promise<any> => {
       Authorization: token || "",
     };
     const response = await fetch(
-      `http://localhost:3000/api/v1/events/${id}/signup`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup`,
       {
         method: "GET",
         headers
@@ -139,7 +139,7 @@ export const getSignups = async (
       Authorization: token || "",
     };
     const response = await fetch(
-      `http://localhost:3000/api/v1/events/${id}/signups`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signups`,
       {
         method: "GET",
         headers,
@@ -163,7 +163,7 @@ export const createSignup = async (
       Authorization: token || "",
     };
     const response = await fetch(
-      `http://localhost:3000/api/v1/events/${id}/signup`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup`,
       {
         method: "POST",
         headers,
@@ -187,7 +187,7 @@ export const editSignup = async (
       "Content-Type": "application/json",
       Authorization: token || "",
     };
-    const response = await fetch(`http://localhost:3000/api/v1/events/${id}/signup`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup`, {
       method: "PATCH",
       headers,
       body: JSON.stringify(signup),
@@ -207,7 +207,7 @@ export const getSignupsSignup = async (id: number, signupId: number): Promise<an
       Authorization: token || "",
     };
     const response = await fetch(
-      `http://localhost:3000/api/v1/events/${id}/signup/${signupId}`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup/${signupId}`,
       {
         method: "GET",
         headers
@@ -238,7 +238,7 @@ export const getCheckIns = async (
       Authorization: token || "",
     };
     const response = await fetch(
-      `http://localhost:3000/api/v1/events/${id}/checkins`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/checkins`,
       {
         method: "GET",
         headers,
@@ -261,7 +261,7 @@ export const getVolunteerRoles = async (): Promise<IVolunteerRole[]> => {
       Authorization: token || "",
     };
     const response = await fetch(
-      `http://localhost:3000/api/v1/volunteer-roles`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/volunteer-roles`,
       {
         method: "GET",
         headers,
@@ -284,7 +284,7 @@ export const hasUserSignedUp = async (
       Authorization: token || "",
     };
     const response = await fetch(
-      `http://localhost:3000/api/v1/events/${id}/signup`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup`,
       {
         method: "GET",
         headers

@@ -12,7 +12,7 @@ export const getTeams = async (): Promise<IOrganization[]> => {
       Authorization: token || "",
     };
 
-    const res = await fetch(`http://localhost:3000/api/v1/teams`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/teams`, {
       method: "GET",
       headers: headers,
     });

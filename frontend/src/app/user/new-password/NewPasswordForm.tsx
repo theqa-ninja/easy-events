@@ -7,6 +7,7 @@ import { validateOnBlur } from "@/app/utilities";
 import { Input } from "@/app/components/Input";
 import { Button } from "@/app/components/Button";
 import { Toast } from "@/app/components/Toast";
+import { newPassword } from "@/app/user/users.service";
 
 export const NewPasswordForm = () => {
   const route = useRouter();
@@ -46,19 +47,10 @@ export const NewPasswordForm = () => {
 
       const body = JSON.stringify({
         ...formDataEntries,
-        redirect_url: "http://localhost:3001/user/login",
+        redirect_url: `${process.env.NEXT_PUBLIC_UI_ROUTE}/user/login`,
       });
 
-      fetch("http://localhost:3000/auth/password/", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "access-token": accessToken || "",
-          client: client || "",
-          uid: uid || "",
-        },
-        body: body,
-      })
+      newPassword(JSON.parse(body), accessToken, client, uid)
         .then((response) => {
           if (response.ok) {
             setToast({

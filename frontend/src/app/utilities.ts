@@ -60,7 +60,7 @@ export const getToken = async () => {
 export const validateToken = async () => {
   const { deleteCookie } = await import("cookies-next");
 
-  return await fetch("http://localhost:3000/auth/validate_token", {
+  return await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/auth/validate_token`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

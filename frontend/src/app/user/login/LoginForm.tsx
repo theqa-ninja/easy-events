@@ -8,6 +8,7 @@ import { validateOnBlur } from "@/app/utilities";
 import { Input } from "@/app/components/Input";
 import { Button } from "@/app/components/Button";
 import { Toast } from "@/app/components/Toast";
+import { signInUser } from "@/app/user/users.service";
 
 export const LoginForm = () => {
   const route = useRouter();
@@ -50,13 +51,7 @@ export const LoginForm = () => {
       setErrors({});
       const body = JSON.stringify(formDataEntries);
 
-      fetch("http://localhost:3000/auth/sign_in", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: body,
-      })
+      signInUser(JSON.parse(body))
         .then((response) => {
           if (response.ok) {
             const authorizationToken = response.headers.get("Authorization");
