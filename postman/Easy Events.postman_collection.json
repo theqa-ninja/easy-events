@@ -230,13 +230,11 @@
 							}
 						],
 						"url": {
-							"raw": "{{backend_url}}/api/v1/users/me",
+							"raw": "{{backend_url}}/users/me",
 							"host": [
 								"{{backend_url}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"users",
 								"me"
 							]
@@ -278,13 +276,11 @@
 							}
 						],
 						"url": {
-							"raw": "{{backend_url}}/api/v1/users/3",
+							"raw": "{{backend_url}}/users/3",
 							"host": [
 								"{{backend_url}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"users",
 								"3"
 							]
@@ -341,13 +337,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{backend_url}}/api/v1/users/",
+							"raw": "{{backend_url}}/users/",
 							"host": [
 								"{{backend_url}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"users",
 								""
 							]
@@ -398,13 +392,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{backend_url}}/api/v1/users/{{user_id}}",
+							"raw": "{{backend_url}}/users/{{user_id}}",
 							"host": [
 								"{{backend_url}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"users",
 								"{{user_id}}"
 							]
@@ -446,13 +438,11 @@
 							}
 						],
 						"url": {
-							"raw": "{{backend_url}}/api/v1/users/{{user_id}}",
+							"raw": "{{backend_url}}/users/{{user_id}}",
 							"host": [
 								"{{backend_url}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"users",
 								"{{user_id}}"
 							]
@@ -475,13 +465,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{backend_url}}/api/v1/events/",
+									"raw": "{{backend_url}}/events/",
 									"host": [
 										"{{backend_url}}"
 									],
 									"path": [
-										"api",
-										"v1",
 										"events",
 										""
 									]
@@ -507,13 +495,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{backend_url}}/api/v1/events/{{event_id}}",
+									"raw": "{{backend_url}}/events/{{event_id}}",
 									"host": [
 										"{{backend_url}}"
 									],
 									"path": [
-										"api",
-										"v1",
 										"events",
 										"{{event_id}}"
 									]
@@ -542,13 +528,11 @@
 									}
 								},
 								"url": {
-									"raw": "{{backend_url}}/api/v1/events/{{event_id}}/signup",
+									"raw": "{{backend_url}}/events/{{event_id}}/signup",
 									"host": [
 										"{{backend_url}}"
 									],
 									"path": [
-										"api",
-										"v1",
 										"events",
 										"{{event_id}}",
 										"signup"
@@ -571,13 +555,11 @@
 											}
 										},
 										"url": {
-											"raw": "{{backend_url}}/api/v1/events/{{event_id}}/signup",
+											"raw": "{{backend_url}}/events/{{event_id}}/signup",
 											"host": [
 												"{{backend_url}}"
 											],
 											"path": [
-												"api",
-												"v1",
 												"events",
 												"{{event_id}}",
 												"signup"
@@ -610,13 +592,11 @@
 											}
 										},
 										"url": {
-											"raw": "{{backend_url}}/api/v1/events/{{event_id}}/signup",
+											"raw": "{{backend_url}}/events/{{event_id}}/signup",
 											"host": [
 												"{{backend_url}}"
 											],
 											"path": [
-												"api",
-												"v1",
 												"events",
 												"{{event_id}}",
 												"signup"
@@ -647,13 +627,11 @@
 									}
 								],
 								"url": {
-									"raw": "{{backend_url}}/api/v1/events/1/checkins",
+									"raw": "{{backend_url}}/events/1/checkins",
 									"host": [
 										"{{backend_url}}"
 									],
 									"path": [
-										"api",
-										"v1",
 										"events",
 										"1",
 										"checkins"
@@ -674,13 +652,11 @@
 									}
 								],
 								"url": {
-									"raw": "{{backend_url}}/api/v1/events/1/signups",
+									"raw": "{{backend_url}}/events/1/signups",
 									"host": [
 										"{{backend_url}}"
 									],
 									"path": [
-										"api",
-										"v1",
 										"events",
 										"1",
 										"signups"
@@ -744,13 +720,11 @@
 									}
 								},
 								"url": {
-									"raw": "{{backend_url}}/api/v1/events/",
+									"raw": "{{backend_url}}/events/",
 									"host": [
 										"{{backend_url}}"
 									],
 									"path": [
-										"api",
-										"v1",
 										"events",
 										""
 									]
@@ -797,13 +771,11 @@
 									}
 								},
 								"url": {
-									"raw": "{{backend_url}}/api/v1/events/{{new_event_id}}",
+									"raw": "{{backend_url}}/events/{{new_event_id}}",
 									"host": [
 										"{{backend_url}}"
 									],
 									"path": [
-										"api",
-										"v1",
 										"events",
 										"{{new_event_id}}"
 									]
@@ -835,13 +807,11 @@
 									}
 								],
 								"url": {
-									"raw": "{{backend_url}}/api/v1/events/{{new_event_id}}",
+									"raw": "{{backend_url}}/events/{{new_event_id}}",
 									"host": [
 										"{{backend_url}}"
 									],
 									"path": [
-										"api",
-										"v1",
 										"events",
 										"{{new_event_id}}"
 									]
@@ -869,13 +839,11 @@
 							}
 						],
 						"url": {
-							"raw": "{{backend_url}}/api/v1/organizations",
+							"raw": "{{backend_url}}/organizations",
 							"host": [
 								"{{backend_url}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"organizations"
 							]
 						},
@@ -895,13 +863,11 @@
 							}
 						],
 						"url": {
-							"raw": "{{backend_url}}/api/v1/organizations/{{new_org_id}}",
+							"raw": "{{backend_url}}/organizations/{{new_org_id}}",
 							"host": [
 								"{{backend_url}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"organizations",
 								"{{new_org_id}}"
 							]
@@ -948,13 +914,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{backend_url}}/api/v1/organizations/",
+							"raw": "{{backend_url}}/organizations/",
 							"host": [
 								"{{backend_url}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"organizations",
 								""
 							]
@@ -983,13 +947,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{backend_url}}/api/v1/organizations/{{new_org_id}}",
+							"raw": "{{backend_url}}/organizations/{{new_org_id}}",
 							"host": [
 								"{{backend_url}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"organizations",
 								"{{new_org_id}}"
 							]
@@ -1018,13 +980,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{backend_url}}/api/v1/organizations/{{new_org_id}}",
+							"raw": "{{backend_url}}/organizations/{{new_org_id}}",
 							"host": [
 								"{{backend_url}}"
 							],
 							"path": [
-								"api",
-								"v1",
 								"organizations",
 								"{{new_org_id}}"
 							]
@@ -1073,7 +1033,7 @@
 	"variable": [
 		{
 			"key": "backend_url",
-			"value": "http://127.0.0.1:3000",
+			"value": "http://127.0.0.1:3000/api",
 			"type": "string"
 		},
 		{
