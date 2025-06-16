@@ -20,7 +20,7 @@ export const SignupConfirmation = ({
   }, [signup]);
 
   return signup?.user_email && (
-    <div className="text-left w-full mt-5">
+    <div className="text-left w-full mt-5 p-5 bg-green-100 rounded-2xl transition-colors ease-in duration-300">
       <h2>Signup Confirmation</h2>
       <p>
         Hi <b>{signup?.user_name}</b>, thank you for signing up.
@@ -29,15 +29,28 @@ export const SignupConfirmation = ({
       </p>
       <p>
         Here's your contact info on file:
-        <br />
-        {signup?.user_email} {signup?.user_phone_number}
-        <br />
-        You are {signup?.user_is_over_18 ? "over 18" : "under 18"}
-      </p>
-      <p>
-        Your notes:
-        <br />
-        {signup?.notes}
+        <dl>
+          <dl>
+            <dt>Name:</dt>
+            <dd>{signup?.user_name}</dd>
+          </dl>
+          <dl>
+            <dt>Phone number:</dt>
+            <dd>{signup?.user_phone_number}</dd>
+          </dl>
+          <dl>
+            <dt>Email:</dt>
+            <dd>{signup?.user_email}</dd>
+          </dl>
+          <dl>
+            <dt>You are over 18:</dt>
+            <dd>{signup?.user_is_over_18 ? "Yes" : "No"}</dd>
+          </dl>
+          <dl>
+            <dt>Your notes for us:</dt>
+            <dd>{signup?.notes}</dd>
+          </dl>
+        </dl>
       </p>
       <p>Thanks for volunteering!</p>
       <Link href="/events">Back to events</Link> |{" "}
