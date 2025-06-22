@@ -1,5 +1,5 @@
 "use client";
-import { editEvent, deleteEvent, IEvent } from "@/app/events/events.service";
+import { createEvent, IEvent } from "@/app/events/events.service";
 import { Button } from "@/app/components/Button";
 import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
@@ -9,7 +9,11 @@ import { Toast } from "@/app/components/Toast";
 import { object, string } from "yup";
 import { eventDuration } from "../../events.helper";
 
-export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
+interface ICloneEventForm {
+  eventData: IEvent;
+}
+
+export const CloneEventForm = ({ eventData }: { eventData: IEvent }) => {
   const [startTime, setStartTime] = useState(eventData.start_time);
   const [endTime, setEndTime] = useState(eventData.end_time);
   const [duration, setDuration] = useState<string | undefined>();
@@ -52,19 +56,15 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
       eventSchema.validateSync(formEntries, {
         abortEarly: false,
       });
-      editEvent(Number(eventData.id), event)
-        .then((response) => {
-          console.log(response);
+      createEvent(event)
+        .then(async (response) => {
           setToast({
-            message: "Event updated",
+            message: "Event created",
             status: "success",
           });
         })
         .catch((error) => {
-          setToast({
-            message: "Error creating event",
-            status: "error",
-          });
+          setToast({ message: error.message, status: "error" });
         });
     } catch (validationError: any) {
       const formattedError = validationError.inner.reduce(
@@ -75,19 +75,6 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
         {}
       );
       setErrors(formattedError);
-    }
-  };
-
-  const handleDeleteEvent = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (confirm("Are you sure you want to delete this event?")) {
-      deleteEvent(eventData.id as number)
-        .then(() => {
-          setToast({ message: "Event deleted", status: "success" });
-        })
-        .catch((error) => {
-          setToast({ message: "Error deleting event", status: "error" });
-        });
     }
   };
 
@@ -115,7 +102,7 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
           type="text"
           name="title"
           placeholder="Event Title"
-          defaultValue={eventData?.title}
+          defaultValue={`${eventData?.title} Clone`}
           onBlur={handleChange}
           errorMessage={errors.title}
         />
@@ -176,13 +163,10 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
           errorMessage={errors.team_id}
         />
 
-        <Button type="submit" label="Edit event" />
-      </form>
-      <form onSubmit={handleDeleteEvent} className="flex flex-col gap-4 w-100">
-        <Button type="submit" label="Soft delete this event" />
+        <Button type="submit" label="Save clone as new event" />
       </form>
     </>
   );
 };
 
-export default EditEventForm;
+export default CloneEventForm;

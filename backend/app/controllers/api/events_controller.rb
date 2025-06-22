@@ -1,8 +1,7 @@
 module Api
   class EventsController < ApplicationController
-    before_action :set_event, only: %i[show update destroy]
-    # before_action :set_permissions
-    before_action :redirect_if_not_lead_or_admin, only: %i[update destroy]
+    before_action :set_event, only: %i[show update destroy checkins]
+    before_action :redirect_if_not_lead_or_admin, only: %i[update destroy checkins]
 
     # GET /events or /events.json
     def index
@@ -59,6 +58,12 @@ module Api
       @current_event.delete
 
       render json: @current_event, status: :accepted
+    end
+
+    # GET /events/1/checkins
+    # Returns all checkins for the event
+    def checkins
+      render json: { checkins: @current_event.checkins }, status: :ok
     end
 
     private

@@ -54,7 +54,7 @@ export const Button: FC<ButtonProps> = ({
   ...props
 }) => {
   const main =
-    "flex items-center gap-2 justify-center leading-none shadow-sm shadow-primary-700 active:outline-none active:ring-2 active:ring-primary-600 active:ring-offset-2 cursor-pointer";
+    "flex m-2 items-center gap-2 justify-center leading-none shadow-sm shadow-primary-700 active:outline-none active:ring-2 active:ring-primary-600 active:ring-offset-2 cursor-pointer";
   const mode =
     variant === "primary"
       ? "text-white bg-primary-700 hover:bg-primary-900 hover:dark:bg-primary-800 px-3 py-2 rounded-md"

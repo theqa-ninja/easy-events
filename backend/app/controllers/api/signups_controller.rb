@@ -15,7 +15,8 @@ module Api
     # # GET /signups/1
     # when a user / lead / admin views a signup
     def show
-      signup = Signup.where(soft_deleted: false).find_by(id: params[:signup_id])
+      signup = find_signup
+
       return render_not_found if signup.nil?
 
       return render_unauthorized unless authorized_to_modify_signup(signup)
@@ -83,7 +84,11 @@ module Api
     end
 
     def find_signup
-      Signup.where(soft_deleted: false).find_by(id: params[:signup_id])
+      if params[:signup_id].blank?
+        Signup.where(soft_deleted: false).find_by(user_id: current_user.id, event_id: @current_event.id)
+      else
+        Signup.where(soft_deleted: false).find_by(id: params[:signup_id])
+      end
     end
 
     def authorized_to_modify_signup(signup)
