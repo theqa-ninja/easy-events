@@ -1,5 +1,5 @@
 "use client";
-import { editEvent, IEvent } from "@/app/events/events.service";
+import { editEvent, deleteEvent, IEvent } from "@/app/events/events.service";
 import { Button } from "@/app/components/Button";
 import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
@@ -12,7 +12,7 @@ import { eventDuration } from "../../events.helper";
 export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
   const [startTime, setStartTime] = useState(eventData.start_time);
   const [endTime, setEndTime] = useState(eventData.end_time);
-  const [duration, setDuration] = useState<string|undefined>();
+  const [duration, setDuration] = useState<string | undefined>();
   const [toast, setToast] = useState<{
     message: string;
     status: "success" | "error";
@@ -78,11 +78,25 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
     }
   };
 
+  const handleDeleteEvent = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (confirm("Are you sure you want to delete this event?")) {
+      deleteEvent(eventData.id as number);
+      // Call the delete event function here
+      // Assuming deleteEvent is a function that deletes the event
+      // deleteEvent(eventData.id).then(() => {
+      //   setToast({ message: "Event deleted", status: "success" });
+      // }).catch((error) => {
+      //   setToast({ message: "Error deleting event", status: "error" });
+      // });
+    }
+  };
+
   useEffect(() => {
-      if (startTime && endTime) {
-        setDuration(eventDuration(startTime, endTime));
-      }
-    }, [startTime, endTime]);
+    if (startTime && endTime) {
+      setDuration(eventDuration(startTime, endTime));
+    }
+  }, [startTime, endTime]);
 
   return (
     <>
@@ -164,6 +178,9 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
         />
 
         <Button type="submit" label="Edit event" />
+      </form>
+      <form onSubmit={handleDeleteEvent} className="flex flex-col gap-4 w-100">
+        <Button type="submit" label="Delete this event" />
       </form>
     </>
   );

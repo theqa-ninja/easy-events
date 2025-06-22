@@ -34,12 +34,15 @@ export interface IVolunteerRole {
 
 export const getEvents = async (): Promise<IEvent[]> => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/events`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await response.json();
     return data;
   } catch (error) {
@@ -49,12 +52,15 @@ export const getEvents = async (): Promise<IEvent[]> => {
 
 export const getEvent = async (id: number): Promise<IEvent> => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await response.json();
     return data;
   } catch (error) {
@@ -69,11 +75,14 @@ export const createEvent = async (event: IEvent): Promise<IEvent> => {
       "Content-Type": "application/json",
       Authorization: token || "",
     };
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/events`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(event),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify(event),
+      }
+    );
     const data = await response.json();
     return data;
   } catch (error) {
@@ -88,13 +97,32 @@ export const editEvent = async (id: number, event: IEvent): Promise<IEvent> => {
       "Content-Type": "application/json",
       Authorization: token || "",
     };
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}`, {
-      method: "PUT",
-      headers,
-      body: JSON.stringify(event),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}`,
+      {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(event),
+      }
+    );
     const data = await response.json();
     return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteEvent = async (id: number): Promise<void> => {
+  try {
+    const token = await getToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: token || "",
+    };
+    await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}`, {
+      method: "DELETE",
+      headers,
+    });
   } catch (error) {
     throw error;
   }
@@ -111,7 +139,7 @@ export const getSignup = async (id: number): Promise<any> => {
       `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup`,
       {
         method: "GET",
-        headers
+        headers,
       }
     );
     const data = await response.json();
@@ -187,11 +215,14 @@ export const editSignup = async (
       "Content-Type": "application/json",
       Authorization: token || "",
     };
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup`, {
-      method: "PATCH",
-      headers,
-      body: JSON.stringify(signup),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup`,
+      {
+        method: "PATCH",
+        headers,
+        body: JSON.stringify(signup),
+      }
+    );
     const data = await response.json();
     return data;
   } catch (error) {
@@ -199,7 +230,10 @@ export const editSignup = async (
   }
 };
 
-export const getSignupsSignup = async (id: number, signupId: number): Promise<any> => {
+export const getSignupsSignup = async (
+  id: number,
+  signupId: number
+): Promise<any> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {
@@ -210,7 +244,7 @@ export const getSignupsSignup = async (id: number, signupId: number): Promise<an
       `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup/${signupId}`,
       {
         method: "GET",
-        headers
+        headers,
       }
     );
     const data = await response.json();
@@ -250,7 +284,7 @@ export const getCheckIns = async (
   } catch (error) {
     throw error;
   }
-}
+};
 
 // TODO: update this when volunteer roles are implemented
 export const getVolunteerRoles = async (): Promise<IVolunteerRole[]> => {
@@ -272,11 +306,9 @@ export const getVolunteerRoles = async (): Promise<IVolunteerRole[]> => {
   } catch (error) {
     throw error;
   }
-}
+};
 
-export const hasUserSignedUp = async (
-  id: number
-): Promise<boolean> => {
+export const hasUserSignedUp = async (id: number): Promise<boolean> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {
@@ -287,7 +319,7 @@ export const hasUserSignedUp = async (
       `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup`,
       {
         method: "GET",
-        headers
+        headers,
       }
     );
     if (response.status !== 200) {
