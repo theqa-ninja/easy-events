@@ -8,6 +8,10 @@ class ApplicationRecord < ActiveRecord::Base
   scope :with_deleted, -> { unscope(where: :soft_deleted) }
   scope :everything, -> { select(column_names) }
 
+  def self.active
+    where(soft_deleted: false)
+  end
+
   def set_soft_delete
     self.soft_deleted = true
     self.deleted_at = Time.zone.now

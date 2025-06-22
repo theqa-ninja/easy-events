@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     resources :events, only: %i[index show create update destroy] do
       member do
         get 'signups', to: 'signups#index' # get list of all signups
-        get 'checkins', to: 'signups#check_ins'
+        get 'checkins', to: 'events#checkins'
         get 'signup', to: 'signups#show'
         get 'signup/:signup_id', to: 'signups#show'
         post 'signup', to: 'signups#create' # volunteer signing up
