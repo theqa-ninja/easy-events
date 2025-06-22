@@ -9,6 +9,8 @@ export interface IEvent {
   end_time: string;
   adult_slots: number;
   teenager_slots: number;
+  remaining_adult_slots: number;
+  remaining_teenager_slots: number;
   team_id: number;
   creator_id?: number;
 }
