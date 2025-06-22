@@ -1,4 +1,4 @@
-Hi <%= @signup.user_name %>,
+Hi <%= @signup.name %>,
 
 Here's your volunteering confirmation for <%= @event.title %> on <%= @event.start_time.strftime("%B %d, %Y") %>
 from <%= @event.start_time.strftime("%I:%M %p") %> to <%= @event.end_time.strftime("%I:%M %p") %>.
@@ -8,10 +8,10 @@ from <%= @event.start_time.strftime("%I:%M %p") %> to <%= @event.end_time.strfti
 
 Here's the info you signed up with:
 
-Name: <%= @signup.user_name %>
-Email: <%= @signup.user_email %>
-Phone number: <%= @signup.user_phone_number %>
-<% if @signup.user_is_over_18 %>
+Name: <%= @signup.name %>
+Email: <%= @signup.email %>
+Phone number: <%= @signup.phone_number %>
+<% if @signup.is_over_18 %>
 You are over 18
 <% else %>
 You are under 18

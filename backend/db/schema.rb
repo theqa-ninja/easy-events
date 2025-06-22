@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_26_005218) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_22_042532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,10 +47,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_005218) do
   create_table "signups", force: :cascade do |t|
     t.integer "event_id", null: false
     t.integer "user_id"
-    t.string "user_name", null: false
-    t.string "user_email", null: false
-    t.string "user_phone_number"
-    t.boolean "user_is_over_18", null: false
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "phone_number"
+    t.boolean "is_over_18", null: false
     t.text "notes"
     t.datetime "checked_in_at"
     t.datetime "cancelled_at"
@@ -59,7 +59,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_005218) do
     t.integer "volunteer_role_id"
     t.boolean "soft_deleted", default: false, null: false
     t.datetime "deleted_at"
-    t.index ["event_id", "user_email", "user_name"], name: "index_signups_on_event_id_and_user_email_and_user_name", unique: true
+    t.index ["event_id", "email", "name"], name: "index_signups_on_event_id_and_email_and_name", unique: true
   end
 
   create_table "teams", force: :cascade do |t|

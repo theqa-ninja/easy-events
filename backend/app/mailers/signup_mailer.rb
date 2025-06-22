@@ -5,6 +5,6 @@ class SignupMailer < ApplicationMailer
     @signup = signup
     @event = event
     @domain = domain
-    mail(to: @signup.user_email, subject: 'Volunteering Confirmation')
+    mail(to: @signup.email, subject: 'Volunteering Confirmation')
   end
 end

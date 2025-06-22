@@ -1,8 +1,8 @@
 module Api
   class EventsController < ApplicationController
-    before_action :set_event, only: %i[show signup signups check_ins update destroy]
+    before_action :set_event, only: %i[show update destroy]
     # before_action :set_permissions
-    before_action :redirect_if_not_admin, only: %i[signups check_ins create update destroy]
+    before_action :redirect_if_not_lead_or_admin, only: %i[create update destroy]
 
     # GET /events or /events.json
     def index
@@ -21,7 +21,7 @@ module Api
     def signup
       signup = Signup.find_by(
         event_id: @event.id,
-        user_email: current_user.email
+        email: current_user.email
       )
       return render json: current_user, status: :not_found if signup.nil?
 
@@ -29,24 +29,24 @@ module Api
     end
 
     # GET /events/1/signups
-    def signups
-      signups_over_18 = Signup.where(soft_deleted: false).where(event_id: @event.id,
-                                                                user_is_over_18: true).order(:user_name)
-      signups_under_18 = Signup.where(soft_deleted: false).where(event_id: @event.id,
-                                                                 user_is_over_18: false).order(:user_name)
-      # @signups = Signup.where(event_id: @event.id).order(:user_name) # for no API
-      render json: { adults: { filled: signups_over_18.length, signups: signups_over_18.as_json },
-                     under_18: { filled: signups_under_18.length, signups: signups_under_18.as_json } }, status: :ok
-    end
+    # def signups
+    #   signups_over_18 = Signup.where(soft_deleted: false).where(event_id: @event.id,
+    #                                                             is_over_18: true).order(:name)
+    #   signups_under_18 = Signup.where(soft_deleted: false).where(event_id: @event.id,
+    #                                                              is_over_18: false).order(:name)
+    #   # @signups = Signup.where(event_id: @event.id).order(:name) # for no API
+    #   render json: { adults: { filled: signups_over_18.length, signups: signups_over_18.as_json },
+    #                  under_18: { filled: signups_under_18.length, signups: signups_under_18.as_json } }, status: :ok
+    # end
 
-    # GET /events/1/checkins
-    def check_ins
-      checkins_over_18 = Signup.where(event_id: @event.id,
-                                      user_is_over_18: true).where.not(checked_in_at: nil).order(:user_name)
-      checkins_under_18 = Signup.where(event_id: @event.id,
-                                       user_is_over_18: false).where.not(checked_in_at: nil).order(:user_name)
-      render json: { adults: checkins_over_18.as_json, under_18: checkins_under_18.as_json }, status: :ok
-    end
+    # # GET /events/1/checkins
+    # def check_ins
+    #   checkins_over_18 = Signup.where(event_id: @event.id,
+    #                                   is_over_18: true).where.not(checked_in_at: nil).order(:name)
+    #   checkins_under_18 = Signup.where(event_id: @event.id,
+    #                                    is_over_18: false).where.not(checked_in_at: nil).order(:name)
+    #   render json: { adults: checkins_over_18.as_json, under_18: checkins_under_18.as_json }, status: :ok
+    # end
 
     # POST /events or /events.json
     def create
@@ -103,10 +103,10 @@ module Api
     #                             user_id: current_user.id,
     #                             event_id: curr_event.id,
     #                             notes: params[:notes],
-    #                             user_name: current_user.name,
-    #                             user_email: current_user.email,
-    #                             user_phone_number: current_user.phone_number,
-    #                             user_is_over_18: current_user.is_over_18
+    #                             name: current_user.name,
+    #                             email: current_user.email,
+    #                             phone_number: current_user.phone_number,
+    #                             is_over_18: current_user.is_over_18
     #                           })
 
     #   if new_signup.save
@@ -156,7 +156,7 @@ module Api
     #   # @user_is_event_coordinator_or_admin = current_user && UsersTypesTeam.find_by(user_id: current_user.id)
     # end
 
-    def redirect_if_not_admin
+    def redirect_if_not_lead_or_admin
       return if @user_is_event_coordinator_or_admin
 
       render json: { message: 'You are not high enough to do that' },

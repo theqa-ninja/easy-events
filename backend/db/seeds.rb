@@ -47,7 +47,7 @@ unless Rails.env.production?
   puts 'creating user types...'
   UserType.find_or_create_by!(role: 'Superadmin')
   UserType.find_or_create_by!(role: 'Admin')
-  UserType.find_or_create_by!(role: 'Event Coordinator')
+  UserType.find_or_create_by!(role: 'Team Lead')
 
   puts 'creating user types teams...'
   UsersTypesTeam.find_or_create_by!(user_id: User.first.id, organization_id: org.id, user_type_id: UserType.first.id)
@@ -105,8 +105,8 @@ unless Rails.env.production?
         u_is_over_18 = FFaker::Boolean.maybe
       end
       u_notes = FFaker::FreedomIpsum.sentence if (FFaker::Number.number % 5).zero?
-      Signup.create(event_id: e.id, user_id: u_id, user_name: u_name, user_email: u_email,
-                    user_phone_number: u_phone_number, user_is_over_18: u_is_over_18, notes: u_notes)
+      Signup.create(event_id: e.id, user_id: u_id, name: u_name, email: u_email,
+                    phone_number: u_phone_number, is_over_18: u_is_over_18, notes: u_notes)
       puts "added user #{u_name} to event #{e.title}"
     end
   end

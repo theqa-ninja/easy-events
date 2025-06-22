@@ -6,16 +6,12 @@ class Event < ApplicationRecord
 
   belongs_to :team
 
-  # remaining_adult_slots = -> { adult_slots - Signup.where(event_id: id).where(user_is_over_18: true).count }
-
-  # remaining_teenager_slots = -> { teenager_slots - Signup.where(event_id: id).where(user_is_over_18: false).count }
-
   def remaining_adult_slots
-    adult_slots - Signup.where(event_id: id).where(soft_deleted: false).where(user_is_over_18: true).length
+    adult_slots - Signup.where(event_id: id).where(soft_deleted: false).where(is_over_18: true).length
   end
 
   def remaining_teenager_slots
-    teenager_slots - Signup.where(event_id: id).where(soft_deleted: false).where(user_is_over_18: false).length
+    teenager_slots - Signup.where(event_id: id).where(soft_deleted: false).where(is_over_18: false).length
   end
 
   def volunteer_role_counts

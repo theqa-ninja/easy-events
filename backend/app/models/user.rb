@@ -29,7 +29,7 @@ class User < ApplicationRecord
     # check first if they are admin
 
     # check if they have access
-    %w[Admin 'Event Coordinator'].include?(result.first&.user_type_role)
+    %w[Admin 'Team Lead'].include?(result.first&.user_type_role) # TODO: convert these to actual role_ids
   end
 
   # Check if the user is an admin for the given organization

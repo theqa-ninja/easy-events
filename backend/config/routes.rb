@@ -3,12 +3,12 @@ Rails.application.routes.draw do
   namespace :api do
     resources :events, only: %i[index show create update destroy] do
       member do
-        get 'signups' # get list of all signups
-        get 'checkins', to: 'events#check_ins'
-        get 'signup', to: 'events#signup'
-        post 'signup', to: 'events#create_signup' # volunteer signing up
-        patch 'signup', to: 'events#update_signup' # TODO: volunteer updating signup
-        delete 'signup', to: 'events#destroy_signup' # TODO: volunteer deleting signup
+        get 'signups', to: 'signups#index' # get list of all signups
+        get 'checkins', to: 'signups#check_ins'
+        get 'signup/:signup_id', to: 'signups#show'
+        post 'signup', to: 'signups#create' # volunteer signing up
+        patch 'signup/:signup_id', to: 'signups#update' # TODO: volunteer updating signup
+        delete 'signup/:signup_id', to: 'signups#destroy' # TODO: volunteer deleting signup
       end
     end
     resources :organizations, only: %i[index show create update destroy]
