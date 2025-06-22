@@ -1,4 +1,5 @@
-import { getEvent, getSignup } from "@/app/events/events.service";
+import { getEvent } from "@/app/events/events.service";
+import { getSignup } from "@/app/events/[id]/signups.service";
 import { Event } from "@/app/events/Event";
 import { EditSignupForm } from "./EditSignupForm";
 export const generateMetadata = async ({

@@ -10,7 +10,6 @@ import { Button } from "@/app/components/Button";
 import { Toast } from "@/app/components/Toast";
 
 export const EditSignupForm = ({
-  user,
   signupData,
   eventId,
 }: {
@@ -30,8 +29,8 @@ export const EditSignupForm = ({
   });
 
   const errorKeyValuePairs = [
-    { name: "user_name", value: "User's name" },
-    { name: "user_email", value: "User's email" },
+    { name: "name", value: "User's name" },
+    { name: "email", value: "User's email" },
   ];
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,9 +99,7 @@ export const EditSignupForm = ({
           type="text"
           name="name"
           placeholder="Name"
-          defaultValue={
-            user?.name || signupData?.user_name
-          }
+          defaultValue={signupData?.name}
           onBlur={handleChange}
           errorMessage={errors.name}
         />
@@ -110,9 +107,7 @@ export const EditSignupForm = ({
           type="email"
           name="email"
           placeholder="Email"
-          defaultValue={
-            user?.email || signupData?.user_email
-          }
+          defaultValue={signupData?.email}
           onBlur={handleChange}
           errorMessage={errors.email}
         />
@@ -120,10 +115,7 @@ export const EditSignupForm = ({
           type="tel"
           name="phone_number"
           placeholder="Phone number"
-          defaultValue={
-            user?.phone_number ||
-            signupData?.user_phone_number
-          }
+          defaultValue={signupData?.phone_number}
         />
         Are you over 18 years old?
         <div className="flex gap-4">
@@ -133,10 +125,7 @@ export const EditSignupForm = ({
             value="true"
             label="Yes"
             onBlur={handleChange}
-            defaultChecked={
-              user?.is_over_18 === true ||
-              signupData?.user_is_over_18 === true
-            }
+            defaultChecked={signupData?.is_over_18 === true}
             errorMessage={errors.is_over_18}
           />
           <Input
@@ -145,14 +134,15 @@ export const EditSignupForm = ({
             value="false"
             label="No"
             onBlur={handleChange}
-            defaultChecked={
-              user?.is_over_18 === false ||
-              signupData?.user_is_over_18 === false
-            }
+            defaultChecked={signupData?.is_over_18 === false}
             errorMessage={errors.is_over_18}
           />
         </div>
-        <Textarea name="notes" placeholder="notes..." />
+        <Textarea
+          name="notes"
+          placeholder="notes..."
+          defaultValue={signupData?.notes}
+        />
         <Button type="submit" label="Save changes" />
       </form>
     </>

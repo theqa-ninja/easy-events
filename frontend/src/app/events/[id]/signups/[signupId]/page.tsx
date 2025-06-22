@@ -1,5 +1,5 @@
 import { Switch } from "@/app/components/Switch";
-import { getSignupsSignup } from "@/app/events/events.service";
+import { getSignupsSignup } from "@/app/events/[id]/signups.service";
 
 const SignupsShowPage = async ({
   params,
@@ -8,7 +8,6 @@ const SignupsShowPage = async ({
 }) => {
   const { id, signupId } = await params;
   const signupData = await getSignupsSignup(id, signupId);
-  console.log(signupData);
 
   return (
     <main className="p-4 max-w-4xl m-auto">

@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { ISignup } from "@/app/events/events.service";
+import { ISignup } from "@/app/events/[id]/signups.service";
 import Link from "next/link";
 import { Switch } from "@/app/components/Switch";
 import { DropDown } from "@/app/components/Dropdown";
@@ -19,7 +19,7 @@ export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
             <tr className="*:py-2 *:align-top">
               <td className="font-bold">
                 <Link href={`/events/${signup.event_id}/signups/${signup.id}`}>
-                  {signup.user_name}
+                  {signup.name}
                 </Link>
               </td>
               <td>

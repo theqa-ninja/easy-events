@@ -1,5 +1,6 @@
 import React from "react";
-import { getSignups, getEvent } from "@/app/events/events.service";
+import { getEvent } from "@/app/events/events.service";
+import { getSignups } from "@/app/events/[id]/signups.service";
 import { SignupsTable } from "./SignupsTable";
 import Link from "next/link";
 import { doesUserHavePermissions } from "@/app/user/users.service";
@@ -18,7 +19,7 @@ export const generateMetadata = async ({
 
 const SignupsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
-  const signupsData = await getSignups(id);
+  const signupsData = await getSignups();
   const userMayViewSignups = await doesUserHavePermissions([
     "Admin",
     "Event Coordinator",
