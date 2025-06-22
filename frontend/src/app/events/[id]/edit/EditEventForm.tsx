@@ -81,14 +81,13 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
   const handleDeleteEvent = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (confirm("Are you sure you want to delete this event?")) {
-      deleteEvent(eventData.id as number);
-      // Call the delete event function here
-      // Assuming deleteEvent is a function that deletes the event
-      // deleteEvent(eventData.id).then(() => {
-      //   setToast({ message: "Event deleted", status: "success" });
-      // }).catch((error) => {
-      //   setToast({ message: "Error deleting event", status: "error" });
-      // });
+      deleteEvent(eventData.id as number)
+        .then(() => {
+          setToast({ message: "Event deleted", status: "success" });
+        })
+        .catch((error) => {
+          setToast({ message: "Error deleting event", status: "error" });
+        });
     }
   };
 
@@ -180,7 +179,7 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
         <Button type="submit" label="Edit event" />
       </form>
       <form onSubmit={handleDeleteEvent} className="flex flex-col gap-4 w-100">
-        <Button type="submit" label="Delete this event" />
+        <Button type="submit" label="Soft delete this event" />
       </form>
     </>
   );
