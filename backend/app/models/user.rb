@@ -49,14 +49,22 @@ class User < ApplicationRecord
     'Superadmin'.include?(result.first&.user_type_role) # TODO: convert these to actual role_ids
   end
 
+  def organization_permissions
+    perms = UsersTypesTeam.where(user_id: id)
+    return [] if perms.empty?
+
+    # get all organizations the user has access to
+    perms.includes(:organization).map { |ut| { org_id: ut.organization.id, name: ut.organization.name } }.uniq
+  end
+
   def team_permissions
     perms = UsersTypesTeam.where(user_id: id)
     return [] if perms.empty?
 
-    perms.includes(:team).map { |ut| { team: ut.team, user_type: ut.user_type_role } }
+    perms.includes(:team).map { |ut| { organization: ut.organization.name, team: ut.team, team_id: ut.team_id, user_type: ut.user_type_role } }
   end
 
   def as_json(_options = {})
-    super(methods: [:team_permissions])
+    super(methods: %i[team_permissions organization_permissions])
   end
 end
