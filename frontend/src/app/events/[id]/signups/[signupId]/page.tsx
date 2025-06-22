@@ -1,6 +1,7 @@
 import { getSignupsSignup } from "@/app/events/[id]/signups.service";
 import { CanceledAt } from "./CanceledAt";
 import Link from "next/link";
+import { CheckedInAt } from "../CheckedInAt";
 
 const SignupsShowPage = async ({
   params,
@@ -37,14 +38,16 @@ const SignupsShowPage = async ({
             <dt>Notes from leader:</dt>
             <dd></dd>
           </dl>
-          <dl>
+          <dl className="flex flex-col">
             <dt>Checked-in at:</dt>
-            <dd>{signupData.checked_in_at}</dd>
+            <dd className="min-w-25 align-top">
+              <CheckedInAt id={id} signup={signupData} signupId={signupId} />
+            </dd>
           </dl>
-          <dl>
+          <dl className="flex flex-col">
             <dt>Cancelled at:</dt>
             <dd className="min-w-25 align-top">
-              <CanceledAt id={id} signup={signupData} />
+              <CanceledAt id={id} signup={signupData} signupId={signupId} />
             </dd>
           </dl>
         </div>

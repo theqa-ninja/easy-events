@@ -3,11 +3,11 @@ import { IUser } from "@/app/user/users.service";
 
 export interface ISignup {
   id?: number;
-  event_id: number;
+  event_id?: number;
   user_id?: number;
   name: string;
   email: string;
-  phone_number: string;
+  phone_number?: string;
   is_over_18: boolean;
   notes?: string;
   checked_in_at?: string | null;
@@ -20,7 +20,7 @@ export interface ISignups {
   teenagers: { filled: number; signups: ISignup[] };
 }
 
-export const getSignup = async (id: number): Promise<any> => {
+export const getSignup = async (eventId: number): Promise<any> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {
@@ -28,7 +28,7 @@ export const getSignup = async (id: number): Promise<any> => {
       Authorization: token || "",
     };
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${eventId}/signup`,
       {
         method: "GET",
         headers,
@@ -48,7 +48,7 @@ export const getSignup = async (id: number): Promise<any> => {
 };
 
 export const getSignups = async (
-  id: string
+  eventId: string
 ): Promise<ISignups> => {
   try {
     const token = await getToken();
@@ -57,7 +57,7 @@ export const getSignups = async (
       Authorization: token || "",
     };
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signups`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${eventId}/signups`,
       {
         method: "GET",
         headers,
@@ -71,7 +71,7 @@ export const getSignups = async (
 };
 
 export const createSignup = async (
-  id: number,
+  eventId: number,
   signup: ISignup
 ): Promise<ISignup> => {
   try {
@@ -81,7 +81,7 @@ export const createSignup = async (
       Authorization: token || "",
     };
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${eventId}/signup`,
       {
         method: "POST",
         headers,
@@ -96,7 +96,8 @@ export const createSignup = async (
 };
 
 export const editSignup = async (
-  id: number,
+  eventId: number,
+  signupId: number,
   signup: ISignup
 ): Promise<ISignup> => {
   try {
@@ -105,9 +106,8 @@ export const editSignup = async (
       "Content-Type": "application/json",
       Authorization: token || "",
     };
-    const signupId = await getSignup(id).then((data) => data.id);
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup/${signupId}`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${eventId}/signup/${signupId}`,
       {
         method: "PATCH",
         headers,
@@ -122,7 +122,7 @@ export const editSignup = async (
 };
 
 export const getSignupsSignup = async (
-  id: number,
+  eventId: number,
   signupId: number
 ): Promise<any> => {
   try {
@@ -132,7 +132,7 @@ export const getSignupsSignup = async (
       Authorization: token || "",
     };
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup/${signupId}`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${eventId}/signup/${signupId}`,
       {
         method: "GET",
         headers,

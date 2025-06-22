@@ -6,9 +6,11 @@ import { useEffect, useState } from "react";
 
 export const CheckedInAt = ({
   id,
+  signupId,
   signup,
 }: {
   id: number;
+  signupId: number;
   signup: ISignup;
 }) => {
   const [checkedInAt, setCheckedInAt] = useState<string>();
@@ -18,7 +20,7 @@ export const CheckedInAt = ({
       ...signup,
       checked_in_at: checked ? new Date().toISOString() : null,
     }
-    editSignup(id, body).then((response) => {
+    editSignup(id, signupId, body).then((response) => {
       body.checked_in_at ? setCheckedInAt(formatDateTime(body.checked_in_at, options)) : setCheckedInAt("");
     })
   }
@@ -29,14 +31,14 @@ export const CheckedInAt = ({
   };
 
   useEffect(() => {
-    signup.checked_in_at && setCheckedInAt(formatDateTime(signup.checked_in_at, options));
-  }, [checkedInAt]);
+    signup.checked_in_at ? setCheckedInAt(formatDateTime(signup.checked_in_at, options)) : setCheckedInAt("");
+  }, [signup.checked_in_at]);
 
   return (
     <>
     {checkedInAt}
     <Switch
-      id={`${signup.id}-cancelled`}
+      id={`${signup.id}-checked-in`}
       defaultChecked={signup.checked_in_at != null}
       defaultValue={signup.checked_in_at || new Date().toISOString()}
       onChange={handleChangeCancelledAt}

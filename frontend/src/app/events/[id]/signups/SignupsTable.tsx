@@ -1,7 +1,6 @@
 import { Fragment } from "react";
 import { ISignup } from "@/app/events/[id]/signups.service";
 import Link from "next/link";
-import { Switch } from "@/app/components/Switch";
 import { DropDown } from "@/app/components/Dropdown";
 import { CheckedInAt } from "./CheckedInAt";
 
@@ -24,7 +23,7 @@ export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
                 </Link>
               </td>
               <td>
-                <CheckedInAt id={signup.event_id} signup={signup} />
+                <CheckedInAt id={Number(signup.event_id)} signup={signup} signupId={Number(signup.id)} />
               </td>
             </tr>
             <tr>

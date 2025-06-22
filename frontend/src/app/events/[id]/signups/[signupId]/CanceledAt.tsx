@@ -6,9 +6,11 @@ import { useEffect, useState } from "react";
 
 export const CanceledAt = ({
   id,
+  signupId,
   signup,
 }: {
   id: number;
+  signupId: number;
   signup: ISignup;
 }) => {
   const [canceledAt, setCanceledAt] = useState<string>();
@@ -18,7 +20,7 @@ export const CanceledAt = ({
       ...signup,
       cancelled_at: checked ? new Date().toISOString() : null,
     }
-    editSignup(id.toString(), body).then((response) => {
+    editSignup(id, signupId, body).then((response) => {
       body.cancelled_at ? setCanceledAt(formatDateTime(body.cancelled_at, options)) : setCanceledAt("");
     })
   }
@@ -32,8 +34,8 @@ export const CanceledAt = ({
   };
 
   useEffect(() => {
-    signup.cancelled_at && setCanceledAt(formatDateTime(signup.cancelled_at, options));
-  }, [canceledAt]);
+    signup.cancelled_at ? setCanceledAt(formatDateTime(signup.cancelled_at, options)) : setCanceledAt("");
+  }, [signup.cancelled_at]);
 
   return (
     <>
