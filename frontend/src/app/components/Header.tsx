@@ -15,11 +15,12 @@ export default async function Header() {
         <div className="flex gap-4">
           <Link href="/">Home</Link>
           <Link href="/events">Events</Link>
-          { userMayCreateEvents && (
+          {userMayCreateEvents && (
             <Link href="/events/create">Create an event</Link>
           )}
+          <Link href="/organizations/create">Create an organization</Link>
         </div>
-        { user && user.email ? (
+        {user && user.email ? (
           <div className="flex gap-4">
             <p>Logged in as {user.email}</p>
             <Link href="/user/logout">Logout</Link>
