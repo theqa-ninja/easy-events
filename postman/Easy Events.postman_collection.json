@@ -23,8 +23,17 @@
 									"// this auto-saves the message_id to the collection variables",
 									"pm.collectionVariables.set('access_token', auth);",
 									"let uid = jsonData.data['id'] || null;",
+									"let name = jsonData.data['name'] || null;",
+									"let email = jsonData.data['email'] || null;",
+									"let is_over_18 = jsonData.data['is_over_18'] || null;",
+									"let phone_number = jsonData.data['phone_number'] || null;",
 									"",
-									"pm.collectionVariables.set('user_id', uid);"
+									"pm.collectionVariables.set('user.user_id', uid);",
+									"",
+									"pm.collectionVariables.set('user.name', name);",
+									"pm.collectionVariables.set('user.email', email);",
+									"pm.collectionVariables.set('user.is_over_18', is_over_18);",
+									"pm.collectionVariables.set('user.phone_number', phone_number);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -203,7 +212,20 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"let jsonData = pm.response.json();",
+									"console.log(jsonData);",
+									"let uid = jsonData['id'] || null;",
+									"let name = jsonData['name'] || null;",
+									"let email = jsonData['email'] || null;",
+									"let is_over_18 = jsonData['is_over_18'] || null;",
+									"let phone_number = jsonData['phone_number'] || null;",
+									"",
+									"pm.collectionVariables.set('user.user_id', uid);",
+									"",
+									"pm.collectionVariables.set('user.name', name);",
+									"pm.collectionVariables.set('user.email', email);",
+									"pm.collectionVariables.set('user.is_over_18', is_over_18);",
+									"pm.collectionVariables.set('user.phone_number', phone_number);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -514,7 +536,410 @@
 					"name": "SignUps",
 					"item": [
 						{
+							"name": "Get All Signups for an event",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{backend_url}}/events/{{event_id}}/signups",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"events",
+										"{{event_id}}",
+										"signups"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "When not signed in",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"dude@test.com\",\n    \"name\": \"Booga Last\",\n    \"is_over_18\": false,\n    \"phone_number\": \"867-5309\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{backend_url}}/events/{{event_id}}/signup",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												"{{event_id}}",
+												"signup"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "When signed in",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{access_token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"dude+curr_user@test.com\",\n    \"name\": \"Signed In\",\n    \"is_over_18\": false,\n    \"phone_number\": \"234-5678\",\n    \"notes\": \"I was already here\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{backend_url}}/events/{{event_id}}/signup",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												"{{event_id}}",
+												"signup"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "Get One Signup for an event",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{backend_url}}/events/{{event_id}}/signup/{{signup_id}}",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"events",
+										"{{event_id}}",
+										"signup",
+										"{{signup_id}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "When not signed in",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"dude@test.com\",\n    \"name\": \"Booga Last\",\n    \"is_over_18\": false,\n    \"phone_number\": \"867-5309\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{backend_url}}/events/{{event_id}}/signup/{{signup_id}}",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												"{{event_id}}",
+												"signup",
+												"{{signup_id}}"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "When signed in",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{access_token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"dude+curr_user@test.com\",\n    \"name\": \"Signed In\",\n    \"is_over_18\": false,\n    \"phone_number\": \"234-5678\",\n    \"notes\": \"I was already here\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{backend_url}}/events/{{event_id}}/signup/{{signup_id}}",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												"{{event_id}}",
+												"signup",
+												"{{signup_id}}"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "Edit a sign up",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{backend_url}}/events/{{event_id}}/signup/{{signup_id}}",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"events",
+										"{{event_id}}",
+										"signup",
+										"{{signup_id}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "When not signed in",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"dude@test.com\",\n    \"name\": \"Booga Last\",\n    \"is_over_18\": false,\n    \"phone_number\": \"867-5309\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{backend_url}}/events/{{event_id}}/signup/{{signup_id}}",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												"{{event_id}}",
+												"signup",
+												"{{signup_id}}"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "When signed in",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{access_token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"dude+curr_user@test.com\",\n    \"name\": \"Signed In\",\n    \"is_over_18\": false,\n    \"phone_number\": \"234-5678\",\n    \"notes\": \"I was already here\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{backend_url}}/events/{{event_id}}/signup/{{signup_id}}",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												"{{event_id}}",
+												"signup",
+												"{{signup_id}}"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "Delete a sign up",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{backend_url}}/events/{{event_id}}/signup/{{signup_id}}",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"events",
+										"{{event_id}}",
+										"signup",
+										"{{signup_id}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "When not signed in",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"dude@test.com\",\n    \"name\": \"Booga Last\",\n    \"is_over_18\": false,\n    \"phone_number\": \"867-5309\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{backend_url}}/events/{{event_id}}/signup/{{signup_id}}",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												"{{event_id}}",
+												"signup",
+												"{{signup_id}}"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "When signed in",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{access_token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"dude+curr_user@test.com\",\n    \"name\": \"Signed In\",\n    \"is_over_18\": false,\n    \"phone_number\": \"234-5678\",\n    \"notes\": \"I was already here\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{backend_url}}/events/{{event_id}}/signup/{{signup_id}}",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												"{{event_id}}",
+												"signup",
+												"{{signup_id}}"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
 							"name": "Create an event signup",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"console.log(jsonData);",
+											"let event_id = jsonData['event_id'] || null;",
+											"let signup_id = jsonData['id'] || null;",
+											"",
+											"pm.collectionVariables.set('event_id', event_id);",
+											"pm.collectionVariables.set('signup_id', signup_id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -584,7 +1009,44 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"email\": \"dude+curr_user@test.com\",\n    \"name\": \"Signed In\",\n    \"is_over_18\": false,\n    \"phone_number\": \"234-5678\",\n    \"notes\": \"I was already here\"\n}",
+											"raw": "{\n    \"email\": \"{{user.email}}\",\n    \"name\": \"{{user.name}}\",\n    \"is_over_18\": {{user.is_over_18}},\n    \"phone_number\": \"{{user.phone_number}}\",\n    \"notes\": \"I was already signed in\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{backend_url}}/events/{{event_id}}/signup",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												"{{event_id}}",
+												"signup"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "When signed in for someone else",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{access_token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"dude+curr_user@test.com\",\n    \"name\": \"Signed In\",\n    \"is_over_18\": false,\n    \"phone_number\": \"234-5678\",\n    \"notes\": \"I was here, but this is for my friend\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1064,6 +1526,31 @@
 		{
 			"key": "user_id",
 			"value": ""
+		},
+		{
+			"key": "user.user_id",
+			"value": ""
+		},
+		{
+			"key": "user.name",
+			"value": ""
+		},
+		{
+			"key": "user.email",
+			"value": ""
+		},
+		{
+			"key": "user.is_over_18",
+			"value": ""
+		},
+		{
+			"key": "user.phone_number",
+			"value": ""
+		},
+		{
+			"key": "signup_id",
+			"value": "",
+			"type": "string"
 		}
 	]
 }
