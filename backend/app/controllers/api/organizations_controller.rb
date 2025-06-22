@@ -1,7 +1,6 @@
 module Api
   class OrganizationsController < ApplicationController
     before_action :authenticate_user!
-    # before_action :set_permissions
     before_action :set_organization, only: %i[show update destroy]
     before_action :redirect_if_not_superadmin, only: %i[index create]
     before_action :redirect_if_not_admin, only: %i[show update destroy]
