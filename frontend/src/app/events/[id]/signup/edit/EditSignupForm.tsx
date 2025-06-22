@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { object, string } from "yup";
 import { validateOnBlur } from "@/app/utilities";
-import { editSignup, ISignup } from "@/app/events/events.service";
+import { editSignup, ISignup } from "@/app/events/[id]/signups.service";
 import { IUser } from "@/app/user/users.service";
 import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";

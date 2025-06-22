@@ -12,7 +12,6 @@ import { SignupConfirmation } from "../signup-confirmation/SignupConfirmation";
 
 export const SignupForm = ({
   user,
-  signupData,
   eventId,
 }: {
   user?: IUser;
@@ -50,7 +49,7 @@ export const SignupForm = ({
       signupSchema.validateSync(formEntries, {
         abortEarly: false,
       });
-      createSignup(JSON.parse(body))
+      createSignup(eventId, JSON.parse(body))
         .then(async (response) => {
           if (!response.id) {
             const errorData: any = await response;
