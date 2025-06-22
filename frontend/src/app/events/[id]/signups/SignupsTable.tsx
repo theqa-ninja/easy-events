@@ -35,6 +35,7 @@ export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
             </tr>
             <tr className="border-b-1 border-primary-900">
               <td className="text-right py-2" colSpan={2}>
+                {/* TODO: Add volunteer roles here instead of hardcoding placeholders, and include ids */}
                 <DropDown name="volunteer_role_id" choices={["Attendee", "Volunteer"]} helpText="Assign a role" />
               </td>
             </tr>
