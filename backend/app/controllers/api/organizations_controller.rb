@@ -19,19 +19,19 @@ module Api
 
     # POST /organizations or /organizations.json
     def create
-      @new_org = Organization.new(organization_params)
+      new_org = Organization.new(organization_params)
 
-      if @new_org.save
+      if new_org.save
         # need to add current user as admin upon create
-        role_id = UserType.where(role: 'Admin').first.id
-        add_admin = UsersTypesTeam.new(user_id: current_user.id, organization_id: @new_org.id, user_type_id: role_id)
-        if add_admin.save
-          render json: @new_org, status: :created
-        else
-          render json: add_admin.errors, status: :unprocessable_entity
-        end
+        # role_id = UserType.where(role: 'Admin').first.id
+        # add_admin = UsersTypesTeam.new(user_id: current_user.id, organization_id: new_org.id, user_type_id: role_id)
+        # if add_admin.save
+        render json: new_org, status: :created
+        # else
+        #   render json: add_admin.errors, status: :unprocessable_entity
+        # end
       else
-        render json: @new_org.errors, status: :unprocessable_entity
+        render json: new_org.errors, status: :unprocessable_entity
       end
     end
 
