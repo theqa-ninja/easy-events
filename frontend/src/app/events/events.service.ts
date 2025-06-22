@@ -1,5 +1,7 @@
-import { ISignup } from "./[id]/signups.service";
+import { getUser } from "@/app/user/users.service";
+import { ISignup } from "@/app/events/[id]/signups.service";
 import { getToken } from "@/app/utilities";
+import { number, object, string } from "yup";
 
 export interface IEvent {
   id?: number;
@@ -9,16 +11,37 @@ export interface IEvent {
   end_time: string;
   adult_slots: number;
   teenager_slots: number;
-  remaining_adult_slots: number;
-  remaining_teenager_slots: number;
+  remaining_adult_slots?: number;
+  remaining_teenager_slots?: number;
   team_id: number;
   creator_id?: number;
+}
+
+export interface ITeam {
+  value: string;
+  label: string;
 }
 
 export interface IVolunteerRole {
   id: number;
   name: string;
 }
+
+export const eventSchema = object({
+    title: string().required("Event title is required"),
+    description: string().required("Event description is required"),
+    start_time: string().required("Start time is required"),
+    end_time: string().required("End time is required"),
+    adult_slots: number()
+      .required("Adult slots is required")
+      .typeError("Adult slots must be a number")
+      .positive("Adult slots must be greater than zero"),
+    teenager_slots: number()
+      .required("Teenager slots is required")
+      .typeError("Teenager slots must be a number")
+      .positive("Teenager slots must be greater than zero"),
+    team_id: string().required("Team is required"),
+  });
 
 export const getEvents = async (): Promise<IEvent[]> => {
   try {
@@ -136,7 +159,6 @@ export const getCheckIns = async (
       }
     );
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     throw error;
@@ -187,3 +209,9 @@ export const hasUserSignedUp = async (id: number): Promise<boolean> => {
     throw error;
   }
 };
+
+export const getEventTeams = async (): Promise<ITeam[]> => {
+  const user = await getUser();
+  const teams = user?.team_permissions?.map((team: any) => { return { value: team.team.id, label: team.team.name } });
+  return teams || [];
+}

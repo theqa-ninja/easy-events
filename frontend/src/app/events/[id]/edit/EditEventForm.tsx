@@ -1,15 +1,15 @@
 "use client";
-import { editEvent, deleteEvent, IEvent } from "@/app/events/events.service";
+import { editEvent, deleteEvent, IEvent, ITeam, eventSchema } from "@/app/events/events.service";
 import { Button } from "@/app/components/Button";
 import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
 import { isoDateTime, validateOnBlur } from "@/app/utilities";
 import { useEffect, useState } from "react";
 import { Toast } from "@/app/components/Toast";
-import { object, string } from "yup";
 import { eventDuration } from "../../events.helper";
+import { DropDown } from "@/app/components/Dropdown";
 
-export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
+export const EditEventForm = ({ eventData, teams }: { eventData: IEvent, teams: ITeam[] }) => {
   const [startTime, setStartTime] = useState(eventData.start_time);
   const [endTime, setEndTime] = useState(eventData.end_time);
   const [duration, setDuration] = useState<string | undefined>();
@@ -18,15 +18,6 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
     status: "success" | "error";
   }>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
-  const eventSchema = object({
-    title: string().required("Event title is required"),
-    description: string().required("Event description is required"),
-    start_time: string().required("Start time is required"),
-    end_time: string().required("End time is required"),
-    adult_slots: string().required("Adult slots is required"),
-    teenager_slots: string().required("Teenager slots is required"),
-    team_id: string().required("Team ID is required"),
-  });
 
   const handleChange = async (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -167,13 +158,12 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
           onBlur={handleChange}
           errorMessage={errors.description}
         />
-        <Input
-          label="Team ID"
-          type="number"
+        <DropDown
+          choices={teams}
           name="team_id"
-          defaultValue={eventData?.team_id}
-          onBlur={handleChange}
-          errorMessage={errors.team_id}
+          label="Team"
+          helpText="Please select a team"
+          defaultValue={String(eventData.team_id)}
         />
 
         <Button type="submit" label="Edit event" />

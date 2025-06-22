@@ -1,15 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import { createEvent, IEvent } from "../events.service";
+import { createEvent, IEvent, eventSchema } from "@/app/events/events.service";
 import { Input } from "../../components/Input";
 import { Button } from "@/app/components/Button";
 import { Textarea } from "@/app/components/Textarea";
 import { Toast } from "@/app/components/Toast";
-import { object, string } from "yup";
 import { validateOnBlur } from "@/app/utilities";
 import { eventDuration } from "../events.helper";
+import { DropDown } from "@/app/components/Dropdown";
 
-export const CreateEventForm = () => {
+export const CreateEventForm = ({ teams }: { teams: any }) => {
   const [toast, setToast] = useState<{
     message: string;
     status: "success" | "error";
@@ -17,20 +17,12 @@ export const CreateEventForm = () => {
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [duration, setDuration] = useState<string|undefined>();
-
-  const eventSchema = object({
-    title: string().required("Event title is required"),
-    description: string().required("Event description is required"),
-    start_time: string().required("Start time is required"),
-    end_time: string().required("End time is required"),
-    adult_slots: string().required("Adult slots is required"),
-    teenager_slots: string().required("Teenager slots is required"),
-    team_id: string().required("Team ID is required"),
-  });
+  const [duration, setDuration] = useState<string | undefined>();
 
   const handleChange = async (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     validateOnBlur(event, eventSchema, setErrors);
   };
@@ -144,10 +136,11 @@ export const CreateEventForm = () => {
           onBlur={handleChange}
           errorMessage={errors.description}
         />
-        <Input
-          label="Team ID"
-          type="number"
+        <DropDown
+          choices={teams}
           name="team_id"
+          label="Team"
+          helpText="Please select a team"
           onBlur={handleChange}
           errorMessage={errors.team_id}
         />
