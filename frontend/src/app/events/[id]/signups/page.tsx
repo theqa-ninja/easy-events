@@ -19,7 +19,7 @@ export const generateMetadata = async ({
 
 const SignupsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
-  const signupsData = await getSignups();
+  const signupsData = await getSignups(id);
   const userMayViewSignups = await doesUserHavePermissions([
     "Admin",
     "Event Coordinator",
@@ -39,7 +39,7 @@ const SignupsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
         <h2>Adults</h2>
         <SignupsTable signupsData={signupsData.adults.signups} />
         <h2 className="mt-8">Under 18</h2>
-        <SignupsTable signupsData={signupsData.under_18.signups} />
+        <SignupsTable signupsData={signupsData.teenagers.signups} />
       </>
       ) : (
       <>
