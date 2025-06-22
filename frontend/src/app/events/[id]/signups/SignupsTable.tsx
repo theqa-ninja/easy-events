@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { ISignup } from "@/app/events/events.service";
 import Link from "next/link";
 import { Switch } from "@/app/components/Switch";
+import { DropDown } from "@/app/components/Dropdown";
 
 export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
   return signupsData && signupsData.length > 0 ? (
@@ -10,7 +11,6 @@ export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
         <tr className="bg-foreground-100 border-b-1 border-primary-900 text-left *:py-2 *:text-nowrap">
           <th>Contact</th>
           <th className="w-25">Checked-in</th>
-          <th className="w-20">Cancelled</th>
         </tr>
       </thead>
       <tbody>
@@ -21,8 +21,6 @@ export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
                 <Link href={`/events/${signup.event_id}/signups/${signup.id}`}>
                   {signup.user_name}
                 </Link>
-                <span className="block break-all">{signup.user_email}</span>
-                <span className="block">{signup.user_phone_number}</span>
               </td>
               <td>
                 {signup.checked_in_at}
@@ -34,21 +32,19 @@ export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
                   }
                 />
               </td>
-              <td>
-                {signup.cancelled_at}
-                <Switch
-                  id={`${signup.id}-cancelled`}
-                  defaultChecked={signup.checked_in_at != null}
-                  defaultValue={
-                    signup.checked_in_at || new Date().toISOString()
-                  }
-                />
+            </tr>
+            <tr>
+              <td colSpan={2} className={signup.notes && "py-2"}>
+                {signup.notes && <b>Notes from volunteer: </b>}
+                {signup.notes}
               </td>
             </tr>
             <tr className="border-b-1 border-primary-900">
-              <td colSpan={3} className={signup.notes && "py-2"}>
-                {signup.notes && <b>Notes from volunteer: </b>}
-                {signup.notes}
+              <th className="text-left py-2">
+                Assign a role
+              </th>
+              <td className="text-left py-2">
+                <DropDown name="volunteer_role_id" choices={["Attendee", "Volunteer"]} />
               </td>
             </tr>
           </Fragment>

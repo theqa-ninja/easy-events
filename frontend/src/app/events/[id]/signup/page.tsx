@@ -6,6 +6,7 @@ import { validateToken } from "@/app/utilities";
 import { SignupForm } from "./SignupForm";
 import { SignupConfirmationOrForm } from "./SignupConfirmationOrForm";
 import { redirect } from "next/navigation";
+import { IUser } from "@/app/user/users.service";
 export const generateMetadata = async ({
   params,
 }: {
@@ -23,7 +24,7 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;
   const eventData = await getEvent(id);
   const signupData = await getSignup(id);
-  const signup: ISignup = {
+  const signup: ISignup = signupData?.user_name && {
     event_id: Number(id),
     user_id: Number(signupData && signupData?.user_id),
     user_name: signupData?.user_name || "",
@@ -32,6 +33,15 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
     user_is_over_18: signupData?.user_is_over_18 || false,
     notes: signupData?.notes || "",
   };
+
+  const user: IUser = {
+    id: String(signupData?.user_id),
+    name: signupData?.name || "",
+    email: signupData?.email || "",
+    phone_number: signupData?.phone_number || "",
+    is_over_18: signupData?.is_over_18 || false,
+  };
+
   const loggedIn = await validateToken();
 
   return (
@@ -45,8 +55,8 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
           would also allow you to edit your signup.
         </p>
       )}
-      {<SignupConfirmationOrForm signup={signup} id={Number(id)} />}
-      <SignupForm eventId={Number(id)} signupData={signup} />
+      {signup && <SignupConfirmationOrForm signup={signup} id={Number(id)} />}
+      <SignupForm eventId={Number(id)} signupData={signup} user={user} />
     </main>
   );
 };

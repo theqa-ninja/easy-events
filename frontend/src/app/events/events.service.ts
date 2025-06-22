@@ -115,7 +115,7 @@ export const getSignup = async (id: number): Promise<any> => {
       }
     );
     const data = await response.json();
-    if (data.status === "not_found") {
+    if (response.status === 404) {
       return data as IUser;
     } else if (data.status === 500) {
       return false;
