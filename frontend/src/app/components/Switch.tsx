@@ -2,11 +2,13 @@ export const Switch = ({
   id,
   defaultChecked,
   defaultValue,
+  onChange,
   ...props
 }: {
   id: string;
   defaultChecked: boolean;
   defaultValue?: string;
+  onChange?: any;
 }) => {
   return (
     <div className="relative w-full max-w-[55px] h-[30px] shadow-sm shadow-slate-300 rounded-full">
@@ -16,6 +18,7 @@ export const Switch = ({
         className="peer sr-only"
         defaultChecked={defaultChecked}
         defaultValue={defaultValue}
+        onChange={onChange}
         {...props}
       />
       <label
