@@ -48,7 +48,7 @@ export const EditSignupForm = ({
         abortEarly: false,
       });
       setErrors({});
-      editSignup(eventId.toString(), JSON.parse(body))
+      editSignup(eventId, JSON.parse(body))
         .then(async (response) => {
           if (!response.id) {
             const errorData: any = await response;

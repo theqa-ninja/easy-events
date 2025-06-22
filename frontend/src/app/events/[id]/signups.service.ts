@@ -96,7 +96,7 @@ export const createSignup = async (
 };
 
 export const editSignup = async (
-  id: string,
+  id: number,
   signup: ISignup
 ): Promise<ISignup> => {
   try {
@@ -105,8 +105,9 @@ export const editSignup = async (
       "Content-Type": "application/json",
       Authorization: token || "",
     };
+    const signupId = await getSignup(id).then((data) => data.id);
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup/${signup.id}`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/signup/${signupId}`,
       {
         method: "PATCH",
         headers,
