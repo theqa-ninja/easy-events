@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createEvent, IEvent } from "../events.service";
 import { Input } from "../../components/Input";
 import { Button } from "@/app/components/Button";
@@ -7,6 +7,7 @@ import { Textarea } from "@/app/components/Textarea";
 import { Toast } from "@/app/components/Toast";
 import { object, string } from "yup";
 import { validateOnBlur } from "@/app/utilities";
+import { eventDuration } from "../events.helper";
 
 export const CreateEventForm = () => {
   const [toast, setToast] = useState<{
@@ -14,6 +15,10 @@ export const CreateEventForm = () => {
     status: "success" | "error";
   }>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [duration, setDuration] = useState<string|undefined>();
+
   const eventSchema = object({
     title: string().required("Event title is required"),
     description: string().required("Event description is required"),
@@ -71,6 +76,12 @@ export const CreateEventForm = () => {
     }
   };
 
+  useEffect(() => {
+    if (startTime && endTime) {
+      setDuration(eventDuration(startTime, endTime));
+    }
+  }, [startTime, endTime]);
+
   return (
     <>
       {toast && (
@@ -97,6 +108,9 @@ export const CreateEventForm = () => {
           type="datetime-local"
           name="start_time"
           onBlur={handleChange}
+          onInput={(e) => {
+            setStartTime(e.currentTarget.value);
+          }}
           errorMessage={errors.start_time}
         />
         <Input
@@ -104,8 +118,12 @@ export const CreateEventForm = () => {
           type="datetime-local"
           name="end_time"
           onBlur={handleChange}
+          onInput={(e) => {
+            setEndTime(e.currentTarget.value);
+          }}
           errorMessage={errors.end_time}
         />
+        {duration && <p>Duration: {duration}</p>}
         <Input
           label="Adult volunteers needed"
           type="number"

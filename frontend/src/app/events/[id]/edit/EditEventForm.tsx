@@ -4,11 +4,15 @@ import { Button } from "@/app/components/Button";
 import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
 import { isoDateTime, validateOnBlur } from "@/app/utilities";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Toast } from "@/app/components/Toast";
 import { object, string } from "yup";
+import { eventDuration } from "../../events.helper";
 
 export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
+  const [startTime, setStartTime] = useState(eventData.start_time);
+  const [endTime, setEndTime] = useState(eventData.end_time);
+  const [duration, setDuration] = useState<string|undefined>();
   const [toast, setToast] = useState<{
     message: string;
     status: "success" | "error";
@@ -74,6 +78,12 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
     }
   };
 
+  useEffect(() => {
+      if (startTime && endTime) {
+        setDuration(eventDuration(startTime, endTime));
+      }
+    }, [startTime, endTime]);
+
   return (
     <>
       {toast && (
@@ -104,6 +114,9 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
             eventData?.start_time && isoDateTime(eventData?.start_time)
           }
           onBlur={handleChange}
+          onInput={(e) => {
+            setStartTime(e.currentTarget.value);
+          }}
           errorMessage={errors.start_time}
         />
         <Input
@@ -112,8 +125,12 @@ export const EditEventForm = ({ eventData }: { eventData: IEvent }) => {
           name="end_time"
           defaultValue={eventData?.end_time && isoDateTime(eventData?.end_time)}
           onBlur={handleChange}
+          onInput={(e) => {
+            setEndTime(e.currentTarget.value);
+          }}
           errorMessage={errors.end_time}
         />
+        {duration && <p>Duration: {duration}</p>}
         <Input
           label="Adult volunteers needed"
           type="number"
