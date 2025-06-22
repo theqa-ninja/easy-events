@@ -1,7 +1,7 @@
 import React from "react";
 
 type DropDownProps = {
-  choices: string[];
+  choices: string[] | { value: string; label: string }[];
   name: string;
   helpText?: string;
   label?: string;
@@ -21,7 +21,14 @@ export const DropDown: React.FC<DropDownProps> = ({
         className="block w-full p-2 border border-neutral-300 rounded-md shadow-inner active:outline-none active:ring-2 active:ring-primary-600 active:ring-offset-2 bg-background"
       >
         <option value="">{helpText}</option>
-        {choices.map((choice: string, index: number) => {
+        {choices.map((choice: string | { value: string; label: string }, index: number) => {
+          if (choice instanceof Object) {
+            return (
+              <option key={index} value={choice.value}>
+                {choice.label}
+              </option>
+            );
+          }
           return (
             <option key={index} value={choice}>
               {choice}
