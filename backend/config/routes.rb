@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       member do
         get 'signups', to: 'signups#index' # get list of all signups
         get 'checkins', to: 'signups#check_ins'
+        get 'signup', to: 'signups#show'
         get 'signup/:signup_id', to: 'signups#show'
         post 'signup', to: 'signups#create' # volunteer signing up
         patch 'signup/:signup_id', to: 'signups#update' # TODO: volunteer updating signup
