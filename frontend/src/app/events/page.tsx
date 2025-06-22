@@ -3,6 +3,7 @@ import { getEvents } from "./events.service";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { SignupLinks } from "./SignupLinks";
+import { eventDuration } from "./events.helper";
 
 export const metadata: Metadata = {
   title: "Upcoming Events",
@@ -20,6 +21,7 @@ const Events = async () => {
             <p>Date: {new Date(event.start_time).toLocaleDateString()}</p>
             <p>Start time: {new Date(event.start_time).toLocaleTimeString()}</p>
             <p>End time: {new Date(event.end_time).toLocaleTimeString()}</p>
+            <p>Duration: {eventDuration(event.start_time, event.end_time)}</p>
             <p>Total adult volunteers needed: {event.adult_slots}</p>
             <p>Total teenager volunteers needed: {event.teenager_slots}</p>
             {/* TODO: Build remaining slots */}

@@ -1,5 +1,6 @@
 import { IEvent } from "./events.service";
 import { formatDateTime } from "../utilities";
+import { eventDuration } from "./events.helper";
 
 export const Event = ({ eventData } : { eventData: IEvent }) => {
   return (
@@ -13,6 +14,10 @@ export const Event = ({ eventData } : { eventData: IEvent }) => {
       <dl>
         <dt>End time</dt>
         <dd>{formatDateTime(eventData.end_time)}</dd>
+      </dl>
+      <dl>
+        <dt>Duration</dt>
+        <dd>{eventDuration(eventData.start_time, eventData.end_time)}</dd>
       </dl>
       <dl>
         <dt>Adult slots</dt>
