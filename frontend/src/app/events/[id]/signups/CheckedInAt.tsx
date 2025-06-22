@@ -18,15 +18,12 @@ export const CheckedInAt = ({
       ...signup,
       checked_in_at: checked ? new Date().toISOString() : null,
     }
-    editSignup(id.toString(), body).then((response) => {
+    editSignup(id, body).then((response) => {
       body.checked_in_at ? setCheckedInAt(formatDateTime(body.checked_in_at, options)) : setCheckedInAt("");
     })
   }
 
   const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
     hour: "numeric",
     minute: "numeric",
   };
