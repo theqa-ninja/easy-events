@@ -1,8 +1,9 @@
 import { Fragment } from "react";
-import { ISignup } from "@/app/events/events.service";
+import { ISignup } from "@/app/events/[id]/signups.service";
 import Link from "next/link";
 import { Switch } from "@/app/components/Switch";
 import { DropDown } from "@/app/components/Dropdown";
+import { CheckedInAt } from "./CheckedInAt";
 
 export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
   return signupsData && signupsData.length > 0 ? (
@@ -19,18 +20,11 @@ export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
             <tr className="*:py-2 *:align-top">
               <td className="font-bold">
                 <Link href={`/events/${signup.event_id}/signups/${signup.id}`}>
-                  {signup.user_name}
+                  {signup.name}
                 </Link>
               </td>
               <td>
-                {signup.checked_in_at}
-                <Switch
-                  id={`${signup.id}-checkin`}
-                  defaultChecked={signup.checked_in_at != null}
-                  defaultValue={
-                    signup.checked_in_at || new Date().toISOString()
-                  }
-                />
+                <CheckedInAt id={signup.event_id} signup={signup} />
               </td>
             </tr>
             <tr>
@@ -40,11 +34,8 @@ export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
               </td>
             </tr>
             <tr className="border-b-1 border-primary-900">
-              <th className="text-left py-2">
-                Assign a role
-              </th>
-              <td className="text-left py-2">
-                <DropDown name="volunteer_role_id" choices={["Attendee", "Volunteer"]} />
+              <td className="text-right py-2" colSpan={2}>
+                <DropDown name="volunteer_role_id" choices={["Attendee", "Volunteer"]} helpText="Assign a role" />
               </td>
             </tr>
           </Fragment>

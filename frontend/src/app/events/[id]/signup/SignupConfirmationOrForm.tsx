@@ -1,5 +1,5 @@
 "use client";
-import { ISignup } from "@/app/events/events.service";
+import { ISignup } from "@/app/events/[id]/signups.service";
 import { useRouter } from "next/navigation";
 
 export const SignupConfirmationOrForm = ({
@@ -11,7 +11,7 @@ export const SignupConfirmationOrForm = ({
 }) => {
   const router = useRouter();
   const signedUp = (signup: ISignup) => {
-    if (signup?.user_email) {
+    if (signup?.email) {
       router.push(`/events/${id}/signup-confirmation`);
     }
     return false;

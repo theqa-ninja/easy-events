@@ -1,5 +1,6 @@
 import React from "react";
-import { getEvent, getSignup, ISignup } from "@/app/events/events.service";
+import { getEvent } from "@/app/events/events.service";
+import { getSignup, ISignup } from "@/app/events/[id]/signups.service";
 import { Event } from "@/app/events/Event";
 import { SignupConfirmation } from "./SignupConfirmation";
 export const generateMetadata = async ({
@@ -22,10 +23,10 @@ const SignupConfirmationPage = async ({ params }: { params: Promise<{ id: number
   const signup: ISignup = {
     event_id: Number(id),
     user_id: Number(signupData && signupData?.user_id),
-    user_name: signupData?.user_name || "",
-    user_email: signupData?.user_email || "",
-    user_phone_number: signupData?.user_phone_number || "",
-    user_is_over_18: signupData?.user_is_over_18 || false,
+    name: signupData?.user_name || "",
+    email: signupData?.user_email || "",
+    phone_number: signupData?.user_phone_number || "",
+    is_over_18: signupData?.user_is_over_18 || false,
     notes: signupData?.notes || "",
   };
 

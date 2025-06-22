@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { object, string } from "yup";
 import { validateOnBlur } from "@/app/utilities";
-import { createSignup, ISignup } from "@/app/events/events.service";
+import { createSignup, ISignup } from "@/app/events/[id]/signups.service";
 import { IUser } from "@/app/user/users.service";
 import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
@@ -12,7 +12,6 @@ import { SignupConfirmation } from "../signup-confirmation/SignupConfirmation";
 
 export const SignupForm = ({
   user,
-  signupData,
   eventId,
 }: {
   user?: IUser;
@@ -103,7 +102,7 @@ export const SignupForm = ({
             type="text"
             name="name"
             placeholder="Name"
-            defaultValue={user?.name || signupData?.user_name}
+            defaultValue={user?.name}
             onBlur={handleChange}
             errorMessage={errors.name}
           />
@@ -111,7 +110,7 @@ export const SignupForm = ({
             type="email"
             name="email"
             placeholder="Email"
-            defaultValue={user?.email || signupData?.user_email}
+            defaultValue={user?.email}
             onBlur={handleChange}
             errorMessage={errors.email}
           />
@@ -119,7 +118,7 @@ export const SignupForm = ({
             type="tel"
             name="phone_number"
             placeholder="Phone number"
-            defaultValue={user?.phone_number || signupData?.user_phone_number}
+            defaultValue={user?.phone_number}
           />
           Are you over 18 years old?
           <div className="flex gap-4">
@@ -130,8 +129,7 @@ export const SignupForm = ({
               label="Yes"
               onBlur={handleChange}
               defaultChecked={
-                user?.is_over_18 === true ||
-                signupData?.user_is_over_18 === true
+                user?.is_over_18 === true
               }
               errorMessage={errors.is_over_18}
             />
@@ -142,8 +140,7 @@ export const SignupForm = ({
               label="No"
               onBlur={handleChange}
               defaultChecked={
-                user?.is_over_18 === false ||
-                signupData?.user_is_over_18 === false
+                user?.is_over_18 === false
               }
               errorMessage={errors.is_over_18}
             />

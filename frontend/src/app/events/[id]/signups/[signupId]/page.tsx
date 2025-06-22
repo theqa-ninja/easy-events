@@ -1,5 +1,6 @@
-import { Switch } from "@/app/components/Switch";
-import { getSignupsSignup } from "@/app/events/events.service";
+import { getSignupsSignup } from "@/app/events/[id]/signups.service";
+import { CanceledAt } from "./CanceledAt";
+import Link from "next/link";
 
 const SignupsShowPage = async ({
   params,
@@ -8,25 +9,44 @@ const SignupsShowPage = async ({
 }) => {
   const { id, signupId } = await params;
   const signupData = await getSignupsSignup(id, signupId);
-  console.log(signupData);
 
   return (
     <main className="p-4 max-w-4xl m-auto">
+      <Link href={`/events/${id}/signups`}>&lsaquo;&nbsp;Back to signups</Link>
       <h1>Signup</h1>
       {signupData && (
         <div>
-          <p>Name: {signupData.user_name}</p>
-          <p>Email: {signupData.user_email}</p>
-          <p>Phone number: {signupData.user_phone_number}</p>
-          <p>Notes: {signupData.notes}</p>
-          <p>
-            {signupData.cancelled_at}
-            <Switch
-              id={`${signupData.id}-cancelled`}
-              defaultChecked={signupData.cancelled_at != null}
-              defaultValue={signupData.cancelled_at || new Date().toISOString()}
-            />
-          </p>
+          <dl>
+            <dt>Name:</dt>
+            <dd>{signupData.name}</dd>
+          </dl>
+          <dl>
+            <dt>Email:</dt>
+            <dd>{signupData.email}</dd>
+          </dl>
+          <dl>
+            <dt>Phone number:</dt>
+            <dd>{signupData.phone_number}</dd>
+          </dl>
+          <dl>
+            <dt>Notes from volunteer:</dt>
+            <dd>{signupData.notes}</dd>
+          </dl>
+          <dl>
+            {/* TODO: add leader notes param when it's available */}
+            <dt>Notes from leader:</dt>
+            <dd></dd>
+          </dl>
+          <dl>
+            <dt>Checked-in at:</dt>
+            <dd>{signupData.checked_in_at}</dd>
+          </dl>
+          <dl>
+            <dt>Cancelled at:</dt>
+            <dd className="min-w-25 align-top">
+              <CanceledAt id={id} signup={signupData} />
+            </dd>
+          </dl>
         </div>
       )}
     </main>

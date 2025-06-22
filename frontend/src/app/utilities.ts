@@ -14,8 +14,6 @@
  * Thursday, December 20, 2012
  */
 
-import { ISignup } from "./events/events.service";
-
 const defaultDateTimeOptions: Intl.DateTimeFormatOptions = {
   dateStyle: "long",
   timeStyle: "short",

@@ -1,7 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
-import { ISignup } from "../../events.service";
+import { ISignup } from "@/app/events/[id]/signups.service";
 import { useRouter } from "next/navigation";
 
 export const SignupConfirmation = ({
@@ -14,16 +14,16 @@ export const SignupConfirmation = ({
   const router = useRouter();
 
   useEffect(() => {
-    if (!signup?.user_email) {
+    if (!signup?.email) {
       router.push(`/events/${eventId}`);
     }
   }, [signup]);
 
-  return signup?.user_email && (
+  return signup?.email && (
     <div className="text-left w-full mt-5 p-5 bg-green-100 rounded-2xl transition-colors ease-in duration-300">
       <h2>Signup Confirmation</h2>
       <p>
-        Hi <b>{signup?.user_name}</b>, thank you for signing up.
+        Hi <b>{signup?.name}</b>, thank you for signing up.
         Please check your email for confirmation as well as more info about the
         event.
       </p>
@@ -32,19 +32,19 @@ export const SignupConfirmation = ({
         <dl>
           <dl>
             <dt>Name:</dt>
-            <dd>{signup?.user_name}</dd>
+            <dd>{signup?.name}</dd>
           </dl>
           <dl>
             <dt>Phone number:</dt>
-            <dd>{signup?.user_phone_number}</dd>
+            <dd>{signup?.phone_number}</dd>
           </dl>
           <dl>
             <dt>Email:</dt>
-            <dd>{signup?.user_email}</dd>
+            <dd>{signup?.email}</dd>
           </dl>
           <dl>
             <dt>You are over 18:</dt>
-            <dd>{signup?.user_is_over_18 ? "Yes" : "No"}</dd>
+            <dd>{signup?.is_over_18 ? "Yes" : "No"}</dd>
           </dl>
           <dl>
             <dt>Your notes for us:</dt>

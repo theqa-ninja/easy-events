@@ -1,5 +1,6 @@
 import React from "react";
-import { getSignups, getEvent } from "@/app/events/events.service";
+import { getEvent } from "@/app/events/events.service";
+import { getSignups } from "@/app/events/[id]/signups.service";
 import { SignupsTable } from "./SignupsTable";
 import Link from "next/link";
 import { doesUserHavePermissions } from "@/app/user/users.service";
@@ -38,7 +39,7 @@ const SignupsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
         <h2>Adults</h2>
         <SignupsTable signupsData={signupsData.adults.signups} />
         <h2 className="mt-8">Under 18</h2>
-        <SignupsTable signupsData={signupsData.under_18.signups} />
+        <SignupsTable signupsData={signupsData.teenagers.signups} />
       </>
       ) : (
       <>

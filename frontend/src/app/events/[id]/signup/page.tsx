@@ -1,11 +1,11 @@
 import React from "react";
 import Link from "next/link";
-import { getEvent, getSignup, ISignup } from "@/app/events/events.service";
+import { getEvent } from "@/app/events/events.service";
+import { getSignup, ISignup } from "@/app/events/[id]/signups.service";
 import { Event } from "@/app/events/Event";
 import { validateToken } from "@/app/utilities";
 import { SignupForm } from "./SignupForm";
 import { SignupConfirmationOrForm } from "./SignupConfirmationOrForm";
-import { redirect } from "next/navigation";
 import { IUser } from "@/app/user/users.service";
 export const generateMetadata = async ({
   params,
@@ -27,10 +27,10 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const signup: ISignup = signupData?.user_name && {
     event_id: Number(id),
     user_id: Number(signupData && signupData?.user_id),
-    user_name: signupData?.user_name || "",
-    user_email: signupData?.user_email || "",
-    user_phone_number: signupData?.user_phone_number || "",
-    user_is_over_18: signupData?.user_is_over_18 || false,
+    user_name: signupData?.name || "",
+    user_email: signupData?.email || "",
+    user_phone_number: signupData?.phone_number || "",
+    user_is_over_18: signupData?.is_over_18 || false,
     notes: signupData?.notes || "",
   };
 
@@ -56,7 +56,7 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
         </p>
       )}
       {signup && <SignupConfirmationOrForm signup={signup} id={Number(id)} />}
-      <SignupForm eventId={Number(id)} signupData={signup} user={user} />
+      <SignupForm eventId={Number(id)} user={user} />
     </main>
   );
 };
