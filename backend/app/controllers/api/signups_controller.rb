@@ -113,7 +113,7 @@ module Api
 
     # Only allow a list of trusted parameters through.
     def signup_params
-      params.require(:signup).permit(:name, :email, :phone_number, :is_over_18, :notes, :checked_in_at, :volunteer_role_id)
+      params.require(:signup).permit(:name, :email, :phone_number, :is_over_18, :notes, :checked_in_at, :cancelled_at, :volunteer_role_id)
     end
 
     def adult_signups
