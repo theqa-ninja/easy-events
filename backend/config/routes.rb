@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/auth'
   namespace :api do
@@ -12,7 +13,16 @@ Rails.application.routes.draw do
         delete 'signup/:signup_id', to: 'signups#destroy' # TODO: volunteer deleting signup
       end
     end
-    resources :organizations, only: %i[index show create update destroy]
+    resources :organizations, only: %i[index show create update destroy], param: :org_id do
+      member do
+        # resources :teams, only: %i[index show create update destroy]
+        get 'teams', to: 'teams#index' # get all teams for the organization
+        get 'teams/:team_id', to: 'teams#show' # get a specific team
+        post 'teams', to: 'teams#create' # create a new team in the organization
+        patch 'teams/:team_id', to: 'teams#update' # update a specific team
+        delete 'teams/:team_id', to: 'teams#destroy' # delete a specific team
+      end
+    end
     resources :users, only: %i[index show create update destroy] do
       collection do
         get 'me', to: 'users#me'
@@ -47,7 +57,7 @@ Rails.application.routes.draw do
   # end
 
   # resources :users
-  resources :teams
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines event signup page that has the event info and signup form
@@ -63,3 +73,4 @@ Rails.application.routes.draw do
   # root "posts#index"
   # root to: "home#index"
 end
+# rubocop:enable Metrics/BlockLength

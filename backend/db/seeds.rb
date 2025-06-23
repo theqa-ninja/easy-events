@@ -50,8 +50,8 @@ unless Rails.env.production?
   UserType.find_or_create_by!(role: 'Team Lead')
 
   puts 'creating user types teams...'
-  UsersTypesTeam.find_or_create_by!(user_id: User.first.id, organization_id: org.id, user_type_id: UserType.first.id)
-  puts "made #{User.first.email} as an #{UserType.first.role} for #{org.name}"
+  UsersTypesTeam.find_or_create_by!(user_id: User.first.id, organization_id: nil, user_type_id: UserType.first.id)
+  puts "made #{User.first.email} as an #{UserType.first.role}"
   UsersTypesTeam.find_or_create_by!(user_id: User.second.id, organization_id: org.id, team_id: Team.first.id,
                                     user_type_id: UserType.second.id)
   puts "made #{User.second.email} as a #{UserType.second.role} for #{org.name} on Team: #{Team.second.name}"

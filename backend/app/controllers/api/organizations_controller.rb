@@ -55,7 +55,7 @@ module Api
 
     # Use callbacks to share common setup or constraints between actions.
     def set_organization
-      @current_organization = Organization.where(soft_deleted: false).where(id: params[:id]).first
+      @current_organization = Organization.where(soft_deleted: false).where(id: params[:org_id]).first
 
       render json: { message: 'Organization not found' }, status: :not_found if @current_organization.nil?
     end

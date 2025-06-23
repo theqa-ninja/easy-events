@@ -723,6 +723,35 @@
 									"header": null,
 									"cookie": [],
 									"body": null
+								},
+								{
+									"name": "Get my signup",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{access_token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{backend_url}}/events/{{event_id}}/signup/",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												"{{event_id}}",
+												"signup",
+												""
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
 								}
 							]
 						},
@@ -1290,6 +1319,206 @@
 			"name": "Organization",
 			"item": [
 				{
+					"name": "Teams",
+					"item": [
+						{
+							"name": "List Teams",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{backend_url}}/organizations/{{org_id}}/teams",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"organizations",
+										"{{org_id}}",
+										"teams"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "View One Team",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{backend_url}}/organizations/{{org_id}}/teams/{{team_id}}",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"organizations",
+										"{{org_id}}",
+										"teams",
+										"{{team_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create New Team",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"",
+											"// this auto-saves the chain_id to the collection variables",
+											"let new_team_id = jsonData.id;",
+											"",
+											"// this auto-saves the message_id to the collection variables",
+											"pm.collectionVariables.set('team_id', new_team_id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"postman Team\",\n    \"org_id\": {{org_id}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend_url}}/organizations/{{org_id}}/teams/",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"organizations",
+										"{{org_id}}",
+										"teams",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Team",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"",
+											"// this auto-saves the chain_id to the collection variables",
+											"let new_team_id = jsonData.id;",
+											"",
+											"// this auto-saves the message_id to the collection variables",
+											"pm.collectionVariables.set('team_id', new_team_id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"updated Team\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend_url}}/organizations/{{org_id}}/teams/{{team_id}}",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"organizations",
+										"{{org_id}}",
+										"teams",
+										"{{team_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Team",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{backend_url}}/organizations/{{org_id}}/teams/{{team_id}}",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"organizations",
+										"{{org_id}}",
+										"teams",
+										"{{team_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "View All Organizations",
 					"request": {
 						"method": "GET",
@@ -1325,13 +1554,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{backend_url}}/organizations/{{new_org_id}}",
+							"raw": "{{backend_url}}/organizations/{{org_id}}",
 							"host": [
 								"{{backend_url}}"
 							],
 							"path": [
 								"organizations",
-								"{{new_org_id}}"
+								"{{org_id}}"
 							]
 						}
 					},
@@ -1350,7 +1579,7 @@
 									"let new_event_id = jsonData.id;",
 									"",
 									"// this auto-saves the message_id to the collection variables",
-									"pm.collectionVariables.set('new_org_id', new_event_id);"
+									"pm.collectionVariables.set('org_id', new_event_id);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1409,13 +1638,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{backend_url}}/organizations/{{new_org_id}}",
+							"raw": "{{backend_url}}/organizations/{{org_id}}",
 							"host": [
 								"{{backend_url}}"
 							],
 							"path": [
 								"organizations",
-								"{{new_org_id}}"
+								"{{org_id}}"
 							]
 						}
 					},
@@ -1442,13 +1671,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{backend_url}}/organizations/{{new_org_id}}",
+							"raw": "{{backend_url}}/organizations/{{org_id}}",
 							"host": [
 								"{{backend_url}}"
 							],
 							"path": [
 								"organizations",
-								"{{new_org_id}}"
+								"{{org_id}}"
 							]
 						}
 					},
@@ -1512,7 +1741,7 @@
 			"value": ""
 		},
 		{
-			"key": "new_org_id",
+			"key": "org_id",
 			"value": ""
 		},
 		{
@@ -1551,6 +1780,10 @@
 			"key": "signup_id",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "team_id",
+			"value": ""
 		}
 	]
 }
