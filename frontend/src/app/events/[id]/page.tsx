@@ -28,7 +28,12 @@ const EventDetails = async ({
   return (
     <main className="mt-5 p-4 max-w-4xl m-auto w-full bg-white rounded shadow">
       <Link href="/events">&lsaquo;&nbsp;Go back to events</Link>
-      {eventData && <Event eventData={eventData} />}
+      {eventData && (
+        <>
+          <h1>{eventData.title}</h1>
+          <Event eventData={eventData} />
+        </>
+      )}
       <EventLinks eventId={Number(id)} />
     </main>
   );

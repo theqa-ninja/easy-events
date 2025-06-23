@@ -3,8 +3,8 @@ import { getEvents } from "./events.service";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { SignupLinks } from "./SignupLinks";
-import { eventDuration } from "./events.helper";
 import { EventLinks } from "./[id]/EventLinks";
+import { Event } from "./Event";
 
 export const metadata: Metadata = {
   title: "Upcoming Events",
@@ -21,14 +21,7 @@ const Events = async () => {
             <h2 className="text-xl font-bold">
               <Link href={`events/${event.id}`}>{event.title}</Link>
             </h2>
-            <p>Date: {new Date(event.start_time).toLocaleDateString()}</p>
-            <p>Start time: {new Date(event.start_time).toLocaleTimeString()}</p>
-            <p>End time: {new Date(event.end_time).toLocaleTimeString()}</p>
-            <p>Duration: {eventDuration(event.start_time, event.end_time)}</p>
-            <p>Total adult volunteers needed: {event.adult_slots}</p>
-            <p>Total teenager volunteers needed: {event.teenager_slots}</p>
-            {/* TODO: Build remaining slots */}
-            <p>{event.description}</p>
+            <Event eventData={event} />
             <nav className="flex gap-4">
               <SignupLinks eventId={Number(event.id)} />
             </nav>
