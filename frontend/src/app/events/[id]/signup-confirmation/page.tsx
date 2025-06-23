@@ -14,9 +14,13 @@ export const generateMetadata = async ({
   return {
     title: `Signup for ${eventData?.title}`,
   };
-}
+};
 
-const SignupConfirmationPage = async ({ params }: { params: Promise<{ id: number }> }) => {
+const SignupConfirmationPage = async ({
+  params,
+}: {
+  params: Promise<{ id: number }>;
+}) => {
   const { id } = await params;
   const eventData = await getEvent(id);
   const signupData = await getSignup(id);
@@ -32,11 +36,13 @@ const SignupConfirmationPage = async ({ params }: { params: Promise<{ id: number
 
   return (
     <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
-      {eventData && <Event eventData={eventData} />}
-      <SignupConfirmation
-        signup={signup}
-        eventId={Number(id)}
-      />
+      {eventData && (
+        <>
+          <h1>Signup confirmation for {eventData.title}</h1>
+          <Event eventData={eventData} />
+        </>
+      )}
+      <SignupConfirmation signup={signup} eventId={Number(id)} />
     </main>
   );
 };

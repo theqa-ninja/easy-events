@@ -1,8 +1,8 @@
 <p>Hi <%= @signup.name %>,</p>
 <p>Here's your volunteering confirmation for <%= link_to @event.title, @domain == 'localhost' ? "http://#{@domain}:3001/events/#{@event.id}/signup-confirmation" : "https://#{@domain}/events/#{@event.id}/signup-confirmation" %> on 
 <%= @event.start_time.strftime("%B %d, %Y") %> from 
-<%= @event.start_time.strftime("%I:%M %p") %> to 
-<%= @event.end_time.strftime("%I:%M %p") %>.</p>
+<%= @event.start_time.strftime("%l:%M %p") %> to 
+<%= @event.end_time.strftime("%l:%M %p") %>.</p>
 <p><%= @event.description %></p>
 <p>Here's the info you signed up with:</p>
 <p><b>Name:</b> <%= @signup.name %><p>
