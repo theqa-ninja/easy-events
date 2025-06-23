@@ -1,6 +1,7 @@
 import { IEvent } from "./events.service";
 import { formatDateTime } from "../utilities";
 import { eventDuration } from "./events.helper";
+import Link from "next/link";
 
 export const Event = ({ eventData }: { eventData: IEvent }) => {
   const optionsDate: Intl.DateTimeFormatOptions = {
@@ -16,6 +17,8 @@ export const Event = ({ eventData }: { eventData: IEvent }) => {
 
   return (
     <div key={eventData.id} className="w-full">
+      {/* TODO: add a page for filtering events by team */}
+      <Link href="">{eventData.team_name}</Link>
       <dl>
         <dl>
           <dt>Date:</dt>

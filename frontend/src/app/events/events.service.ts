@@ -15,6 +15,7 @@ export interface IEvent {
   remaining_teenager_slots?: number;
   team_id: number;
   creator_id?: number;
+  team_name?: string;
 }
 
 export interface ITeam {
