@@ -1,7 +1,7 @@
 Hi <%= @signup.name %>,
 
 Here's your volunteering confirmation for <%= @event.title %> on <%= @event.start_time.strftime("%B %d, %Y") %>
-from <%= @event.start_time.strftime("%I:%M %p") %> to <%= @event.end_time.strftime("%I:%M %p") %>.
+from <%= @event.start_time.strftime("%l:%M %p") %> to <%= @event.end_time.strftime("%l:%M %p") %>.
 <%= @domain == 'localhost' ? "http://#{@domain}:3001/events/#{@event.id}/signup-confirmation" : "https://#{@domain}/events/#{@event.id}/signup-confirmation" %>
 
 <%= @event.description %>
@@ -18,3 +18,5 @@ You are under 18
 <% end %>
 Your notes for the leaders:
 <%= @signup.notes %>
+
+Thank you for volunteering!
