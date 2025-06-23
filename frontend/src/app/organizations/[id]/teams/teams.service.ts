@@ -4,7 +4,7 @@ export interface IOrganization {
     name: string;
 }
 
-export const getTeams = async (): Promise<IOrganization[]> => {
+export const getTeams = async (organizationId: number): Promise<IOrganization[]> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {
@@ -12,7 +12,7 @@ export const getTeams = async (): Promise<IOrganization[]> => {
       Authorization: token || "",
     };
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/teams`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/organizations/${organizationId}/teams`, {
       method: "GET",
       headers: headers,
     });

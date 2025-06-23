@@ -51,3 +51,24 @@ export const createOrganization = async (
     throw error;
   }
 };
+
+export const getOrganization = async (id: number): Promise<IOrganization> => {
+  try {
+    const token = await getToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: token || "",
+    };
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/organizations/${id}`,
+      {
+        method: "GET",
+        headers,
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { doesUserHavePermissions } from "../user/users.service";
 import { getOrganizations } from "./organizations.service";
 
@@ -10,16 +11,19 @@ const OrganizationsPage = async () => {
   const userMayViewOrganizations = await doesUserHavePermissions(["Superadmin"]);
 
   return userMayViewOrganizations && organizationsData && organizationsData.length > 0 ? (
-    <main className="flex flex-col items-center justify-between p-4">
+    <main className="max-w-3xl m-auto p-4">
       <h1>Organizations</h1>
       <ul>
         {organizationsData.map((organization) => (
-          <li className="text-xl font-bold" key={organization.id}>{organization.name}</li>
+          <li className="text-xl font-bold" key={organization.id}><Link href={`organizations/${organization.id}`}>{organization.name}</Link></li>
         ))}
       </ul>
+      <nav className="flex gap-4">
+        <Link href="/organizations/create">Create an organization</Link>
+      </nav>
     </main>
   ) : (
-    <main className="flex flex-col items-center justify-between p-4">
+    <main className="max-w-3xl m-auto p-4">
       <h1>Organizations</h1>
       <p>You need to log in to see your organizations or you do not have permission to view them.</p>
     </main>
