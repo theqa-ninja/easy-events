@@ -2,7 +2,7 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/auth'
   namespace :api do
-    resources :events, only: %i[index show create update destroy] do
+    resources :events, only: %i[index show create update destroy], param: :event_id do
       member do
         get 'signups', to: 'signups#index' # get list of all signups
         get 'checkins', to: 'events#checkins'
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
         delete 'teams/:team_id', to: 'teams#destroy' # delete a specific team
       end
     end
-    resources :users, only: %i[index show create update destroy] do
+    resources :users, only: %i[index show create update destroy], param: :user_id do
       collection do
         get 'me', to: 'users#me'
       end

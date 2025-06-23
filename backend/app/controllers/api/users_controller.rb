@@ -3,13 +3,9 @@ module Api
     before_action :authenticate_user!, only: %i[index show me update destroy]
     before_action :redirect_if_not_admin, only: %i[index show]
 
+    # GET /users/me
     def me
-      if current_user
-        render json: current_user
-        # Navigate to /api/v1/users/me to get the current user's info
-      else
-        render json: { error: "we can't find you!" }, status: :unauthorized
-      end
+      render json: current_user
     end
 
     # GET /users
@@ -19,7 +15,7 @@ module Api
 
     # GET /users/1
     def show
-      search_user = User.where(soft_deleted: false).where(id: params[:id]).first
+      search_user = User.where(soft_deleted: false).where(id: params[:user_id]).first
       return render json: search_user, status: :no_content if search_user.nil?
 
       render json: search_user.as_json, status: :ok
@@ -57,7 +53,7 @@ module Api
     private
 
     def find_user
-      User.where(soft_deleted: false).find_by(id: params[:id])
+      User.where(soft_deleted: false).find_by(id: params[:user_id])
     end
 
     def authorized_to_update?(user)

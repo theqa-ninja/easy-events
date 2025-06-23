@@ -79,7 +79,7 @@ module Api
     private
 
     def set_event
-      @current_event = Event.where(soft_deleted: false).where(id: params[:id]).first
+      @current_event = Event.where(soft_deleted: false).where(id: params[:event_id]).first
       render json: { message: 'Event not found' }, status: :not_found if @current_event.nil?
     end
 
