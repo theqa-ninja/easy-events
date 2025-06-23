@@ -37,7 +37,7 @@ module Api
 
       # if the event is not full, create the signup
       new_signup = Signup.new({
-                                user_id: current_user.id,
+                                user_id: current_user&.id,
                                 event_id: @current_event.id,
                                 notes: params[:notes],
                                 name: tmp_user.name,
