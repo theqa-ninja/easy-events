@@ -7,11 +7,11 @@ class Event < ApplicationRecord
   belongs_to :team
 
   def remaining_adult_slots
-    adult_slots - signups.where(is_over_18: true).where.not(cancelled_at: nil).length
+    adult_slots - signups.where(is_over_18: true).where(cancelled_at: nil).length
   end
 
   def remaining_teenager_slots
-    teenager_slots - signups.where(is_over_18: false).where.not(cancelled_at: nil).length
+    teenager_slots - signups.where(is_over_18: false).where(cancelled_at: nil).length
   end
 
   def volunteer_role_counts
