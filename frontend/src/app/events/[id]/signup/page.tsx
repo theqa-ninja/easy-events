@@ -39,7 +39,12 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
 
   return (
     <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
-      {eventData && <Event eventData={eventData} />}
+      {eventData && (
+        <>
+        <h1>Signup for {eventData.title}</h1>
+        <Event eventData={eventData} />
+        </>
+      )}
       {!loggedIn && (
         <p className="border border-gray-400 p-4 rounded-2xl mt-4">
           Would you like to <Link href="/user/login">log in</Link> or{" "}
