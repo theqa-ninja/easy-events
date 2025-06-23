@@ -6,6 +6,8 @@ class Event < ApplicationRecord
 
   belongs_to :team
 
+  delegate :name, to: :team, prefix: true
+
   def remaining_adult_slots
     adult_slots - signups.where(is_over_18: true).where(cancelled_at: nil).length
   end
@@ -28,6 +30,6 @@ class Event < ApplicationRecord
   end
 
   def as_json(_options = {})
-    super(methods: %i[remaining_adult_slots remaining_teenager_slots])
+    super(methods: %i[remaining_adult_slots remaining_teenager_slots team_name])
   end
 end
