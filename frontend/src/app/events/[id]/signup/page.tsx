@@ -46,7 +46,7 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
         </>
       )}
       {!loggedIn && (
-        <p className="border border-gray-400 p-4 rounded-2xl mt-4">
+        <p className="border border-gray-400 py-3 px-4 rounded-2xl mt-4">
           Would you like to <Link href="/user/login">log in</Link> or{" "}
           <Link href="/user/create-account">create an account</Link> to save
           your info to signup more quickly in the future? Creating an account

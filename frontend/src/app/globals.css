@@ -23,6 +23,7 @@
     --background-100: var(--color-slate-800);
     --foreground-50: var(--color-slate-50);
     --foreground-100: var(--color-slate-100);
+    --color-primary-700: var(--color-fuchsia-300);
   }
 }
 
@@ -53,7 +54,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  @apply text-fuchsia-800;
+  color: var(--color-primary-700);
 }
 
 a:hover {

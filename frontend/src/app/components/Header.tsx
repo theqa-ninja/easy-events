@@ -10,7 +10,7 @@ export default async function Header() {
   ]);
 
   return (
-    <header style={{ padding: "1rem", backgroundColor: "#eee" }}>
+    <header className="p-4 not-dark:bg-slate-200 dark:bg-slate-700">
       <nav className="flex justify-between">
         <div className="flex gap-4">
           <Link href="/">Home</Link>

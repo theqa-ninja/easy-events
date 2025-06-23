@@ -17,7 +17,7 @@ const Events = async () => {
       <h1>Events</h1>
       <div className="flex flex-col gap-4">
         {eventsData.map((event) => (
-          <div key={event.id} className="bg-white p-4 rounded shadow">
+          <div key={event.id} className="not-dark:bg-white dark:bg-slate-700 p-4 rounded shadow">
             <h2 className="text-xl font-bold">
               <Link href={`events/${event.id}`}>{event.title}</Link>
             </h2>
