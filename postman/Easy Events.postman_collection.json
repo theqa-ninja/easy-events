@@ -958,10 +958,8 @@
 										"exec": [
 											"let jsonData = pm.response.json();",
 											"console.log(jsonData);",
-											"let event_id = jsonData['event_id'] || null;",
 											"let signup_id = jsonData['id'] || null;",
 											"",
-											"pm.collectionVariables.set('event_id', event_id);",
 											"pm.collectionVariables.set('signup_id', signup_id);"
 										],
 										"type": "text/javascript",
@@ -974,7 +972,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"dude@test.com\",\n    \"name\": \"Booga Last\",\n    \"is_over_18\": false,\n    \"phone_number\": \"867-5309\"\n}",
+									"raw": "{\n    \"email\": \"dude@test.com\",\n    \"name\": \"Booga Last\",\n    \"is_over_18\": true,\n    \"phone_number\": \"867-5309\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1650,7 +1648,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"updated Team\"\n}",
+									"raw": "{\n    \"role\": \"new postman role\",\n    \"description\": \"new description\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1696,15 +1694,15 @@
 									}
 								],
 								"url": {
-									"raw": "{{backend_url}}/organizations/{{org_id}}/teams/{{team_id}}",
+									"raw": "{{backend_url}}/teams/{{team_id}}/volunteer_roles/{{volunteer_role_id}}",
 									"host": [
 										"{{backend_url}}"
 									],
 									"path": [
-										"organizations",
-										"{{org_id}}",
 										"teams",
-										"{{team_id}}"
+										"{{team_id}}",
+										"volunteer_roles",
+										"{{volunteer_role_id}}"
 									]
 								}
 							},
