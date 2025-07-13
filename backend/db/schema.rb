@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_13_194610) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_13_201810) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -52,7 +52,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_13_194610) do
     t.integer "volunteer_role_id"
     t.boolean "soft_deleted", default: false, null: false
     t.datetime "deleted_at"
-    t.index ["event_id", "email", "name"], name: "index_signups_on_event_id_and_email_and_name"
+    t.index ["event_id", "email", "name", "is_over_18", "soft_deleted"], name: "idx_on_event_id_email_name_is_over_18_soft_deleted_f300e9b2ae", unique: true
   end
 
   create_table "teams", force: :cascade do |t|
