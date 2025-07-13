@@ -29,7 +29,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Optional click handler
    */
-  onClick?: () => void;
+  onClick?: (event?: any) => void;
   /**
    * Is this the principal call to action on the page?
    */
@@ -38,6 +38,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    * How large should the button be?
    */
   size?: "small" | "medium" | "large";
+  classNames?: string;
 }
 
 /**
@@ -51,6 +52,7 @@ export const Button: FC<ButtonProps> = ({
   label,
   variant = "secondary",
   size = "medium",
+  classNames,
   ...props
 }) => {
   const main =
@@ -89,7 +91,7 @@ export const Button: FC<ButtonProps> = ({
   return (
     <button
       type="button"
-      className={[main, mode, buttonSize, direction, alignment, disabled].join(
+      className={[main, mode, buttonSize, direction, alignment, disabled, classNames].join(
         " "
       )}
       style={bgColor}
