@@ -61,7 +61,8 @@ class SignupGroupsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_signup_group
-    @signup_group = SignupGroup.find(params[:id])
+    @signup_group = SignupGroup.where(id: params[:id]).first
+    render json: { message: 'Signup group not found' }, status: :not_found if @signup_group.nil?
   end
 
   # Only allow a list of trusted parameters through.

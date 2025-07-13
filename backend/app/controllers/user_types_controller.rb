@@ -60,7 +60,8 @@ class UserTypesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user_type
-    @user_type = UserType.find(params[:id])
+    @user_type = UserType.where(id: params[:id]).first
+    render json: { message: 'User type not found' }, status: :not_found if @user_type.nil?
   end
 
   # Only allow a list of trusted parameters through.

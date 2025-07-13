@@ -28,10 +28,15 @@ Rails.application.routes.draw do
         get 'me', to: 'users#me'
       end
     end
+    resources :teams, only: %i[show update destroy], param: :team_id do
+      member do
+        resources :volunteer_roles, only: %i[index show create update destroy]
+      end
+    end
   end
 
   # resources :signups, only: [:index, :show, :edit, :create, :update, :destroy]
-  resources :volunteer_roles
+  # resources :volunteer_roles
   # resources :users_types_teams
 
   # get '/events', to: 'api/v1/events#index'

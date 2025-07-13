@@ -950,7 +950,7 @@
 							]
 						},
 						{
-							"name": "Create an event signup",
+							"name": "Signup for an event",
 							"event": [
 								{
 									"listen": "test",
@@ -1519,6 +1519,200 @@
 					]
 				},
 				{
+					"name": "Volunteer Roles",
+					"item": [
+						{
+							"name": "List Volunteer Roles",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{backend_url}}/teams/{{team_id}}/volunteer_roles",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"teams",
+										"{{team_id}}",
+										"volunteer_roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "View One Volunteer Role",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{backend_url}}/teams/{{team_id}}/volunteer_roles/{{volunteer_role_id}}",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"teams",
+										"{{team_id}}",
+										"volunteer_roles",
+										"{{volunteer_role_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create New Volunteer Role",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"",
+											"// this auto-saves the chain_id to the collection variables",
+											"let new_role_id = jsonData.id;",
+											"",
+											"// this auto-saves the message_id to the collection variables",
+											"pm.collectionVariables.set('volunteer_role_id', new_role_id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"role\": \"postman role\",\n    \"description\": \"something to do while bored\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend_url}}/teams/{{team_id}}/volunteer_roles/",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"teams",
+										"{{team_id}}",
+										"volunteer_roles",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update volunteer role",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"updated Team\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend_url}}/teams/{{team_id}}/volunteer_roles/{{volunteer_role_id}}",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"teams",
+										"{{team_id}}",
+										"volunteer_roles",
+										"{{volunteer_role_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Team Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{backend_url}}/organizations/{{org_id}}/teams/{{team_id}}",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"organizations",
+										"{{org_id}}",
+										"teams",
+										"{{team_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "View All Organizations",
 					"request": {
 						"method": "GET",
@@ -1784,6 +1978,11 @@
 		{
 			"key": "team_id",
 			"value": ""
+		},
+		{
+			"key": "volunteer_role_id",
+			"value": "",
+			"type": "string"
 		}
 	]
 }
