@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_22_045730) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_13_194610) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,13 +35,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_22_045730) do
     t.datetime "updated_at", null: false
     t.boolean "soft_deleted", default: false, null: false
     t.datetime "deleted_at"
-  end
-
-  create_table "signup_groups", force: :cascade do |t|
-    t.string "group_name", null: false
-    t.integer "primary_user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "signups", force: :cascade do |t|
@@ -140,7 +133,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_22_045730) do
 
   add_foreign_key "events", "teams"
   add_foreign_key "events", "users", column: "creator_id"
-  add_foreign_key "signup_groups", "users", column: "primary_user_id"
   add_foreign_key "signups", "events"
   add_foreign_key "signups", "users"
   add_foreign_key "signups", "volunteer_roles"

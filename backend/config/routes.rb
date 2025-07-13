@@ -9,8 +9,8 @@ Rails.application.routes.draw do
         get 'signup', to: 'signups#show'
         get 'signup/:signup_id', to: 'signups#show'
         post 'signup', to: 'signups#create' # volunteer signing up
-        patch 'signup/:signup_id', to: 'signups#update' # TODO: volunteer updating signup
-        delete 'signup/:signup_id', to: 'signups#destroy' # TODO: volunteer deleting signup
+        patch 'signup/:signup_id', to: 'signups#update'
+        delete 'signup/:signup_id', to: 'signups#destroy'
       end
     end
     resources :organizations, only: %i[index show create update destroy], param: :org_id do
@@ -35,7 +35,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # resources :signups, only: [:index, :show, :edit, :create, :update, :destroy]
   # resources :volunteer_roles
   # resources :users_types_teams
 
