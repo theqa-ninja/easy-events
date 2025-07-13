@@ -77,7 +77,7 @@ export const SignupForm = ({
             onBlur={handleChange}
             errorMessage={errors.name}
           />
-          Are you over 18 years old?
+          Are they over 18 years old?
           <div className="flex gap-4">
             <Input
               type="radio"
