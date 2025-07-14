@@ -8,12 +8,12 @@ export const Event = ({ eventData }: { eventData: IEvent }) => {
     year: "numeric",
     month: "long",
     day: "numeric",
-  }
+  };
 
   const optionsTime: Intl.DateTimeFormatOptions = {
     hour: "numeric",
     minute: "numeric",
-  }
+  };
 
   return (
     <div key={eventData.id} className="w-full">
@@ -37,16 +37,20 @@ export const Event = ({ eventData }: { eventData: IEvent }) => {
           <dd>{eventDuration(eventData.start_time, eventData.end_time)}</dd>
         </dl>
         <dl>
-          <dt>Total adult volunteers needed:</dt>
-          <dd>
-            {eventData.remaining_adult_slots} of {eventData.adult_slots}
-          </dd>
+          <dt>Total adult slots:</dt>
+          <dd>{eventData.adult_slots}</dd>
         </dl>
         <dl>
-          <dt>Total teenager volunteers needed:</dt>
-          <dd>
-            {eventData.remaining_teenager_slots} of {eventData.teenager_slots}
-          </dd>
+          <dt>Number of adults still needed:</dt>
+          <dd>{eventData.remaining_adult_slots}</dd>
+        </dl>
+        <dl>
+          <dt>Total teen slots:</dt>
+          <dd>{eventData.teenager_slots}</dd>
+        </dl>
+        <dl>
+          <dt>Number of teenagers still needed:</dt>
+          <dd>{eventData.remaining_teenager_slots}</dd>
         </dl>
       </dl>
       <p>{eventData.description}</p>
