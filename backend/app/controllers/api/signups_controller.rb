@@ -28,10 +28,8 @@ module Api
     # rubocop:disable Metrics/AbcSize
     def create
       # create the temp user
-      tmp_user ||= User.new
-
-      tmp_user.assign_attributes(email: params[:email], name: params[:name], is_over_18: params[:is_over_18],
-                                 phone_number: params[:phone_number])
+      tmp_user ||= User.new(email: params[:email], name: params[:name], is_over_18: params[:is_over_18],
+                            phone_number: params[:phone_number])
 
       return if check_if_full_or_admin(is_over_18: tmp_user.is_over_18)
 
