@@ -13,6 +13,7 @@ export interface ISignup {
   checked_in_at?: string | null;
   cancelled_at?: string | null;
   volunteer_role_id?: number;
+  primary_contact?: boolean;
 }
 
 export interface ISignups {

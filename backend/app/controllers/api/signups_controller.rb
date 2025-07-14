@@ -45,7 +45,11 @@ module Api
                               })
 
       if new_signup.save
-        SignupMailer.signup_confirmation(new_signup, @current_event, request.domain).deliver_now
+        sleep(2) # ensure all signups are created before sending the email
+        signups = Signup.where(email: new_signup.email, event_id: @current_event.id).where.not(name: new_signup.name)
+        if params[:primary_contact]
+          SignupMailer.signup_confirmation(new_signup, signups, @current_event, request.domain).deliver_now
+        end
         render json: new_signup, status: :created
       else
         render json: new_signup.errors, status: :unprocessable_entity
@@ -111,7 +115,7 @@ module Api
 
     # Only allow a list of trusted parameters through.
     def signup_params
-      params.require(:signup).permit(:name, :email, :phone_number, :is_over_18, :notes, :checked_in_at, :cancelled_at, :volunteer_role_id)
+      params.require(:signup).permit(:name, :email, :phone_number, :is_over_18, :notes, :checked_in_at, :cancelled_at, :volunteer_role_id, :primary_contact)
     end
 
     def adult_signups
