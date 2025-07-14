@@ -50,7 +50,7 @@ class User < ApplicationRecord
   end
 
   def organization_permissions
-    perms = UsersTypesTeam.where(user_id: id)
+    perms = UsersTypesTeam.where(user_id: id).where.not(organization_id: nil)
     return [] if perms.empty?
 
     # get all organizations the user has access to
@@ -58,10 +58,13 @@ class User < ApplicationRecord
   end
 
   def team_permissions
-    perms = UsersTypesTeam.where(user_id: id)
+    perms = UsersTypesTeam.where(user_id: id).where.not(organization_id: nil)
     return [] if perms.empty?
 
-    perms.includes(:team).map { |ut| { organization: ut.organization.name, team: ut.team, team_id: ut.team_id, user_type: ut.user_type_role } }
+    # get all teams the user has access to
+    perms.includes(:team).map do |ut|
+      { organization: ut.organization.name, team: ut.team, team_id: ut.team_id, user_type: ut.user_type_role }
+    end
   end
 
   def as_json(_options = {})
