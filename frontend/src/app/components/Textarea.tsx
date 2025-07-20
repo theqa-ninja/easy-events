@@ -3,9 +3,6 @@ import { ErrorMessage } from "./ErrorMessage";
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
-  name: string;
-  placeholder?: string;
-  value?: string;
   errorMessage?: string;
   validationSchema?: any;
 }
