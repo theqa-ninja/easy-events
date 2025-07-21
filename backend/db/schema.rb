@@ -73,9 +73,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_20_231218) do
     t.datetime "updated_at", null: false
     t.boolean "soft_deleted", default: false, null: false
     t.datetime "deleted_at"
-    t.string "user_types", default: ""
     t.string "description", default: ""
-    t.string "string", default: ""
     t.boolean "create_org", default: false
     t.boolean "edit_org", default: false
     t.boolean "view_org", default: false

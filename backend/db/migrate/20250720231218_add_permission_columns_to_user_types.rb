@@ -1,7 +1,7 @@
 class AddPermissionColumnsToUserTypes < ActiveRecord::Migration[7.1]
   def change
     change_table :user_types, bulk: true do |t|
-      t.string :user_types, :description, :string, default: ''
+      t.string :description, default: ''
       # org level permissions
       t.boolean :create_org, default: false
       t.boolean :edit_org, default: false

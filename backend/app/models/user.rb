@@ -17,7 +17,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validates :is_over_18, presence: true
 
-  permission_list = %i[create_org edit_org view_org create_team edit_team view_team]
+  permission_list = %i[CREATE_ORG EDIT_ORG VIEW_ORG CREATE_TEAM EDIT_TEAM VIEW_TEAM CREATE_EVENT EDIT_EVENT VIEW_EVENT].freeze
 
   def leader?(team_id)
     organization_id = UsersTypesTeam.find(team_id)&.organization_id
