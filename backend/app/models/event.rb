@@ -8,6 +8,10 @@ class Event < ApplicationRecord
 
   delegate :name, to: :team, prefix: true
 
+  def volunteer_roles
+    VolunteerRole.where(id: volunteer_role_ids)
+  end
+
   def remaining_adult_slots
     adult_slots - signups.where(is_over_18: true).where(cancelled_at: nil).length
   end
@@ -30,6 +34,6 @@ class Event < ApplicationRecord
   end
 
   def as_json(_options = {})
-    super(methods: %i[remaining_adult_slots remaining_teenager_slots team_name])
+    super(methods: %i[remaining_adult_slots remaining_teenager_slots team_name volunteer_roles])
   end
 end

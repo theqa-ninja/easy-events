@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_14_004412) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_20_231218) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -73,6 +73,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_14_004412) do
     t.datetime "updated_at", null: false
     t.boolean "soft_deleted", default: false, null: false
     t.datetime "deleted_at"
+    t.string "user_types", default: ""
+    t.string "description", default: ""
+    t.string "string", default: ""
+    t.boolean "create_org", default: false
+    t.boolean "edit_org", default: false
+    t.boolean "view_org", default: false
+    t.boolean "create_team", default: false
+    t.boolean "edit_team", default: false
+    t.boolean "view_team", default: false
+    t.boolean "create_event", default: false
+    t.boolean "edit_event", default: false
+    t.boolean "view_event", default: false
   end
 
   create_table "users", force: :cascade do |t|

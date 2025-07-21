@@ -17,57 +17,58 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validates :is_over_18, presence: true
 
+  permission_list = %i[create_org edit_org view_org create_team edit_team view_team]
+
   def leader?(team_id)
     organization_id = UsersTypesTeam.find(team_id)&.organization_id
     return false if organization_id.nil?
 
-    # check first if they are superadmin
-
-    result = UsersTypesTeam.where(organization_id: organization_id, user_id: id, team_id: [team_id, nil])
-    return false if result.nil?
-
-    # check first if they are admin
-
-    # check if they have access
-    ['Admin', 'Team Lead'].include?(result.first&.user_type_role) # TODO: convert these to actual role_ids
+    result = UsersTypesTeam.joins(:user_type)
+                           .where(organization_id: organization_id, user_id: id,
+                                  team_id: [team_id, nil], "user_type.edit_team": true)
+    !result.first.nil? # returns false if no results
   end
 
   # Check if the user is an admin for the given organization
   # if no organization_id, just a generic check
   def admin?(organization_id = nil)
-    result = UsersTypesTeam.where(user_id: id)
+    result = UsersTypesTeam.joins(:user_type).where(user_id: id, "user_type.edit_org": true)
     result = result.where(organization_id: organization_id) unless organization_id.nil?
-    return false if result.first.nil?
-
-    %w[Admin Superadmin].include?(result.first&.user_type_role) # TODO: convert these to actual role_ids
+    !result.first.nil? # returns false if no results
   end
 
   def superadmin?
-    result = UsersTypesTeam.where(user_id: id)
-    return false if result.first.nil?
-
-    'Superadmin'.include?(result.first&.user_type_role) # TODO: convert these to actual role_ids
+    result = UsersTypesTeam.where(user_id: id, create_org: true)
+    !result.first.nil? # returns false if no results
   end
 
-  def organization_permissions
-    perms = UsersTypesTeam.where(user_id: id).where.not(organization_id: nil)
-    return [] if perms.empty?
-
-    # get all organizations the user has access to
-    perms.includes(:organization).map { |ut| { org_id: ut.organization.id, name: ut.organization.name } }.uniq
+  def permissions_json(user_type_perms)
+    {
+      CREATE_ORG: user_type_perms.create_org,
+      EDIT_ORG: user_type_perms.edit_org,
+      VIEW_ORG: user_type_perms.view_org,
+      CREATE_TEAM: user_type_perms.create_team,
+      EDIT_TEAM: user_type_perms.edit_team,
+      VIEW_TEAM: user_type_perms.view_team,
+      CREATE_EVENT: user_type_perms.create_event,
+      EDIT_EVENT: user_type_perms.edit_event,
+      VIEW_EVENT: user_type_perms.view_event
+    }.reject { |_, value| value == false }
   end
 
   def team_permissions
-    perms = UsersTypesTeam.where(user_id: id).where.not(organization_id: nil)
+    perms = UsersTypesTeam.where(user_id: id)
     return [] if perms.empty?
 
     # get all teams the user has access to
     perms.includes(:team).map do |ut|
-      { organization: ut.organization.name, team: ut.team, team_id: ut.team_id, user_type: ut.user_type_role }
+      { organization: ut.organization.name, org_id: ut.organization_id, team: ut.team.name, team_id: ut.team_id, user_type: ut.user_type_role,
+        user_role_description: ut.user_type.description,
+        permissions: permissions_json(ut.user_type) }
     end
   end
 
   def as_json(_options = {})
-    super(methods: %i[team_permissions organization_permissions])
+    super(methods: [])
   end
 end

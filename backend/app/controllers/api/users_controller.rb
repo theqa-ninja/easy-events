@@ -5,7 +5,7 @@ module Api
 
     # GET /users/me
     def me
-      render json: current_user
+      render json: { user: current_user, team_permissions: current_user.team_permissions }
     end
 
     # GET /users

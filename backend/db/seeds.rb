@@ -45,9 +45,11 @@ unless Rails.env.production?
   # end
 
   puts 'creating user types...'
-  UserType.find_or_create_by!(role: 'Superadmin')
-  UserType.find_or_create_by!(role: 'Admin')
-  UserType.find_or_create_by!(role: 'Team Lead')
+  UserType.find_or_create_by!(role: 'internal admin', description: 'Can create orgs', create_org: true, edit_org: true, view_org: true)
+  UserType.find_or_create_by!(role: 'org team event', description: 'Can manage their current org and create new teams', edit_org: true, view_org: true,
+                              create_team: true, edit_team: true, view_team: true, create_event: true, edit_event: true, view_event: true)
+  UserType.find_or_create_by!(role: 'team event', description: 'Can manage their events', view_team: true, create_event: true, edit_event: true,
+                              view_event: true)
 
   puts 'creating user types teams...'
   UsersTypesTeam.find_or_create_by!(user_id: User.first.id, organization_id: nil, user_type_id: UserType.first.id)
