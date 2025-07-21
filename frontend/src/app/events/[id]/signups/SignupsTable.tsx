@@ -3,8 +3,15 @@ import { ISignup } from "@/app/events/[id]/signups.service";
 import Link from "next/link";
 import { DropDown } from "@/app/components/Dropdown";
 import { CheckedInAt } from "./CheckedInAt";
+import { IVolunteerRole } from "@/app/organizations/[id]/teams/teams.service";
 
-export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
+export const SignupsTable = async ({ signupsData, volunteerRoles }: { signupsData: ISignup[], volunteerRoles: IVolunteerRole[] }) => {
+  const volunteerRolesChoices: { value: string, label: string }[] = volunteerRoles.map((role) => {
+    return {
+      value: String(role.id),
+      label: role.role
+    }
+  })
   return signupsData && signupsData.length > 0 ? (
     <table className="w-full mb-5">
       <thead>
@@ -35,7 +42,7 @@ export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
             <tr className="border-b-1 border-primary-900">
               <td className="text-right py-2" colSpan={2}>
                 {/* TODO: Add volunteer roles here instead of hardcoding placeholders, and include ids */}
-                <DropDown name="volunteer_role_id" choices={["Attendee", "Volunteer"]} helpText="Assign a role" />
+                <DropDown name="volunteer_role_id" choices={volunteerRolesChoices} helpText="Assign a role" />
               </td>
             </tr>
           </Fragment>
