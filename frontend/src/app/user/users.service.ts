@@ -1,4 +1,5 @@
 import { getToken } from "@/app/utilities";
+import { ITeam } from "../organizations/[id]/teams/teams.service";
 export interface IUser {
   id: string;
   name: string;
@@ -9,7 +10,8 @@ export interface IUser {
 }
 
 export interface ITeamPermission {
-  team?: string;
+  team?: ITeam;
+  team_id: number;
   user_type: string;
 }
 

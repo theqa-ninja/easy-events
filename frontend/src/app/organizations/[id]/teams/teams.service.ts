@@ -46,7 +46,7 @@ export const getVolunteerRoles = async (
       Authorization: token || "",
     };
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_ROUTE}/teams/${teamId}/volunteer-roles`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/teams/${teamId}/volunteer_roles`,
       {
         method: "GET",
         headers,

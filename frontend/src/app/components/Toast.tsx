@@ -5,6 +5,11 @@ Toast component
 "use client";
 import React, { useState } from "react";
 
+export interface IToast {
+  status: "success" | "error" | undefined;
+  message: string;
+}
+
 interface ToastProps {
   message: string;
   status?: "success" | "error";

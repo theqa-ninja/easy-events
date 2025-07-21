@@ -7,7 +7,7 @@ import { IUser } from "@/app/user/users.service";
 import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
 import { Button } from "@/app/components/Button";
-import { Toast } from "@/app/components/Toast";
+import { IToast, Toast } from "@/app/components/Toast";
 
 export const EditSignupForm = ({
   signupData,
@@ -17,10 +17,7 @@ export const EditSignupForm = ({
   signupData?: ISignup;
   eventId: number;
 }) => {
-  const [toast, setToast] = useState<{
-    message: string;
-    status: "success" | "error";
-  }>();
+  const [toast, setToast] = useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
   const signupSchema = object({
     name: string().required("Name is required"),
@@ -48,7 +45,7 @@ export const EditSignupForm = ({
         abortEarly: false,
       });
       setErrors({});
-      editSignup(eventId, JSON.parse(body))
+      editSignup(eventId, Number(signupData?.id), JSON.parse(body))
         .then(async (response) => {
           if (!response.id) {
             const errorData: any = await response;

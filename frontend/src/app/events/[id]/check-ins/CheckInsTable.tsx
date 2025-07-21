@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { ISignup } from "@/app/events/events.service";
+import { ISignup } from "@/app/events/[id]/signups.service";
 import Link from "next/link";
 
 export const CheckInsTable = ({
@@ -22,10 +22,10 @@ export const CheckInsTable = ({
             <tr className="*:py-2 *:align-top">
               <td className="font-bold">
                 <Link href={`/events/${signup.event_id}/signups/${signup.id}`}>
-                  {signup.user_name}
+                  {signup.name}
                 </Link>
-                <span className="block break-all">{signup.user_email}</span>
-                <span className="block">{signup.user_phone_number}</span>
+                <span className="block break-all">{signup.email}</span>
+                <span className="block">{signup.phone_number}</span>
               </td>
               <td>{signup.checked_in_at}</td>
               <td>{signup.cancelled_at}</td>

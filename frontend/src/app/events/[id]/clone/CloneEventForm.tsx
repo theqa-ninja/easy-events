@@ -5,7 +5,7 @@ import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
 import { isoDateTime, validateOnBlur } from "@/app/utilities";
 import { useEffect, useState } from "react";
-import { Toast } from "@/app/components/Toast";
+import { IToast, Toast } from "@/app/components/Toast";
 import { object, string } from "yup";
 import { eventDuration } from "../../events.helper";
 
@@ -17,10 +17,7 @@ export const CloneEventForm = ({ eventData }: { eventData: IEvent }) => {
   const [startTime, setStartTime] = useState(eventData.start_time);
   const [endTime, setEndTime] = useState(eventData.end_time);
   const [duration, setDuration] = useState<string | undefined>();
-  const [toast, setToast] = useState<{
-    message: string;
-    status: "success" | "error";
-  }>();
+  const [toast, setToast] = useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
   const eventSchema = object({
     title: string().required("Event title is required"),

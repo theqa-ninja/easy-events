@@ -7,15 +7,12 @@ import { validateOnBlur } from "@/app/utilities";
 import { Input } from "@/app/components/Input";
 import { BinaryRadioInput } from "@/app/components/BinaryRadioInput";
 import { Button } from "@/app/components/Button";
-import { Toast } from "@/app/components/Toast";
+import { IToast, Toast } from "@/app/components/Toast";
 import { createUserAccount } from "../users.service";
 
 export const CreateAccountForm = () => {
   const route = useRouter();
-  const [toast, setToast] = useState<{
-    message: string;
-    status: "success" | "error";
-  }>();
+  const [toast, setToast] = useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
 
   let createAccountSchema = object({

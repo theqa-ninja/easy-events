@@ -4,16 +4,13 @@ import { createEvent, IEvent, eventSchema } from "@/app/events/events.service";
 import { Input } from "../../components/Input";
 import { Button } from "@/app/components/Button";
 import { Textarea } from "@/app/components/Textarea";
-import { Toast } from "@/app/components/Toast";
+import { IToast, Toast } from "@/app/components/Toast";
 import { validateOnBlur } from "@/app/utilities";
 import { eventDuration } from "../events.helper";
 import { DropDown } from "@/app/components/Dropdown";
 
 export const CreateEventForm = ({ teams }: { teams: any }) => {
-  const [toast, setToast] = useState<{
-    message: string;
-    status: "success" | "error";
-  }>();
+  const [toast, setToast] = useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");

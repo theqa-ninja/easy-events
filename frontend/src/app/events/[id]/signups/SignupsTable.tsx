@@ -1,10 +1,17 @@
 import { Fragment } from "react";
 import { ISignup } from "@/app/events/[id]/signups.service";
 import Link from "next/link";
-import { DropDown } from "@/app/components/Dropdown";
 import { CheckedInAt } from "./CheckedInAt";
+import { IVolunteerRole } from "@/app/organizations/[id]/teams/teams.service";
+import { VolunteerRoles } from "./VolunteerRoles";
 
-export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
+export const SignupsTable = async ({
+  signupsData,
+  volunteerRoles,
+}: {
+  signupsData: ISignup[];
+  volunteerRoles: IVolunteerRole[];
+}) => {
   return signupsData && signupsData.length > 0 ? (
     <table className="w-full mb-5">
       <thead>
@@ -23,7 +30,11 @@ export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
                 </Link>
               </td>
               <td>
-                <CheckedInAt id={Number(signup.event_id)} signup={signup} signupId={Number(signup.id)} />
+                <CheckedInAt
+                  id={Number(signup.event_id)}
+                  signup={signup}
+                  signupId={Number(signup.id)}
+                />
               </td>
             </tr>
             <tr>
@@ -33,9 +44,8 @@ export const SignupsTable = ({ signupsData }: { signupsData: ISignup[] }) => {
               </td>
             </tr>
             <tr className="border-b-1 border-primary-900">
-              <td className="text-right py-2" colSpan={2}>
-                {/* TODO: Add volunteer roles here instead of hardcoding placeholders, and include ids */}
-                <DropDown name="volunteer_role_id" choices={["Attendee", "Volunteer"]} helpText="Assign a role" />
+              <td className="text-right py-2 pb-4" colSpan={2}>
+                <VolunteerRoles volunteerRoles={volunteerRoles} signup={signup} />
               </td>
             </tr>
           </Fragment>

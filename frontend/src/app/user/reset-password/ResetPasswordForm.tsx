@@ -6,13 +6,10 @@ import { passwordReset } from "@/app/user/users.service";
 import { validateOnBlur } from "@/app/utilities";
 import { Input } from "@/app/components/Input";
 import { Button } from "@/app/components/Button";
-import { Toast } from "@/app/components/Toast";
+import { IToast, Toast } from "@/app/components/Toast";
 
 export const ResetPasswordForm = () => {
-  const [toast, setToast] = useState<{
-    message: string;
-    status: "success" | "error";
-  }>();
+  const [toast, setToast] = useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
 
   let resetPasswordSchema = object({

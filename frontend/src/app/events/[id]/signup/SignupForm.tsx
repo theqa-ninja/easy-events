@@ -7,7 +7,7 @@ import { IUser } from "@/app/user/users.service";
 import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
 import { Button } from "@/app/components/Button";
-import { Toast } from "@/app/components/Toast";
+import { IToast, Toast } from "@/app/components/Toast";
 import { SignupConfirmation } from "../signup-confirmation/SignupConfirmation";
 
 export const SignupForm = ({
@@ -20,10 +20,7 @@ export const SignupForm = ({
 }) => {
   const [primarySignup, setPrimarySignup] = useState<ISignup>();
   const [additionalSignups, setAdditionalSignups] = useState<ISignup[]>();
-  const [toast, setToast] = useState<{
-    message: string;
-    status: "success" | "error";
-  }>();
+  const [toast, setToast] = useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
   const signupSchema = object({
     name: string().required("Name is required"),
