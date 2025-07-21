@@ -5,7 +5,7 @@ module Api
 
     # GET /users/me
     def me
-      render json: { user: current_user, team_permissions: current_user.team_permissions }
+      render json: current_user.as_json.merge({ team_permissions: current_user.team_permissions.as_json }), status: :ok
     end
 
     # GET /users
