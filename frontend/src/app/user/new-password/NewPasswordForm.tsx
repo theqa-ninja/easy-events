@@ -6,7 +6,7 @@ import { object, string, ref } from "yup";
 import { validateOnBlur } from "@/app/utilities";
 import { Input } from "@/app/components/Input";
 import { Button } from "@/app/components/Button";
-import { Toast } from "@/app/components/Toast";
+import { IToast, Toast } from "@/app/components/Toast";
 import { newPassword } from "@/app/user/users.service";
 
 export const NewPasswordForm = () => {
@@ -15,10 +15,7 @@ export const NewPasswordForm = () => {
   const accessToken = searchParams.get("access-token");
   const client = searchParams.get("client");
   const uid = searchParams.get("uid");
-  const [toast, setToast] = React.useState<{
-    message: string;
-    status: "success" | "error";
-  }>();
+  const [toast, setToast] = React.useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
 
   let resetPasswordSchema = object({

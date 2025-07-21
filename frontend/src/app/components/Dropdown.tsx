@@ -7,6 +7,7 @@ interface DropDownProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   helpText?: string;
   label?: string;
   defaultValue?: string;
+  onChange?: React.ChangeEventHandler<HTMLSelectElement>;
   errorMessage?: string;
 };
 export const DropDown = ({
@@ -15,7 +16,8 @@ export const DropDown = ({
   helpText = "Please select an option",
   label,
   defaultValue,
-  errorMessage
+  onChange,
+  errorMessage,
 }: DropDownProps) => {
   return (
     <div className="flex flex-col mb-0 mt-4">
@@ -25,6 +27,7 @@ export const DropDown = ({
         id={name}
         className="block w-full p-2 border border-neutral-300 rounded-md shadow-inner active:outline-none active:ring-2 active:ring-primary-600 active:ring-offset-2 bg-background"
         defaultValue={defaultValue}
+        onChange={onChange}
       >
         <option value="">{helpText}</option>
         {choices.map((choice: string | { value: string; label: string }, index: number) => {
@@ -36,7 +39,7 @@ export const DropDown = ({
             );
           }
           return (
-            <option key={index} value={choice}>
+            <option key={index} value={choice} selected={defaultValue === choice}>
               {choice}
             </option>
           );

@@ -6,14 +6,11 @@ import { object, ref, string } from "yup";
 import { Button } from "@/app/components/Button";
 import { validateOnBlur } from "@/app/utilities";
 import Link from "next/link";
-import { Toast } from "@/app/components/Toast";
+import { IToast, Toast } from "@/app/components/Toast";
 
 export const AccountForm = ({ user }: { user: IUser }) => {
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
-  const [toast, setToast] = useState<{
-    message: string;
-    status: "success" | "error";
-  }>();
+  const [toast, setToast] = useState<IToast>();
 
   const accountSchema = object({
     name: string().required("Name is required"),
