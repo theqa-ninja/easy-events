@@ -24,7 +24,7 @@ const OrganizationPage = async ({
   const teamsData = await getTeams(id);
   const userMayViewTeams = await doesUserHavePermissions({
     actionAndPage: "VIEW_TEAM",
-    teamId: 1,
+    orgId: id,
   });
 
   return userMayViewTeams && teamsData && organizationData ? (

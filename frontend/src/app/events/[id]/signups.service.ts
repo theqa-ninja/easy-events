@@ -49,7 +49,7 @@ export const getSignup = async (eventId: number): Promise<any> => {
 };
 
 export const getSignups = async (
-  eventId: string
+  eventId: number
 ): Promise<ISignups> => {
   try {
     const token = await getToken();

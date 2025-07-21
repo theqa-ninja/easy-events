@@ -137,13 +137,10 @@ export const deleteEvent = async (id: number): Promise<void> => {
 
 export const getCheckIns = async (
   id: number
-): Promise<
-  | {
-      adults: ISignup[];
-      under_18: ISignup[];
-    }
-  | { error: string }
-> => {
+): Promise<{
+  adults: ISignup[];
+  under_18: ISignup[];
+}> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {

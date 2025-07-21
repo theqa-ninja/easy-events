@@ -2,7 +2,6 @@ import React from "react";
 import { getCheckIns } from "@/app/events/events.service";
 import { CheckInsTable } from "./CheckInsTable";
 import Link from "next/link";
-import { doesUserHavePermissions } from "@/app/user/users.service";
 
 const EventDetails = async ({
   params,
@@ -11,7 +10,7 @@ const EventDetails = async ({
 }) => {
   const { id } = await params;
   const checkInsData = await getCheckIns(id);
-  if ('error' in checkInsData) {
+  if ('error' in checkInsData || 'message' in checkInsData) {
     return (
       <main className="m-auto p-4 max-w-4xl">
         <h1 className="text-center">Check-ins</h1>

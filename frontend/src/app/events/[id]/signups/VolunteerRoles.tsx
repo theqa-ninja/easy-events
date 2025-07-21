@@ -26,7 +26,9 @@ export const VolunteerRoles = ({
       return;
     }
     editSignup(Number(signup.event_id), Number(signup.id), {
-      ...signup,
+      name: signup.name,
+      email: signup.email,
+      is_over_18: signup.is_over_18,
       volunteer_role_id: Number(event.target.value),
     })
       .then((response) => {
