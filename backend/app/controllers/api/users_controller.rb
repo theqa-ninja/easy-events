@@ -1,7 +1,7 @@
 module Api
   class UsersController < ApplicationController
     before_action :authenticate_user!, only: %i[index show me update destroy]
-    before_action :redirect_if_not_admin, only: %i[index show]
+    before_action :redirect_if_not_superadmin, only: %i[index show]
 
     # GET /users/me
     def me
@@ -57,7 +57,7 @@ module Api
     end
 
     def authorized_to_update?(user)
-      current_user.admin? || current_user.id == user.id
+      current_user.superadmin? || current_user.id == user.id
     end
 
     def render_not_found
@@ -81,8 +81,8 @@ module Api
       params.require(:user).permit(:name, :email, :phone_number, :password, :is_over_18)
     end
 
-    def redirect_if_not_admin
-      return if current_user.admin?
+    def redirect_if_not_superadmin
+      return if current_user.superadmin?
 
       render json: { message: 'You are not high enough to do that' },
              status: :unauthorized

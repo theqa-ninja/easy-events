@@ -85,11 +85,11 @@ module Api
     def authorized_to_modify_events(team_id = nil)
       team_id = @current_event.team_id if team_id.nil? && @current_event.present?
       org_id = Team.find_by(id: team_id)&.organization_id
-      current_user.admin?(org_id) || current_user.leader?(team_id) || current_user.id == @current_event.user_id
+      current_user.org_admin?(org_id) || current_user.event_leader?(team_id) || current_user.id == @current_event.user_id
     end
 
     def redirect_if_not_lead_or_admin
-      return if current_user.leader?(@current_event.team_id) || current_user.admin?(@current_event.team.organization_id)
+      return if current_user.event_leader?(@current_event.team_id) || current_user.org_admin?(@current_event.team.organization_id)
 
       render json: { message: 'You are not high enough to do that' },
              status: :unauthorized

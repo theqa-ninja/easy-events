@@ -10,7 +10,10 @@ module Api
       current_org = Organization.where(id: params[:org_id]).first
       render json: { message: 'Organization not found' }, status: :not_found if current_org.nil?
 
-      render json: { message: 'You are not authorized to view this organization' }, status: :unauthorized unless current_user.admin?(current_org.id)
+      unless current_user.org_admin?(current_org.id)
+        render json: { message: 'You are not authorized to view this organization' },
+               status: :unauthorized
+      end
 
       render json: current_org.teams, status: :ok
       # get all teams for the current organization based on the current user's organization
@@ -66,7 +69,7 @@ module Api
     end
 
     def authorized_to_modify_teams
-      current_user.admin?(params[:org_id]) || current_user.leader?(@current_team.id)
+      current_user.org_admin?(params[:org_id]) || current_user.leader?(@current_team.id)
     end
 
     # Only allow a list of trusted parameters through.
@@ -81,7 +84,7 @@ module Api
     end
 
     def redirect_if_not_admin
-      return if current_user.admin?(params[:org_id])
+      return if current_user.org_admin?(params[:org_id])
 
       render json: { message: 'You are not high enough to do that' }, status: :unauthorized
     end

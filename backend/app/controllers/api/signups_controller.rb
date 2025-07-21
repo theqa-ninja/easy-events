@@ -1,7 +1,8 @@
 module Api
   class SignupsController < ApplicationController
-    before_action :authenticate_user!, only: %i[index show update destroy]
     before_action :set_event
+    before_action :authenticate_user!, only: %i[index show update destroy]
+    before_action :redirect_if_not_lead, only: %i[index show]
 
     # GET events/{event_id}/signups
     # when a lead / admin views the signups for an event
@@ -47,9 +48,7 @@ module Api
       if new_signup.save
         sleep(2) # ensure all signups are created before sending the email
         signups = Signup.where(email: new_signup.email, event_id: @current_event.id).where.not(name: new_signup.name)
-        if params[:primary_contact]
-          SignupMailer.signup_confirmation(new_signup, signups, @current_event, request.domain).deliver_now
-        end
+        SignupMailer.signup_confirmation(new_signup, signups, @current_event, request.domain).deliver_now if params[:primary_contact]
         render json: new_signup, status: :created
       else
         render json: new_signup.errors, status: :unprocessable_entity
@@ -94,7 +93,8 @@ module Api
     end
 
     def authorized_to_modify_signup(signup)
-      current_user.admin?(@current_event.team.organization_id) || current_user.leader?(@current_event.team_id) || current_user.id == signup.user_id
+      byebug
+      current_user.event_leader?(@current_event.team_id)
     end
 
     def render_not_found
@@ -115,7 +115,8 @@ module Api
 
     # Only allow a list of trusted parameters through.
     def signup_params
-      params.require(:signup).permit(:name, :email, :phone_number, :is_over_18, :notes, :checked_in_at, :cancelled_at, :volunteer_role_id, :primary_contact)
+      params.require(:signup).permit(:name, :email, :phone_number, :is_over_18, :notes, :checked_in_at, :cancelled_at, :volunteer_role_id,
+                                     :primary_contact)
     end
 
     def adult_signups
@@ -147,7 +148,7 @@ module Api
     end
 
     def redirect_if_not_lead
-      return if @user_is_event_coordinator_or_admin
+      return if current_user.event_leader?(@current_event.team_id)
 
       render json: { message: 'You are not high enough to do that' },
              status: :unauthorized

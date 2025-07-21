@@ -19,8 +19,18 @@ class User < ApplicationRecord
 
   permission_list = %i[CREATE_ORG EDIT_ORG VIEW_ORG CREATE_TEAM EDIT_TEAM VIEW_TEAM CREATE_EVENT EDIT_EVENT VIEW_EVENT].freeze
 
-  def leader?(team_id)
-    organization_id = UsersTypesTeam.find(team_id)&.organization_id
+  def event_leader?(team_id)
+    organization_id = Team.find(team_id)&.organization_id
+    return false if organization_id.nil?
+
+    result = UsersTypesTeam.joins(:user_type)
+                           .where(organization_id: organization_id, user_id: id,
+                                  team_id: [team_id, nil], "user_type.edit_event": true)
+    !result.first.nil? # returns false if no results
+  end
+
+  def team_leader?(team_id)
+    organization_id = Team.find(team_id)&.organization_id
     return false if organization_id.nil?
 
     result = UsersTypesTeam.joins(:user_type)
@@ -31,7 +41,7 @@ class User < ApplicationRecord
 
   # Check if the user is an admin for the given organization
   # if no organization_id, just a generic check
-  def admin?(organization_id = nil)
+  def org_admin?(organization_id = nil)
     result = UsersTypesTeam.joins(:user_type).where(user_id: id, "user_type.edit_org": true)
     result = result.where(organization_id: organization_id) unless organization_id.nil?
     !result.first.nil? # returns false if no results

@@ -56,7 +56,7 @@ class UsersTypesController < ApplicationController
 
   # def redirect_if_not_admin
   #   # TODO: do we have @current_organization?
-  #   return if current_user.admin?(@current_organization.id)
+  #   return if current_user.org_admin?(@current_organization.id)
 
   #   render json: { message: 'You are not high enough to do that' },
   #          status: :unauthorized

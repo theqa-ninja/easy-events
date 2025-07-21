@@ -66,7 +66,7 @@ module Api
     end
 
     def redirect_if_not_admin
-      return if current_user.admin?(@current_organization.id)
+      return if current_user.org_admin?(@current_organization.id)
 
       render json: { message: 'You are not high enough to do that' }, status: :unauthorized
     end
