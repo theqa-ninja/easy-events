@@ -24,20 +24,20 @@ export interface ITeam {
 }
 
 export const eventSchema = object({
-    title: string().required("Event title is required"),
-    description: string().required("Event description is required"),
-    start_time: string().required("Start time is required"),
-    end_time: string().required("End time is required"),
-    adult_slots: number()
-      .required("Adult slots is required")
-      .typeError("Adult slots must be a number")
-      .positive("Adult slots must be greater than zero"),
-    teenager_slots: number()
-      .required("Teenager slots is required")
-      .typeError("Teenager slots must be a number")
-      .positive("Teenager slots must be greater than zero"),
-    team_id: string().required("Team is required"),
-  });
+  title: string().required("Event title is required"),
+  description: string().required("Event description is required"),
+  start_time: string().required("Start time is required"),
+  end_time: string().required("End time is required"),
+  adult_slots: number()
+    .required("Adult slots is required")
+    .typeError("Adult slots must be a number")
+    .positive("Adult slots must be greater than zero"),
+  teenager_slots: number()
+    .required("Teenager slots is required")
+    .typeError("Teenager slots must be a number")
+    .positive("Teenager slots must be greater than zero"),
+  team_id: string().required("Team is required"),
+});
 
 export const getEvents = async (): Promise<IEvent[]> => {
   try {
@@ -137,10 +137,13 @@ export const deleteEvent = async (id: number): Promise<void> => {
 
 export const getCheckIns = async (
   id: number
-): Promise<{
-  adults: ISignup[];
-  under_18: ISignup[];
-}> => {
+): Promise<
+  | {
+      adults: ISignup[];
+      under_18: ISignup[];
+    }
+  | { error: string }
+> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {
@@ -186,6 +189,8 @@ export const hasUserSignedUp = async (id: number): Promise<boolean> => {
 
 export const getEventTeams = async (): Promise<ITeam[]> => {
   const user = await getUser();
-  const teams = user?.team_permissions?.map((team: any) => { return { value: team.team.id, label: team.team.name } });
+  const teams = user?.team_permissions?.map((team: any) => {
+    return { value: team.team.id, label: team.team.name };
+  });
   return teams || [];
-}
+};

@@ -11,14 +11,20 @@ const EventDetails = async ({
 }) => {
   const { id } = await params;
   const checkInsData = await getCheckIns(id);
-  const userMayViewCheckIns = await doesUserHavePermissions({
-    actionAndPage: "EDIT_EVENT",
-    teamId: 1
-  });
-
+  if ('error' in checkInsData) {
+    return (
+      <main className="m-auto p-4 max-w-4xl">
+        <h1 className="text-center">Check-ins</h1>
+        <p>
+          You need to log in to see check-ins for this event or you do not
+          have permission to view this page.
+        </p>
+      </main>
+    );
+  }
   return (
     <main className="m-auto p-4 max-w-4xl">
-      {userMayViewCheckIns ? (
+      {checkInsData && (
         <>
           <menu className="flex gap-4">
             <Link href={`/events/${id}`}>
@@ -31,14 +37,6 @@ const EventDetails = async ({
           <CheckInsTable checkInsData={checkInsData.adults} />
           <h2 className="mt-8">Under 18</h2>
           <CheckInsTable checkInsData={checkInsData.under_18} />
-        </>
-      ) : (
-        <>
-          <h1 className="text-center">Check-ins</h1>
-          <p>
-            You need to log in to see check-ins for this event or you do not
-            have permission to view this page.
-          </p>
         </>
       )}
     </main>

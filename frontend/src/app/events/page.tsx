@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { SignupLinks } from "./SignupLinks";
 import { EventLinks } from "./[id]/EventLinks";
 import { Event } from "./Event";
+import { validateToken } from "../utilities";
 
 export const metadata: Metadata = {
   title: "Upcoming Events",
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
 
 const Events = async () => {
   const eventsData = await getEvents();
+  const loggedIn = await validateToken();
   return (
     <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
       <h1>Events</h1>
@@ -23,9 +25,9 @@ const Events = async () => {
             </h2>
             <Event eventData={event} />
             <nav className="flex gap-4">
-              <SignupLinks eventId={Number(event.id)} />
+              <SignupLinks eventId={Number(event.id)} loggedIn={loggedIn} />
             </nav>
-            <EventLinks eventId={Number(event.id)} />
+            <EventLinks eventId={Number(event.id)} teamId={Number(event.team_id)} />
           </div>
         ))}
       </div>
