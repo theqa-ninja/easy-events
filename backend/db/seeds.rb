@@ -76,15 +76,19 @@ unless Rails.env.production?
   3.times do |i|
     tempdate = DateTime.now - 1.day + i.day
     starttime = FFaker::Time.between(tempdate, tempdate + 1.day)
+    team_id = Team.all.where(organization_id: 1).sample.id
     e = Event.create!(
       title: FFaker::CheesyLingo.title,
       description: FFaker::CheesyLingo.paragraph,
       start_time: starttime,
       end_time: starttime + 3.hours,
+      close_time: starttime + 2.hours,
+      event_lead_name: FFaker::Name.unique.name,
+      volunteer_role_ids: VolunteerRole.where(team_id: team_id).sample(3).pluck(:id),
       adult_slots: (5..12).to_a.sample,
       teenager_slots: (1..10).to_a.sample,
       creator_id: UsersTypesTeam.all.sample.user_id,
-      team_id: Team.all.where(organization_id: 1).sample.id
+      team_id: team_id
     )
 
     puts "created Event: #{e.title}"

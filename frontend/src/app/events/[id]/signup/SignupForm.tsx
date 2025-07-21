@@ -18,7 +18,8 @@ export const SignupForm = ({
   signupData?: ISignup;
   eventId: number;
 }) => {
-  const [signup, setSignup] = useState<ISignup[]>();
+  const [primarySignup, setPrimarySignup] = useState<ISignup>();
+  const [additionalSignups, setAdditionalSignups] = useState<ISignup[]>();
   const [toast, setToast] = useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
   const signupSchema = object({
@@ -98,7 +99,11 @@ export const SignupForm = ({
     }
   };
 
-  const handleCreateSignup = (formEntries: any, body: string, signupEntries: ISignup[]) => {
+  const handleCreateSignup = (
+    formEntries: any,
+    body: string,
+    additionalSignupEntries?: ISignup[]
+  ) => {
     try {
       signupSchema.validateSync(formEntries, {
         abortEarly: false,
@@ -116,7 +121,13 @@ export const SignupForm = ({
             );
             throw new Error(message.join() || "Signup failed");
           }
-          setSignup(signupEntries);
+          const bodyObject = JSON.parse(body);
+          if (bodyObject.primary_contact) {
+            setPrimarySignup(response);
+          } else {
+            additionalSignupEntries &&
+              setAdditionalSignups(additionalSignupEntries);
+          }
           setToast({
             message:
               "Signup successful, please check your email for confirmation.",
@@ -143,33 +154,37 @@ export const SignupForm = ({
     const formData = new FormData(event.currentTarget);
     const formEntries = Object.fromEntries(formData);
     const hasAdditionalVolunteers = additionalVolunteers.length > 0;
-    let body:ISignup;
-    const signupEntries: ISignup[] = [];
+    let body: ISignup;
+    const additionalSignupEntries: ISignup[] = [];
     if (hasAdditionalVolunteers) {
-      body = {
-        name: formEntries["name"] as string,
-        email: formEntries["email"] as string,
-        phone_number: formEntries["phone_number"] as string,
-        is_over_18: formEntries["is_over_18"] === "true",
-        notes: formEntries["notes"] as string,
-      };
-
-      signupEntries.push(body);
-      handleCreateSignup(formEntries, JSON.stringify(body), signupEntries);
-
       additionalVolunteers.map((volunteer) => {
         body = {
           name: formEntries[
             `name_${volunteer.key && volunteer.key.split("-")[1]}`
           ] as string,
           email: formEntries["email"] as string,
-          is_over_18: formEntries[
-            `is_over_18_${volunteer.key && volunteer.key.split("-")[1]}`
-          ] === "true",
+          is_over_18:
+            formEntries[
+              `is_over_18_${volunteer.key && volunteer.key.split("-")[1]}`
+            ] === "true",
         };
-        signupEntries.push(body);
-        handleCreateSignup(formEntries, JSON.stringify(body), signupEntries);
+        additionalSignupEntries.push(body);
+        handleCreateSignup(
+          formEntries,
+          JSON.stringify(body),
+          additionalSignupEntries
+        );
       });
+      body = {
+        name: formEntries["name"] as string,
+        email: formEntries["email"] as string,
+        phone_number: formEntries["phone_number"] as string,
+        is_over_18: formEntries["is_over_18"] === "true",
+        notes: formEntries["notes"] as string,
+        primary_contact: true,
+      };
+
+      handleCreateSignup(formEntries, JSON.stringify(body));
     } else {
       body = {
         name: formEntries["name"] as string,
@@ -177,9 +192,9 @@ export const SignupForm = ({
         phone_number: formEntries["phone_number"] as string,
         is_over_18: formEntries["is_over_18"] === "true",
         notes: formEntries["notes"] as string,
+        primary_contact: true,
       };
-      signupEntries.push(body);
-      handleCreateSignup(formEntries, JSON.stringify(body), signupEntries);
+      handleCreateSignup(formEntries, JSON.stringify(body));
     }
   };
   return (
@@ -192,8 +207,12 @@ export const SignupForm = ({
           onClose={() => setToast(undefined)}
         />
       )}
-      {signup ? (
-        <SignupConfirmation signup={signup} eventId={eventId} />
+      {primarySignup ? (
+        <SignupConfirmation
+          primarySignup={primarySignup}
+          additionalSignups={additionalSignups}
+          eventId={eventId}
+        />
       ) : (
         <form onSubmit={submitSignup} className="flex flex-col gap-4 w-100">
           <h2 className="mt-5">Signup</h2>

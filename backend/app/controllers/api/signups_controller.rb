@@ -28,10 +28,8 @@ module Api
     # rubocop:disable Metrics/AbcSize
     def create
       # create the temp user
-      tmp_user ||= User.new
-
-      tmp_user.assign_attributes(email: params[:email], name: params[:name], is_over_18: params[:is_over_18],
-                                 phone_number: params[:phone_number])
+      tmp_user ||= User.new(email: params[:email], name: params[:name], is_over_18: params[:is_over_18],
+                            phone_number: params[:phone_number])
 
       return if check_if_full_or_admin(is_over_18: tmp_user.is_over_18)
 
@@ -47,7 +45,11 @@ module Api
                               })
 
       if new_signup.save
-        SignupMailer.signup_confirmation(new_signup, @current_event, request.domain).deliver_now
+        sleep(2) # ensure all signups are created before sending the email
+        signups = Signup.where(email: new_signup.email, event_id: @current_event.id).where.not(name: new_signup.name)
+        if params[:primary_contact]
+          SignupMailer.signup_confirmation(new_signup, signups, @current_event, request.domain).deliver_now
+        end
         render json: new_signup, status: :created
       else
         render json: new_signup.errors, status: :unprocessable_entity
@@ -113,7 +115,7 @@ module Api
 
     # Only allow a list of trusted parameters through.
     def signup_params
-      params.require(:signup).permit(:name, :email, :phone_number, :is_over_18, :notes, :checked_in_at, :cancelled_at, :volunteer_role_id)
+      params.require(:signup).permit(:name, :email, :phone_number, :is_over_18, :notes, :checked_in_at, :cancelled_at, :volunteer_role_id, :primary_contact)
     end
 
     def adult_signups

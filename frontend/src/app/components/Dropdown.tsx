@@ -3,13 +3,12 @@ import { ErrorMessage } from "./ErrorMessage";
 
 interface DropDownProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   choices: string[] | { value: string; label: string }[];
-  name: string;
   helpText?: string;
   label?: string;
   defaultValue?: string;
   onChange?: React.ChangeEventHandler<HTMLSelectElement>;
   errorMessage?: string;
-};
+}
 export const DropDown = ({
   choices,
   name,
@@ -30,20 +29,25 @@ export const DropDown = ({
         onChange={onChange}
       >
         <option value="">{helpText}</option>
-        {choices.map((choice: string | { value: string; label: string }, index: number) => {
-          if (choice instanceof Object) {
+        {choices.map(
+          (
+            choice: string | { value: string; label: string },
+            index: number
+          ) => {
+            if (choice instanceof Object) {
+              return (
+                <option key={index} value={choice.value}>
+                  {choice.label}
+                </option>
+              );
+            }
             return (
-              <option key={index} value={choice.value}>
-                {choice.label}
+              <option key={index} value={choice} selected={defaultValue === choice}>
+                {choice}
               </option>
             );
           }
-          return (
-            <option key={index} value={choice} selected={defaultValue === choice}>
-              {choice}
-            </option>
-          );
-        })}
+        )}
       </select>
       <ErrorMessage message={errorMessage} />
     </div>

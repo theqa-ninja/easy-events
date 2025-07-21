@@ -91,9 +91,15 @@ export const Button: FC<ButtonProps> = ({
   return (
     <button
       type="button"
-      className={[main, mode, buttonSize, direction, alignment, disabled, classNames].join(
-        " "
-      )}
+      className={[
+        main,
+        mode,
+        buttonSize,
+        direction,
+        alignment,
+        disabled,
+        classNames,
+      ].join(" ")}
       style={bgColor}
       {...props}
     >

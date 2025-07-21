@@ -2,11 +2,8 @@ import { type FC, type InputHTMLAttributes } from "react";
 import { ErrorMessage } from "./ErrorMessage";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  name: string;
   label?: string;
   labelSize?: string;
-  placeholder?: string;
-  type?: string;
   errorMessage?: string;
   validationSchema?: any;
 }

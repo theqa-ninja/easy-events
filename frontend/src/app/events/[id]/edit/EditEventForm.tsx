@@ -163,7 +163,7 @@ export const EditEventForm = ({ eventData, teams }: { eventData: IEvent, teams: 
           defaultValue={String(eventData.team_id)}
         />
 
-        <Button type="submit" label="Edit event" />
+        <Button type="submit" label="Save changes" />
       </form>
       <form onSubmit={handleDeleteEvent} className="flex flex-col gap-4 w-100">
         <Button type="submit" label="Soft delete this event" />

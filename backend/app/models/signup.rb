@@ -8,6 +8,8 @@ class Signup < ApplicationRecord
   # validates :email, uniqueness: { scope: %i[name event_id] }, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
+  validates :email, uniqueness: { scope: %i[event_id name is_over_18 soft_deleted], message: 'has already signed up for this event' } # rubocop:disable Rails/UniqueValidationWithoutIndex
+
   # when submitting a form, preserves scroll position with turbo broadcasts
   # goes with turbo_stream_from signup
 end

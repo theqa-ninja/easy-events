@@ -2,7 +2,6 @@ import { type FC, type InputHTMLAttributes } from "react";
 import { ErrorMessage } from "./ErrorMessage";
 
 interface BinaryRadioInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  name: string;
   idA?: string;
   idB?: string;
   labelA?: string;
@@ -11,7 +10,6 @@ interface BinaryRadioInputProps extends InputHTMLAttributes<HTMLInputElement> {
   valueB?: string;
   labelSize?: string;
   question: string;
-  type?: string;
   errorMessage?: string;
 }
 

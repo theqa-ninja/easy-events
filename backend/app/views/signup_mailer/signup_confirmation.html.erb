@@ -1,17 +1,37 @@
-<p>Hi <%= @signup.name %>,</p>
+<p>Hi <%= @main_signup.name %>,</p>
 <p>Here's your volunteering confirmation for <%= link_to @event.title, @domain == 'localhost' ? "http://#{@domain}:3001/events/#{@event.id}/signup-confirmation" : "https://#{@domain}/events/#{@event.id}/signup-confirmation" %> on 
 <%= @event.start_time.strftime("%B %d, %Y") %> from 
 <%= @event.start_time.strftime("%l:%M %p") %> to 
 <%= @event.end_time.strftime("%l:%M %p") %>.</p>
 <p><%= @event.description %></p>
 <p>Here's the info you signed up with:</p>
-<p><b>Name:</b> <%= @signup.name %><p>
-<p><b>Email:</b> <%= @signup.email %></p>
-<p><b>Phone number:</b> <%= @signup.phone_number %></p>
-<% if @signup.is_over_18 %>
-<p>You are over 18</p>
-<% else %>
-<p>You are under 18</p>
+<p>
+  <b>Name:</b> <%= @main_signup.name %><br>
+  <b>Email:</b> <%= @main_signup.email %><br>
+  <b>Phone number:</b> <%= @main_signup.phone_number %><br>
+  <% if @main_signup.is_over_18 === true %>
+  You are over 18
+  <% else %>
+  You are under 18
+  <% end %>
+</p>
+<p>
+  <b>Your notes for the leaders:</b><br>
+  <%= @main_signup.notes %>
+</p>
+<% if @additional_signups && @additional_signups.length > 1 %>
+  <p>Additional volunteers:</p>
+  <ul>
+  <% @additional_signups.map do |signup| %>
+    <li>
+      <b>Name:</b> <%= signup.name %><br>
+      <% if signup.is_over_18 === true %>
+      They are over 18
+      <% else %>
+      They are under 18
+      <% end %>
+    </li>
+  <% end %>
+  </ul>
 <% end %>
-<p><b>Your notes for the leaders:</b> <%= @signup.notes %></p>
 <p>Thanks for volunteering!</p>

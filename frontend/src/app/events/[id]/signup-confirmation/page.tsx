@@ -42,7 +42,7 @@ const SignupConfirmationPage = async ({
           <Event eventData={eventData} />
         </>
       )}
-      <SignupConfirmation signup={signup} eventId={Number(id)} />
+      <SignupConfirmation primarySignup={signup} eventId={Number(id)} />
     </main>
   );
 };

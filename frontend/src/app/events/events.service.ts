@@ -23,11 +23,6 @@ export interface ITeam {
   label: string;
 }
 
-export interface IVolunteerRole {
-  id: number;
-  name: string;
-}
-
 export const eventSchema = object({
     title: string().required("Event title is required"),
     description: string().required("Event description is required"),
@@ -154,28 +149,6 @@ export const getCheckIns = async (
     };
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_ROUTE}/events/${id}/checkins`,
-      {
-        method: "GET",
-        headers,
-      }
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-// TODO: update this when volunteer roles are implemented
-export const getVolunteerRoles = async (): Promise<IVolunteerRole[]> => {
-  try {
-    const token = await getToken();
-    const headers: HeadersInit = {
-      "Content-Type": "application/json",
-      Authorization: token || "",
-    };
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_ROUTE}/volunteer-roles`,
       {
         method: "GET",
         headers,
