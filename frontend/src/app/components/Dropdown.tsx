@@ -19,12 +19,12 @@ export const DropDown = ({
   errorMessage,
 }: DropDownProps) => {
   return (
-    <div className="flex flex-col mb-0 mt-4">
+    <div className="flex flex-col mb-0">
       {label && <label htmlFor={name}>{label}</label>}
       <select
         name={name}
         id={name}
-        className="block w-full p-2 border border-neutral-300 rounded-md shadow-inner active:outline-none active:ring-2 active:ring-primary-600 active:ring-offset-2 bg-background"
+        className="rounded-md bg-background-100 border-1 border-fuchsia-800 p-2"
         defaultValue={defaultValue}
         onChange={onChange}
       >

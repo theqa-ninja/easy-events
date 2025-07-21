@@ -44,7 +44,7 @@ export const SignupsTable = async ({
               </td>
             </tr>
             <tr className="border-b-1 border-primary-900">
-              <td className="text-right py-2" colSpan={2}>
+              <td className="text-right py-2 pb-4" colSpan={2}>
                 <VolunteerRoles volunteerRoles={volunteerRoles} signup={signup} />
               </td>
             </tr>
