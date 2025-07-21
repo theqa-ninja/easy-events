@@ -2,11 +2,10 @@ import { doesUserHavePermissions } from "@/app/user/users.service";
 import Link from "next/link";
 
 export const EventLinks = async ({ eventId }: { eventId: number }) => {
-  const userMayEditEvents = await doesUserHavePermissions([
-    "Superadmin",
-    "Admin",
-    "Event Coordinator",
-  ]);
+  const userMayEditEvents = await doesUserHavePermissions({
+    actionAndPage: "EDIT_EVENT",
+    teamId: 1,
+  });
 
   return (
     <>

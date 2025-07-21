@@ -23,11 +23,10 @@ const CloneEventPage = async ({
   const { id } = await params;
   const eventId = Number(id);
   const eventData = await getEvent(eventId);
-  const userMayEditEvents = await doesUserHavePermissions([
-    "Superadmin",
-    "Admin",
-    "Event Coordinator",
-  ]);
+  const userMayEditEvents = await doesUserHavePermissions({
+    actionAndPage: "EDIT_EVENT",
+    teamId: eventData.team_id,
+  });
 
   return (
     <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">

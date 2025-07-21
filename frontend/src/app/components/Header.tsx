@@ -3,11 +3,10 @@ import { doesUserHavePermissions, getUser } from "@/app/user/users.service";
 
 export default async function Header() {
   const user = await getUser();
-  const userMayCreateEvents = await doesUserHavePermissions([
-    "Superadmin",
-    "Admin",
-    "Event Coordinator",
-  ]);
+  const userMayCreateEvents = await doesUserHavePermissions({
+    actionAndPage: "CREATE_EVENT",
+    teamId: 1
+  });
 
   return (
     <header className="p-4 not-dark:bg-slate-200 dark:bg-slate-700">

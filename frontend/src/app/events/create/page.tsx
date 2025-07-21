@@ -8,11 +8,10 @@ export const metadata = {
 };
 
 const CreateEventPage = async () => {
-  const userMayCreateEvents = await doesUserHavePermissions([
-    "Superadmin",
-    "Admin",
-    "Event Coordinator",
-  ]);
+  const userMayCreateEvents = await doesUserHavePermissions({
+    actionAndPage: "CREATE_EVENT",
+    teamId: 1,
+  });
 
   const teams = await getEventTeams();
 

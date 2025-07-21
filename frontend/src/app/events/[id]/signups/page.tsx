@@ -22,10 +22,10 @@ const SignupsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const signupsData = await getSignups(id);
   const user = await getUser();
-  const userMayViewSignups = await doesUserHavePermissions([
-    "Admin",
-    "Event Coordinator",
-  ]);
+  const userMayViewSignups = await doesUserHavePermissions({
+    actionAndPage: "EDIT_EVENT",
+    teamId: 1
+  });
   let volunteerRoles:IVolunteerRole[] = [];
   
   if (user && userMayViewSignups && user.team_permissions && user.team_permissions.length > 0) {

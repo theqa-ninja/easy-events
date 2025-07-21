@@ -11,10 +11,10 @@ const EventDetails = async ({
 }) => {
   const { id } = await params;
   const checkInsData = await getCheckIns(id);
-  const userMayViewCheckIns = await doesUserHavePermissions([
-    "Admin",
-    "Event Coordinator",
-  ]);
+  const userMayViewCheckIns = await doesUserHavePermissions({
+    actionAndPage: "EDIT_EVENT",
+    teamId: 1
+  });
 
   return (
     <main className="m-auto p-4 max-w-4xl">

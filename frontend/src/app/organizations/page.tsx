@@ -8,7 +8,10 @@ export const metadata = {
 
 const OrganizationsPage = async () => {
   const organizationsData = await getOrganizations();
-  const userMayViewOrganizations = await doesUserHavePermissions(["Superadmin"]);
+  const userMayViewOrganizations = await doesUserHavePermissions({
+    actionAndPage: "VIEW_ORG",
+    teamId: 1
+  });
 
   return userMayViewOrganizations && organizationsData && organizationsData.length > 0 ? (
     <main className="max-w-3xl m-auto p-4">
