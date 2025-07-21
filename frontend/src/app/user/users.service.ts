@@ -179,8 +179,9 @@ export const doesUserHavePermissions = async ({actionAndPage: actionAndPage, tea
   if (!user) {
     return false;
   }
+  console.log('teamId', teamId, 'orgId', orgId);
   const permissions = user?.team_permissions?.find((permissions) =>
-    permissions.team_id === teamId || permissions.org_id === orgId
+    permissions.team_id === Number(teamId) || permissions.org_id === Number(orgId)
   )?.permissions;
   if (!permissions) {
     return false;
