@@ -3,13 +3,13 @@ module Api
     before_action :set_event, only: %i[show update destroy checkins]
     before_action :redirect_if_not_lead_or_admin, only: %i[update destroy checkins]
 
-    # GET /events or /events.json
+    # GET /events
     def index
       # @current_events = Event.all # for no API
       render json: Event.where(soft_deleted: false).sort_by(&:start_time).as_json, status: :ok
     end
 
-    # GET /events/1 or /events/1.json
+    # GET /events/1
     def show
       return render json: @current_event, status: :no_content if @current_event.nil?
 
@@ -27,7 +27,7 @@ module Api
       render json: signup, status: :ok if signup
     end
 
-    # POST /events or /events.json
+    # POST /events
     def create
       return render_unauthorized unless authorized_to_modify_events(params[:team_id])
 
@@ -40,7 +40,7 @@ module Api
       end
     end
 
-    # PATCH/PUT /events/1 or /events/1.json
+    # PATCH/PUT /events/1
     def update
       return render_unauthorized unless authorized_to_modify_events
 
@@ -51,7 +51,7 @@ module Api
       end
     end
 
-    # DELETE /events/1 or /events/1.json
+    # DELETE /events/1
     def destroy
       return render_unauthorized unless authorized_to_modify_events
 
