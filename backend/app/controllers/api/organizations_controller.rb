@@ -5,19 +5,19 @@ module Api
     before_action :redirect_if_not_superadmin, only: %i[index create]
     before_action :redirect_if_not_admin, only: %i[show update destroy]
 
-    # GET /organizations or /organizations.json
+    # GET /organizations
     def index
       render json: Organization.where(soft_deleted: false).as_json, status: :ok
     end
 
-    # GET /organizations/1 or /organizations/1.json
+    # GET /organizations/1
     def show
       return render json: @current_organization, status: :no_content if @current_organization.nil?
 
       render json: @current_organization.as_json, status: :ok
     end
 
-    # POST /organizations or /organizations.json
+    # POST /organizations
     def create
       new_org = Organization.new(organization_params)
 
@@ -35,7 +35,7 @@ module Api
       end
     end
 
-    # PATCH/PUT /organizations/1 or /organizations/1.json
+    # PATCH/PUT /organizations/1
     def update
       if @current_organization.update(organization_params)
         render json: @current_organization, status: :ok
@@ -44,7 +44,7 @@ module Api
       end
     end
 
-    # DELETE /organizations/1 or /organizations/1.json
+    # DELETE /organizations/1
     def destroy
       @current_organization.delete
 
