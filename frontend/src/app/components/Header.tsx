@@ -19,9 +19,9 @@ export default async function Header() {
           )}
           <Link href="/organizations/create">Create an organization</Link>
         </div>
-        {user && user.email ? (
+        {user && user.user.email ? (
           <div className="flex gap-4">
-            <p>Logged in as {user.email}</p>
+            <p>Logged in as {user.user.email}</p>
             <Link href="/user/logout">Logout</Link>
           </div>
         ) : (
