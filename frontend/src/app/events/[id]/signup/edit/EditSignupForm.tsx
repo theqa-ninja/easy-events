@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { object, string } from "yup";
 import { validateOnBlur } from "@/app/utilities";
 import { editSignup, ISignup } from "@/app/events/[id]/signups.service";
@@ -8,6 +8,7 @@ import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
 import { Button } from "@/app/components/Button";
 import { IToast, Toast } from "@/app/components/Toast";
+import { CanceledAt } from "../../signups/[signupId]/CanceledAt";
 
 export const EditSignupForm = ({
   signupData,
@@ -19,6 +20,7 @@ export const EditSignupForm = ({
 }) => {
   const [toast, setToast] = useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
+  const [cancelled, setCancelled] = useState<string>("Cancel Signup");
   const signupSchema = object({
     name: string().required("Name is required"),
     email: string().email("Invalid email").required("Email is required"),
@@ -29,6 +31,14 @@ export const EditSignupForm = ({
     { name: "name", value: "User's name" },
     { name: "email", value: "User's email" },
   ];
+
+  useEffect(() => {
+    signupData?.cancelled_at ? setCancelled("Signup cancelled") : setCancelled("Cancel Signup");
+  }, [signupData]);
+
+  const handleChildDataChange = (data: any) => {
+    data.cancelled_at ? setCancelled("Signup cancelled") : setCancelled("Cancel Signup");
+  };
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     validateOnBlur(event, signupSchema, setErrors);
@@ -141,6 +151,15 @@ export const EditSignupForm = ({
         />
         <Button type="submit" label="Save changes" />
       </form>
+      <h3 className="mt-4 !mb-0">{cancelled}</h3>
+      {signupData && (
+        <CanceledAt
+          id={eventId}
+          signupId={Number(signupData?.id)}
+          signup={signupData}
+          onDataChange={handleChildDataChange}
+        />
+      )}
     </>
   );
 };

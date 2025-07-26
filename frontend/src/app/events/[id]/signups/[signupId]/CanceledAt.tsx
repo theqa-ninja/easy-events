@@ -8,10 +8,12 @@ export const CanceledAt = ({
   id,
   signupId,
   signup,
+  onDataChange,
 }: {
   id: number;
   signupId: number;
   signup: ISignup;
+  onDataChange: any;
 }) => {
   const [canceledAt, setCanceledAt] = useState<string>();
   const handleChangeCancelledAt = async (event: any) => {
@@ -20,6 +22,7 @@ export const CanceledAt = ({
       ...signup,
       cancelled_at: checked ? new Date().toISOString() : null,
     }
+    onDataChange(body);
     editSignup(id, signupId, body).then((response) => {
       body.cancelled_at ? setCanceledAt(formatDateTime(body.cancelled_at, options)) : setCanceledAt("");
     })

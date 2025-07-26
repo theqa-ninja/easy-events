@@ -27,10 +27,10 @@ const SignupConfirmationPage = async ({
   const signup: ISignup = {
     event_id: Number(id),
     user_id: Number(signupData && signupData?.user_id),
-    name: signupData?.user_name || "",
-    email: signupData?.user_email || "",
-    phone_number: signupData?.user_phone_number || "",
-    is_over_18: signupData?.user_is_over_18 || false,
+    name: signupData?.name || "",
+    email: signupData?.email || "",
+    phone_number: signupData?.phone_number || "",
+    is_over_18: signupData?.is_over_18 || false,
     notes: signupData?.notes || "",
   };
 
