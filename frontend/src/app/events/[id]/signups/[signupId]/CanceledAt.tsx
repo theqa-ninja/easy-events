@@ -13,7 +13,7 @@ export const CanceledAt = ({
   id: number;
   signupId: number;
   signup: ISignup;
-  onDataChange: any;
+  onDataChange?: any;
 }) => {
   const [canceledAt, setCanceledAt] = useState<string>();
   const handleChangeCancelledAt = async (event: any) => {
