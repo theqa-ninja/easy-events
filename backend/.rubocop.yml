@@ -10,6 +10,9 @@ Naming/VariableNumber:
 Layout/LineLength:
   Max: 150
 
+Metrics/AbcSize:
+  Max: 40
+
 Metrics/ClassLength:
   Max: 120
 
