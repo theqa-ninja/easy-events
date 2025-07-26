@@ -2,8 +2,10 @@ import { Fragment } from "react";
 import { ISignup } from "@/app/events/[id]/signups.service";
 import Link from "next/link";
 import { formatDateTime } from "@/app/utilities";
+import { getVolunteerRoles } from "@/app/organizations/[id]/teams/teams.service";
+import { getEvent } from "@/app/events/events.service";
 
-export const CheckInsTable = ({
+export const CheckInsTable = async ({
   checkInsData,
 }: {
   checkInsData: ISignup[];
@@ -11,6 +13,13 @@ export const CheckInsTable = ({
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour: "numeric",
     minute: "numeric",
+  };
+  const event = await getEvent(Number(checkInsData[0].event_id));
+  const teamId = event?.team_id;
+  const volunteerRoles = await getVolunteerRoles(Number(teamId));
+  const volunteerRole = (volunteerRoleId: number) => {
+    const role = volunteerRoles.find((role) => role.id === volunteerRoleId);
+    return role ? role.role : "";
   }
   return checkInsData && checkInsData.length > 0 ? (
     <table className="w-full mb-5">
@@ -29,11 +38,20 @@ export const CheckInsTable = ({
                 <Link href={`/events/${signup.event_id}/signups/${signup.id}`}>
                   {signup.name}
                 </Link>
-                <span className="block break-all">{signup.email}</span>
-                <span className="block">{signup.phone_number}</span>
+                {volunteerRoles && signup.volunteer_role_id && (
+                  <span className="block">
+                    {volunteerRole(signup.volunteer_role_id)}
+                  </span>
+                )}
               </td>
-              <td>{signup.checked_in_at && formatDateTime(signup.checked_in_at, timeOptions)}</td>
-              <td>{signup.cancelled_at && formatDateTime(signup.cancelled_at, timeOptions)}</td>
+              <td>
+                {signup.checked_in_at &&
+                  formatDateTime(signup.checked_in_at, timeOptions)}
+              </td>
+              <td>
+                {signup.cancelled_at &&
+                  formatDateTime(signup.cancelled_at, timeOptions)}
+              </td>
             </tr>
             <tr className="border-b-1 border-primary-900">
               <td colSpan={3} className={signup.notes && "py-2"}>
