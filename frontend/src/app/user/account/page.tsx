@@ -30,14 +30,6 @@ const AccountPage = async () => {
               <dt>Is over 18:</dt>
               <dd>{user?.is_over_18 ? "Yes" : "No"}</dd>
             </dl>
-            <dl>
-              <dt>Team permissions:</dt>
-              <dd>
-                {user?.team_permissions
-                  ?.map((permission) => permission.user_type)
-                  ?.join(", ") || "None"}
-              </dd>
-            </dl>
           </dl>
           <Link href="/user/account/edit" className="mt-5 inline-block">
             Edit account details &raquo;
