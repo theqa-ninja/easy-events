@@ -186,8 +186,8 @@ export const hasUserSignedUp = async (id: number): Promise<boolean> => {
 
 export const getEventTeams = async (): Promise<ITeam[]> => {
   const user = await getUser();
-  const teams = user?.team_permissions?.map((team: any) => {
-    return { value: team.team.id, label: team.team.name };
+  const teams = user?.team_permissions?.map((permission: any) => {
+    return { value: permission.team_id, label: permission.team };
   });
   return teams || [];
 };

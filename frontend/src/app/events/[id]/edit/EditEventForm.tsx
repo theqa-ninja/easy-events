@@ -1,5 +1,11 @@
 "use client";
-import { editEvent, deleteEvent, IEvent, ITeam, eventSchema } from "@/app/events/events.service";
+import {
+  editEvent,
+  deleteEvent,
+  IEvent,
+  ITeam,
+  eventSchema,
+} from "@/app/events/events.service";
 import { Button } from "@/app/components/Button";
 import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
@@ -9,7 +15,13 @@ import { IToast, Toast } from "@/app/components/Toast";
 import { eventDuration } from "../../events.helper";
 import { DropDown } from "@/app/components/Dropdown";
 
-export const EditEventForm = ({ eventData, teams }: { eventData: IEvent, teams: ITeam[] }) => {
+export const EditEventForm = ({
+  eventData,
+  teams,
+}: {
+  eventData: IEvent;
+  teams: ITeam[];
+}) => {
   const [startTime, setStartTime] = useState(eventData.start_time);
   const [endTime, setEndTime] = useState(eventData.end_time);
   const [duration, setDuration] = useState<string | undefined>();
@@ -94,78 +106,81 @@ export const EditEventForm = ({ eventData, teams }: { eventData: IEvent, teams: 
           onClose={() => setToast(undefined)}
         />
       )}
-      <form
-        onSubmit={submitEventInformation}
-        className="flex flex-col gap-4 w-100"
-      >
-        <Input
-          label="Event Title"
-          type="text"
-          name="title"
-          placeholder="Event Title"
-          defaultValue={eventData?.title}
-          onBlur={handleChange}
-          errorMessage={errors.title}
-        />
-        <Input
-          label="Start"
-          type="datetime-local"
-          name="start_time"
-          defaultValue={
-            eventData?.start_time && isoDateTime(eventData?.start_time)
-          }
-          onBlur={handleChange}
-          onInput={(e) => {
-            setStartTime(e.currentTarget.value);
-          }}
-          errorMessage={errors.start_time}
-        />
-        <Input
-          label="End"
-          type="datetime-local"
-          name="end_time"
-          defaultValue={eventData?.end_time && isoDateTime(eventData?.end_time)}
-          onBlur={handleChange}
-          onInput={(e) => {
-            setEndTime(e.currentTarget.value);
-          }}
-          errorMessage={errors.end_time}
-        />
-        {duration && <p>Duration: {duration}</p>}
-        <Input
-          label="Adult volunteers needed"
-          type="number"
-          name="adult_slots"
-          defaultValue={eventData?.adult_slots}
-          onBlur={handleChange}
-          errorMessage={errors.adult_slots}
-        />
-        <Input
-          label="Teenager volunteers needed"
-          type="number"
-          name="teenager_slots"
-          defaultValue={eventData?.teenager_slots}
-          onBlur={handleChange}
-          errorMessage={errors.teenager_slots}
-        />
-        <Textarea
-          label="Event description"
-          name="description"
-          defaultValue={eventData?.description}
-          onBlur={handleChange}
-          errorMessage={errors.description}
-        />
-        <DropDown
-          choices={teams}
-          name="team_id"
-          label="Team"
-          helpText="Please select a team"
-          defaultValue={String(eventData.team_id)}
-        />
-
+      <form onSubmit={submitEventInformation} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 w-100">
+          <Input
+            label="Event Title"
+            type="text"
+            name="title"
+            placeholder="Event Title"
+            defaultValue={eventData?.title}
+            onBlur={handleChange}
+            errorMessage={errors.title}
+          />
+          <Input
+            label="Start"
+            type="datetime-local"
+            name="start_time"
+            defaultValue={
+              eventData?.start_time && isoDateTime(eventData?.start_time)
+            }
+            onBlur={handleChange}
+            onInput={(e) => {
+              setStartTime(e.currentTarget.value);
+            }}
+            errorMessage={errors.start_time}
+          />
+          <Input
+            label="End"
+            type="datetime-local"
+            name="end_time"
+            defaultValue={
+              eventData?.end_time && isoDateTime(eventData?.end_time)
+            }
+            onBlur={handleChange}
+            onInput={(e) => {
+              setEndTime(e.currentTarget.value);
+            }}
+            errorMessage={errors.end_time}
+          />
+          {duration && <span>Duration: {duration}</span>}
+          <Input
+            label="Adult volunteers needed"
+            type="number"
+            name="adult_slots"
+            defaultValue={eventData?.adult_slots}
+            onBlur={handleChange}
+            errorMessage={errors.adult_slots}
+          />
+          <Input
+            label="Teenager volunteers needed"
+            type="number"
+            name="teenager_slots"
+            defaultValue={eventData?.teenager_slots}
+            onBlur={handleChange}
+            errorMessage={errors.teenager_slots}
+          />
+          <DropDown
+            choices={teams}
+            name="team_id"
+            label="Team"
+            helpText="Please select a team"
+            defaultValue={String(eventData.team_id)}
+          />
+        </div>
+        <div>
+          <Textarea
+            label="Event description"
+            name="description"
+            rows={10}
+            defaultValue={eventData?.description}
+            onBlur={handleChange}
+            errorMessage={errors.description}
+          />
+        </div>
         <Button type="submit" label="Save changes" />
       </form>
-      <form onSubmit={handleDeleteEvent} className="flex flex-col gap-4 w-100">
+      <form onSubmit={handleDeleteEvent} className="flex flex-col items-center gap-4">
         <Button type="submit" label="Soft delete this event" />
       </form>
     </>
