@@ -80,3 +80,17 @@ hr {
   @apply border-gray-300;
   @apply border-t-1;
 }
+
+ul#site-map {
+  @apply list-inside;
+  @apply mb-4;
+  li {
+    @apply ml-5;
+    a:after {
+      content: attr(href);
+      @apply ml-2;
+      @apply text-slate-500;
+      @apply text-sm;
+    }
+  }
+}

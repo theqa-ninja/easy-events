@@ -90,7 +90,6 @@ export const EditSignupForm = ({
           onClose={() => setToast(undefined)}
         />
       )}
-      <h2>Signup for this event</h2>
       <form onSubmit={submitSignup} className="flex flex-col gap-4 w-100">
         <Input
           type="text"

@@ -10,7 +10,7 @@ export default async function Header() {
 
   return (
     <header className="p-4 not-dark:bg-slate-200 dark:bg-slate-700">
-      <nav className="flex justify-between">
+      <nav className="flex justify-between items-center">
         <div className="flex gap-4">
           <Link href="/">Home</Link>
           <Link href="/events">Events</Link>
@@ -21,7 +21,7 @@ export default async function Header() {
         </div>
         {user && user['email'] ? (
           <div className="flex gap-4">
-            <p>Logged in as {user.email}</p>
+            Logged in as {user.email}
             <Link href="/user/logout">Logout</Link>
           </div>
         ) : (
