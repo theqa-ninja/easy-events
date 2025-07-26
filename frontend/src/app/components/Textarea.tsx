@@ -1,4 +1,4 @@
-import { type FC, type TextareaHTMLAttributes } from "react";
+import { type TextareaHTMLAttributes } from "react";
 import { ErrorMessage } from "./ErrorMessage";
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -22,7 +22,7 @@ export const Textarea = ({
       <textarea
         id={name}
         name={name}
-        className="w-full rounded-md bg-background-100 border-1 border-fuchsia-800 p-2"
+        className="w-full rounded-md not-dark:bg-white dark:bg-black border-1 not-dark:border-slate-300 dark:border-slate-700 p-2"
         placeholder={placeholder}
         {...props}
       >
