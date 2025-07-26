@@ -93,7 +93,6 @@ module Api
     end
 
     def authorized_to_modify_signup(signup)
-      byebug
       current_user.event_leader?(@current_event.team_id)
     end
 
