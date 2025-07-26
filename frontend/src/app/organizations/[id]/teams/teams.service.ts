@@ -35,7 +35,6 @@ export const getTeams = async (
   }
 };
 
-// TODO: update this when volunteer roles are implemented
 export const getVolunteerRoles = async (
   teamId: number
 ): Promise<IVolunteerRole[]> => {

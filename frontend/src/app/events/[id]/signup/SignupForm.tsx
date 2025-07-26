@@ -9,6 +9,7 @@ import { Textarea } from "@/app/components/Textarea";
 import { Button } from "@/app/components/Button";
 import { IToast, Toast } from "@/app/components/Toast";
 import { SignupConfirmation } from "../signup-confirmation/SignupConfirmation";
+import { Card } from "@/app/components/Card";
 
 export const SignupForm = ({
   user,
@@ -214,69 +215,71 @@ export const SignupForm = ({
           eventId={eventId}
         />
       ) : (
-        <form onSubmit={submitSignup} className="flex flex-col gap-4 w-100">
-          <h2 className="mt-5">Signup</h2>
-          <Input
-            type="text"
-            name="name"
-            label="Name"
-            placeholder="Name"
-            defaultValue={user?.name}
-            onBlur={handleChange}
-            errorMessage={errors.name}
-          />
-          <Input
-            type="email"
-            name="email"
-            label="Email"
-            placeholder="Email"
-            defaultValue={user?.email}
-            onBlur={handleChange}
-            errorMessage={errors.email}
-          />
-          <Input
-            type="tel"
-            name="phone_number"
-            label="Phone number"
-            placeholder="Phone number"
-            defaultValue={user?.phone_number}
-          />
-          Are you over 18 years old?
-          <div className="flex gap-4">
+        <Card classNames="w-100">
+          <form onSubmit={submitSignup} className="flex flex-col gap-4">
+            <h2>Signup</h2>
             <Input
-              type="radio"
-              name="is_over_18"
-              value="true"
-              label="Yes"
+              type="text"
+              name="name"
+              label="Name"
+              placeholder="Name"
+              defaultValue={user?.name}
               onBlur={handleChange}
-              defaultChecked={user?.is_over_18 === true}
-              errorMessage={errors.is_over_18}
+              errorMessage={errors.name}
             />
             <Input
-              type="radio"
-              name="is_over_18"
-              value="false"
-              label="No"
+              type="email"
+              name="email"
+              label="Email"
+              placeholder="Email"
+              defaultValue={user?.email}
               onBlur={handleChange}
-              defaultChecked={user?.is_over_18 === false}
-              errorMessage={errors.is_over_18}
+              errorMessage={errors.email}
             />
-          </div>
-          <Textarea name="notes" placeholder="notes..." />
-          {additionalVolunteers.length > 0 && (
-            <div id="additionalVolunteers">
-              <h3>Additional Volunteers</h3>
-              {additionalVolunteers.map((volunteer) => volunteer)}
+            <Input
+              type="tel"
+              name="phone_number"
+              label="Phone number"
+              placeholder="Phone number"
+              defaultValue={user?.phone_number}
+            />
+            Are you over 18 years old?
+            <div className="flex gap-4">
+              <Input
+                type="radio"
+                name="is_over_18"
+                value="true"
+                label="Yes"
+                onBlur={handleChange}
+                defaultChecked={user?.is_over_18 === true}
+                errorMessage={errors.is_over_18}
+              />
+              <Input
+                type="radio"
+                name="is_over_18"
+                value="false"
+                label="No"
+                onBlur={handleChange}
+                defaultChecked={user?.is_over_18 === false}
+                errorMessage={errors.is_over_18}
+              />
             </div>
-          )}
-          <Button
-            id="add-volunteer"
-            type="button"
-            label="+ Add another volunteer to your group"
-            onClick={() => addAnotherVolunteer(errors)}
-          />
-          <Button type="submit" label="Sign up" />
-        </form>
+            <Textarea name="notes" placeholder="notes..." />
+            {additionalVolunteers.length > 0 && (
+              <div id="additionalVolunteers">
+                <h3>Additional Volunteers</h3>
+                {additionalVolunteers.map((volunteer) => volunteer)}
+              </div>
+            )}
+            <Button
+              id="add-volunteer"
+              type="button"
+              label="+ Add another volunteer to your group"
+              onClick={() => addAnotherVolunteer(errors)}
+            />
+            <Button type="submit" label="Sign up" />
+          </form>
+        </Card>
       )}
     </>
   );

@@ -36,7 +36,7 @@ export const CheckedInAt = ({
 
   return (
     <>
-    {checkedInAt}
+    {checkedInAt ? <span><b>Checked in at:</b> {checkedInAt}</span> : <b>Not checked in</b>}
     <Switch
       id={`${signup.id}-checked-in`}
       defaultChecked={signup.checked_in_at != null}

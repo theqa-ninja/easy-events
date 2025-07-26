@@ -4,27 +4,24 @@ import { editSignup, ISignup } from "@/app/events/[id]/signups.service";
 import { formatDateTime } from "@/app/utilities";
 import { useEffect, useState } from "react";
 
-export const CanceledAt = ({
+export const CancelledAt = ({
   id,
   signupId,
   signup,
-  onDataChange,
 }: {
   id: number;
   signupId: number;
   signup: ISignup;
-  onDataChange?: any;
 }) => {
-  const [canceledAt, setCanceledAt] = useState<string>();
+  const [cancelledAt, setCancelledAt] = useState<string>();
   const handleChangeCancelledAt = async (event: any) => {
     const checked = event.target.checked;
     const body = {
       ...signup,
       cancelled_at: checked ? new Date().toISOString() : null,
     }
-    onDataChange(body);
     editSignup(id, signupId, body).then((response) => {
-      body.cancelled_at ? setCanceledAt(formatDateTime(body.cancelled_at, options)) : setCanceledAt("");
+      body.cancelled_at ? setCancelledAt(formatDateTime(body.cancelled_at, options)) : setCancelledAt("");
     })
   }
 
@@ -37,12 +34,12 @@ export const CanceledAt = ({
   };
 
   useEffect(() => {
-    signup.cancelled_at ? setCanceledAt(formatDateTime(signup.cancelled_at, options)) : setCanceledAt("");
+    signup.cancelled_at ? setCancelledAt(formatDateTime(signup.cancelled_at, options)) : setCancelledAt("");
   }, [signup.cancelled_at]);
 
   return (
     <>
-    {canceledAt}
+    {cancelledAt ? <span><b>Cancelled at:</b> {cancelledAt}</span> : <b>Not cancelled</b>}
     <Switch
       id={`${signup.id}-cancelled`}
       defaultChecked={signup.cancelled_at != null}

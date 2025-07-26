@@ -28,7 +28,7 @@ const EditSignupPage = async ({
       {eventData && <h1>{eventData.title}</h1>}
       {eventData && <Event eventData={eventData} />}
       <h1>Edit signup</h1>
-      <EditSignupForm signupData={signupData} eventId={Number(id)} eventCloseTime={eventData?.close_time} />
+      <EditSignupForm signupData={signupData} eventId={Number(id)} eventData={eventData} />
     </>
   );
 };

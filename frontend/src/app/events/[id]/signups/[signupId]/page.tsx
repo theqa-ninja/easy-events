@@ -1,7 +1,8 @@
 import { getSignupsSignup } from "@/app/events/[id]/signups.service";
-import { CanceledAt } from "./CanceledAt";
+import { CancelledAt } from "../CanceledAt";
 import Link from "next/link";
 import { CheckedInAt } from "../CheckedInAt";
+import { Card } from "@/app/components/Card";
 
 const SignupsShowPage = async ({
   params,
@@ -12,7 +13,7 @@ const SignupsShowPage = async ({
   const signupData = await getSignupsSignup(id, signupId);
 
   return (
-    <>
+    <Card>
       <Link href={`/events/${id}/signups`}>&lsaquo;&nbsp;Back to signups</Link>
       <h1>Signup</h1>
       {signupData && (
@@ -38,21 +39,13 @@ const SignupsShowPage = async ({
             <dt>Notes from leader:</dt>
             <dd></dd>
           </dl>
-          <dl className="flex flex-col">
-            <dt>Checked-in at:</dt>
-            <dd className="min-w-25 align-top">
-              <CheckedInAt id={id} signup={signupData} signupId={signupId} />
-            </dd>
-          </dl>
-          <dl className="flex flex-col">
-            <dt>Cancelled at:</dt>
-            <dd className="min-w-25 align-top">
-              <CanceledAt id={id} signup={signupData} signupId={signupId} />
-            </dd>
-          </dl>
+          <div className="flex flex-col min-w-25">
+            <CheckedInAt id={id} signup={signupData} signupId={signupId} />
+            <CancelledAt id={id} signup={signupData} signupId={signupId} />
+          </div>
         </div>
       )}
-    </>
+    </Card>
   );
 };
 

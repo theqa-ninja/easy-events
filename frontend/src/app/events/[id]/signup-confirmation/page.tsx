@@ -3,6 +3,7 @@ import { getEvent } from "@/app/events/events.service";
 import { getSignup, ISignup } from "@/app/events/[id]/signups.service";
 import { Event } from "@/app/events/Event";
 import { SignupConfirmation } from "./SignupConfirmation";
+import { Card } from "@/app/components/Card";
 export const generateMetadata = async ({
   params,
 }: {
@@ -33,15 +34,14 @@ const SignupConfirmationPage = async ({
     is_over_18: signupData?.is_over_18 || false,
     notes: signupData?.notes || "",
   };
-  const loggedIn = signupData?.email && true;
 
   return (
     <>
       {eventData && (
-        <>
+        <Card>
           <h1>Signup confirmation for {eventData.title}</h1>
           <Event eventData={eventData} />
-        </>
+        </Card>
       )}
       <SignupConfirmation primarySignup={signup} eventId={Number(id)} />
     </>

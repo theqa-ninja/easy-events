@@ -2,6 +2,7 @@ import { getUser } from "@/app/user/users.service";
 import { ISignup } from "@/app/events/[id]/signups.service";
 import { getToken } from "@/app/utilities";
 import { number, object, string } from "yup";
+import { IVolunteerRole } from "@/app/organizations/[id]/teams/teams.service";
 
 export interface IEvent {
   id?: number;
@@ -17,6 +18,9 @@ export interface IEvent {
   creator_id?: number;
   team_name?: string;
   close_time?: string; // when to no longer accept signups and cancellations
+  volunteer_role_ids?: number[];
+  event_lead_name?: string;
+  volunteer_roles: IVolunteerRole[];
 }
 
 export interface ITeam {

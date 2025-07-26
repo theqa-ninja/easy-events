@@ -4,6 +4,7 @@ import Link from "next/link";
 import { CheckedInAt } from "./CheckedInAt";
 import { IVolunteerRole } from "@/app/organizations/[id]/teams/teams.service";
 import { VolunteerRoles } from "./VolunteerRoles";
+import { Card } from "@/app/components/Card";
 
 export const SignupsTable = async ({
   signupsData,
@@ -13,45 +14,31 @@ export const SignupsTable = async ({
   volunteerRoles: IVolunteerRole[];
 }) => {
   return signupsData && signupsData.length > 0 ? (
-    <table className="w-full mb-5">
-      <thead>
-        <tr className="bg-foreground-100 border-b-1 border-primary-900 text-left *:py-2 *:text-nowrap">
-          <th>Contact</th>
-          <th className="w-25">Checked-in</th>
-        </tr>
-      </thead>
-      <tbody>
-        {Object.values(signupsData).map((signup) => (
-          <Fragment key={signup.id}>
-            <tr className="*:py-2 *:align-top">
-              <td className="font-bold">
-                <Link href={`/events/${signup.event_id}/signups/${signup.id}`}>
-                  {signup.name}
-                </Link>
-              </td>
-              <td>
-                <CheckedInAt
-                  id={Number(signup.event_id)}
-                  signup={signup}
-                  signupId={Number(signup.id)}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={2} className={signup.notes && "py-2"}>
-                {signup.notes && <b>Notes from volunteer: </b>}
-                {signup.notes}
-              </td>
-            </tr>
-            <tr className="border-b-1 border-primary-900">
-              <td className="text-right py-2 pb-4" colSpan={2}>
-                <VolunteerRoles volunteerRoles={volunteerRoles} signup={signup} />
-              </td>
-            </tr>
-          </Fragment>
-        ))}
-      </tbody>
-    </table>
+    <>
+      {Object.values(signupsData).map((signup) => (
+        <Card key={signup.id} classNames="mb-4 flex flex-col gap-2">
+          <div className="flex justify-between">
+            <div className="flex flex-col gap-2">
+              <Link href={`/events/${signup.event_id}/signups/${signup.id}`} className="text-xl">
+                {signup.name}
+              </Link>
+              <VolunteerRoles volunteerRoles={volunteerRoles} signup={signup} />
+            </div>
+            <div className="w-31">
+              <CheckedInAt
+                id={Number(signup.event_id)}
+                signup={signup}
+                signupId={Number(signup.id)}
+              />
+            </div>
+          </div>
+          <div>
+            {signup.notes && <b>Notes from volunteer: </b>}
+            {signup.notes}
+          </div>
+        </Card>
+      ))}
+    </>
   ) : (
     <p>No signups yet</p>
   );

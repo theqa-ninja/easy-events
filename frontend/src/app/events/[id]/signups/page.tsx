@@ -4,6 +4,7 @@ import { getSignups, ISignups } from "@/app/events/[id]/signups.service";
 import { SignupsTable } from "./SignupsTable";
 import Link from "next/link";
 import { getVolunteerRoles } from "@/app/organizations/[id]/teams/teams.service";
+import { Card } from "@/app/components/Card";
 export const generateMetadata = async ({
   params,
 }: {
@@ -23,7 +24,7 @@ const SignupsPage = async ({ params }: { params: Promise<{ id: number }> }) => {
   console.log(signupsData);
   if ('errors' in signupsData || 'message' in signupsData) {
     return (
-      <>
+      <Card>
         <menu className="flex gap-4">
           <Link href={`/events/${id}`}>
             &lsaquo;&nbsp;Back to event details
@@ -34,11 +35,11 @@ const SignupsPage = async ({ params }: { params: Promise<{ id: number }> }) => {
           You need to log in to see signups for this event or you do not have
           permission to view this page.
         </p>
-      </>
+      </Card>
     );
   }
   const eventData = await getEvent(id);
-  const volunteerRoles = await getVolunteerRoles(eventData.team_id);
+  const volunteerRoles =  eventData.volunteer_roles;
 
   return (
     <>
@@ -57,13 +58,13 @@ const SignupsPage = async ({ params }: { params: Promise<{ id: number }> }) => {
         <SignupsTable signupsData={(signupsData as ISignups).teenagers.signups} volunteerRoles={volunteerRoles} />
       </>
       ) : (
-      <>
+      <Card>
         <h1 className="text-center">Signups</h1>
         <p>
           You need to log in to see signups for this event or you do not have
           permission to view this page.
         </p>
-      </>
+      </Card>
       )}
     </>
   );
