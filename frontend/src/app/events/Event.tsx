@@ -25,32 +25,16 @@ export const Event = ({ eventData }: { eventData: IEvent }) => {
           <dd>{formatDateTime(eventData.start_time, optionsDate)}</dd>
         </dl>
         <dl>
-          <dt>Start time:</dt>
-          <dd>{formatDateTime(eventData.start_time, optionsTime)}</dd>
+          <dt>Time:</dt>
+          <dd>{formatDateTime(eventData.start_time, optionsTime)} to {formatDateTime(eventData.end_time, optionsTime)} ({eventDuration(eventData.start_time, eventData.end_time)})</dd>
         </dl>
         <dl>
-          <dt>End time:</dt>
-          <dd>{formatDateTime(eventData.end_time, optionsTime)}</dd>
+          <dt>Adult volunteers:</dt>
+          <dd><b>{eventData.remaining_adult_slots}</b> remaining openings out of <b>{eventData.adult_slots}</b> total</dd>
         </dl>
         <dl>
-          <dt>Duration:</dt>
-          <dd>{eventDuration(eventData.start_time, eventData.end_time)}</dd>
-        </dl>
-        <dl>
-          <dt>Total adult slots:</dt>
-          <dd>{eventData.adult_slots}</dd>
-        </dl>
-        <dl>
-          <dt>Number of adults still needed:</dt>
-          <dd>{eventData.remaining_adult_slots}</dd>
-        </dl>
-        <dl>
-          <dt>Total teen slots:</dt>
-          <dd>{eventData.teenager_slots}</dd>
-        </dl>
-        <dl>
-          <dt>Number of teenagers still needed:</dt>
-          <dd>{eventData.remaining_teenager_slots}</dd>
+          <dt>Teenagers volunteers:</dt>
+          <dd><b>{eventData.remaining_teenager_slots}</b> remaining openings out of <b>{eventData.teenager_slots}</b> total</dd>
         </dl>
       </dl>
       <p>{eventData.description}</p>
