@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     resources :users, only: %i[index show create update destroy], param: :user_id do
       collection do
         get 'me', to: 'users#me'
+        get 'signups', to: 'users#signups'
       end
     end
     resources :teams, only: %i[show update destroy], param: :team_id do

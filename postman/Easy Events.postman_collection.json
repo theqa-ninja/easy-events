@@ -295,6 +295,52 @@
 					"response": []
 				},
 				{
+					"name": "My signups",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{backend_url}}/users/signups",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"users",
+								"signups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "View one User",
 					"event": [
 						{
@@ -1100,6 +1146,37 @@
 									"body": null
 								},
 								{
+									"name": "When not signed in and you want email",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"dude@test.com\",\n    \"name\": \"Booga Last\",\n    \"is_over_18\": false,\n    \"phone_number\": \"867-5309\",\n    \"primary_contact\": true\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{backend_url}}/events/{{event_id}}/signup",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												"{{event_id}}",
+												"signup"
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
 									"name": "When signed in",
 									"originalRequest": {
 										"method": "POST",
@@ -1174,6 +1251,50 @@
 									"body": null
 								}
 							]
+						},
+						{
+							"name": "{{backend_url}}/events/{{event_id}}/signup",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"console.log(jsonData);",
+											"let signup_id = jsonData['id'] || null;",
+											"",
+											"pm.collectionVariables.set('signup_id', signup_id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"dude2@test.com\",\n    \"name\": \"Booga Last\",\n    \"is_over_18\": false,\n    \"phone_number\": \"867-5309\",\n    \"primary_contact\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend_url}}/events/{{event_id}}/signup",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"events",
+										"{{event_id}}",
+										"signup"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},

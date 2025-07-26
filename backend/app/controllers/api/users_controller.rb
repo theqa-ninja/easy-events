@@ -46,6 +46,11 @@ module Api
       render json: { message: "User #{@user_to_modify.email} deleted" }, status: :accepted
     end
 
+    def signups
+      my_signups = Signup.where(user_id: current_user.id).where(soft_deleted: false)
+      render json: my_signups, status: :ok
+    end
+
     private
 
     def render_not_found
