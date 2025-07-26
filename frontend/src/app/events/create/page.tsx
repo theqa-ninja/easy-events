@@ -16,7 +16,7 @@ const CreateEventPage = async () => {
   const teams = await getEventTeams();
 
   return (
-    <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
+    <main className="p-4 max-w-4xl m-auto">
       <h1>Create an event</h1>
       {userMayCreateEvents ? (
         <CreateEventForm teams={teams} />

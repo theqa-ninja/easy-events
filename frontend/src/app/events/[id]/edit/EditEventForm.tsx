@@ -8,12 +8,12 @@ import {
 } from "@/app/events/events.service";
 import { Button } from "@/app/components/Button";
 import { Input } from "@/app/components/Input";
-import { Textarea } from "@/app/components/Textarea";
 import { isoDateTime, validateOnBlur } from "@/app/utilities";
 import { useEffect, useState } from "react";
 import { IToast, Toast } from "@/app/components/Toast";
 import { eventDuration } from "../../events.helper";
 import { DropDown } from "@/app/components/Dropdown";
+import { MarkdownEditor } from "@/app/components/MarkdownEditor";
 
 export const EditEventForm = ({
   eventData,
@@ -27,6 +27,7 @@ export const EditEventForm = ({
   const [duration, setDuration] = useState<string | undefined>();
   const [toast, setToast] = useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
+  const [description, setDescription] = useState<string | undefined>();
 
   const handleChange = async (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -91,6 +92,12 @@ export const EditEventForm = ({
         });
     }
   };
+
+  const handleMarkdownChange = (value?: string) => {
+    if (value) {
+      setDescription(value);
+    }
+  }
 
   useEffect(() => {
     if (startTime && endTime) {
@@ -172,22 +179,29 @@ export const EditEventForm = ({
             label="Time when signups are closed"
             type="datetime-local"
             name="close_time"
-            defaultValue={eventData?.close_time && isoDateTime(eventData?.close_time)}
+            defaultValue={
+              eventData?.close_time && isoDateTime(eventData?.close_time)
+            }
           />
         </div>
         <div>
-          <Textarea
-            label="Event description"
+          <input
+            type="hidden"
             name="description"
-            rows={10}
+            defaultValue={description || eventData?.description}
+          />
+          <MarkdownEditor
+            label="Event description"
             defaultValue={eventData?.description}
-            onBlur={handleChange}
-            errorMessage={errors.description}
+            onChange={handleMarkdownChange}
           />
         </div>
         <Button type="submit" label="Save changes" />
       </form>
-      <form onSubmit={handleDeleteEvent} className="flex flex-col items-center gap-4">
+      <form
+        onSubmit={handleDeleteEvent}
+        className="flex flex-col items-center gap-4"
+      >
         <Button type="submit" label="Soft delete this event" />
       </form>
     </>
