@@ -10,6 +10,7 @@ import { Button } from "@/app/components/Button";
 import { IToast, Toast } from "@/app/components/Toast";
 import { signInUser } from "@/app/user/users.service";
 import { ColoredBackground } from "@/app/components/ColoredBackground";
+import { Card } from "@/app/components/Card";
 
 export const LoginForm = () => {
   const route = useRouter();
@@ -80,7 +81,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <ColoredBackground bgColor="bg-rose-50">
+    <ColoredBackground bgColor="bg-background-50">
       {toast && (
         <Toast
           message={toast.message}
@@ -88,52 +89,51 @@ export const LoginForm = () => {
           onClose={() => setToast(undefined)}
         />
       )}
-      <form
-        onSubmit={handleLogin}
-        className="bg-white rounded-md px-10 py-10 shadow-md w-100"
-      >
-        <h1 className="text-2xl font-bold mb-8">Log in</h1>
-        <div className="flex flex-col gap-4">
-          <Input
-            name="email"
-            label="Email"
-            placeholder="youremail@example.com"
-            errorMessage={errors.email}
-            onBlur={handleChange}
-          />
-          <Input
-            name="password"
-            label="Password"
-            placeholder="********"
-            type="password"
-            errorMessage={errors.password}
-            onBlur={handleChange}
-          />
-          <Input name="remember_me" label="Remember me" type="checkbox" />
-        </div>
-        <div className="my-4">
-          <Button
-            type="submit"
-            alignSelf="start"
-            variant="primary"
-            label="Log in"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <Link
-            href="/user/create-account"
-            className="text-fuchsia-800 leading-5 mt-4"
-          >
-            Sign up
-          </Link>
-          <Link
-            href="/user/reset-password"
-            className="text-fuchsia-800 leading-5"
-          >
-            Forgot your password?
-          </Link>
-        </div>
-      </form>
+      <Card classNames="w-100 p-10">
+        <form onSubmit={handleLogin}>
+          <h1 className="text-2xl font-bold mb-8">Log in</h1>
+          <div className="flex flex-col gap-4">
+            <Input
+              name="email"
+              label="Email"
+              placeholder="youremail@example.com"
+              errorMessage={errors.email}
+              onBlur={handleChange}
+            />
+            <Input
+              name="password"
+              label="Password"
+              placeholder="********"
+              type="password"
+              errorMessage={errors.password}
+              onBlur={handleChange}
+            />
+            <Input name="remember_me" label="Remember me" type="checkbox" />
+          </div>
+          <div className="my-4">
+            <Button
+              type="submit"
+              alignSelf="start"
+              variant="primary"
+              label="Log in"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Link
+              href="/user/create-account"
+              className="text-fuchsia-800 leading-5 mt-4"
+            >
+              Sign up
+            </Link>
+            <Link
+              href="/user/reset-password"
+              className="text-fuchsia-800 leading-5"
+            >
+              Forgot your password?
+            </Link>
+          </div>
+        </form>
+      </Card>
     </ColoredBackground>
   );
 };

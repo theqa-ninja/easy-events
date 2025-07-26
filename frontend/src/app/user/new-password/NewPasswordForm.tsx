@@ -9,6 +9,7 @@ import { Button } from "@/app/components/Button";
 import { IToast, Toast } from "@/app/components/Toast";
 import { newPassword } from "@/app/user/users.service";
 import { ColoredBackground } from "@/app/components/ColoredBackground";
+import { Card } from "@/app/components/Card";
 
 export const NewPasswordForm = () => {
   const route = useRouter();
@@ -80,7 +81,7 @@ export const NewPasswordForm = () => {
   };
 
   return (
-    <ColoredBackground bgColor="bg-rose-50">
+    <ColoredBackground bgColor="bg-background-50">
       {toast && (
         <Toast
           message={toast.message}
@@ -88,49 +89,50 @@ export const NewPasswordForm = () => {
           onClose={() => setToast(undefined)}
         />
       )}
-      <form
-        onSubmit={handleNewPassword}
-        className="bg-white rounded-md px-10 py-10 shadow-md w-100"
-      >
-        <h1 className="text-2xl font-bold mb-8">Change my password</h1>
-        <div className="flex flex-col gap-4 my-4">
-          <Input
-            name="password"
-            label="password"
-            placeholder="********"
-            type="password"
-            onBlur={handleChange}
-            errorMessage={errors.password}
-          />
-        </div>
-        <div className="flex flex-col gap-4 my-4">
-          <Input
-            name="password_confirmation"
-            label="password confirmation"
-            placeholder="********"
-            type="password"
-            onBlur={handleChange}
-            errorMessage={errors.password_confirmation}
-          />
-        </div>
-        <div className="my-4">
-          <Button
-            type="submit"
-            alignSelf="start"
-            variant="primary"
-            label="Change my password"
-          />
-        </div>
-        <div className="flex flex-row gap-2 align-end">
-          <Link href="/user/login" className="leading-5">
-            Log in
-          </Link>
-          |
-          <Link href="/user/create-account" className="leading-5">
-            Sign up
-          </Link>
-        </div>
-      </form>
+      <Card classNames="w-100 p-10">
+        <form
+          onSubmit={handleNewPassword}
+        >
+          <h1 className="text-2xl font-bold mb-8">Change my password</h1>
+          <div className="flex flex-col gap-4 my-4">
+            <Input
+              name="password"
+              label="password"
+              placeholder="********"
+              type="password"
+              onBlur={handleChange}
+              errorMessage={errors.password}
+            />
+          </div>
+          <div className="flex flex-col gap-4 my-4">
+            <Input
+              name="password_confirmation"
+              label="password confirmation"
+              placeholder="********"
+              type="password"
+              onBlur={handleChange}
+              errorMessage={errors.password_confirmation}
+            />
+          </div>
+          <div className="my-4">
+            <Button
+              type="submit"
+              alignSelf="start"
+              variant="primary"
+              label="Change my password"
+            />
+          </div>
+          <div className="flex flex-row gap-2 align-end">
+            <Link href="/user/login" className="leading-5">
+              Log in
+            </Link>
+            |
+            <Link href="/user/create-account" className="leading-5">
+              Sign up
+            </Link>
+          </div>
+        </form>
+      </Card>
     </ColoredBackground>
   );
 };

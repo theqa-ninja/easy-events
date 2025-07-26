@@ -9,6 +9,7 @@ import { BinaryRadioInput } from "@/app/components/BinaryRadioInput";
 import { Button } from "@/app/components/Button";
 import { IToast, Toast } from "@/app/components/Toast";
 import { createUserAccount } from "../users.service";
+import { Card } from "@/app/components/Card";
 
 export const CreateAccountForm = () => {
   const route = useRouter();
@@ -78,73 +79,72 @@ export const CreateAccountForm = () => {
           onClose={() => setToast(undefined)}
         />
       )}
-      <form
-        onSubmit={handleRegister}
-        className="bg-background-50 rounded-md px-10 py-10 shadow-md w-100"
-      >
-        <h1 className="text-2xl font-bold mb-8">Create an account</h1>
-        <div className="flex flex-col gap-4">
-          <Input
-            name="name"
-            label="Name"
-            placeholder="First name Last name"
-            onBlur={handleChange}
-            errorMessage={errors.name}
-          />
-          <Input
-            name="email"
-            label="Email"
-            placeholder="youremail@example.com"
-            type="email"
-            onBlur={handleChange}
-            errorMessage={errors.email}
-          />
-          <Input
-            name="phone_number"
-            label="Phone number"
-            placeholder="5555555555"
-          />
-          <BinaryRadioInput
-            name="is_over_18"
-            idA="yes"
-            idB="no"
-            labelA="Yes"
-            labelB="No"
-            question="Are you over 18?"
-            onBlur={handleChange}
-            errorMessage={errors.is_over_18}
-          />
-          <Input
-            name="password"
-            label="Password"
-            placeholder="********"
-            type="password"
-            onBlur={handleChange}
-            errorMessage={errors.password}
-          />
-          <Input
-            name="password_confirmation"
-            label="Password confirmation"
-            placeholder="********"
-            type="password"
-            onBlur={handleChange}
-            errorMessage={errors.password_confirmation}
-          />
-        </div>
-        <div className="my-4">
-          <Button
-            type="submit"
-            alignSelf="start"
-            variant="primary"
-            label="Sign up"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <Link href="/user/login" className="text-fuchsia-800 leading-5">
-            Already have an account? Log in
-          </Link>
-        </div>
-      </form>
+      <Card classNames="w-100 p-10">
+        <form onSubmit={handleRegister}>
+          <h1 className="text-2xl font-bold mb-8">Create an account</h1>
+          <div className="flex flex-col gap-4">
+            <Input
+              name="name"
+              label="Name"
+              placeholder="First name Last name"
+              onBlur={handleChange}
+              errorMessage={errors.name}
+            />
+            <Input
+              name="email"
+              label="Email"
+              placeholder="youremail@example.com"
+              type="email"
+              onBlur={handleChange}
+              errorMessage={errors.email}
+            />
+            <Input
+              name="phone_number"
+              label="Phone number"
+              placeholder="5555555555"
+            />
+            <BinaryRadioInput
+              name="is_over_18"
+              idA="yes"
+              idB="no"
+              labelA="Yes"
+              labelB="No"
+              question="Are you over 18?"
+              onBlur={handleChange}
+              errorMessage={errors.is_over_18}
+            />
+            <Input
+              name="password"
+              label="Password"
+              placeholder="********"
+              type="password"
+              onBlur={handleChange}
+              errorMessage={errors.password}
+            />
+            <Input
+              name="password_confirmation"
+              label="Password confirmation"
+              placeholder="********"
+              type="password"
+              onBlur={handleChange}
+              errorMessage={errors.password_confirmation}
+            />
+          </div>
+          <div className="my-4">
+            <Button
+              type="submit"
+              alignSelf="start"
+              variant="primary"
+              label="Sign up"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Link href="/user/login" className="text-fuchsia-800 leading-5">
+              Already have an account? Log in
+            </Link>
+          </div>
+        </form>
+      </Card>
     </div>
   );
 };

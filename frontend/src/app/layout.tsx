@@ -39,7 +39,7 @@ export default function RootLayout({
         className={`${primaryFont.variable} antialiased h-full`}
       >
         <Header />
-        <main className="m-auto p-4 max-w-4xl h-[calc(100%-3.5rem)]">
+        <main className="m-auto p-4 max-w-4xl min-h-[calc(100vh_-_44px)]">
           <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         </main>
         <footer className="p-4 flex justify-center z-10 relative">
