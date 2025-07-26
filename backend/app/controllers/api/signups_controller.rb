@@ -20,7 +20,7 @@ module Api
 
       return render_not_found if signup.nil?
 
-      return render_unauthorized unless authorized_to_modify_signup(signup)
+      return render_unauthorized unless current_user&.id == signup.user_id || authorized_to_modify_signup(signup)
 
       render json: signup, status: :ok
     end
