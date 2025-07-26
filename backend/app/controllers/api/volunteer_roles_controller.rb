@@ -51,9 +51,11 @@ module Api
 
     def set_team_from_params
       @current_team = Team.where(id: params[:team_id]).first
-      return render_not_found if @current_team.nil?
-
-      @current_org = @current_team.organization
+      if @current_team.nil?
+        render_not_found
+      else
+        @current_org = @current_team.organization
+      end
     end
 
     def render_not_found

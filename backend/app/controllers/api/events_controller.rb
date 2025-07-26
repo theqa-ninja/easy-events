@@ -2,8 +2,8 @@ module Api
   class EventsController < ApplicationController
     # before_action :set_event, only: %i[show update destroy checkins]
     # before_action :redirect_if_not_lead_or_admin, only: %i[update destroy checkins]
-    before_action :set_team, only: %i[create update destroy]
     before_action :set_event, only: %i[show update destroy checkins signup]
+    before_action :set_team, only: %i[create]
     before_action :redirect_if_no_create, only: %i[create]
     before_action :redirect_if_no_edit, only: %i[create update destroy checkins]
 
@@ -67,20 +67,28 @@ module Api
     private
 
     # Use callbacks to share common setup or constraints between actions.
-    def set_org
-      @current_org = Organization.where(id: params[:org_id]).first
-      render_not_found if @current_org.nil?
-    end
+    # def set_org
+    #   @current_org = Organization.where(id: params[:org_id]).first
+    #   render_not_found if @current_org.nil?
+    # end
 
     def set_team
       @current_team = Team.where(id: params[:team_id]).first
-      render_not_found if @current_team.nil?
-      @current_org = @current_team.organization
+      if @current_team.nil?
+        render_not_found
+      else
+        @current_org = @current_team.organization
+      end
     end
 
     def set_event
       @current_event = Event.where(id: params[:event_id]).first
-      render_not_found if @current_event.nil?
+      if @current_event.nil?
+        render_not_found
+      else
+        @current_team = @current_event.team
+        @current_org = @current_team.organization
+      end
     end
 
     # Only allow a list of trusted parameters through.

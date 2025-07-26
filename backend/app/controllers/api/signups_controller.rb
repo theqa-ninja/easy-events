@@ -70,10 +70,13 @@ module Api
 
     def set_event
       @current_event = Event.where(soft_deleted: false).where(id: params[:event_id]).first
-      render json: { message: 'Event not found' }, status: :not_found if @current_event.nil?
 
-      @current_team = @current_event.team
-      @current_org = @current_team.organization
+      if @current_event.nil?
+        render json: { message: 'Event not found' }, status: :not_found
+      else
+        @current_team = @current_event.team
+        @current_org = @current_team.organization
+      end
     end
 
     def set_signup
