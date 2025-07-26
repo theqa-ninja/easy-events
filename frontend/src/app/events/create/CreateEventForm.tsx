@@ -16,6 +16,7 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
   const [endTime, setEndTime] = useState("");
   const [duration, setDuration] = useState<string | undefined>();
   const [description, setDescription] = useState<string | undefined>();
+  const [disable, setDisable] = useState<boolean>();
 
   const handleChange = async (
     event: React.ChangeEvent<
@@ -50,10 +51,14 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
       });
       createEvent(event)
         .then(async (response) => {
+          setDisable(true);
           setToast({
             message: "Event created",
             status: "success",
           });
+          setTimeout(() => {
+            window.location.href = `/events/${response.id}`;
+          }, 1000);
         })
         .catch((error) => {
           setToast({ message: error.message, status: "error" });
@@ -152,7 +157,7 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
           />
         </div>
 
-        <Button type="submit" label="Create event" />
+        <Button type="submit" label="Create event" disabled={disable} />
       </form>
     </>
   );
