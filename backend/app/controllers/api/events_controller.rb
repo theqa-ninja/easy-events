@@ -63,7 +63,9 @@ module Api
     # GET /events/1/checkins
     # Returns all checkins for the event
     def checkins
-      render json: { checkins: @current_event.checkins }, status: :ok
+      adults = @current_event.checkins.where(is_over_18: true)
+      teenagers = @current_event.checkins.where(is_over_18: false)
+      render json: { adults: adults, teenagers: teenagers }, status: :ok
     end
 
     private
