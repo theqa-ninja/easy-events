@@ -1,9 +1,10 @@
 module Api
   class OrganizationsController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_organization, only: %i[show update destroy]
-    before_action :redirect_if_not_superadmin, only: %i[index create]
-    before_action :redirect_if_not_admin, only: %i[show update destroy]
+    before_action :set_org, only: %i[show update destroy]
+    before_action :redirect_if_no_create, only: %i[create]
+    before_action :redirect_if_no_edit, only: %i[update destroy]
+    before_action :redirect_if_no_view, only: %i[create show index update destroy]
 
     # GET /organizations
     def index
@@ -22,14 +23,7 @@ module Api
       new_org = Organization.new(organization_params)
 
       if new_org.save
-        # need to add current user as admin upon create
-        # role_id = UserType.where(role: 'Admin').first.id
-        # add_admin = UsersTypesTeam.new(user_id: current_user.id, organization_id: new_org.id, user_type_id: role_id)
-        # if add_admin.save
         render json: new_org, status: :created
-        # else
-        #   render json: add_admin.errors, status: :unprocessable_entity
-        # end
       else
         render json: new_org.errors, status: :unprocessable_entity
       end
@@ -54,7 +48,7 @@ module Api
     private
 
     # Use callbacks to share common setup or constraints between actions.
-    def set_organization
+    def set_org
       @current_organization = Organization.where(soft_deleted: false).where(id: params[:org_id]).first
 
       render json: { message: 'Organization not found' }, status: :not_found if @current_organization.nil?
@@ -65,16 +59,22 @@ module Api
       params.require(:organization).permit(:name)
     end
 
-    def redirect_if_not_admin
-      return if current_user.org_admin?(@current_organization.id)
+    def redirect_if_no_create
+      return if current_user.check_permissions(nil, nil, [:CREATE_ORG])
 
-      render json: { message: 'You are not high enough to do that' }, status: :unauthorized
+      render json: { message: "You can't create organizations" }, status: :unauthorized
     end
 
-    def redirect_if_not_superadmin
-      return if current_user.superadmin?
+    def redirect_if_no_edit
+      return if current_user.check_permissions(@current_organization.id, nil, %i[EDIT_ORG CREATE_ORG])
 
-      render json: { message: 'You are not high enough to do that' }, status: :unauthorized
+      render json: { message: "You can't edit organizations" }, status: :unauthorized
+    end
+
+    def redirect_if_no_view
+      return if current_user.check_permissions(@current_organization.id, nil, %i[VIEW_ORG EDIT_ORG CREATE_ORG])
+
+      render json: { message: "You can't view organizations" }, status: :unauthorized
     end
   end
 end

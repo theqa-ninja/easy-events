@@ -1,18 +1,19 @@
 module Api
   class EventsController < ApplicationController
-    before_action :set_event, only: %i[show update destroy checkins]
-    before_action :redirect_if_not_lead_or_admin, only: %i[update destroy checkins]
+    # before_action :set_event, only: %i[show update destroy checkins]
+    # before_action :redirect_if_not_lead_or_admin, only: %i[update destroy checkins]
+    before_action :set_team, only: %i[create update destroy]
+    before_action :set_event, only: %i[show update destroy checkins signup]
+    before_action :redirect_if_no_create, only: %i[create]
+    before_action :redirect_if_no_edit, only: %i[create update destroy checkins]
 
     # GET /events
     def index
-      # @current_events = Event.all # for no API
-      render json: Event.where(soft_deleted: false).sort_by(&:start_time).as_json, status: :ok
+      render json: Event.all.sort_by(&:start_time).as_json, status: :ok
     end
 
     # GET /events/1
     def show
-      return render json: @current_event, status: :no_content if @current_event.nil?
-
       render json: @current_event.as_json, status: :ok
     end
 
@@ -22,17 +23,14 @@ module Api
         event_id: @current_event.id,
         email: current_user.email
       )
-      return render json: current_user, status: :not_found if signup.nil?
+      return render_not_found if signup.nil?
 
       render json: signup, status: :ok if signup
     end
 
     # POST /events
     def create
-      return render_unauthorized unless authorized_to_modify_events(params[:team_id])
-
-      creator_id = current_user.id
-      @current_event = Event.new(event_params.merge(creator_id: creator_id))
+      @current_event = Event.new(event_params.merge(creator_id: current_user.id))
       if @current_event.save
         render json: @current_event, status: :created
       else
@@ -42,8 +40,6 @@ module Api
 
     # PATCH/PUT /events/1
     def update
-      return render_unauthorized unless authorized_to_modify_events
-
       if @current_event.update(event_params)
         render json: @current_event, status: :ok
       else
@@ -53,7 +49,7 @@ module Api
 
     # DELETE /events/1
     def destroy
-      return render_unauthorized unless authorized_to_modify_events
+      # return render_unauthorized unless authorized_to_modify_events
 
       @current_event.delete
 
@@ -71,11 +67,20 @@ module Api
     private
 
     # Use callbacks to share common setup or constraints between actions.
-    def set_event
-      @current_event = Event.where(soft_deleted: false).where(id: params[:event_id]).first
-      render json: { message: 'Event not found' }, status: :not_found if @current_event.nil?
+    def set_org
+      @current_org = Organization.where(id: params[:org_id]).first
+      render_not_found if @current_org.nil?
+    end
 
-      nil if current_user.nil?
+    def set_team
+      @current_team = Team.where(id: params[:team_id]).first
+      render_not_found if @current_team.nil?
+      @current_org = @current_team.organization
+    end
+
+    def set_event
+      @current_event = Event.where(id: params[:event_id]).first
+      render_not_found if @current_event.nil?
     end
 
     # Only allow a list of trusted parameters through.
@@ -84,17 +89,28 @@ module Api
                                     :adult_slots, :teenager_slots)
     end
 
-    def authorized_to_modify_events(team_id = nil)
-      team_id = @current_event.team_id if team_id.nil? && @current_event.present?
-      org_id = Team.find_by(id: team_id)&.organization_id
-      current_user.org_admin?(org_id) || current_user.event_leader?(team_id) || current_user.id == @current_event.user_id
+    def render_not_found
+      render json: { message: 'Event not found' }, status: :not_found
     end
 
-    def redirect_if_not_lead_or_admin
-      return if current_user.event_leader?(@current_event.team_id) || current_user.org_admin?(@current_event.team.organization_id)
+    def redirect_if_no_create
+      return if current_user.check_permissions(@current_org.id, nil, [:EDIT_ORG]) # check if org permissions first
 
-      render json: { message: 'You are not high enough to do that' },
-             status: :unauthorized
+      return if current_user.check_permissions(@current_org.id, @current_team.id, %i[CREATE_EVENT EDIT_TEAM CREATE_TEAM])
+
+      render json: { message: "You can't create events" }, status: :unauthorized
+    end
+
+    def redirect_if_no_edit
+      return if current_user.check_permissions(@current_org.id, nil, [:EDIT_ORG]) # check if org permissions first
+
+      return if current_user.check_permissions(@current_org.id, @current_team.id, %i[EDIT_EVENT CREATE_EVENT EDIT_TEAM CREATE_TEAM])
+
+      render json: { message: "You can't edit events" }, status: :unauthorized
+    end
+
+    def redirect_if_no_view
+      # everyone can view events, so no point in checking permissions here
     end
   end
 end

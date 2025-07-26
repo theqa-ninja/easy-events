@@ -1,7 +1,11 @@
 module Api
   class UsersController < ApplicationController
+    before_action :set_user_for_edit, only: %i[show update destroy]
     before_action :authenticate_user!, only: %i[index show me update destroy]
-    before_action :redirect_if_not_superadmin, only: %i[index show]
+    # before_action :redirect_if_not_superadmin, only: %i[index show]
+    before_action :redirect_if_no_create, only: %i[create]
+    before_action :redirect_if_no_edit, only: %i[update destroy]
+    before_action :redirect_if_no_view, only: %i[index show update destroy]
 
     # GET /users/me
     def me
@@ -15,10 +19,7 @@ module Api
 
     # GET /users/1
     def show
-      search_user = User.where(soft_deleted: false).where(id: params[:user_id]).first
-      return render json: search_user, status: :no_content if search_user.nil?
-
-      render json: search_user.as_json, status: :ok
+      render json: @user_to_modify.as_json, status: :ok
     end
 
     # POST /users
@@ -34,46 +35,38 @@ module Api
 
     # PATCH/PUT /users/1
     def update
-      user = find_user
-      return render_not_found unless user
-      return render_unauthorized unless authorized_to_update?(user)
-
-      update_user(user)
+      if @user_to_modify.update(user_params)
+        render json: @user_to_modify, status: :ok
+      else
+        render json: @user_to_modify.errors, status: :unprocessable_entity
+      end
     end
 
     def destroy
-      user = find_user
-      return render_not_found unless user
-      return render_unauthorized unless authorized_to_update?(user)
-
-      user.delete
-      render json: { message: "User #{user.email} deleted" }, status: :accepted
+      @user_to_modify.delete
+      render json: { message: "User #{@user_to_modify.email} deleted" }, status: :accepted
     end
 
     private
-
-    def find_user
-      User.where(soft_deleted: false).find_by(id: params[:user_id])
-    end
-
-    def authorized_to_update?(user)
-      current_user.superadmin? || current_user.id == user.id
-    end
 
     def render_not_found
       render json: { message: 'User not found' }, status: :not_found
     end
 
     def render_unauthorized
-      render json: { message: "don't try to delete other people's accounts!" }, status: :unauthorized
+      render json: { message: "don't try to mess other people's accounts!" }, status: :unauthorized
     end
 
-    def update_user(user)
-      if user.update(user_params)
-        render json: user, status: :ok
-      else
-        render json: user.errors, status: :unprocessable_entity
-      end
+    def set_user_for_edit
+      @user_to_modify = User.where(soft_deleted: false).find_by(id: params[:user_id])
+      render_not_found if @user_to_modify.nil?
+    end
+
+    # checks if the current user is the one who made the signup
+    def current_user_for_modify?
+      return false if @user_to_modify.nil?
+
+      @user_to_modify.id == current_user.id
     end
 
     # Only allow a list of trusted parameters through.
@@ -81,11 +74,26 @@ module Api
       params.require(:user).permit(:name, :email, :phone_number, :password, :is_over_18)
     end
 
-    def redirect_if_not_superadmin
-      return if current_user.superadmin?
+    def redirect_if_no_create
+      # anyone can create a user
+    end
 
-      render json: { message: 'You are not high enough to do that' },
-             status: :unauthorized
+    def redirect_if_no_edit
+      return if current_user_for_modify?
+
+      return if current_user.check_permissions(nil, nil, [:EDIT_ORG]) # check if edit_org
+
+      render_unauthorized
+    end
+
+    def redirect_if_no_view
+      return if current_user_for_modify? # allow user to view their own account
+      if current_user.check_permissions(nil, nil,
+                                        %i[CREATE_ORG EDIT_ORG VIEW_ORG CREATE_TEAM EDIT_TEAM VIEW_TEAM CREATE_EVENT EDIT_EVENT VIEW_EVENT])
+        return # anyone who is a lead can view other signed up users
+      end
+
+      render json: { message: "You can't view other people's accounts" }, status: :unauthorized
     end
   end
 end
