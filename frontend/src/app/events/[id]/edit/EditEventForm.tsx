@@ -47,6 +47,7 @@ export const EditEventForm = ({
       teenager_slots: Number(formEntries.teenager_slots),
       // creator id is set to current_user.id in the events_controller create action
       team_id: Number(formEntries.team_id),
+      close_time: formEntries.close_time as string,
     };
     try {
       eventSchema.validateSync(formEntries, {
@@ -166,6 +167,12 @@ export const EditEventForm = ({
             label="Team"
             helpText="Please select a team"
             defaultValue={String(eventData.team_id)}
+          />
+          <Input
+            label="Time when signups are closed"
+            type="datetime-local"
+            name="close_time"
+            defaultValue={eventData?.close_time && isoDateTime(eventData?.close_time)}
           />
         </div>
         <div>

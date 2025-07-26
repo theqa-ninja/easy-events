@@ -127,11 +127,10 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
           onBlur={handleChange}
           errorMessage={errors.teenager_slots}
         />
-        <Textarea
-          label="Event description"
-          name="description"
-          onBlur={handleChange}
-          errorMessage={errors.description}
+        <Input
+          label="Time when signups are closed"
+          type="datetime-local"
+          name="close_time"
         />
         <DropDown
           choices={teams}
@@ -140,6 +139,12 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
           helpText="Please select a team"
           onBlur={handleChange}
           errorMessage={errors.team_id}
+        />
+        <Textarea
+          label="Event description"
+          name="description"
+          onBlur={handleChange}
+          errorMessage={errors.description}
         />
 
         <Button type="submit" label="Create event" />
