@@ -22,7 +22,10 @@ const OrganizationPage = async ({
   const { id } = await params;
   const organizationData = await getOrganization(id);
   const teamsData = await getTeams(id);
-  const userMayViewTeams = await doesUserHavePermissions(["Superadmin", "Admin"]);
+  const userMayViewTeams = await doesUserHavePermissions({
+    actionAndPage: "VIEW_TEAM",
+    orgId: id,
+  });
 
   return userMayViewTeams && teamsData && organizationData ? (
     <main className="max-w-3xl m-auto p-4">

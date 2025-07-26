@@ -9,10 +9,25 @@ export interface IUser {
   team_permissions?: ITeamPermission[];
 }
 
+export interface IPermission {
+  EDIT_ORG: boolean;
+  VIEW_ORG: boolean;
+  CREATE_TEAM: boolean;
+  EDIT_TEAM: boolean;
+  VIEW_TEAM: boolean;
+  CREATE_EVENT: boolean;
+  EDIT_EVENT: boolean;
+  VIEW_EVENT: boolean;
+}
+
 export interface ITeamPermission {
-  team?: ITeam;
+  organization: string;
+  org_id: number;
+  team: string;
   team_id: number;
   user_type: string;
+  user_role_description: string;
+  permissions: IPermission;
 }
 
 export const getUser = async (): Promise<IUser | undefined> => {
@@ -153,16 +168,23 @@ export const passwordReset = async (userData: string): Promise<Response> => {
   }
 };
 
-export const doesUserHavePermissions = async (
-  userTypes: string[]
-): Promise<boolean> => {
+export const doesUserHavePermissions = async ({actionAndPage: actionAndPage, teamId: teamId, orgId: orgId}:{
+  actionAndPage: 'CREATE_EVENT' | 'EDIT_EVENT' | 'CREATE_TEAM' | 'EDIT_TEAM' | 'VIEW_TEAM' | 'EDIT_ORG' | 'VIEW_ORG'
+  teamId?: number,
+  orgId?: number,
+}): Promise<boolean> => {
   const user = await getUser();
   if (!user) {
     return false;
   }
-  return user?.team_permissions?.find((permissions) =>
-    userTypes.includes(permissions.user_type)
-  )
-    ? true
-    : false;
+
+  const permissions = user?.team_permissions?.find((permissions) =>
+    permissions.team_id === Number(teamId) || permissions.org_id === Number(orgId)
+  )?.permissions;
+  if (!permissions) {
+    return false;
+  }
+  const hasPermission = !!permissions[actionAndPage];
+  console.log('actionAndPage', actionAndPage, 'hasPermission', hasPermission);
+  return !!hasPermission;
 };

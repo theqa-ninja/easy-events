@@ -24,7 +24,10 @@ const EditEventPage = async ({
   const { id } = await params;
   const eventId = Number(id);
   const eventData = await getEvent(eventId);
-  const userMayEditEvents = await doesUserHavePermissions(["Superadmin", "Admin", "Event Coordinator"]);
+  const userMayEditEvents = await doesUserHavePermissions({
+    actionAndPage: "EDIT_EVENT",
+    teamId: eventData.team_id
+  });
   const teams = await getEventTeams();
 
   return (
@@ -36,7 +39,10 @@ const EditEventPage = async ({
       {userMayEditEvents && eventData ? (
         <EditEventForm eventData={eventData} teams={teams} />
       ) : (
-        <p>Event edit page not found or you don't have permission to edit the event.</p>
+        <p>
+          Event edit page not found or you don't have permission to edit the
+          event.
+        </p>
       )}
     </main>
   );

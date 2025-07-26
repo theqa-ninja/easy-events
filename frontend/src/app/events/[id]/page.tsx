@@ -34,7 +34,7 @@ const EventDetails = async ({
           <Event eventData={eventData} />
         </>
       )}
-      <EventLinks eventId={Number(id)} />
+      <EventLinks eventId={Number(id)} teamId={Number(eventData?.team_id)} />
     </main>
   );
 };

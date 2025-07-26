@@ -12,7 +12,10 @@ const TeamsPage = async ({
 }) => {
   const { id } = await params;
   const teamsData = await getTeams(id);
-  const userMayViewTeams = await doesUserHavePermissions(["Admin"]);
+  const userMayViewTeams = await doesUserHavePermissions({
+    actionAndPage: "VIEW_TEAM",
+    orgId: id,
+  });
 
   return userMayViewTeams && teamsData && teamsData.length > 0 ? (
     <main className="flex flex-col items-center justify-between p-4">
