@@ -13,10 +13,12 @@ import { CanceledAt } from "../../signups/[signupId]/CanceledAt";
 export const EditSignupForm = ({
   signupData,
   eventId,
+  eventCloseTime,
 }: {
   user?: IUser;
   signupData?: ISignup;
   eventId: number;
+  eventCloseTime?: string;
 }) => {
   const [toast, setToast] = useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
@@ -33,11 +35,15 @@ export const EditSignupForm = ({
   ];
 
   useEffect(() => {
-    signupData?.cancelled_at ? setCancelled("Signup cancelled") : setCancelled("Cancel Signup");
+    signupData?.cancelled_at
+      ? setCancelled("Signup cancelled")
+      : setCancelled("Cancel Signup");
   }, [signupData]);
 
   const handleChildDataChange = (data: any) => {
-    data.cancelled_at ? setCancelled("Signup cancelled") : setCancelled("Cancel Signup");
+    data.cancelled_at
+      ? setCancelled("Signup cancelled")
+      : setCancelled("Cancel Signup");
   };
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,15 +157,23 @@ export const EditSignupForm = ({
         />
         <Button type="submit" label="Save changes" />
       </form>
-      <h3 className="mt-4 !mb-0">{cancelled}</h3>
-      {signupData && (
-        <CanceledAt
-          id={eventId}
-          signupId={Number(signupData?.id)}
-          signup={signupData}
-          onDataChange={handleChildDataChange}
-        />
-      )}
+      {
+        // only allow cancellation if event close time is in the future
+        // team leads may set the close time such as 3 hours before the event starts
+        eventCloseTime && eventCloseTime > new Date().toISOString() && (
+          <>
+            <h3 className="mt-4 !mb-0">{cancelled}</h3>
+            {signupData && (
+              <CanceledAt
+                id={eventId}
+                signupId={Number(signupData?.id)}
+                signup={signupData}
+                onDataChange={handleChildDataChange}
+              />
+            )}
+          </>
+        )
+      }
     </>
   );
 };

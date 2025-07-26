@@ -16,6 +16,7 @@ export interface IEvent {
   team_id: number;
   creator_id?: number;
   team_name?: string;
+  close_time?: string; // when to no longer accept signups and cancellations
 }
 
 export interface ITeam {
