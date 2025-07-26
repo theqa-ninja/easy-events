@@ -3,6 +3,9 @@ import { getEvent } from "@/app/events/events.service";
 import { Event } from "@/app/events/Event";
 import { EventLinks } from "./EventLinks";
 import Link from "next/link";
+import { Card } from "@/app/components/Card";
+import { validateToken } from "@/app/utilities";
+import { SignupLinks } from "../SignupLinks";
 
 export const generateMetadata = async ({
   params,
@@ -15,7 +18,7 @@ export const generateMetadata = async ({
   return {
     title: eventData?.title,
   };
-}
+};
 
 const EventDetails = async ({
   params,
@@ -24,18 +27,22 @@ const EventDetails = async ({
 }) => {
   const { id } = await params;
   const eventData = await getEvent(id);
+  const loggedIn = await validateToken();
 
   return (
-    <main className="mt-5 p-4 max-w-4xl m-auto w-full not-dark:bg-white dark:bg-slate-700 rounded shadow">
+    <Card>
       <Link href="/events">&lsaquo;&nbsp;Go back to events</Link>
       {eventData && (
         <>
           <h1>{eventData.title}</h1>
           <Event eventData={eventData} />
+          <nav className="flex gap-4">
+            <SignupLinks event={eventData} loggedIn={loggedIn} />
+          </nav>
         </>
       )}
       <EventLinks eventId={Number(id)} teamId={Number(eventData?.team_id)} />
-    </main>
+    </Card>
   );
 };
 

@@ -29,14 +29,14 @@ const CloneEventPage = async ({
   });
 
   return (
-    <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
+    <>
       <h1>Create Event from Clone</h1>
       {userMayEditEvents && eventData ? (
         <CloneEventForm eventData={eventData} />
       ) : (
         <p>Page not found or you don't have permission to clone the event.</p>
       )}
-    </main>
+    </>
   );
 };
 

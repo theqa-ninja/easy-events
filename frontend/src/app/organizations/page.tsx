@@ -14,7 +14,7 @@ const OrganizationsPage = async () => {
   });
 
   return userMayViewOrganizations && organizationsData && organizationsData.length > 0 ? (
-    <main className="max-w-3xl m-auto p-4">
+    <>
       <h1>Organizations</h1>
       <ul>
         {organizationsData.map((organization) => (
@@ -24,12 +24,12 @@ const OrganizationsPage = async () => {
       <nav className="flex gap-4">
         <Link href="/organizations/create">Create an organization</Link>
       </nav>
-    </main>
+    </>
   ) : (
-    <main className="max-w-3xl m-auto p-4">
+    <>
       <h1>Organizations</h1>
       <p>You need to log in to see your organizations or you do not have permission to view them.</p>
-    </main>
+    </>
   );
 };
 

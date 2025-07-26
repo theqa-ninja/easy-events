@@ -12,17 +12,17 @@ const EventDetails = async ({
   const checkInsData = await getCheckIns(id);
   if ('error' in checkInsData || 'message' in checkInsData) {
     return (
-      <main className="m-auto p-4 max-w-4xl">
+      <>
         <h1 className="text-center">Check-ins</h1>
         <p>
           You need to log in to see check-ins for this event or you do not
           have permission to view this page.
         </p>
-      </main>
+      </>
     );
   }
   return (
-    <main className="m-auto p-4 max-w-4xl">
+    <>
       {checkInsData && (
         <>
           <menu className="flex gap-4">
@@ -38,7 +38,7 @@ const EventDetails = async ({
           <CheckInsTable checkInsData={checkInsData.teenagers} />
         </>
       )}
-    </main>
+    </>
   );
 };
 

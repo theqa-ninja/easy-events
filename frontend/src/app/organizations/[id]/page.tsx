@@ -28,7 +28,7 @@ const OrganizationPage = async ({
   });
 
   return userMayViewTeams && teamsData && organizationData ? (
-    <main className="max-w-3xl m-auto p-4">
+    <>
       <Link href="/organizations">&lsaquo; Back to organizations</Link>
       <h1>{organizationData.name}</h1>
       <h2>Teams</h2>
@@ -39,16 +39,16 @@ const OrganizationPage = async ({
           </li>
         ))}
       </ul>
-    </main>
+    </>
   ) : (
-    <main className="max-w-3xl m-auto p-4">
+    <>
       <Link href="/organizations">&lsaquo; Back to organizations</Link>
       <h1>{organizationData.name}</h1>
       <p>
         You need to log in to see your teams or you do not have permission to
         view them.
       </p>
-    </main>
+    </>
   );
 };
 

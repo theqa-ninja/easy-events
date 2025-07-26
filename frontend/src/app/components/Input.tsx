@@ -36,7 +36,7 @@ export const Input = ({
         name={name}
         placeholder={placeholder}
         type={type}
-        className="rounded-md bg-background-100 border-1 border-fuchsia-800 p-2"
+        className="rounded-md bg-white border-1 border-slate-300 p-2"
         {...props}
       />
       <ErrorMessage message={errorMessage} />

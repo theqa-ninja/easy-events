@@ -9,6 +9,7 @@ import { Input } from "@/app/components/Input";
 import { Button } from "@/app/components/Button";
 import { IToast, Toast } from "@/app/components/Toast";
 import { signInUser } from "@/app/user/users.service";
+import { ColoredBackground } from "@/app/components/ColoredBackground";
 
 export const LoginForm = () => {
   const route = useRouter();
@@ -79,7 +80,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <div className="h-screen bg-fuchsia-100 flex items-center justify-center">
+    <ColoredBackground bgColor="bg-rose-50">
       {toast && (
         <Toast
           message={toast.message}
@@ -89,7 +90,7 @@ export const LoginForm = () => {
       )}
       <form
         onSubmit={handleLogin}
-        className="bg-background-50 rounded-md px-10 py-10 shadow-md min-w-1/3"
+        className="bg-white rounded-md px-10 py-10 shadow-md w-100"
       >
         <h1 className="text-2xl font-bold mb-8">Log in</h1>
         <div className="flex flex-col gap-4">
@@ -133,6 +134,6 @@ export const LoginForm = () => {
           </Link>
         </div>
       </form>
-    </div>
+    </ColoredBackground>
   );
 };

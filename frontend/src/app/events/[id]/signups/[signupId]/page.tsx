@@ -12,7 +12,7 @@ const SignupsShowPage = async ({
   const signupData = await getSignupsSignup(id, signupId);
 
   return (
-    <main className="p-4 max-w-4xl m-auto">
+    <>
       <Link href={`/events/${id}/signups`}>&lsaquo;&nbsp;Back to signups</Link>
       <h1>Signup</h1>
       {signupData && (
@@ -52,7 +52,7 @@ const SignupsShowPage = async ({
           </dl>
         </div>
       )}
-    </main>
+    </>
   );
 };
 

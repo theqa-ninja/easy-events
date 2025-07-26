@@ -23,7 +23,7 @@ const SignupsPage = async ({ params }: { params: Promise<{ id: number }> }) => {
   console.log(signupsData);
   if ('errors' in signupsData || 'message' in signupsData) {
     return (
-      <main className="m-auto p-4 max-w-4xl">
+      <>
         <menu className="flex gap-4">
           <Link href={`/events/${id}`}>
             &lsaquo;&nbsp;Back to event details
@@ -34,14 +34,14 @@ const SignupsPage = async ({ params }: { params: Promise<{ id: number }> }) => {
           You need to log in to see signups for this event or you do not have
           permission to view this page.
         </p>
-      </main>
+      </>
     );
   }
   const eventData = await getEvent(id);
   const volunteerRoles = await getVolunteerRoles(eventData.team_id);
 
   return (
-    <main className="m-auto p-4 max-w-4xl">
+    <>
       {signupsData ? (
       <>
         <menu className="flex gap-4">
@@ -65,7 +65,7 @@ const SignupsPage = async ({ params }: { params: Promise<{ id: number }> }) => {
         </p>
       </>
       )}
-    </main>
+    </>
   );
 };
 

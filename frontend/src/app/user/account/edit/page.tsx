@@ -9,7 +9,7 @@ const EditAccount = async () => {
   const user = await getUser();
 
   return (
-    <main className="p-4 max-w-4xl m-auto">
+    <>
       <h1>Edit Account</h1>
       {user ? (
         <AccountForm user={user} />
@@ -18,7 +18,7 @@ const EditAccount = async () => {
           You need to log in to edit your account.
         </p>
       )}
-    </main>
+    </>
   );
 };
 

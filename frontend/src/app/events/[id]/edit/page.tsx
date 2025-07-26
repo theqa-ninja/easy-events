@@ -31,7 +31,7 @@ const EditEventPage = async ({
   const teams = await getEventTeams();
 
   return (
-    <main className="p-4 max-w-4xl m-auto">
+    <>
       <Link href={`/events/${eventId}`} className="w-100">
         &lsaquo;&nbsp;Go back to event details
       </Link>
@@ -44,7 +44,7 @@ const EditEventPage = async ({
           event.
         </p>
       )}
-    </main>
+    </>
   );
 };
 

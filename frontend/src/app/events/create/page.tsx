@@ -16,7 +16,7 @@ const CreateEventPage = async () => {
   const teams = await getEventTeams();
 
   return (
-    <main className="p-4 max-w-4xl m-auto">
+    <>
       <h1>Create an event</h1>
       {userMayCreateEvents ? (
         <CreateEventForm teams={teams} />
@@ -26,7 +26,7 @@ const CreateEventPage = async () => {
           to create an event.
         </p>
       )}
-    </main>
+    </>
   );
 };
 

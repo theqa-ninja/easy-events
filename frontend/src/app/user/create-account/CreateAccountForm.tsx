@@ -70,7 +70,7 @@ export const CreateAccountForm = () => {
     }
   };
   return (
-    <div className="h-screen bg-fuchsia-100 flex items-center justify-center">
+    <div className="fixed top-0 bottom-0 left-0 right-0 bg-rose-100 flex items-center justify-center">
       {toast && (
         <Toast
           message={toast.message}
@@ -80,7 +80,7 @@ export const CreateAccountForm = () => {
       )}
       <form
         onSubmit={handleRegister}
-        className="bg-background-50 rounded-md px-10 py-10 shadow-md min-w-1/3"
+        className="bg-background-50 rounded-md px-10 py-10 shadow-md w-100"
       >
         <h1 className="text-2xl font-bold mb-8">Create an account</h1>
         <div className="flex flex-col gap-4">

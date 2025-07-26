@@ -27,7 +27,7 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
 
   if (signupsAreClosed(eventData)) {
     return (
-      <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
+      <>
         {eventData && (
           <>
             <h1>Signup for {eventData.title}</h1>
@@ -35,7 +35,7 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
           </>
         )}
         <b>Signups are closed for this event.</b>
-      </main>
+      </>
     );
   }
 
@@ -54,7 +54,7 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const loggedIn = await validateToken();
 
   return (
-    <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
+    <>
       {eventData && (
         <>
           <h1>Signup for {eventData.title}</h1>
@@ -71,7 +71,7 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
       )}
       {signup && <SignupConfirmationOrForm signup={signup} id={Number(id)} />}
       <SignupForm eventId={Number(id)} user={user} />
-    </main>
+    </>
   );
 };
 

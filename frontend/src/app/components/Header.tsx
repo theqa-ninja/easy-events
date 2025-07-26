@@ -9,7 +9,7 @@ export default async function Header() {
   });
 
   return (
-    <header className="p-4 not-dark:bg-slate-200 dark:bg-slate-700">
+    <header className="p-4 bg-white z-10 sticky top-0">
       <nav className="flex justify-between items-center">
         <div className="flex gap-4">
           <Link href="/">Home</Link>

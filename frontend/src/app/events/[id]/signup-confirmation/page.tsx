@@ -33,9 +33,10 @@ const SignupConfirmationPage = async ({
     is_over_18: signupData?.is_over_18 || false,
     notes: signupData?.notes || "",
   };
+  const loggedIn = signupData?.email && true;
 
   return (
-    <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
+    <>
       {eventData && (
         <>
           <h1>Signup confirmation for {eventData.title}</h1>
@@ -43,7 +44,7 @@ const SignupConfirmationPage = async ({
         </>
       )}
       <SignupConfirmation primarySignup={signup} eventId={Number(id)} />
-    </main>
+    </>
   );
 };
 

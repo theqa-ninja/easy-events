@@ -7,6 +7,7 @@ import { validateOnBlur } from "@/app/utilities";
 import { Input } from "@/app/components/Input";
 import { Button } from "@/app/components/Button";
 import { IToast, Toast } from "@/app/components/Toast";
+import { ColoredBackground } from "@/app/components/ColoredBackground";
 
 export const ResetPasswordForm = () => {
   const [toast, setToast] = useState<IToast>();
@@ -44,7 +45,7 @@ export const ResetPasswordForm = () => {
   };
 
   return (
-    <div className="h-screen bg-fuchsia-100 flex items-center justify-center">
+    <ColoredBackground bgColor="bg-rose-50">
       {toast && (
         <Toast
           message={toast.message}
@@ -54,7 +55,7 @@ export const ResetPasswordForm = () => {
       )}
       <form
         onSubmit={handleResetPassword}
-        className="bg-background-50 rounded-md px-10 py-10 shadow-md min-w-1/3 max-w-sm"
+        className="bg-white rounded-md px-10 py-10 shadow-md min-w-1/3 max-w-sm"
       >
         <h1 className="text-2xl font-bold mb-4">Reset password</h1>
         <p>
@@ -94,6 +95,6 @@ export const ResetPasswordForm = () => {
           </Link>
         </div>
       </form>
-    </div>
+    </ColoredBackground>
   );
 };

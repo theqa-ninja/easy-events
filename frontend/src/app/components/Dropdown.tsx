@@ -24,7 +24,7 @@ export const DropDown = ({
       <select
         name={name}
         id={name}
-        className="rounded-md bg-background-100 border-1 border-fuchsia-800 p-2"
+        className="rounded-md bg-white border-1 border-slate-300 p-2"
         defaultValue={defaultValue}
         onChange={onChange}
       >

@@ -9,7 +9,7 @@ const AccountPage = async () => {
   const user = await getUser();
 
   return (
-    <main className="p-4 max-w-4xl m-auto">
+    <>
       <h1>Account</h1>
       {user ? (
         <>
@@ -38,7 +38,7 @@ const AccountPage = async () => {
       ) : (
         <p>You need to log in to view your account.</p>
       )}
-    </main>
+    </>
   );
 };
 

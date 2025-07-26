@@ -24,11 +24,12 @@ const EditSignupPage = async ({
   const eventData = await getEvent(id);
   const signupData = await getSignup(id);
   return (
-    <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
+    <>
+      {eventData && <h1>{eventData.title}</h1>}
       {eventData && <Event eventData={eventData} />}
       <h1>Edit signup</h1>
       <EditSignupForm signupData={signupData} eventId={Number(id)} eventCloseTime={eventData?.close_time} />
-    </main>
+    </>
   );
 };
 

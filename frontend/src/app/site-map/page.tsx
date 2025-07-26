@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const siteMap = () => {
   return (
-    <main className="p-4 max-w-4xl m-auto">
+    <>
       <h1>Site Map</h1>
       <ul id="site-map">
         <li>
@@ -132,7 +132,7 @@ const siteMap = () => {
           </ul>
         </li>
       </ul>
-    </main>
+    </>
   );
 };
 
