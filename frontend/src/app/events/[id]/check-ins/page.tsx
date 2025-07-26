@@ -35,7 +35,7 @@ const EventDetails = async ({
           <h2>Adults</h2>
           <CheckInsTable checkInsData={checkInsData.adults} />
           <h2 className="mt-8">Under 18</h2>
-          <CheckInsTable checkInsData={checkInsData.under_18} />
+          <CheckInsTable checkInsData={checkInsData.teenagers} />
         </>
       )}
     </main>

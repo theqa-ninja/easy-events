@@ -23,6 +23,11 @@ export interface ITeam {
   label: string;
 }
 
+export interface ICheckIns {
+  adults: ISignup[];
+  teenagers: ISignup[];
+}
+
 export const eventSchema = object({
   title: string().required("Event title is required"),
   description: string().required("Event description is required"),
@@ -137,10 +142,7 @@ export const deleteEvent = async (id: number): Promise<void> => {
 
 export const getCheckIns = async (
   id: number
-): Promise<{
-  adults: ISignup[];
-  under_18: ISignup[];
-}> => {
+): Promise<ICheckIns> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {

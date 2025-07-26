@@ -1,12 +1,17 @@
 import { Fragment } from "react";
 import { ISignup } from "@/app/events/[id]/signups.service";
 import Link from "next/link";
+import { formatDateTime } from "@/app/utilities";
 
 export const CheckInsTable = ({
   checkInsData,
 }: {
   checkInsData: ISignup[];
 }) => {
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: "numeric",
+    minute: "numeric",
+  }
   return checkInsData && checkInsData.length > 0 ? (
     <table className="w-full mb-5">
       <thead>
@@ -27,8 +32,8 @@ export const CheckInsTable = ({
                 <span className="block break-all">{signup.email}</span>
                 <span className="block">{signup.phone_number}</span>
               </td>
-              <td>{signup.checked_in_at}</td>
-              <td>{signup.cancelled_at}</td>
+              <td>{signup.checked_in_at && formatDateTime(signup.checked_in_at, timeOptions)}</td>
+              <td>{signup.cancelled_at && formatDateTime(signup.cancelled_at, timeOptions)}</td>
             </tr>
             <tr className="border-b-1 border-primary-900">
               <td colSpan={3} className={signup.notes && "py-2"}>
