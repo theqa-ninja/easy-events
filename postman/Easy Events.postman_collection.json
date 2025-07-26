@@ -163,6 +163,36 @@
 							"header": null,
 							"cookie": [],
 							"body": null
+						},
+						{
+							"name": "Volunteer Sign In no perms",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"johnetta.hessel@fritschweber.co.uk\",\n    \"password\": \"passcode\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{backend_url}}/auth/sign_in",
+									"host": [
+										"{{backend_url}}"
+									],
+									"path": [
+										"auth",
+										"sign_in"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
 						}
 					]
 				},
@@ -467,6 +497,52 @@
 							"path": [
 								"users",
 								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign out of current user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('access_token', null);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{backend_url}}/auth/sign_out",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"auth",
+								"sign_out"
 							]
 						}
 					},
@@ -1474,7 +1550,7 @@
 									"response": []
 								},
 								{
-									"name": "Delete Team Copy",
+									"name": "Delete Volunteer Role",
 									"event": [
 										{
 											"listen": "test",
