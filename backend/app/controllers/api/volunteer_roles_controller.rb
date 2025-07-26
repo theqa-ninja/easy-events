@@ -2,8 +2,10 @@ module Api
   class VolunteerRolesController < ApplicationController
     before_action :authenticate_user!
     before_action :set_team_from_params
-    before_action :redirect_if_not_lead, only: %i[show]
     before_action :set_volunteer_role, only: %i[show update destroy]
+    before_action :redirect_if_no_create, only: %i[create]
+    before_action :redirect_if_no_edit, only: %i[update destroy]
+    before_action :redirect_if_no_view, only: %i[index show create update destroy]
 
     # GET /volunteer_roles
     def index
@@ -49,19 +51,45 @@ module Api
 
     def set_team_from_params
       @current_team = Team.where(id: params[:team_id]).first
-      render json: { message: 'Team not found' }, status: :not_found if @current_team.nil?
+      if @current_team.nil?
+        render_not_found
+      else
+        @current_org = @current_team.organization
+      end
     end
 
-    def redirect_if_not_lead
-      return if current_user.leader?(@current_team.id)
+    def render_not_found
+      render json: { message: 'Volunteer Role not found' }, status: :not_found
+    end
 
-      render json: { message: 'You are not high enough to do that' }, status: :unauthorized
+    def redirect_if_no_create
+      return if current_user.check_permissions(@current_org.id, nil, %i[EDIT_ORG])
+
+      return if current_user.check_permissions(@current_org.id, @current_team.id, %i[EDIT_TEAM CREATE_TEAM])
+
+      render json: { message: 'You do not have permission to create volunteer roles' }, status: :unauthorized
+    end
+
+    def redirect_if_no_edit
+      return if current_user.check_permissions(@current_org.id, nil, %i[EDIT_ORG])
+
+      return if current_user.check_permissions(@current_org.id, @current_team.id, %i[EDIT_TEAM CREATE_TEAM])
+
+      render json: { message: 'You do not have permission to edit volunteer roles' }, status: :unauthorized
+    end
+
+    def redirect_if_no_view
+      return if current_user.check_permissions(@current_org.id, nil, %i[EDIT_ORG])
+
+      return if current_user.check_permissions(@current_org.id, @current_team.id, %i[VIEW_TEAM EDIT_TEAM CREATE_TEAM])
+
+      render json: { message: "You can't view volunteer roles" }, status: :unauthorized
     end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_volunteer_role
       @volunteer_role = VolunteerRole.where(id: params[:id]).first
-      render json: { message: 'Volunteer role not found' }, status: :not_found if @volunteer_role.nil?
+      render_not_found if @volunteer_role.nil?
     end
 
     # Only allow a list of trusted parameters through.

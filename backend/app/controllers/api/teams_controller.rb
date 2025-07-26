@@ -1,22 +1,15 @@
 module Api
   class TeamsController < ApplicationController
     before_action :authenticate_user!
+    before_action :set_org, only: %i[index show create update destroy]
     before_action :set_team, only: %i[show update destroy]
-    before_action :redirect_if_not_admin, only: %i[create update destroy]
-    before_action :redirect_if_not_lead, only: %i[show]
+    before_action :redirect_if_no_create, only: %i[create]
+    before_action :redirect_if_no_edit, only: %i[update destroy]
+    before_action :redirect_if_no_view, only: %i[index show create update destroy]
 
     # GET organizations/:org_id/teams
     def index
-      current_org = Organization.where(id: params[:org_id]).first
-      render json: { message: 'Organization not found' }, status: :not_found if current_org.nil?
-
-      unless current_user.org_admin?(current_org.id)
-        render json: { message: 'You are not authorized to view this organization' },
-               status: :unauthorized
-      end
-
-      render json: current_org.teams, status: :ok
-      # get all teams for the current organization based on the current user's organization
+      render json: @current_org.teams, status: :ok
     end
 
     # GET organizations/:org_id/teams/:team_id
@@ -26,8 +19,6 @@ module Api
 
     # POST organizations/:org_id/teams/
     def create
-      return render_unauthorized unless authorized_to_modify_teams
-
       new_team = Team.new(team_params)
       new_team.organization_id = params[:org_id]
 
@@ -40,8 +31,6 @@ module Api
 
     # PATCH/PUT /teams/1
     def update
-      return render_unauthorized unless authorized_to_modify_teams
-
       if @current_team.update(team_params)
         render json: @current_team, status: :ok
       else
@@ -59,8 +48,13 @@ module Api
     private
 
     # Use callbacks to share common setup or constraints between actions.
+    def set_org
+      @current_org = Organization.where(id: params[:org_id]).first
+      render_not_found if @current_org.nil?
+    end
+
     def set_team
-      @current_team = Team.where(id: params[:team_id], organization_id: params[:org_id]).first
+      @current_team = Team.where(id: params[:team_id], organization_id: @current_org.id).first
       render_not_found if @current_team.nil?
     end
 
@@ -68,25 +62,34 @@ module Api
       render json: { message: 'Team not found' }, status: :not_found
     end
 
-    def authorized_to_modify_teams
-      current_user.org_admin?(params[:org_id]) || current_user.leader?(@current_team.id)
-    end
-
     # Only allow a list of trusted parameters through.
     def team_params
       params.require(:team).permit(:org_id, :name)
     end
 
-    def redirect_if_not_lead
-      return if current_user.leader?(@current_team.id)
+    def redirect_if_no_create
+      return if current_user.check_permissions(@current_org.id, nil, [:EDIT_ORG]) # check if org permissions first
 
-      render json: { message: 'You are not high enough to do that' }, status: :unauthorized
+      return if current_user.check_permissions(@current_org.id, nil, [:CREATE_TEAM])
+
+      render json: { message: "You can't create teams" }, status: :unauthorized
     end
 
-    def redirect_if_not_admin
-      return if current_user.org_admin?(params[:org_id])
+    def redirect_if_no_edit
+      return if current_user.check_permissions(@current_org.id, nil, [:EDIT_ORG]) # check if org permissions first
 
-      render json: { message: 'You are not high enough to do that' }, status: :unauthorized
+      return if current_user.check_permissions(@current_org.id, @current_team.id, %i[EDIT_TEAM CREATE_TEAM])
+
+      render json: { message: "You can't edit teams" }, status: :unauthorized
+    end
+
+    def redirect_if_no_view
+      return if current_user.check_permissions(@current_org.id, nil, %i[VIEW_ORG EDIT_ORG]) # check if org permissions first
+
+      return if current_user.check_permissions(@current_org.id, nil,
+                                               %i[VIEW_TEAM EDIT_TEAM CREATE_TEAM])
+
+      render json: { message: "You can't view teams" }, status: :unauthorized
     end
   end
 end

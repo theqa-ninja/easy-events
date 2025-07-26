@@ -17,7 +17,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validates :is_over_18, presence: true
 
-  permission_list = %i[CREATE_ORG EDIT_ORG VIEW_ORG CREATE_TEAM EDIT_TEAM VIEW_TEAM CREATE_EVENT EDIT_EVENT VIEW_EVENT].freeze
+  possible_perms_list = %i[CREATE_ORG EDIT_ORG VIEW_ORG CREATE_TEAM EDIT_TEAM VIEW_TEAM CREATE_EVENT EDIT_EVENT VIEW_EVENT].freeze
 
   def event_leader?(team_id)
     organization_id = Team.find(team_id)&.organization_id
@@ -29,27 +29,18 @@ class User < ApplicationRecord
     !result.first.nil? # returns false if no results
   end
 
-  def team_leader?(team_id)
-    organization_id = Team.find(team_id)&.organization_id
-    return false if organization_id.nil?
-
-    result = UsersTypesTeam.joins(:user_type)
-                           .where(organization_id: organization_id, user_id: id,
-                                  team_id: [team_id, nil], "user_type.edit_team": true)
-    !result.first.nil? # returns false if no results
-  end
-
-  # Check if the user is an admin for the given organization
-  # if no organization_id, just a generic check
-  def org_admin?(organization_id = nil)
-    result = UsersTypesTeam.joins(:user_type).where(user_id: id, "user_type.edit_org": true)
-    result = result.where(organization_id: organization_id) unless organization_id.nil?
-    !result.first.nil? # returns false if no results
-  end
-
-  def superadmin?
-    result = UsersTypesTeam.where(user_id: id, create_org: true)
-    !result.first.nil? # returns false if no results
+  def check_permissions(org_id, team_id, permissions_list)
+    user_perms = team_permissions
+    user_perms = user_perms.select { |perm| perm[:org_id] == org_id } unless org_id.nil?
+    user_perms = user_perms.select { |perm| perm[:team_id] == team_id } unless team_id.nil?
+    result = false
+    user_perms.each do |perm|
+      if (perm[:permissions].keys & permissions_list).any?
+        result = true
+        break
+      end
+    end
+    result
   end
 
   def permissions_json(user_type_perms)
