@@ -10,7 +10,6 @@ module Api
     # GET organizations/:org_id/teams
     def index
       render json: @current_org.teams, status: :ok
-      # get all teams for the current organization based on the current user's organization
     end
 
     # GET organizations/:org_id/teams/:team_id

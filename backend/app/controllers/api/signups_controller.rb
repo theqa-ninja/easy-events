@@ -1,8 +1,8 @@
 module Api
   class SignupsController < ApplicationController
+    before_action :authenticate_user!, only: %i[index show update destroy]
     before_action :set_event
     before_action :set_signup, only: %i[show update destroy]
-    before_action :authenticate_user!, only: %i[index show update destroy]
     before_action :redirect_if_no_view, only: %i[index update destroy]
     before_action :redirect_if_no_edit, only: %i[update destroy]
 

@@ -2,7 +2,6 @@ module Api
   class UsersController < ApplicationController
     before_action :set_user_for_edit, only: %i[show update destroy]
     before_action :authenticate_user!, only: %i[index show me update destroy]
-    # before_action :redirect_if_not_superadmin, only: %i[index show]
     before_action :redirect_if_no_create, only: %i[create]
     before_action :redirect_if_no_edit, only: %i[update destroy]
     before_action :redirect_if_no_view, only: %i[index show update destroy]

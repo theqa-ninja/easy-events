@@ -1,7 +1,6 @@
 module Api
   class EventsController < ApplicationController
-    # before_action :set_event, only: %i[show update destroy checkins]
-    # before_action :redirect_if_not_lead_or_admin, only: %i[update destroy checkins]
+    before_action :authenticate_user!, only: %i[create update destroy checkins]
     before_action :set_event, only: %i[show update destroy checkins signup]
     before_action :set_team, only: %i[create]
     before_action :redirect_if_no_create, only: %i[create]
