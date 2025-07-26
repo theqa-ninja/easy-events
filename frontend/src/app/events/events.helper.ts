@@ -1,3 +1,5 @@
+import { IEvent } from "./events.service";
+
 export const eventDuration = (startTime: string = "", endTime: string = "") => {
   const start = new Date(startTime);
   const end = new Date(endTime);
@@ -15,3 +17,11 @@ export const eventDuration = (startTime: string = "", endTime: string = "") => {
     return `${duration}`;
   }
 };
+
+export const signupsAreClosed = (event: IEvent) => {
+  const isEventClosed = event.close_time
+    ? event.close_time < new Date().toISOString()
+    : event.end_time < new Date().toISOString();
+
+  return isEventClosed || (event.remaining_adult_slots === 0 && event.remaining_teenager_slots === 0);
+}

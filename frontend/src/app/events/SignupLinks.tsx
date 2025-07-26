@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { hasUserSignedUp, IEvent } from "@/app/events/events.service";
+import { signupsAreClosed } from "./events.helper";
 
 export const SignupLinks = ({
   loggedIn,
@@ -10,11 +11,7 @@ export const SignupLinks = ({
   loggedIn: boolean;
   event: IEvent;
 }) => {
-  const isEventClosed = event.close_time
-    ? event.close_time < new Date().toISOString()
-    : event.end_time < new Date().toISOString();
-
-  if (isEventClosed) {
+  if (signupsAreClosed(event)) {
     return <b>Signups are closed for this event.</b>;
   }
 

@@ -7,6 +7,7 @@ import { validateToken } from "@/app/utilities";
 import { SignupForm } from "./SignupForm";
 import { SignupConfirmationOrForm } from "./SignupConfirmationOrForm";
 import { getUser } from "@/app/user/users.service";
+import { signupsAreClosed } from "../../events.helper";
 export const generateMetadata = async ({
   params,
 }: {
@@ -23,6 +24,21 @@ export const generateMetadata = async ({
 const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;
   const eventData = await getEvent(id);
+
+  if (signupsAreClosed(eventData)) {
+    return (
+      <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
+        {eventData && (
+          <>
+            <h1>Signup for {eventData.title}</h1>
+            <Event eventData={eventData} />
+          </>
+        )}
+        <b>Signups are closed for this event.</b>
+      </main>
+    );
+  }
+
   const signupData = await getSignup(id);
   const user = await getUser();
   const signup: ISignup = signupData?.user_name && {
@@ -41,8 +57,8 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
     <main className="flex flex-col items-center justify-between p-4 max-w-4xl m-auto">
       {eventData && (
         <>
-        <h1>Signup for {eventData.title}</h1>
-        <Event eventData={eventData} />
+          <h1>Signup for {eventData.title}</h1>
+          <Event eventData={eventData} />
         </>
       )}
       {!loggedIn && (
