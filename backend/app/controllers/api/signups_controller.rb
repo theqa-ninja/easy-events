@@ -21,7 +21,6 @@ module Api
     end
 
     # POST /events/1/signup
-    # rubocop:disable Metrics/AbcSize
     def create
       # create the temp user
       tmp_user ||= User.new(email: params[:email], name: params[:name], is_over_18: params[:is_over_18],
@@ -49,7 +48,6 @@ module Api
         render json: new_signup.errors, status: :unprocessable_entity
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     # UPDATE /events/1/signup/:signup_id
     def update
@@ -80,7 +78,11 @@ module Api
     end
 
     def set_signup
-      @current_signup = Signup.where(soft_deleted: false).where(event_id: @current_event.id).where(id: params[:signup_id]).first
+      @current_signup = if params[:signup_id].nil?
+                          Signup.where(soft_deleted: false).where(event_id: @current_event.id).where(user_id: current_user.id).first
+                        else
+                          Signup.where(soft_deleted: false).where(event_id: @current_event.id).where(id: params[:signup_id]).first
+                        end
 
       render_not_found if @current_signup.nil?
     end
