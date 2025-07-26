@@ -12,7 +12,7 @@ export const MarkdownEditor = ({label, defaultValue, onChange}: {label?: string,
     }
   }
   return (
-    <div className="markdown-editor-container">
+    <div className="markdown-editor-container [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4">
       {label && <label>{label}</label>}
       <MDEditor
         value={value}
