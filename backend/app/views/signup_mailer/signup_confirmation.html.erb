@@ -3,7 +3,7 @@
 <%= @event.start_time.strftime("%B %d, %Y") %> from 
 <%= @event.start_time.strftime("%l:%M %p") %> to 
 <%= @event.end_time.strftime("%l:%M %p") %>.</p>
-<p><%= @event.description %></p>
+<%= markdown(@event.description) %>
 <p>Here's the info you signed up with:</p>
 <p>
   <b>Name:</b> <%= @main_signup.name %><br>

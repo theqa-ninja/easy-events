@@ -1,5 +1,7 @@
 class SignupMailer < ApplicationMailer
   default template_path: 'signup_mailer'
+  include ApplicationHelper
+  helper :application
 
   def signup_confirmation(main_signup, additional_signups, event, domain)
     @main_signup = main_signup
