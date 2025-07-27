@@ -9,6 +9,7 @@ import { BinaryRadioInput } from "@/app/components/BinaryRadioInput";
 import { Button } from "@/app/components/Button";
 import { IToast, Toast } from "@/app/components/Toast";
 import { createUserAccount } from "../users.service";
+import { ColoredBackground } from "@/app/components/ColoredBackground";
 import { Card } from "@/app/components/Card";
 
 export const CreateAccountForm = () => {
@@ -71,7 +72,7 @@ export const CreateAccountForm = () => {
     }
   };
   return (
-    <div className="fixed top-0 bottom-0 left-0 right-0 bg-rose-100 flex items-center justify-center">
+    <ColoredBackground bgColor="bg-background-50">
       {toast && (
         <Toast
           message={toast.message}
@@ -145,6 +146,6 @@ export const CreateAccountForm = () => {
           </div>
         </form>
       </Card>
-    </div>
+    </ColoredBackground>
   );
 };
