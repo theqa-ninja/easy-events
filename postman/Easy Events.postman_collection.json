@@ -616,10 +616,141 @@
 									"path": [
 										"events",
 										""
+									],
+									"query": [
+										{
+											"key": "filter",
+											"value": "upcoming",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "past",
+											"disabled": true
+										},
+										{
+											"key": "org_id",
+											"value": "{{org_id}}",
+											"disabled": true
+										},
+										{
+											"key": "team_id",
+											"value": "{{team_id}}",
+											"disabled": true
+										}
 									]
 								}
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Get all future",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{backend_url}}/events/?filter=upcoming",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												""
+											],
+											"query": [
+												{
+													"key": "filter",
+													"value": "upcoming"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "Get all past events",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{backend_url}}/events/?filter=past",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												""
+											],
+											"query": [
+												{
+													"key": "filter",
+													"value": "past"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "Get all events for one org",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{backend_url}}/events/?filter=upcoming",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												""
+											],
+											"query": [
+												{
+													"key": "filter",
+													"value": "upcoming"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "Get all events for one org Copy",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{backend_url}}/events/?filter=upcoming",
+											"host": [
+												"{{backend_url}}"
+											],
+											"path": [
+												"events",
+												""
+											],
+											"query": [
+												{
+													"key": "filter",
+													"value": "upcoming"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
 						},
 						{
 							"name": "Get an Event",

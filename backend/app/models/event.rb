@@ -33,7 +33,15 @@ class Event < ApplicationRecord
     signups.where.not(checked_in_at: nil)
   end
 
+  def org_id
+    team.organization_id
+  end
+
+  def org_name
+    team.organization.name
+  end
+
   def as_json(_options = {})
-    super(methods: %i[remaining_adult_slots remaining_teenager_slots team_name volunteer_roles])
+    super(methods: %i[org_id org_name remaining_adult_slots remaining_teenager_slots team_name volunteer_roles])
   end
 end

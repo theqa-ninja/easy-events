@@ -8,7 +8,16 @@ module Api
 
     # GET /events
     def index
-      render json: Event.all.sort_by(&:start_time).as_json, status: :ok
+      if params[:filter].present?
+        events = Event.where('start_time < ?', Time.zone.now) if params[:filter] == 'past'
+        events = Event.where('start_time >= ?', Time.zone.now) if params[:filter] == 'upcoming'
+      else
+        events = Event.all
+      end
+      events = events.where(team_id: params[:team_id]) if params[:team_id].present?
+      events = events.joins(:team).where("team.organization_id": params[:org_id]) if params[:org_id].present?
+      events = events.sort_by(&:start_time)
+      render json: events.as_json, status: :ok
     end
 
     # GET /events/1
