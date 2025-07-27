@@ -52,6 +52,28 @@ export const getUser = async (): Promise<IUser | undefined> => {
   }
 };
 
+export const getUsers = async (): Promise<IUser[] | undefined> => {
+  try {
+    const token = await getToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: token || "",
+    };
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/users`, {
+      method: "GET",
+      headers: headers,
+    });
+    const data = await res.json();
+    if (res.status === 401) {
+      return;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const editUser = async (
   userId: string,
   userData: IUser
@@ -62,11 +84,14 @@ export const editUser = async (
       "Content-Type": "application/json",
       Authorization: token || "",
     };
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/users/${userId}`, {
-      method: "PATCH",
-      headers,
-      body: JSON.stringify(userData),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/users/${userId}`,
+      {
+        method: "PATCH",
+        headers,
+        body: JSON.stringify(userData),
+      }
+    );
     const data = await response.json();
     return data;
   } catch (error) {
@@ -96,11 +121,14 @@ export const signInUser = async (userData: IUser): Promise<Response> => {
       "Content-Type": "application/json",
     };
     console.log(`${process.env.NEXT_PUBLIC_API_ROUTE}/auth/sign_in`);
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/auth/sign_in`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(userData),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/auth/sign_in`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify(userData),
+      }
+    );
     return response;
   } catch (error) {
     throw error;
@@ -114,10 +142,13 @@ export const signOutUser = async (): Promise<Response> => {
       "Content-Type": "application/json",
       Authorization: token || "",
     };
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/auth/sign_out`, {
-      method: "POST",
-      headers,
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/auth/sign_out`,
+      {
+        method: "POST",
+        headers,
+      }
+    );
     return response;
   } catch (error) {
     throw error;
@@ -138,11 +169,14 @@ export const newPassword = async (
       client: client || "",
       uid: uid || "",
     };
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/auth/password/`, {
-      method: "PUT",
-      headers,
-      body: JSON.stringify(userData),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/auth/password/`,
+      {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(userData),
+      }
+    );
     return response;
   } catch (error) {
     throw error;
@@ -168,23 +202,36 @@ export const passwordReset = async (userData: string): Promise<Response> => {
   }
 };
 
-export const doesUserHavePermissions = async ({actionAndPage: actionAndPage, teamId: teamId, orgId: orgId}:{
-  actionAndPage: 'CREATE_EVENT' | 'EDIT_EVENT' | 'CREATE_TEAM' | 'EDIT_TEAM' | 'VIEW_TEAM' | 'EDIT_ORG' | 'VIEW_ORG'
-  teamId?: number,
-  orgId?: number,
+export const doesUserHavePermissions = async ({
+  actionAndPage: actionAndPage,
+  teamId: teamId,
+  orgId: orgId,
+}: {
+  actionAndPage:
+    | "CREATE_EVENT"
+    | "EDIT_EVENT"
+    | "CREATE_TEAM"
+    | "EDIT_TEAM"
+    | "VIEW_TEAM"
+    | "EDIT_ORG"
+    | "VIEW_ORG";
+  teamId?: number;
+  orgId?: number;
 }): Promise<boolean> => {
   const user = await getUser();
   if (!user) {
     return false;
   }
 
-  const permissions = user?.team_permissions?.find((permissions) =>
-    permissions.team_id === Number(teamId) || permissions.org_id === Number(orgId)
+  const permissions = user?.team_permissions?.find(
+    (permissions) =>
+      permissions.team_id === Number(teamId) ||
+      permissions.org_id === Number(orgId)
   )?.permissions;
   if (!permissions) {
     return false;
   }
   const hasPermission = !!permissions[actionAndPage];
-  console.log('actionAndPage', actionAndPage, 'hasPermission', hasPermission);
+  console.log("actionAndPage", actionAndPage, "hasPermission", hasPermission);
   return !!hasPermission;
 };

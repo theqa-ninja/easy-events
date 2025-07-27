@@ -13,7 +13,8 @@ module Api
 
     # GET /users
     def index
-      User.where(soft_deleted: false).sort_by(&:start_time)
+      all_users = User.where(soft_deleted: false)
+      render json: all_users, status: :ok
     end
 
     # GET /users/1

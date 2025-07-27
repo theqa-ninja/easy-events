@@ -107,6 +107,9 @@ const siteMap = () => {
           Users
           <ul>
             <li>
+              <Link href="/users">All users</Link>
+            </li>
+            <li>
               <Link href="/user/login">Login</Link>
             </li>
             <li>
