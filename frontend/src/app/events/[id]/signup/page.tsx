@@ -70,7 +70,7 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
         </p>
       )}
       {signup && <SignupConfirmationOrForm signup={signup} id={Number(id)} />}
-      <SignupForm eventId={Number(id)} user={user} />
+      <SignupForm eventId={Number(id)} user={user} remainingAdults={eventData?.remaining_adult_slots || 0} remainingTeenagers={eventData?.remaining_teenager_slots || 0} />
     </>
   );
 };

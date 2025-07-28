@@ -14,15 +14,23 @@ import { Card } from "@/app/components/Card";
 export const SignupForm = ({
   user,
   eventId,
+  remainingAdults,
+  remainingTeenagers,
 }: {
   user?: IUser;
   signupData?: ISignup;
   eventId: number;
+  remainingAdults: number;
+  remainingTeenagers: number;
 }) => {
   const [primarySignup, setPrimarySignup] = useState<ISignup>();
   const [additionalSignups, setAdditionalSignups] = useState<ISignup[]>();
   const [toast, setToast] = useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
+  const [numberOfRemainingAdults, setNumberOfRemainingAdults] =
+    useState(remainingAdults);
+  const [numberOfRemainingTeenagers, setNumberOfRemainingTeenagers] =
+    useState(remainingTeenagers);
   const signupSchema = object({
     name: string().required("Name is required"),
     email: string().email("Invalid email").required("Email is required"),
@@ -35,7 +43,39 @@ export const SignupForm = ({
   ];
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.name);
+    if (event.target.name.includes("is_over_18")) {
+      handleIsOver18Change(event);
+    }
     validateOnBlur(event, signupSchema, setErrors);
+  };
+
+  const handleIsOver18Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(
+      "number of remaining",
+      numberOfRemainingAdults,
+      numberOfRemainingTeenagers,
+      event.target.value
+    );
+    if (event.target.value === "true") {
+      setNumberOfRemainingAdults(numberOfRemainingAdults - 1);
+      if (numberOfRemainingAdults < 1) {
+        setToast({
+          status: "error",
+          message: "Signups are full for adults.",
+        });
+        throw new Error("Signups are full for adults.");
+      }
+    } else if (event.target.value === "false") {
+      setNumberOfRemainingTeenagers(numberOfRemainingTeenagers - 1);
+      if (numberOfRemainingTeenagers < 1) {
+        setToast({
+          status: "error",
+          message: "Signups are full for teenagers.",
+        });
+        throw new Error("Signups are full for teenagers.");
+      }
+    }
   };
 
   const [additionalVolunteers, setAdditionalVolunteers] = useState<
@@ -53,11 +93,14 @@ export const SignupForm = ({
   };
 
   const addAnotherVolunteer = (errors: { [name: string]: string }) => {
-    if (additionalVolunteers) {
+    if (
+      additionalVolunteers &&
+      (numberOfRemainingAdults > 0 || numberOfRemainingTeenagers > 0)
+    ) {
       setAdditionalVolunteers((previousVolunteer) => [
         ...previousVolunteer,
         <div
-          className="flex flex-col gap-4 w-100 relative"
+          className="flex flex-col gap-4 w-auto relative"
           key={`volunteer-${additionalVolunteers.length}`}
         >
           {additionalVolunteers.length > 0 && <hr className="!mb-2" />}
@@ -97,6 +140,11 @@ export const SignupForm = ({
           </div>
         </div>,
       ]);
+    } else {
+      setToast({
+        message: "Signups are full for adults and teenagers.",
+        status: "error",
+      });
     }
   };
 
@@ -271,12 +319,16 @@ export const SignupForm = ({
                 {additionalVolunteers.map((volunteer) => volunteer)}
               </div>
             )}
-            <Button
-              id="add-volunteer"
-              type="button"
-              label="+ Add another volunteer to your group"
-              onClick={() => addAnotherVolunteer(errors)}
-            />
+            {numberOfRemainingAdults > 0 && numberOfRemainingTeenagers > 0 ? (
+              <Button
+                id="add-volunteer"
+                type="button"
+                label="+ Add another volunteer to your group"
+                onClick={() => addAnotherVolunteer(errors)}
+              />
+            ) : (
+              "That's all the volunteers you can add for this event. Please contact us if you have a bigger group."
+            )}
             <Button type="submit" label="Sign up" />
           </form>
         </Card>

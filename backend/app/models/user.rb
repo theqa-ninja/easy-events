@@ -63,7 +63,7 @@ class User < ApplicationRecord
 
     # get all teams the user has access to
     perms.includes(:team).map do |ut|
-      { organization: ut.organization.name, org_id: ut.organization_id, team: ut.team.name, team_id: ut.team_id, user_type: ut.user_type_role,
+      { organization: ut.organization&.name, org_id: ut.organization_id, team: ut.team&.name, team_id: ut.team_id, user_type: ut.user_type_role,
         user_role_description: ut.user_type.description,
         permissions: permissions_json(ut.user_type) }
     end
