@@ -120,7 +120,6 @@ export const signInUser = async (userData: IUser): Promise<Response> => {
     const headers: HeadersInit = {
       "Content-Type": "application/json",
     };
-    console.log(`${process.env.NEXT_PUBLIC_API_ROUTE}/auth/sign_in`);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_ROUTE}/auth/sign_in`,
       {

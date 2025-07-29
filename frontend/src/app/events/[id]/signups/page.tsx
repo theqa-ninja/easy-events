@@ -21,7 +21,6 @@ export const generateMetadata = async ({
 const SignupsPage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;
   const signupsData = await getSignups(id);
-  console.log(signupsData);
   if ('errors' in signupsData || 'message' in signupsData) {
     return (
       <Card>

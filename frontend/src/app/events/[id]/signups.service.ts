@@ -37,7 +37,6 @@ export const getSignup = async (eventId: number): Promise<any> => {
     );
     const data = await response.json();
     if (response.status === 404) {
-      console.log(data);
       return data as IUser;
     } else if (data.status === 500) {
       return false;

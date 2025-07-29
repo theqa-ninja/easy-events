@@ -17,7 +17,7 @@ export const SignupLinks = ({
 
   if (loggedIn === false) {
     return (
-      <Link href={`events/${event.id}/signup`}>Sign up for this event</Link>
+      <Link href={`/events/${event.id}/signup`}>Sign up for this event</Link>
     );
   }
 
@@ -35,14 +35,14 @@ export const SignupLinks = ({
   return (
     <>
       {signedUp === false && (
-        <Link href={`events/${event.id}/signup`}>Sign up for this event</Link>
+        <Link href={`/events/${event.id}/signup`}>Sign up for this event</Link>
       )}
       {signedUp === true && (
         <>
-          <Link href={`events/${event.id}/signup-confirmation`}>
+          <Link href={`/events/${event.id}/signup-confirmation`}>
             View your signup confirmation
           </Link>
-          <Link href={`events/${event.id}/signup/edit`}>Edit your signup</Link>
+          <Link href={`/events/${event.id}/signup/edit`}>Edit your signup</Link>
         </>
       )}
     </>

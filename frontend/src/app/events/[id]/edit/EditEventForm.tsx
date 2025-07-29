@@ -56,7 +56,6 @@ export const EditEventForm = ({
       });
       editEvent(Number(eventData.id), event)
         .then((response) => {
-          console.log(response);
           setToast({
             message: "Event updated",
             status: "success",

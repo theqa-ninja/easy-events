@@ -6,6 +6,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   labelSize?: string;
   errorMessage?: string;
   validationSchema?: any;
+  onClick?: (event?: any) => void;
 }
 
 export const Input = ({
@@ -15,6 +16,8 @@ export const Input = ({
   placeholder,
   type,
   errorMessage,
+  validationSchema,
+  onClick,
   ...props
 }: InputProps) => {
   return (
@@ -37,6 +40,7 @@ export const Input = ({
         placeholder={placeholder}
         type={type}
         className="rounded-md not-dark:bg-white dark:bg-black border-1 not-dark:border-slate-300 dark:border-slate-700 p-2"
+        onClick={onClick}
         {...props}
       />
       <ErrorMessage message={errorMessage} />

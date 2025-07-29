@@ -43,20 +43,10 @@ export const SignupForm = ({
   ];
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.name);
-    if (event.target.name.includes("is_over_18")) {
-      handleIsOver18Change(event);
-    }
     validateOnBlur(event, signupSchema, setErrors);
   };
 
   const handleIsOver18Change = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(
-      "number of remaining",
-      numberOfRemainingAdults,
-      numberOfRemainingTeenagers,
-      event.target.value
-    );
     if (event.target.value === "true") {
       setNumberOfRemainingAdults(numberOfRemainingAdults - 1);
       if (numberOfRemainingAdults < 1) {
@@ -64,7 +54,6 @@ export const SignupForm = ({
           status: "error",
           message: "Signups are full for adults.",
         });
-        throw new Error("Signups are full for adults.");
       }
     } else if (event.target.value === "false") {
       setNumberOfRemainingTeenagers(numberOfRemainingTeenagers - 1);
@@ -73,7 +62,6 @@ export const SignupForm = ({
           status: "error",
           message: "Signups are full for teenagers.",
         });
-        throw new Error("Signups are full for teenagers.");
       }
     }
   };
@@ -127,7 +115,9 @@ export const SignupForm = ({
               value="true"
               label="Yes"
               onBlur={handleChange}
+              onClick={handleIsOver18Change}
               errorMessage={errors.is_over_18}
+              disabled={numberOfRemainingAdults < 1}
             />
             <Input
               type="radio"
@@ -135,7 +125,9 @@ export const SignupForm = ({
               value="false"
               label="No"
               onBlur={handleChange}
+              onClick={handleIsOver18Change}
               errorMessage={errors.is_over_18}
+              disabled={numberOfRemainingTeenagers < 1}
             />
           </div>
         </div>,
@@ -299,6 +291,7 @@ export const SignupForm = ({
                 value="true"
                 label="Yes"
                 onBlur={handleChange}
+                onClick={handleIsOver18Change}
                 defaultChecked={user?.is_over_18 === true}
                 errorMessage={errors.is_over_18}
               />
@@ -308,6 +301,7 @@ export const SignupForm = ({
                 value="false"
                 label="No"
                 onBlur={handleChange}
+                onClick={handleIsOver18Change}
                 defaultChecked={user?.is_over_18 === false}
                 errorMessage={errors.is_over_18}
               />
@@ -317,9 +311,13 @@ export const SignupForm = ({
               <div id="additionalVolunteers">
                 <h3>Additional Volunteers</h3>
                 {additionalVolunteers.map((volunteer) => volunteer)}
+                <p className="mt-4 mb-0">
+                  <b>{numberOfRemainingAdults} adult slots remaining</b><br />
+                  <b>{numberOfRemainingTeenagers} teenager slots remaining</b>
+                </p>
               </div>
             )}
-            {numberOfRemainingAdults > 0 && numberOfRemainingTeenagers > 0 ? (
+            {numberOfRemainingAdults > 0 || numberOfRemainingTeenagers > 0 ? (
               <Button
                 id="add-volunteer"
                 type="button"
