@@ -6,6 +6,8 @@ import Link from "next/link";
 import { Card } from "@/app/components/Card";
 import { validateToken } from "@/app/utilities";
 import { SignupLinks } from "../SignupLinks";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export const generateMetadata = async ({
   params,
@@ -36,7 +38,10 @@ const EventDetails = async ({
         <>
           <h1>{eventData.title}</h1>
           <Event eventData={eventData} />
-          <nav className="flex gap-4">
+          <div className="[&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4">
+            <Markdown remarkPlugins={[remarkGfm]}>{eventData.description}</Markdown>
+          </div>
+          <nav className="flex gap-4 mt-4">
             <SignupLinks event={eventData} loggedIn={loggedIn} />
           </nav>
         </>

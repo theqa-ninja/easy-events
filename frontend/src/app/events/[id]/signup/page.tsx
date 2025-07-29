@@ -8,6 +8,8 @@ import { SignupForm } from "./SignupForm";
 import { SignupConfirmationOrForm } from "./SignupConfirmationOrForm";
 import { getUser } from "@/app/user/users.service";
 import { signupsAreClosed } from "../../events.helper";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 export const generateMetadata = async ({
   params,
 }: {
@@ -59,6 +61,9 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
         <>
           <h1>Signup for {eventData.title}</h1>
           <Event eventData={eventData} />
+          <div className="[&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4">
+            <Markdown remarkPlugins={[remarkGfm]}>{eventData.description}</Markdown>
+          </div>
         </>
       )}
       {!loggedIn && (

@@ -25,7 +25,7 @@ const Events = async () => {
               <Link href={`events/${event.id}`}>{event.title}</Link>
             </h2>
             <Event eventData={event} />
-            <nav className="flex gap-4">
+            <nav className="flex gap-4 mt-4">
               <SignupLinks event={event} loggedIn={loggedIn} />
             </nav>
             <EventLinks eventId={Number(event.id)} teamId={Number(event.team_id)} />

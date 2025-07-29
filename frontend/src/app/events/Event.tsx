@@ -37,21 +37,18 @@ export const Event = ({ eventData }: { eventData: IEvent }) => {
         <dl>
           <dt>Adult volunteers:</dt>
           <dd>
-            <b>{eventData.remaining_adult_slots}</b> remaining openings out of{" "}
-            <b>{eventData.adult_slots}</b> total
+            {eventData.remaining_adult_slots} of{" "}
+            {eventData.adult_slots} slots open
           </dd>
         </dl>
         <dl>
-          <dt>Teenagers volunteers:</dt>
+          <dt>Teenager volunteers:</dt>
           <dd>
-            <b>{eventData.remaining_teenager_slots}</b> remaining openings out
-            of <b>{eventData.teenager_slots}</b> total
+            {eventData.remaining_teenager_slots} of{" "}
+            {eventData.teenager_slots} slots open
           </dd>
         </dl>
       </dl>
-      <div className="[&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4">
-        <Markdown remarkPlugins={[remarkGfm]}>{eventData.description}</Markdown>
-      </div>
     </div>
   );
 };
