@@ -1,5 +1,6 @@
 import { doesUserHavePermissions } from "@/app/user/users.service";
 import { getTeams } from "./teams.service";
+import Link from "next/link";
 
 export const metadata = {
   title: "Teams",
@@ -19,7 +20,7 @@ const TeamsPage = async ({ params }: { params: Promise<{ id: number }> }) => {
       <ul>
         {teamsData.map((team) => (
           <li className="text-xl font-bold" key={team.id}>
-            {team.name}
+            <Link href={`/organizations/${id}/teams/${team.id}`}>{team.name}</Link>
           </li>
         ))}
       </ul>
