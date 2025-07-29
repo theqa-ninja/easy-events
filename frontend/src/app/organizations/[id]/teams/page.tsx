@@ -5,11 +5,7 @@ export const metadata = {
   title: "Teams",
 };
 
-const TeamsPage = async ({
-  params,
-}: {
-  params: Promise<{ id: number }>;
-}) => {
+const TeamsPage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;
   const teamsData = await getTeams(id);
   const userMayViewTeams = await doesUserHavePermissions({

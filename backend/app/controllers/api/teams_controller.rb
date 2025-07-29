@@ -14,7 +14,7 @@ module Api
 
     # GET organizations/:org_id/teams/:team_id
     def show
-      render json: @current_team, status: :ok
+      render json: @current_team.as_json(include: :volunteer_roles), status: :ok
     end
 
     # POST organizations/:org_id/teams/
