@@ -49,10 +49,12 @@ export const eventSchema = object({
   team_id: string().required("Team is required"),
 });
 
-export const getEvents = async (): Promise<IEvent[]> => {
+export const getEvents = async (searchParams: string): Promise<IEvent[]> => {
+  const url = `${process.env.NEXT_PUBLIC_API_ROUTE}/events?${searchParams}`;
+
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_ROUTE}/events`,
+      url,
       {
         method: "GET",
         headers: {

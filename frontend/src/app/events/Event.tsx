@@ -20,7 +20,7 @@ export const Event = ({ eventData }: { eventData: IEvent }) => {
   return (
     <div key={eventData.id} className="w-full">
       {/* TODO: add a page for filtering events by team */}
-      <Link href="">{eventData.team_name}</Link>
+      <Link href={`/events/?team_id=${eventData.team_id}`}>{eventData.team_name}</Link>
       <dl>
         <dl>
           <dt>Date:</dt>
