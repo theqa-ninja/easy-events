@@ -3,7 +3,8 @@ import { getUser } from "@/app/user/users.service";
 import { ColoredBackground } from "./components/ColoredBackground";
 
 export default async function Home() {
-  const user = await getUser()
+  const user = await getUser();
+
   return (
     <>
       <h1>Welcome to Easy Events</h1>

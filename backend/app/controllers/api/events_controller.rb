@@ -10,9 +10,10 @@ module Api
     def index
       if params[:filter].present?
         events = Event.where('start_time < ?', Time.zone.now) if params[:filter] == 'past'
+        events = Event.all if params[:filter] == 'all'
         events = Event.where('start_time >= ?', Time.zone.now) if params[:filter] == 'upcoming'
       else
-        events = Event.all
+        events = Event.where('start_time >= ?', Time.zone.now)
       end
       events = events.where(team_id: params[:team_id]) if params[:team_id].present?
       events = events.joins(:team).where("team.organization_id": params[:org_id]) if params[:org_id].present?
