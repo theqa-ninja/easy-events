@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { IToast, Toast } from "@/app/components/Toast";
 import { object, string } from "yup";
 import { eventDuration } from "../../events.helper";
+import { MarkdownEditor } from "@/app/components/MarkdownEditor";
 
 interface ICloneEventForm {
   eventData: IEvent;
@@ -16,6 +17,8 @@ interface ICloneEventForm {
 export const CloneEventForm = ({ eventData }: { eventData: IEvent }) => {
   const [startTime, setStartTime] = useState(eventData.start_time);
   const [endTime, setEndTime] = useState(eventData.end_time);
+  const [description, setDescription] = useState<string>("");
+  const [disable, setDisable] = useState<boolean>();
   const [duration, setDuration] = useState<string | undefined>();
   const [toast, setToast] = useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
@@ -34,6 +37,11 @@ export const CloneEventForm = ({ eventData }: { eventData: IEvent }) => {
   ) => {
     validateOnBlur(event, eventSchema, setErrors);
   };
+
+  const handleMarkdownChange = (value: string) => {
+    setDescription(value);
+  };
+
   const submitEventInformation = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -55,10 +63,20 @@ export const CloneEventForm = ({ eventData }: { eventData: IEvent }) => {
       });
       createEvent(event)
         .then(async (response) => {
-          setToast({
-            message: "Event created",
-            status: "success",
-          });
+          if (response.id) {
+            setToast({
+              message: "Event clone created",
+              status: "success",
+            });
+            setTimeout(() => {
+              window.location.href = `/events/${response.id}`;
+            }, 1000);
+          } else {
+            setToast({
+              message: "Error creating event",
+              status: "error",
+            });
+          }
         })
         .catch((error) => {
           setToast({ message: error.message, status: "error" });
@@ -90,77 +108,79 @@ export const CloneEventForm = ({ eventData }: { eventData: IEvent }) => {
           onClose={() => setToast(undefined)}
         />
       )}
-      <form
-        onSubmit={submitEventInformation}
-        className="flex flex-col gap-4 w-100"
-      >
-        <Input
-          label="Event Title"
-          type="text"
-          name="title"
-          placeholder="Event Title"
-          defaultValue={`${eventData?.title} Clone`}
-          onBlur={handleChange}
-          errorMessage={errors.title}
-        />
-        <Input
-          label="Start"
-          type="datetime-local"
-          name="start_time"
-          defaultValue={
-            eventData?.start_time && isoDateTime(eventData?.start_time)
-          }
-          onBlur={handleChange}
-          onInput={(e) => {
-            setStartTime(e.currentTarget.value);
-          }}
-          errorMessage={errors.start_time}
-        />
-        <Input
-          label="End"
-          type="datetime-local"
-          name="end_time"
-          defaultValue={eventData?.end_time && isoDateTime(eventData?.end_time)}
-          onBlur={handleChange}
-          onInput={(e) => {
-            setEndTime(e.currentTarget.value);
-          }}
-          errorMessage={errors.end_time}
-        />
-        {duration && <p>Duration: {duration}</p>}
-        <Input
-          label="Adult volunteers needed"
-          type="number"
-          name="adult_slots"
-          defaultValue={eventData?.adult_slots}
-          onBlur={handleChange}
-          errorMessage={errors.adult_slots}
-        />
-        <Input
-          label="Teenager volunteers needed"
-          type="number"
-          name="teenager_slots"
-          defaultValue={eventData?.teenager_slots}
-          onBlur={handleChange}
-          errorMessage={errors.teenager_slots}
-        />
-        <Textarea
-          label="Event description"
-          name="description"
-          defaultValue={eventData?.description}
-          onBlur={handleChange}
-          errorMessage={errors.description}
-        />
-        <Input
-          label="Team ID"
-          type="number"
-          name="team_id"
-          defaultValue={eventData?.team_id}
-          onBlur={handleChange}
-          errorMessage={errors.team_id}
-        />
+      <form onSubmit={submitEventInformation} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 w-100">
+          <Input
+            label="Event Title"
+            type="text"
+            name="title"
+            placeholder="Event Title"
+            defaultValue={`${eventData?.title} Clone`}
+            onBlur={handleChange}
+            errorMessage={errors.title}
+          />
+          <Input
+            label="Start"
+            type="datetime-local"
+            name="start_time"
+            defaultValue={
+              eventData?.start_time && isoDateTime(eventData?.start_time)
+            }
+            onBlur={handleChange}
+            onInput={(e) => {
+              setStartTime(e.currentTarget.value);
+            }}
+            errorMessage={errors.start_time}
+          />
+          <Input
+            label="End"
+            type="datetime-local"
+            name="end_time"
+            defaultValue={
+              eventData?.end_time && isoDateTime(eventData?.end_time)
+            }
+            onBlur={handleChange}
+            onInput={(e) => {
+              setEndTime(e.currentTarget.value);
+            }}
+            errorMessage={errors.end_time}
+          />
+          {duration && <p>Duration: {duration}</p>}
+          <Input
+            label="Adult volunteers needed"
+            type="number"
+            name="adult_slots"
+            defaultValue={eventData?.adult_slots}
+            onBlur={handleChange}
+            errorMessage={errors.adult_slots}
+          />
+          <Input
+            label="Teenager volunteers needed"
+            type="number"
+            name="teenager_slots"
+            defaultValue={eventData?.teenager_slots}
+            onBlur={handleChange}
+            errorMessage={errors.teenager_slots}
+          />
+          <Input
+            label="Team ID"
+            type="number"
+            name="team_id"
+            defaultValue={eventData?.team_id}
+            onBlur={handleChange}
+            errorMessage={errors.team_id}
+          />
+        </div>
+        <div>
+          <input name="description" type="hidden" value={description} />
+          <MarkdownEditor
+            label="Event description"
+            defaultValue={eventData?.description}
+            onChange={handleMarkdownChange}
+          />
+        </div>
 
-        <Button type="submit" label="Save clone as new event" />
+        <Button type="submit" label="Save clone as new event" disabled={disable} />
       </form>
     </>
   );

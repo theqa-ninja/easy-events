@@ -15,7 +15,7 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [duration, setDuration] = useState<string | undefined>();
-  const [description, setDescription] = useState<string | undefined>();
+  const [description, setDescription] = useState<string>("");
   const [disable, setDisable] = useState<boolean>();
 
   const handleChange = async (

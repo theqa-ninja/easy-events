@@ -27,7 +27,7 @@ export const EditEventForm = ({
   const [duration, setDuration] = useState<string | undefined>();
   const [toast, setToast] = useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
-  const [description, setDescription] = useState<string | undefined>();
+  const [description, setDescription] = useState<string>("");
 
   const handleChange = async (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

@@ -14,15 +14,15 @@ export interface IEvent {
   teenager_slots: number;
   remaining_adult_slots?: number;
   remaining_teenager_slots?: number;
-  org_id: number;
-  org_name: string;
-  team_id: number;
-  team_name: string;
+  org_id?: number;
+  org_name?: string;
+  team_id?: number;
+  team_name?: string;
   creator_id?: number;
   close_time?: string; // when to no longer accept signups and cancellations
   volunteer_role_ids?: number[];
   event_lead_name?: string;
-  volunteer_roles: IVolunteerRole[];
+  volunteer_roles?: IVolunteerRole[];
 }
 
 export interface ITeam {
