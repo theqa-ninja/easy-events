@@ -9,6 +9,7 @@ import { validateToken } from "../utilities";
 import { Card } from "../components/Card";
 import { DropDown } from "../components/Dropdown";
 import { Button } from "../components/Button";
+import { signupsAreClosed } from "./events.helper";
 
 export const metadata: Metadata = {
   title: "Upcoming Events",
@@ -60,6 +61,12 @@ const Events = async ({
         index === self.findIndex((t) => t.value === obj.value)
     );
 
+  const eventsOpen = eventsData.filter(
+    (event) => !signupsAreClosed(event)
+  );
+
+  const eventsClosed = eventsData.filter((event) => signupsAreClosed(event));
+
   return (
     <>
       <h1>Events</h1>
@@ -91,11 +98,32 @@ const Events = async ({
               name="org_id"
             />
           )}
-          <Button id="search" label="Search" type="submit" classNames="!m-0 !mb-1 !self-end" />
+          <Button
+            id="search"
+            label="Search"
+            type="submit"
+            classNames="!m-0 !mb-1 !self-end"
+          />
         </form>
       </nav>
       <div className="flex flex-col gap-4">
-        {eventsData.map((event) => (
+        {eventsOpen.map((event) => (
+          <Card key={event.id}>
+            <h2 className="text-xl font-bold">
+              <Link href={`events/${event.id}`}>{event.title}</Link>
+            </h2>
+            <Event eventData={event} />
+            <nav className="flex gap-4 mt-4">
+              <SignupLinks event={event} loggedIn={loggedIn} />
+            </nav>
+            <EventLinks
+              eventId={Number(event.id)}
+              teamId={Number(event.team_id)}
+            />
+          </Card>
+        ))}
+        <h2>Closed Events</h2>
+        {eventsClosed.map((event) => (
           <Card key={event.id}>
             <h2 className="text-xl font-bold">
               <Link href={`events/${event.id}`}>{event.title}</Link>
