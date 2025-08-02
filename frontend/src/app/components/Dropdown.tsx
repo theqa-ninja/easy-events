@@ -42,7 +42,7 @@ export const DropDown = ({
               );
             }
             return (
-              <option key={index} value={choice} selected={defaultValue === choice}>
+              <option key={index} value={choice}>
                 {choice}
               </option>
             );
