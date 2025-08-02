@@ -32,9 +32,14 @@ const EditEventPage = async ({
 
   return (
     <>
-      <Link href={`/events/${eventId}`} className="w-100">
-        &lsaquo;&nbsp;Go back to event details
-      </Link>
+      <nav className="flex gap-2">
+        <span className="text-secondary">&lsaquo;</span>
+        <Link href="/events">Events</Link>
+        <span className="text-secondary">&lsaquo;</span>
+        <Link href={`/events/${eventId}`}>
+          Event details
+        </Link>
+      </nav>
       <h1>Edit Event</h1>
       {userMayEditEvents && eventData ? (
         <EditEventForm eventData={eventData} teams={teams} />
@@ -44,6 +49,14 @@ const EditEventPage = async ({
           event.
         </p>
       )}
+      <nav className="flex gap-2">
+        <span className="text-secondary">&lsaquo;</span>
+        <Link href="/events">Events</Link>
+        <span className="text-secondary">&lsaquo;</span>
+        <Link href={`/events/${eventId}`}>
+          Event details
+        </Link>
+      </nav>
     </>
   );
 };

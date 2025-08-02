@@ -12,7 +12,7 @@ export const SignupLinks = ({
   event: IEvent;
 }) => {
   if (signupsAreClosed(event)) {
-    return <b>Signups are closed for this event.</b>;
+    return <b className="text-secondary">Signups are closed for this event.</b>;
   }
 
   if (loggedIn === false) {

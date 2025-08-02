@@ -11,7 +11,7 @@ export const SignupsTable = async ({
   volunteerRoles,
 }: {
   signupsData: ISignup[];
-  volunteerRoles: IVolunteerRole[];
+  volunteerRoles?: IVolunteerRole[];
 }) => {
   return signupsData && signupsData.length > 0 ? (
     <>

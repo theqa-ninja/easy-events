@@ -36,7 +36,7 @@ const SignupPage = async ({ params }: { params: Promise<{ id: number }> }) => {
             <Event eventData={eventData} />
           </>
         )}
-        <b>Signups are closed for this event.</b>
+        <b className="text-secondary">Signups are closed for this event.</b>
       </>
     );
   }

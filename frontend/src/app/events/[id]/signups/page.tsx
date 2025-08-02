@@ -44,17 +44,35 @@ const SignupsPage = async ({ params }: { params: Promise<{ id: number }> }) => {
     <>
       {signupsData ? (
       <>
-        <menu className="flex gap-4">
+        <nav className="flex gap-2">
+          <span className="text-secondary">&lsaquo;</span>
+          <Link href="/events">Events</Link>
+          <span className="text-secondary">&lsaquo;</span>
           <Link href={`/events/${id}`}>
-            &lsaquo;&nbsp;Back to event details
+            Event details
           </Link>
-          <Link href={`/events/${id}/check-ins`}>View check-ins</Link>
-        </menu>
+          <span className="text-secondary">&lsaquo;</span>
+          <Link href={`/events/${id}/check-ins`}>
+            Check-ins
+          </Link>
+        </nav>
         <h1 className="text-center">Signups</h1>
         <h2>Adults</h2>
         <SignupsTable signupsData={(signupsData as ISignups).adults.signups} volunteerRoles={volunteerRoles} />
         <h2 className="mt-8">Under 18</h2>
         <SignupsTable signupsData={(signupsData as ISignups).teenagers.signups} volunteerRoles={volunteerRoles} />
+        <nav className="flex gap-2">
+          <span className="text-secondary">&lsaquo;</span>
+          <Link href="/events">Events</Link>
+          <span className="text-secondary">&lsaquo;</span>
+          <Link href={`/events/${id}`}>
+            Event details
+          </Link>
+          <span className="text-secondary">&lsaquo;</span>
+          <Link href={`/events/${id}/check-ins`}>
+            Check-ins
+          </Link>
+        </nav>
       </>
       ) : (
       <Card>

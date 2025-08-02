@@ -9,17 +9,19 @@ export const VolunteerRoles = ({
   volunteerRoles,
   signup,
 }: {
-  volunteerRoles: IVolunteerRole[];
+  volunteerRoles?: IVolunteerRole[];
   signup: ISignup;
 }) => {
   const [toast, setToast] = useState<IToast>();
   const volunteerRolesChoices: { value: string; label: string }[] =
-    volunteerRoles.map((role) => {
-      return {
-        value: String(role.id),
-        label: role.role,
-      };
-    });
+    volunteerRoles
+      ? volunteerRoles.map((role) => {
+          return {
+            value: String(role.id),
+            label: role.role,
+          };
+        })
+      : [];
 
   const handleOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     if (!event.target.value) {

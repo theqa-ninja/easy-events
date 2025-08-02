@@ -25,17 +25,35 @@ const EventDetails = async ({
     <>
       {checkInsData && (
         <>
-          <menu className="flex gap-4">
+          <nav className="flex gap-2">
+            <span className="text-secondary">&lsaquo;</span>
+            <Link href="/events">Events</Link>
+            <span className="text-secondary">&lsaquo;</span>
             <Link href={`/events/${id}`}>
-              &lsaquo;&nbsp;Back to event details
+              Event details
             </Link>
-            <Link href={`/events/${id}/signups`}>View signups</Link>
-          </menu>
+            <span className="text-secondary">&lsaquo;</span>
+            <Link href={`/events/${id}/signups`}>
+              Signups
+            </Link>
+          </nav>
           <h1 className="text-center">Check-ins</h1>
           <h2>Adults</h2>
           <CheckInsTable checkInsData={checkInsData.adults} />
           <h2 className="mt-8">Under 18</h2>
           <CheckInsTable checkInsData={checkInsData.teenagers} />
+          <nav className="flex gap-2">
+            <span className="text-secondary">&lsaquo;</span>
+            <Link href="/events">Events</Link>
+            <span className="text-secondary">&lsaquo;</span>
+            <Link href={`/events/${id}`}>
+              Event details
+            </Link>
+            <span className="text-secondary">&lsaquo;</span>
+            <Link href={`/events/${id}/signups`}>
+              Signups
+            </Link>
+          </nav>
         </>
       )}
     </>
