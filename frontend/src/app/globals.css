@@ -1,35 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  --background-50: var(--color-rose-50);
-  --background-100: var(--color-slate-100);
-  --foreground-50: var(--color-slate-800);
-  --foreground-100: var(--color-indigo-950);
+  --background: var(--color-rose-50);
+  --foreground: var(--color-indigo-950);
 }
 
 @theme inline {
-  --color-background-50: var(--background-50);
-  --color-background-100: var(--background-100);
-  --color-foreground: var(--foreground-100);
-  --font-sans: var(--font-geist-sans);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-lexend-sans);
   --font-mono: var(--font-geist-mono);
-  --color-primary-700: var(--color-cyan-700);
-  --color-primary-900: var(--color-rose-500);
+  --color-primary: var(--color-cyan-700);
+  --color-secondary: var(--color-fuchsia-600)
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background-50: var(--color-slate-900);
-    --background-100: var(--color-slate-800);
-    --foreground-50: var(--color-slate-50);
-    --foreground-100: var(--color-slate-100);
-    --color-primary-700: var(--color-fuchsia-300);
+    --background: var(--color-slate-900);
+    --foreground: var(--color-indigo-100);
+    --color-primary: var(--color-cyan-300);
+    --color-secondary: var(--color-fuchsia-300);
   }
 }
 
 body {
-  background: var(--background-50);
-  color: var(--foreground-100);
+  background: var(--background);
+  color: var(--foreground);
   font-family: var(--font-lexend-sans);
 }
 
@@ -54,11 +50,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  color: var(--color-primary-700);
+  color: var(--color-primary);
 }
 
 a:hover {
-  @apply text-fuchsia-600;
+  color: var(--color-secondary);
 }
 
 p {

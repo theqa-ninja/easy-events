@@ -81,7 +81,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <ColoredBackground bgColor="bg-background-50">
+    <ColoredBackground bgColor="bg-background">
       {toast && (
         <Toast
           message={toast.message}
