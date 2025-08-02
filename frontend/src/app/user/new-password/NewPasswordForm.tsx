@@ -81,7 +81,7 @@ export const NewPasswordForm = () => {
   };
 
   return (
-    <ColoredBackground bgColor="bg-background">
+    <ColoredBackground bgColor="bg-backdrop">
       {toast && (
         <Toast
           message={toast.message}

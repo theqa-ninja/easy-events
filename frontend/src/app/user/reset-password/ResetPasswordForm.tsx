@@ -49,7 +49,7 @@ export const ResetPasswordForm = () => {
   };
 
   return (
-    <ColoredBackground bgColor="bg-background">
+    <ColoredBackground bgColor="bg-backdrop">
       {toast && (
         <Toast
           message={toast.message}
