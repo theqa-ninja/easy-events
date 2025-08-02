@@ -89,7 +89,7 @@ export const LoginForm = () => {
           onClose={() => setToast(undefined)}
         />
       )}
-      <Card classNames="w-100 p-10">
+      <Card classNames="max-w-100 p-10">
         <form onSubmit={handleLogin}>
           <h1 className="text-2xl font-bold mb-8">Log in</h1>
           <div className="flex flex-col gap-4">

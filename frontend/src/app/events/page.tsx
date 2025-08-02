@@ -7,7 +7,7 @@ import { EventLinks } from "./[id]/EventLinks";
 import { Event } from "./Event";
 import { validateToken } from "../utilities";
 import { Card } from "../components/Card";
-import { DropDown } from "../components/Dropdown";
+import { DropDown } from "../components/DropDown";
 import { Button } from "../components/Button";
 import { signupsAreClosed } from "./events.helper";
 

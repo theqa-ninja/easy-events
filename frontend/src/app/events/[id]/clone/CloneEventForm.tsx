@@ -109,7 +109,7 @@ export const CloneEventForm = ({ eventData }: { eventData: IEvent }) => {
         />
       )}
       <form onSubmit={submitEventInformation} className="flex flex-col gap-4">
-        <div className="flex flex-col gap-4 w-100">
+        <div className="flex flex-col gap-4 max-w-100">
           <Input
             label="Event Title"
             type="text"

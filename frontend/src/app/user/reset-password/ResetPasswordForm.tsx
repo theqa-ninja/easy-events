@@ -57,7 +57,7 @@ export const ResetPasswordForm = () => {
           onClose={() => setToast(undefined)}
         />
       )}
-      <Card classNames="w-100 p-10">
+      <Card classNames="max-w-100 p-10">
         <form onSubmit={handleResetPassword}>
           <h1 className="text-2xl font-bold mb-4">Reset password</h1>
           <p>

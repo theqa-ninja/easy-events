@@ -12,7 +12,7 @@ import { isoDateTime, validateOnBlur } from "@/app/utilities";
 import { useEffect, useState } from "react";
 import { IToast, Toast } from "@/app/components/Toast";
 import { eventDuration } from "../../events.helper";
-import { DropDown } from "@/app/components/Dropdown";
+import { DropDown } from "@/app/components/DropDown";
 import { MarkdownEditor } from "@/app/components/MarkdownEditor";
 
 export const EditEventForm = ({
@@ -114,7 +114,7 @@ export const EditEventForm = ({
         />
       )}
       <form onSubmit={submitEventInformation} className="flex flex-col gap-4">
-        <div className="flex flex-col gap-4 w-100">
+        <div className="flex flex-col gap-4 max-w-100">
           <Input
             label="Event Title"
             type="text"

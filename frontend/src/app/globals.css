@@ -5,6 +5,8 @@
   --background: var(--color-white);
   --foreground: var(--color-black);
   --main-text: var(--color-indigo-950);
+  --color-primary: var(--color-cyan-700);
+  --color-secondary: var(--color-fuchsia-600);
 }
 
 @media (prefers-color-scheme: dark) {

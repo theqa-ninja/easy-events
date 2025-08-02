@@ -20,8 +20,9 @@ const defaultDateTimeOptions: Intl.DateTimeFormatOptions = {
 };
 export const formatDateTime = (
   date: string | number,
-  options: Intl.DateTimeFormatOptions = defaultDateTimeOptions
-) => new Date(date).toLocaleString("en-US", options);
+  options: Intl.DateTimeFormatOptions = defaultDateTimeOptions,
+  locale: string = "en-US"
+) => new Date(date).toLocaleString(locale, options);
 
 /**
  * format the date and time to a string in the format YYYY-MM-DDTHH:MM
@@ -38,6 +39,32 @@ export const isoDateTime = (date: string) => {
   const minutes = String(dateObj.getMinutes()).padStart(2, "0");
   const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
   return formattedDate;
+};
+
+export const calculateEndTime = (
+  startDate: string,
+  startTime: string,
+  duration: string
+) => {
+  const formattedStart = startDate + " " + startTime;
+  const start = new Date(formattedStart);
+  const [hours, increment] = duration.split(".").map(Number);
+  const minutes = increment === 5 ? 30 : 0;
+  start.setHours(start.getHours() + hours, start.getMinutes() + minutes);
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false,
+  };
+  return [
+    formatDateTime(start.toISOString(), dateOptions),
+    formatDateTime(start.toISOString(), timeOptions),
+  ];
 };
 
 export const getToken = async () => {
@@ -58,13 +85,16 @@ export const getToken = async () => {
 export const validateToken = async () => {
   const { deleteCookie } = await import("cookies-next");
 
-  return await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/auth/validate_token`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: (await getToken()) || "",
-    },
-  })
+  return await fetch(
+    `${process.env.NEXT_PUBLIC_API_ROUTE}/auth/validate_token`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: (await getToken()) || "",
+      },
+    }
+  )
     .then((response: Response) => {
       if (response.statusText === "Unauthorized") {
         deleteCookie("token");
@@ -79,7 +109,9 @@ export const validateToken = async () => {
 };
 
 export const validateOnBlur = async (
-  event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  event: React.ChangeEvent<
+    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  >,
   validationSchema: any,
   setErrors: any
 ) => {

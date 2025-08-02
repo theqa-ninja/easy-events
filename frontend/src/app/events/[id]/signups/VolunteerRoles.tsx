@@ -1,5 +1,5 @@
 "use client";
-import { DropDown } from "@/app/components/Dropdown";
+import { DropDown } from "@/app/components/DropDown";
 import { IVolunteerRole } from "@/app/organizations/[id]/teams/teams.service";
 import { editSignup, ISignup } from "@/app/events/[id]/signups.service";
 import { IToast, Toast } from "@/app/components/Toast";

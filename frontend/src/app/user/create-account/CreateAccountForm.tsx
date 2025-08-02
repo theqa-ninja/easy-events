@@ -80,7 +80,7 @@ export const CreateAccountForm = () => {
           onClose={() => setToast(undefined)}
         />
       )}
-      <Card classNames="w-100 p-10">
+      <Card classNames="max-w-100 p-10">
         <form onSubmit={handleRegister}>
           <h1 className="text-2xl font-bold mb-8">Create an account</h1>
           <div className="flex flex-col gap-4">

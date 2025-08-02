@@ -255,7 +255,7 @@ export const SignupForm = ({
           eventId={eventId}
         />
       ) : (
-        <Card classNames="w-100">
+        <Card classNames="max-w-100">
           <form onSubmit={submitSignup} className="flex flex-col gap-4">
             <h2>Signup</h2>
             <Input

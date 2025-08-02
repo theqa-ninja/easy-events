@@ -51,7 +51,7 @@ export const CreateOrganizationForm = () => {
       )}
       <form
         onSubmit={handleCreateOrganization}
-        className="flex flex-col gap-4 w-100"
+        className="flex flex-col gap-4 max-w-100"
       >
         <Input label="Organization name" type="text" name="name" />
         <Input
