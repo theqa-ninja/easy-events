@@ -702,7 +702,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{backend_url}}/events/?filter=upcoming",
+											"raw": "{{backend_url}}/events/?org_id={{org_id}}",
 											"host": [
 												"{{backend_url}}"
 											],
@@ -712,8 +712,8 @@
 											],
 											"query": [
 												{
-													"key": "filter",
-													"value": "upcoming"
+													"key": "org_id",
+													"value": "{{org_id}}"
 												}
 											]
 										}
@@ -724,12 +724,12 @@
 									"body": null
 								},
 								{
-									"name": "Get all events for one org Copy",
+									"name": "Get all events for one team",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{backend_url}}/events/?filter=upcoming",
+											"raw": "{{backend_url}}/events/?team_id={{team_id}}",
 											"host": [
 												"{{backend_url}}"
 											],
@@ -739,8 +739,8 @@
 											],
 											"query": [
 												{
-													"key": "filter",
-													"value": "upcoming"
+													"key": "team_id",
+													"value": "{{team_id}}"
 												}
 											]
 										}
