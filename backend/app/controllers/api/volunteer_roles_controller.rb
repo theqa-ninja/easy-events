@@ -63,7 +63,7 @@ module Api
     end
 
     def redirect_if_no_create
-      return if current_user.check_permissions(@current_org.id, nil, %i[EDIT_ORG])
+      # return if current_user.check_permissions(@current_org.id, nil, %i[EDIT_ORG])
 
       return if current_user.check_permissions(@current_org.id, @current_team.id, %i[EDIT_TEAM CREATE_TEAM])
 
@@ -71,7 +71,7 @@ module Api
     end
 
     def redirect_if_no_edit
-      return if current_user.check_permissions(@current_org.id, nil, %i[EDIT_ORG])
+      # return if current_user.check_permissions(@current_org.id, nil, %i[EDIT_ORG])
 
       return if current_user.check_permissions(@current_org.id, @current_team.id, %i[EDIT_TEAM CREATE_TEAM])
 
@@ -79,7 +79,7 @@ module Api
     end
 
     def redirect_if_no_view
-      return if current_user.check_permissions(@current_org.id, nil, %i[EDIT_ORG])
+      # return if current_user.check_permissions(@current_org.id, nil, %i[EDIT_ORG])
 
       return if current_user.check_permissions(@current_org.id, @current_team.id, %i[VIEW_TEAM EDIT_TEAM CREATE_TEAM])
 

@@ -86,7 +86,7 @@ module Api
     def redirect_if_no_edit
       return if current_user_for_modify?
 
-      return if current_user.check_permissions(nil, nil, [:EDIT_ORG]) # check if edit_org
+      # return if current_user.check_permissions(nil, nil, [:EDIT_ORG]) # check if edit_org
 
       render_unauthorized
     end

@@ -17,7 +17,8 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validates :is_over_18, presence: true
 
-  possible_perms_list = %i[CREATE_ORG EDIT_ORG VIEW_ORG CREATE_TEAM EDIT_TEAM VIEW_TEAM CREATE_EVENT EDIT_EVENT VIEW_EVENT].freeze
+  # possible permissions
+  # %i[CREATE_ORG EDIT_ORG VIEW_ORG CREATE_TEAM EDIT_TEAM VIEW_TEAM CREATE_EVENT EDIT_EVENT VIEW_EVENT]
 
   def event_leader?(team_id)
     organization_id = Team.find(team_id)&.organization_id
@@ -31,7 +32,14 @@ class User < ApplicationRecord
 
   def check_permissions(org_id, team_id, permissions_list)
     user_perms = team_permissions
-    user_perms = user_perms.select { |perm| perm[:org_id] == org_id } unless org_id.nil?
+    unless org_id.nil?
+      user_perms = user_perms.select { |perm| perm[:org_id] == org_id }
+      return true if user_perms.any? do |perm|
+        (perm[:permissions].keys & %i[CREATE_ORG EDIT_ORG]).any?
+      end
+    end
+    user_perms.any? { |perm| perm[:permissions][:EDIT_ORG] }
+
     user_perms = user_perms.select { |perm| perm[:team_id] == team_id } unless team_id.nil?
     result = false
     user_perms.each do |perm|

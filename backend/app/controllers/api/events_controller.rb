@@ -111,7 +111,7 @@ module Api
     end
 
     def redirect_if_no_create
-      return if current_user.check_permissions(@current_org.id, nil, [:EDIT_ORG]) # check if org permissions first
+      # return if current_user.check_permissions(@current_org.id, nil, [:EDIT_ORG]) # check if org permissions first
 
       return if current_user.check_permissions(@current_org.id, @current_team.id, %i[CREATE_EVENT EDIT_TEAM CREATE_TEAM])
 
@@ -119,7 +119,7 @@ module Api
     end
 
     def redirect_if_no_edit
-      return if current_user.check_permissions(@current_org.id, nil, [:EDIT_ORG]) # check if org permissions first
+      # return if current_user.check_permissions(@current_org.id, nil, [:EDIT_ORG]) # check if org permissions first
 
       return if current_user.check_permissions(@current_org.id, @current_team.id, %i[EDIT_EVENT CREATE_EVENT EDIT_TEAM CREATE_TEAM])
 
