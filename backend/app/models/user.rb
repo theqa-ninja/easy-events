@@ -32,13 +32,10 @@ class User < ApplicationRecord
 
   def check_permissions(org_id, team_id, permissions_list)
     user_perms = team_permissions
-    unless org_id.nil?
-      user_perms = user_perms.select { |perm| perm[:org_id] == org_id }
-      return true if user_perms.any? do |perm|
-        (perm[:permissions].keys & %i[CREATE_ORG EDIT_ORG]).any?
-      end
+    user_perms = user_perms.select { |perm| perm[:org_id] == org_id || perm[:org_id].nil? } unless org_id.nil?
+    return true if user_perms.any? do |perm| # added this to make superadmin checks
+      (perm[:permissions].keys & %i[CREATE_ORG EDIT_ORG]).any?
     end
-    user_perms.any? { |perm| perm[:permissions][:EDIT_ORG] }
 
     user_perms = user_perms.select { |perm| perm[:team_id] == team_id } unless team_id.nil?
     result = false
