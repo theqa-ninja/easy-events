@@ -86,6 +86,7 @@ const Events = async ({
             <DropDown
               label="Team"
               choices={teamChoices}
+              helpText="All"
               defaultValue={team_id ? team_id.toString() : ""}
               name="team_id"
             />
@@ -94,6 +95,7 @@ const Events = async ({
             <DropDown
               label="Organization"
               choices={orgChoices}
+              helpText="All"
               defaultValue={org_id ? org_id.toString() : ""}
               name="org_id"
             />
