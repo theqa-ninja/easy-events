@@ -24,9 +24,9 @@ class User < ApplicationRecord
     organization_id = Team.find(team_id)&.organization_id
     return false if organization_id.nil?
 
-    result = UsersTypesTeam.joins(:user_type)
-                           .where(organization_id: organization_id, user_id: id,
-                                  team_id: [team_id, nil], "user_type.edit_event": true)
+    result = OrganizerTypesOrgsTeam.joins(:organizer_type)
+                                   .where(organization_id: organization_id, user_id: id,
+                                          team_id: [team_id, nil], "organizer_type.edit_event": true)
     !result.first.nil? # returns false if no results
   end
 
@@ -48,29 +48,29 @@ class User < ApplicationRecord
     result
   end
 
-  def permissions_json(user_type_perms)
+  def permissions_json(organizer_type_perms)
     {
-      CREATE_ORG: user_type_perms.create_org,
-      EDIT_ORG: user_type_perms.edit_org,
-      VIEW_ORG: user_type_perms.view_org,
-      CREATE_TEAM: user_type_perms.create_team,
-      EDIT_TEAM: user_type_perms.edit_team,
-      VIEW_TEAM: user_type_perms.view_team,
-      CREATE_EVENT: user_type_perms.create_event,
-      EDIT_EVENT: user_type_perms.edit_event,
-      VIEW_EVENT: user_type_perms.view_event
+      CREATE_ORG: organizer_type_perms.create_org,
+      EDIT_ORG: organizer_type_perms.edit_org,
+      VIEW_ORG: organizer_type_perms.view_org,
+      CREATE_TEAM: organizer_type_perms.create_team,
+      EDIT_TEAM: organizer_type_perms.edit_team,
+      VIEW_TEAM: organizer_type_perms.view_team,
+      CREATE_EVENT: organizer_type_perms.create_event,
+      EDIT_EVENT: organizer_type_perms.edit_event,
+      VIEW_EVENT: organizer_type_perms.view_event
     }.reject { |_, value| value == false }
   end
 
   def team_permissions
-    perms = UsersTypesTeam.where(user_id: id)
+    perms = OrganizerTypesOrgsTeam.where(user_id: id)
     return [] if perms.empty?
 
     # get all teams the user has access to
     perms.includes(:team).map do |ut|
-      { organization: ut.organization&.name, org_id: ut.organization_id, team: ut.team&.name, team_id: ut.team_id, user_type: ut.user_type_role,
-        user_role_description: ut.user_type.description,
-        permissions: permissions_json(ut.user_type) }
+      { organization: ut.organization&.name, org_id: ut.organization_id, team: ut.team&.name, team_id: ut.team_id, organizer_type: ut.organizer_type_role,
+        user_role_description: ut.organizer_type.description,
+        permissions: permissions_json(ut.organizer_type) }
     end
   end
 

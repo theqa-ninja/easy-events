@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         post 'teams', to: 'teams#create' # create a new team in the organization
         patch 'teams/:team_id', to: 'teams#update' # update a specific team
         delete 'teams/:team_id', to: 'teams#destroy' # delete a specific team
+        get 'organizers', to: 'organizations#organizers' # get a list of organizers
       end
     end
     resources :users, only: %i[index show create update destroy], param: :user_id do
@@ -46,7 +47,7 @@ Rails.application.routes.draw do
   # get "events/:id/signups", to: "events#signups"
   # get "events/:id/check-ins", to: "api/v1/events#check_ins", as: :event_check_ins
 
-  # resources :user_types
+  # resources :organizer_types
   # devise_for :users,
   #   :path => '',
   #   :path_names => {

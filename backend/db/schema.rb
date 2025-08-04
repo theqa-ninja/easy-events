@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_26_203611) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_04_001103) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,6 +55,35 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_26_203611) do
     t.datetime "deleted_at"
   end
 
+  create_table "organizer_types", force: :cascade do |t|
+    t.string "role", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "soft_deleted", default: false, null: false
+    t.datetime "deleted_at"
+    t.string "description", default: ""
+    t.boolean "create_org", default: false
+    t.boolean "edit_org", default: false
+    t.boolean "view_org", default: false
+    t.boolean "create_team", default: false
+    t.boolean "edit_team", default: false
+    t.boolean "view_team", default: false
+    t.boolean "create_event", default: false
+    t.boolean "edit_event", default: false
+    t.boolean "view_event", default: false
+  end
+
+  create_table "organizer_types_orgs_teams", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "organizer_type_id", null: false
+    t.integer "organization_id"
+    t.integer "team_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "soft_deleted", default: false, null: false
+    t.datetime "deleted_at"
+  end
+
   create_table "signups", force: :cascade do |t|
     t.integer "event_id", null: false
     t.integer "user_id"
@@ -80,24 +109,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_26_203611) do
     t.datetime "updated_at", null: false
     t.boolean "soft_deleted", default: false, null: false
     t.datetime "deleted_at"
-  end
-
-  create_table "user_types", force: :cascade do |t|
-    t.string "role", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "soft_deleted", default: false, null: false
-    t.datetime "deleted_at"
-    t.string "description", default: ""
-    t.boolean "create_org", default: false
-    t.boolean "edit_org", default: false
-    t.boolean "view_org", default: false
-    t.boolean "create_team", default: false
-    t.boolean "edit_team", default: false
-    t.boolean "view_team", default: false
-    t.boolean "create_event", default: false
-    t.boolean "edit_event", default: false
-    t.boolean "view_event", default: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -127,17 +138,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_26_203611) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  create_table "users_types_teams", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "user_type_id", null: false
-    t.integer "organization_id"
-    t.integer "team_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "soft_deleted", default: false, null: false
-    t.datetime "deleted_at"
-  end
-
   create_table "volunteer_notes", force: :cascade do |t|
     t.integer "user_id"
     t.integer "author_id", null: false
@@ -161,14 +161,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_26_203611) do
 
   add_foreign_key "events", "teams"
   add_foreign_key "events", "users", column: "creator_id"
+  add_foreign_key "organizer_types_orgs_teams", "organizations"
+  add_foreign_key "organizer_types_orgs_teams", "organizer_types"
+  add_foreign_key "organizer_types_orgs_teams", "teams"
+  add_foreign_key "organizer_types_orgs_teams", "users"
   add_foreign_key "signups", "events"
   add_foreign_key "signups", "users"
   add_foreign_key "signups", "volunteer_roles"
   add_foreign_key "teams", "organizations"
-  add_foreign_key "users_types_teams", "organizations"
-  add_foreign_key "users_types_teams", "teams"
-  add_foreign_key "users_types_teams", "user_types"
-  add_foreign_key "users_types_teams", "users"
   add_foreign_key "volunteer_notes", "signups"
   add_foreign_key "volunteer_notes", "users"
   add_foreign_key "volunteer_notes", "users", column: "author_id"

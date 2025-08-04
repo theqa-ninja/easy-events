@@ -45,22 +45,22 @@ unless Rails.env.production?
   # end
 
   puts 'creating user types...'
-  UserType.find_or_create_by!(role: 'internal admin', description: 'Can create orgs', create_org: true, edit_org: true, view_org: true)
-  UserType.find_or_create_by!(role: 'org team event', description: 'Can manage their current org and create new teams', edit_org: true, view_org: true,
-                              create_team: true, edit_team: true, view_team: true, create_event: true, edit_event: true, view_event: true)
-  UserType.find_or_create_by!(role: 'team event', description: 'Can manage their events', view_team: true, create_event: true, edit_event: true,
-                              view_event: true)
+  OrganizerType.find_or_create_by!(role: 'internal admin', description: 'Can create orgs', create_org: true, edit_org: true, view_org: true)
+  OrganizerType.find_or_create_by!(role: 'org team event', description: 'Can manage their current org and create new teams', edit_org: true, view_org: true,
+                                   create_team: true, edit_team: true, view_team: true, create_event: true, edit_event: true, view_event: true)
+  OrganizerType.find_or_create_by!(role: 'team event', description: 'Can manage their events', view_team: true, create_event: true, edit_event: true,
+                                   view_event: true)
 
   puts 'creating user types teams...'
-  UsersTypesTeam.find_or_create_by!(user_id: User.first.id, organization_id: nil, user_type_id: UserType.first.id)
-  puts "made #{User.first.email} as an #{UserType.first.role}"
-  UsersTypesTeam.find_or_create_by!(user_id: User.second.id, organization_id: org.id, team_id: Team.first.id,
-                                    user_type_id: UserType.second.id)
-  puts "made #{User.second.email} as a #{UserType.second.role} for #{org.name} on Team: #{Team.second.name}"
+  OrganizerTypesOrgsTeam.find_or_create_by!(user_id: User.first.id, organization_id: nil, organizer_type_id: OrganizerType.first.id)
+  puts "made #{User.first.email} as an #{OrganizerType.first.role}"
+  OrganizerTypesOrgsTeam.find_or_create_by!(user_id: User.second.id, organization_id: org.id, team_id: Team.first.id,
+                                            organizer_type_id: OrganizerType.second.id)
+  puts "made #{User.second.email} as a #{OrganizerType.second.role} for #{org.name} on Team: #{Team.second.name}"
 
-  UsersTypesTeam.find_or_create_by!(user_id: User.third.id, organization_id: org.id, team_id: Team.first.id,
-                                    user_type_id: UserType.third.id)
-  puts "made #{User.third.email} as a #{UserType.third.role} for #{org.name} on Team: #{Team.first.name}"
+  OrganizerTypesOrgsTeam.find_or_create_by!(user_id: User.third.id, organization_id: org.id, team_id: Team.first.id,
+                                            organizer_type_id: OrganizerType.third.id)
+  puts "made #{User.third.email} as a #{OrganizerType.third.role} for #{org.name} on Team: #{Team.first.name}"
 
   puts "creating volunteer roles for team #{Team.first.name}"
   VolunteerRole.find_or_create_by!(role: 'Cart Runner', description: 'Runs the cart to the car', team_id: Team.first.id)
@@ -89,7 +89,7 @@ unless Rails.env.production?
       volunteer_role_ids: VolunteerRole.where(team_id: team_id).sample(3).pluck(:id),
       adult_slots: (5..12).to_a.sample,
       teenager_slots: (1..10).to_a.sample,
-      creator_id: UsersTypesTeam.all.sample.user_id,
+      creator_id: OrganizerTypesOrgsTeam.all.sample.user_id,
       team_id: team_id
     )
 
