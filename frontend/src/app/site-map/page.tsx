@@ -84,18 +84,9 @@ const siteMap = () => {
                       </Link>
                     </li>
                     <li>
-                      <ul>
-                        <li>
-                          <Link href="/organizations/1/teams/1/edit">
-                            Edit or delete a team
-                          </Link>
-                        </li>
-                        <li>
-                          <Link href="/organizations/1/teams/1/create">
-                            Add a team
-                          </Link>
-                        </li>
-                      </ul>
+                      <Link href="/organizations/1/teams/create">
+                        Add a team
+                      </Link>
                     </li>
                   </ul>
                 </li>

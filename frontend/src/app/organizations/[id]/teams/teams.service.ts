@@ -1,8 +1,8 @@
 import { getToken } from "@/app/utilities";
 export interface ITeam {
-  id: string;
+  id?: string;
   name: string;
-  organization_id: string;
+  organization_id: number;
   volunteer_roles?: IVolunteerRole[];
 }
 
@@ -73,6 +73,28 @@ export const getVolunteerRoles = async (
       {
         method: "GET",
         headers,
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createTeam = async (team: ITeam, organizationId: number): Promise<ITeam> => {
+  try {
+    const token = await getToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: token || "",
+    };
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/organizations/${organizationId}/teams/`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify(team),
       }
     );
     const data = await response.json();
