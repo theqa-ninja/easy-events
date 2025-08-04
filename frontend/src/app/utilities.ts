@@ -53,16 +53,17 @@ export const calculateEndTime = (
   start.setHours(start.getHours() + hours, start.getMinutes() + minutes);
   const dateOptions: Intl.DateTimeFormatOptions = {
     year: "numeric",
-    month: "long",
-    day: "numeric",
+    month: "2-digit",
+    day: "2-digit",
   };
+
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour: "numeric",
     minute: "numeric",
     hour12: false,
   };
   return [
-    formatDateTime(start.toISOString(), dateOptions),
+    formatDateTime(start.toISOString(), dateOptions, "en-CA"),
     formatDateTime(start.toISOString(), timeOptions),
   ];
 };

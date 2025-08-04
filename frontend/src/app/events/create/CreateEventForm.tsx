@@ -23,12 +23,18 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
     },
     "en-CA"
   );
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    dateStyle: "long",
+  };
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    timeStyle: "short",
+  };
   const [toast, setToast] = useState<IToast>();
   const [errors, setErrors] = useState<{ [name: string]: string }>({});
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(today);
   const [startTime, setStartTime] = useState("");
-  const [hours, setHours] = useState("");
+  const [hours, setHours] = useState("1");
   const [endTime, setEndTime] = useState("");
   const [duration, setDuration] = useState<string | undefined>();
   const [description, setDescription] = useState<string>("");
@@ -49,6 +55,9 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
 
   const handleStartTime = (value: string) => {
     setStartTime(value);
+    const endDateAndTime = calculateEndTime(startDate, value, hours);
+    setEndDate(endDateAndTime[0]);
+    setEndTime(endDateAndTime[1]);
   };
 
   const handleQuickSelect = () => {
@@ -147,6 +156,7 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
                 label="Start Date"
                 type="date"
                 name="start_date"
+                defaultValue={startDate}
                 onInput={(e) => {
                   setStartDate(e.currentTarget.value);
                 }}
@@ -164,23 +174,36 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
                   errorMessage={errors.start_time}
                 />
                 <div>
-                <DropDown
-                  choices={["1", "1.5", "2", "2.5", "3", "3.5", "4", "custom"]}
-                  label="Hour(s)"
-                  helpText=""
-                  onChange={(e) => handleHours(e.target.value)}
-                  defaultValue={hours}
-                />
-                <Input
-                  type="hidden"
-                  name="end_time"
-                  defaultValue={endTime}
-                  onBlur={handleChange}
-                  errorMessage={errors.end_time}
-                />
+                  <DropDown
+                    choices={[
+                      "1",
+                      "1.5",
+                      "2",
+                      "2.5",
+                      "3",
+                      "3.5",
+                      "4",
+                      "custom",
+                    ]}
+                    label="Hour(s)"
+                    helpText=""
+                    onChange={(e) => handleHours(e.target.value)}
+                    defaultValue={hours}
+                  />
+                  <Input
+                    type="hidden"
+                    name="end_time"
+                    defaultValue={endTime}
+                    onBlur={handleChange}
+                    errorMessage={errors.end_time}
+                  />
                 </div>
               </div>
-              {endTime ? `Ends on ${endDate} at ${endTime}` : ""}
+              {endTime &&
+                `Ends on ${formatDateTime(
+                  `${endDate} ${endTime}`,
+                  dateOptions
+                )} at ${formatDateTime(`${endDate} ${endTime}`, timeOptions)}`}
             </>
           )}
           {showCustomTime && (
@@ -230,7 +253,11 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
                 />
               </div>
               <div className="flex justify-start">
-                <Button type="button" onClick={handleQuickSelect} label="Back to quick select" />
+                <Button
+                  type="button"
+                  onClick={handleQuickSelect}
+                  label="Back to quick select"
+                />
               </div>
               {duration && <p>Duration: {duration}</p>}
             </>
@@ -253,6 +280,7 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
             label="Time when signups are closed"
             type="datetime-local"
             name="close_time"
+            defaultValue={startDate + "T" + startTime}
           />
           <DropDown
             choices={teams}
