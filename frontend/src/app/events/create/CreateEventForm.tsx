@@ -120,7 +120,7 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
       const endDateAndTime = `${endDate} ${endTime}`;
       setDuration(eventDuration(startDateAndTime, endDateAndTime));
     }
-  }, [startTime, endTime]);
+  }, [startDate, endDate, startTime, endTime]);
 
   return (
     <>
@@ -141,17 +141,17 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
             onBlur={handleChange}
             errorMessage={errors.title}
           />
-          <Input
-            label="Start Date"
-            type="date"
-            name="start_date"
-            onInput={(e) => {
-              setStartDate(e.currentTarget.value);
-            }}
-            onFocus={(e) => e.currentTarget.showPicker()}
-          />
           {!showCustomTime && (
             <>
+              <Input
+                label="Start Date"
+                type="date"
+                name="start_date"
+                onInput={(e) => {
+                  setStartDate(e.currentTarget.value);
+                }}
+                onFocus={(e) => e.currentTarget.showPicker()}
+              />
               <div className="flex gap-4 max-w-100 items-center">
                 <Input
                   type="time"
@@ -185,29 +185,52 @@ export const CreateEventForm = ({ teams }: { teams: any }) => {
           )}
           {showCustomTime && (
             <>
-              <div className="flex gap-4 max-w-100 items-baseline">
+              <div className="flex gap-4 max-w-100 items-center">
+                <Input
+                  label="Start Date"
+                  type="date"
+                  name="start_date"
+                  defaultValue={startDate}
+                  onInput={(e) => {
+                    setStartDate(e.currentTarget.value);
+                  }}
+                  onFocus={(e) => e.currentTarget.showPicker()}
+                />
                 <Input
                   type="time"
                   name="start_time"
+                  label="Start time"
                   onFocus={(e) => e.currentTarget.showPicker()}
                   defaultValue={startTime}
                   onChange={(e) => setStartTime(e.target.value)}
                   onBlur={handleChange}
                   errorMessage={errors.start_time}
                 />
-                to
+              </div>
+              <div className="flex gap-4 max-w-100 items-center">
+                <Input
+                  label="End Date"
+                  type="date"
+                  name="end_date"
+                  defaultValue={endDate}
+                  onInput={(e) => {
+                    setEndDate(e.currentTarget.value);
+                  }}
+                  onFocus={(e) => e.currentTarget.showPicker()}
+                />
                 <Input
                   type="time"
                   name="end_time"
+                  label="End time"
                   onFocus={(e) => e.currentTarget.showPicker()}
                   defaultValue={endTime}
                   onChange={(e) => setEndTime(e.target.value)}
                   onBlur={handleChange}
                   errorMessage={errors.end_time}
                 />
-                <button type="button" onClick={handleQuickSelect}>
-                  Quick select?
-                </button>
+              </div>
+              <div className="flex justify-start">
+                <Button type="button" onClick={handleQuickSelect} label="Back to quick select" />
               </div>
               {duration && <p>Duration: {duration}</p>}
             </>

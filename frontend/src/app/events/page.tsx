@@ -44,8 +44,8 @@ const Events = async ({
   const loggedIn = await validateToken();
   const teamChoices = eventsData
     .map((event) => ({
-      label: event.team_name,
-      value: event.team_id.toString(),
+      label: event.team_name || "",
+      value: event.team_id?.toString() || "",
     }))
     .filter(
       (obj, index, self) =>
@@ -53,8 +53,8 @@ const Events = async ({
     );
   const orgChoices = eventsData
     .map((event) => ({
-      label: event.org_name,
-      value: event.org_id.toString(),
+      label: event.org_name || "",
+      value: event.org_id?.toString() || "",
     }))
     .filter(
       (obj, index, self) =>

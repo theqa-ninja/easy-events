@@ -8,10 +8,10 @@ export const eventDuration = (startTime: string = "", endTime: string = "") => {
   if (diff < 0) {
     return "End time must be a time after start time.";
   }
-
-  const hours = Math.floor(diff / (1000 * 60 * 60));
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const duration = `${hours > 0 ? (hours > 1 ? `${hours} hours` : `${hours} hour`) : ""}
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const duration = `${days > 0 ? (days > 1 ? `${days} days` : `${days} day`) : ""} ${hours > 0 ? (hours > 1 ? `${hours} hours` : `${hours} hour`) : ""}
           ${minutes > 0 ? (minutes > 1 ? ` and ${minutes} minutes` : ` and ${minutes} minute`) : ""}`.trim();
   if (duration !== "") {
     return `${duration}`;
