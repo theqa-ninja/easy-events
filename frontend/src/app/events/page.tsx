@@ -122,7 +122,7 @@ const Events = async ({
             />
           </Card>
         ))}
-        <h2 className="mt-4 !mb-0">Closed Events</h2>
+        {eventsClosed.length > 0 && <h2 className="mt-4 !mb-0">Closed Events</h2>}
         {eventsClosed.map((event) => (
           <Card key={event.id}>
             <h2 className="text-xl font-bold">
