@@ -72,7 +72,7 @@ module Api
     end
 
     def redirect_if_no_view
-      return if current_user.check_permissions(@current_organization.id, nil, %i[VIEW_ORG EDIT_ORG CREATE_ORG])
+      return if current_user.check_permissions(@current_organization&.id, nil, %i[VIEW_ORG EDIT_ORG CREATE_ORG])
 
       render json: { message: "You can't view organizations" }, status: :unauthorized
     end
