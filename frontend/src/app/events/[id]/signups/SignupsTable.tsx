@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { ISignup } from "@/app/events/[id]/signups.service";
 import Link from "next/link";
 import { CheckedInAt } from "./CheckedInAt";
@@ -19,7 +18,10 @@ export const SignupsTable = async ({
         <Card key={signup.id} classNames="mb-4 flex flex-col gap-2">
           <div className="flex justify-between">
             <div className="flex flex-col gap-2">
-              <Link href={`/events/${signup.event_id}/signups/${signup.id}`} className="text-xl">
+              <Link
+                href={`/events/${signup.event_id}/signups/${signup.id}`}
+                className="text-xl"
+              >
                 {signup.name}
               </Link>
               <VolunteerRoles volunteerRoles={volunteerRoles} signup={signup} />

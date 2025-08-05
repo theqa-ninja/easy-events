@@ -10,6 +10,7 @@ export interface IVolunteerRole {
   id: number;
   role: string;
   team_id: number;
+  description?: string;
 }
 
 export const getTeam = async (
@@ -59,6 +60,38 @@ export const getTeams = async (organizationId: number): Promise<ITeam[]> => {
   }
 };
 
+export const editTeam = async (
+  organizationId: number,
+  teamId: number,
+  updatedTeamName: string
+): Promise<ITeam> => {
+  try {
+    const token = await getToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: token || "",
+    };
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/organizations/${organizationId}/teams/${teamId}`,
+      {
+        method: "PATCH",
+        headers: headers,
+        body: JSON.stringify({ name: updatedTeamName }),
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to edit team");
+    }
+
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getVolunteerRoles = async (
   teamId: number
 ): Promise<IVolunteerRole[]> => {
@@ -82,7 +115,40 @@ export const getVolunteerRoles = async (
   }
 };
 
-export const createTeam = async (team: ITeam, organizationId: number): Promise<ITeam> => {
+export const editVolunteerRole = async (
+  teamId: number,
+  roleId: number,
+  updatedRoleName?: string,
+  updatedDescription?: string
+): Promise<IVolunteerRole[]> => {
+  try {
+    const token = await getToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: token || "",
+    };
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/teams/${teamId}/volunteer_roles/${roleId}`,
+      {
+        method: "PATCH",
+        headers,
+        body: JSON.stringify({
+          role: updatedRoleName,
+          description: updatedDescription,
+        }),
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createTeam = async (
+  team: ITeam,
+  organizationId: number
+): Promise<ITeam> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {

@@ -1,7 +1,8 @@
 import { doesUserHavePermissions } from "@/app/user/users.service";
 import { getTeam, IVolunteerRole } from "../teams.service";
 import { Card } from "@/app/components/Card";
-import Link from "next/link";
+import TeamName from "./TeamName";
+import VolunteerRole from "./VolunteerRole";
 
 const TeamPage = async ({
   params,
@@ -11,30 +12,37 @@ const TeamPage = async ({
   // fetch the current user's team details
   const { id, teamId } = await params;
   const teamData = await getTeam(id, teamId);
-  const userMayViewTeams = await doesUserHavePermissions({
-    actionAndPage: "VIEW_TEAM",
+  const userMayEditTeams = await doesUserHavePermissions({
+    actionAndPage: "EDIT_TEAM",
     teamId: teamId,
     orgId: id,
   });
 
   // team data to display
-  const teamName = teamData?.name;
   const teamRoles = teamData?.volunteer_roles;
 
   console.log("Team Data:", teamData);
 
-  return userMayViewTeams && teamData ? (
+  return userMayEditTeams && teamData ? (
     <Card>
-      <h1>{teamName}</h1>
-      <p>Here you can edit your team name and volunteer roles.</p>
-      <h2>Volunteer roles</h2>
-      <div className="flex flex-col gap-2">
-        {teamRoles &&
-          teamRoles.map((role: IVolunteerRole) => (
-            <span key={role.id}>{role.role}</span>
-          ))}
+      <div className="flex pb-6">
+        <TeamName
+          originalTeamName={teamData?.name}
+          organizationId={Number(teamData?.organization_id)}
+          teamId={Number(teamData?.id)}
+        />
       </div>
-      <Link href={`/organizations/${id}/teams/${teamId}/edit`}>Edit team</Link>
+      <h2>Volunteer roles</h2>
+      {teamRoles
+        ?.sort((a, b) => a.id - b.id)
+        .map((role: IVolunteerRole) => (
+          <VolunteerRole
+            key={role.id}
+            roleId={role.id}
+            roleName={role.role}
+            teamId={Number(teamData?.id)}
+          />
+        ))}
     </Card>
   ) : (
     <>

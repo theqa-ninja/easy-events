@@ -9,18 +9,20 @@ export const metadata = {
 const TeamsPage = async ({ params }: { params: Promise<{ id: number }> }) => {
   const { id } = await params;
   const teamsData = await getTeams(id);
-  const userMayViewTeams = await doesUserHavePermissions({
-    actionAndPage: "VIEW_TEAM",
+  const userMayEditTeams = await doesUserHavePermissions({
+    actionAndPage: "EDIT_TEAM",
     orgId: id,
   });
 
-  return userMayViewTeams && teamsData && teamsData.length > 0 ? (
+  return userMayEditTeams && teamsData && teamsData.length > 0 ? (
     <>
       <h1>Teams</h1>
       <ul>
         {teamsData.map((team) => (
           <li className="text-xl font-bold" key={team.id}>
-            <Link href={`/organizations/${id}/teams/${team.id}`}>{team.name}</Link>
+            <Link href={`/organizations/${id}/teams/${team.id}`}>
+              {team.name}
+            </Link>
           </li>
         ))}
       </ul>
