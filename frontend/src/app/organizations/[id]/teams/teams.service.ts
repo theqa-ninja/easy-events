@@ -92,6 +92,31 @@ export const editTeam = async (
   }
 };
 
+export const createTeam = async (
+  team: ITeam,
+  organizationId: number
+): Promise<ITeam> => {
+  try {
+    const token = await getToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: token || "",
+    };
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/organizations/${organizationId}/teams/`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify(team),
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getVolunteerRoles = async (
   teamId: number
 ): Promise<IVolunteerRole[]> => {
@@ -145,10 +170,10 @@ export const editVolunteerRole = async (
   }
 };
 
-export const createTeam = async (
-  team: ITeam,
-  organizationId: number
-): Promise<ITeam> => {
+export const deleteVolunteerRole = async (
+  teamId: number,
+  roleId: number
+): Promise<IVolunteerRole[]> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {
@@ -156,11 +181,10 @@ export const createTeam = async (
       Authorization: token || "",
     };
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_ROUTE}/organizations/${organizationId}/teams/`,
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/teams/${teamId}/volunteer_roles/${roleId}`,
       {
-        method: "POST",
+        method: "DELETE",
         headers,
-        body: JSON.stringify(team),
       }
     );
     const data = await response.json();

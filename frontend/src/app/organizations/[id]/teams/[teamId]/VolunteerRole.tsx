@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { editVolunteerRole, ITeam } from "../teams.service";
+import { editVolunteerRole, deleteVolunteerRole } from "../teams.service";
 import { Button } from "@/app/components/Button";
 import { Input } from "@/app/components/Input";
 
@@ -60,9 +60,24 @@ const VolunteerRole = ({ roleId, roleName, teamId }: VolunteerRoleProps) => {
     setCurrentRoleName(roleName); // Reset to original role name
   };
 
-  const handleDeleteRole = () => {
+  const handleDeleteRole = (teamId: number, roleId: number) => {
     console.log("Delete role:", roleName);
-    // API call to delete the role
+    deleteVolunteerRole(teamId, roleId)
+      .then((response) => {
+        if (response) {
+          console.log("Role deleted successfully");
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting volunteer role:", error);
+      });
+    // TODO: add a toast message to confirm deletion
+    // remove the role from the UI and reload the page
+    setCurrentRoleName("");
+    setCurrentRoleId(0);
+    // reload the page
+    window.location.reload();
+    setIsEditingRole(false);
   };
 
   return (
@@ -84,7 +99,10 @@ const VolunteerRole = ({ roleId, roleName, teamId }: VolunteerRoleProps) => {
               onClick={() => handleSaveRole(roleId, roleName, teamId)}
               disabled={disableSave}
             />
-            <Button label="Delete this role" onClick={handleDeleteRole} />
+            <Button
+              label="Delete this role"
+              onClick={() => handleDeleteRole(teamId, roleId)}
+            />
             <Button label="Cancel" onClick={handleCancelEdit} />
           </>
         ) : (
