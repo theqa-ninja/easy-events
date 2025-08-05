@@ -47,9 +47,7 @@ export const getSignup = async (eventId: number): Promise<any> => {
   }
 };
 
-export const getSignups = async (
-  eventId: number
-): Promise<ISignups> => {
+export const getSignups = async (eventId: number): Promise<ISignups> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {
@@ -145,6 +143,27 @@ export const getSignupsSignup = async (
       return false;
     }
     return data as ISignup;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getMySignups = async (): Promise<ISignup[]> => {
+  try {
+    const token = await getToken();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: token || "",
+    };
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ROUTE}/users/signups`,
+      {
+        method: "GET",
+        headers,
+      }
+    );
+    const data = await response.json();
+    return data;
   } catch (error) {
     throw error;
   }

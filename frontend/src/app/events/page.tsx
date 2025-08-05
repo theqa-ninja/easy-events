@@ -1,5 +1,5 @@
 import React from "react";
-import { getEvents } from "./events.service";
+import { getEvents, IEvent } from "./events.service";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { SignupLinks } from "./SignupLinks";
@@ -10,6 +10,7 @@ import { Card } from "../components/Card";
 import { DropDown } from "../components/DropDown";
 import { Button } from "../components/Button";
 import { signupsAreClosed } from "./events.helper";
+import { getMySignups } from "./[id]/signups.service";
 
 export const metadata: Metadata = {
   title: "Upcoming Events",
@@ -42,6 +43,7 @@ const Events = async ({
 
   const eventsData = await getEvents(params.toString());
   const loggedIn = await validateToken();
+  const userSignups = await getMySignups();
   const teamChoices = eventsData
     .map((event) => ({
       label: event.team_name || "",
@@ -61,11 +63,11 @@ const Events = async ({
         index === self.findIndex((t) => t.value === obj.value)
     );
 
-  const eventsOpen = eventsData.filter(
-    (event) => !signupsAreClosed(event)
-  );
+  const eventsOpen = eventsData.filter((event) => !signupsAreClosed(event));
 
   const eventsClosed = eventsData.filter((event) => signupsAreClosed(event));
+  const userSignedUp = (event: IEvent) =>
+    userSignups.find((signup) => signup.event_id === event.id) ? true : false;
 
   return (
     <>
@@ -116,7 +118,11 @@ const Events = async ({
             </h2>
             <Event eventData={event} />
             <nav className="flex gap-4 mt-4">
-              <SignupLinks event={event} loggedIn={loggedIn} />
+              <SignupLinks
+                event={event}
+                loggedIn={loggedIn}
+                userSignedUp={userSignedUp(event)}
+              />
             </nav>
             <EventLinks
               eventId={Number(event.id)}
@@ -124,7 +130,9 @@ const Events = async ({
             />
           </Card>
         ))}
-        {eventsClosed.length > 0 && <h2 className="mt-4 !mb-0">Closed Events</h2>}
+        {eventsClosed.length > 0 && (
+          <h2 className="mt-4 !mb-0">Closed Events</h2>
+        )}
         {eventsClosed.map((event) => (
           <Card key={event.id}>
             <h2 className="text-xl font-bold">
@@ -132,7 +140,11 @@ const Events = async ({
             </h2>
             <Event eventData={event} />
             <nav className="flex gap-4 mt-4">
-              <SignupLinks event={event} loggedIn={loggedIn} />
+              <SignupLinks
+                event={event}
+                loggedIn={loggedIn}
+                userSignedUp={userSignedUp(event)}
+              />
             </nav>
             <EventLinks
               eventId={Number(event.id)}

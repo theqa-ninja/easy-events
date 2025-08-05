@@ -1,15 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { hasUserSignedUp, IEvent } from "@/app/events/events.service";
+import { IEvent } from "@/app/events/events.service";
 import { signupsAreClosed } from "./events.helper";
 
 export const SignupLinks = ({
   loggedIn,
   event,
+  userSignedUp,
 }: {
   loggedIn: boolean;
   event: IEvent;
+  userSignedUp: boolean;
 }) => {
   if (signupsAreClosed(event)) {
     return <b className="text-secondary">Signups are closed for this event.</b>;
@@ -21,23 +22,12 @@ export const SignupLinks = ({
     );
   }
 
-  const [signedUp, setSignedUp] = useState(false);
-  useEffect(() => {
-    hasUserSignedUp(Number(event.id)).then((res) => {
-      if (res === true) {
-        setSignedUp(true);
-        return;
-      }
-      setSignedUp(false);
-    });
-  }, [signedUp]);
-
   return (
     <>
-      {signedUp === false && (
+      {userSignedUp === false && (
         <Link href={`/events/${event.id}/signup`}>Sign up for this event</Link>
       )}
-      {signedUp === true && (
+      {userSignedUp === true && (
         <>
           <Link href={`/events/${event.id}/signup-confirmation`}>
             View your signup confirmation
