@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         post 'teams', to: 'teams#create' # create a new team in the organization
         patch 'teams/:team_id', to: 'teams#update' # update a specific team
         delete 'teams/:team_id', to: 'teams#destroy' # delete a specific team
+
         get 'organizers', to: 'organizations#organizers' # get a list of organizers
       end
     end
@@ -35,10 +36,15 @@ Rails.application.routes.draw do
         resources :volunteer_roles, only: %i[index show create update destroy]
       end
     end
+    resources :organizers_types, only: %i[index show] do
+      collection do
+        post 'assign', to: 'organizers_types#assign_type'
+      end
+    end
   end
 
   # resources :volunteer_roles
-  # resources :users_types_teams
+  # resources :organizers_types_teams
 
   # get '/events', to: 'api/v1/events#index'
   # get '/events/:id', to: 'api/v1/events#show'

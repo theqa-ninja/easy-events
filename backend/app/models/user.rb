@@ -50,15 +50,15 @@ class User < ApplicationRecord
 
   def permissions_json(organizer_type_perms)
     {
-      CREATE_ORG: organizer_type_perms.create_org,
-      EDIT_ORG: organizer_type_perms.edit_org,
-      VIEW_ORG: organizer_type_perms.view_org,
-      CREATE_TEAM: organizer_type_perms.create_team,
-      EDIT_TEAM: organizer_type_perms.edit_team,
-      VIEW_TEAM: organizer_type_perms.view_team,
-      CREATE_EVENT: organizer_type_perms.create_event,
-      EDIT_EVENT: organizer_type_perms.edit_event,
-      VIEW_EVENT: organizer_type_perms.view_event
+      CREATE_ORG: organizer_type_perms.create_org,      # can create an org
+      EDIT_ORG: organizer_type_perms.edit_org,          # can edit an org
+      VIEW_ORG: organizer_type_perms.view_org,          # can view an org
+      CREATE_TEAM: organizer_type_perms.create_team,    # can create a team
+      EDIT_TEAM: organizer_type_perms.edit_team,        # can edit a team
+      VIEW_TEAM: organizer_type_perms.view_team,        # can view a team
+      CREATE_EVENT: organizer_type_perms.create_event,  # can create an event
+      EDIT_EVENT: organizer_type_perms.edit_event,      # can edit an event
+      VIEW_EVENT: organizer_type_perms.view_event       # can view an event
     }.reject { |_, value| value == false }
   end
 
@@ -68,9 +68,12 @@ class User < ApplicationRecord
 
     # get all teams the user has access to
     perms.includes(:team).map do |ut|
-      { organization: ut.organization&.name, org_id: ut.organization_id, team: ut.team&.name, team_id: ut.team_id, organizer_type: ut.organizer_type_role,
+      {
+        organization: ut.organization&.name, org_id: ut.organization_id, team: ut.team&.name, team_id: ut.team_id,
+        organizer_type: ut.organizer_type_role,
         user_role_description: ut.organizer_type.description,
-        permissions: permissions_json(ut.organizer_type) }
+        permissions: permissions_json(ut.organizer_type)
+      }
     end
   end
 

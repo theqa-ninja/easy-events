@@ -48,7 +48,8 @@ module Api
     end
 
     def signups
-      return if current_user == nil
+      return if current_user.nil?
+
       my_signups = Signup.where(user_id: current_user.id).where(soft_deleted: false)
       render json: my_signups, status: :ok
     end
