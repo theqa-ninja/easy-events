@@ -148,7 +148,7 @@ export const getSignupsSignup = async (
   }
 };
 
-export const getMySignups = async (): Promise<ISignup[]> => {
+export const getMySignups = async (): Promise<ISignup[] | []> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {
@@ -162,8 +162,11 @@ export const getMySignups = async (): Promise<ISignup[]> => {
         headers,
       }
     );
-    const data = await response.json();
-    return data;
+    if (Object.keys(response).length > 0) {
+      const data = await response.json();
+      return data;
+    }
+    return [];
   } catch (error) {
     throw error;
   }
