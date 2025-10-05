@@ -46,7 +46,7 @@ const Events = async ({
   const userSignups = await getMySignups();
   const teamChoices = eventsData
     .map((event) => ({
-      label: event.team_name || "",
+      label: event.team_name || "All",
       value: event.team_id?.toString() || "",
     }))
     .filter(
@@ -55,7 +55,7 @@ const Events = async ({
     );
   const orgChoices = eventsData
     .map((event) => ({
-      label: event.org_name || "",
+      label: event.org_name || "All",
       value: event.org_id?.toString() || "",
     }))
     .filter(
