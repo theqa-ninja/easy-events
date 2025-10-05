@@ -108,6 +108,7 @@ const Events = async ({
           />
         </form>
       </nav>
+      {eventsOpen.length > 0 || eventsClosed.length > 0 ? (
       <div className="flex flex-col gap-4">
         {eventsOpen.map((event) => (
           <Card key={event.id}>
@@ -151,6 +152,9 @@ const Events = async ({
           </Card>
         ))}
       </div>
+      ) : (
+        <Card>There are no {filter || "upcoming"} events at this time.</Card>
+      )}
     </>
   );
 };
