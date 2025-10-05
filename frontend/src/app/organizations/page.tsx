@@ -21,9 +21,6 @@ const OrganizationsPage = async () => {
           <li className="text-xl font-bold" key={organization.id}><Link href={`organizations/${organization.id}`}>{organization.name}</Link></li>
         ))}
       </ul>
-      <nav className="flex gap-4">
-        <Link href="/organizations/create">Create an organization</Link>
-      </nav>
     </>
   ) : (
     <>
