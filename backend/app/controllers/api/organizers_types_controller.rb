@@ -4,7 +4,7 @@ module Api
     # before_action :redirect_if_no_create, only: %i[create]
     # before_action :redirect_if_no_edit, only: %i[update destroy]
     before_action :set_current_org_type, only: %i[show]
-    before_action :redirect_if_no_edit, only: %i[assign_type]
+    before_action :redirect_if_no_edit, only: %i[assign_type remove_type]
     # before_action :redirect_if_no_view, only: %i[index show create update destroy]
     before_action :redirect_if_no_view, only: %i[index show]
 
@@ -41,19 +41,23 @@ module Api
 
     # # DELETE /organizers_types/1
     # def destroy
-    #   @current_org_type.destroy
+    #   @current_org_type.delete
     #   render json: { message: "User permission #{@current_org_type.name} deleted" }, status: :accepted
     # end
 
     def assign_type
       # check if organizer_type exists
       temp_organizers_types_org = OrganizerTypesOrgsTeam.new(organizer_type_org_team_params)
-      organizers_types_org = OrganizerTypesOrgsTeam.find_by(user_id: temp_organizers_types_org.user_id,
-                                                            organization_id: temp_organizers_types_org.organization_id,
-                                                            team_id: temp_organizers_types_org.team_id)
+      organizers_types_org = OrganizerTypesOrgsTeam.find_by(
+        user_id: temp_organizers_types_org.user_id,
+        organization_id: temp_organizers_types_org.organization_id,
+        team_id: temp_organizers_types_org.team_id
+      )
       # check if current user has permission to assign to current org
-      return render_unauthorized unless @current_user.check_permissions(temp_organizers_types_org.organization_id, temp_organizers_types_org.team_id,
-                                                                        %i[EDIT_ORG]) # TODO: I can't remember if this limits by org or not though
+      return render_unauthorized unless @current_user.check_permissions(
+        temp_organizers_types_org.organization_id, temp_organizers_types_org.team_id,
+        %i[EDIT_ORG]
+      ) # TODO: I can't remember if this limits by org or not though
 
       # check if org exists
       # check if team exists
@@ -69,6 +73,24 @@ module Api
       else
         render json: organizers_types_org.errors, status: :unprocessable_entity
       end
+    end
+
+    def remove_type
+      current_org_type = params[:organizer_types_orgs_team]
+      organizers_types_org = OrganizerTypesOrgsTeam.find_by(
+        user_id: current_org_type[:user_id],
+        organization_id: current_org_type[:organization_id],
+        team_id: current_org_type[:team_id]
+      )
+      return render_not_found if organizers_types_org.nil?
+      # check if current user has permission to assign to current org
+      return render_unauthorized unless @current_user.check_permissions(
+        current_org_type[:organization_id], current_org_type[:team_id],
+        %i[EDIT_ORG]
+      ) # TODO: I can't remember if this limits by org or not though
+
+      organizers_types_org.delete
+      render json: { message: "User #{organizers_types_org[:user_id]} permission deleted" }, status: :accepted
     end
 
     private

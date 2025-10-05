@@ -39,6 +39,7 @@ Rails.application.routes.draw do
     resources :organizers_types, only: %i[index show] do
       collection do
         post 'assign', to: 'organizers_types#assign_type'
+        delete 'remove', to: 'organizers_types#remove_type'
       end
     end
   end
