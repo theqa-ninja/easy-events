@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { getToken } from "@/app/utilities";
 import { ITeam } from "../organizations/[id]/teams/teams.service";
 export interface IUser {
@@ -30,7 +31,7 @@ export interface ITeamPermission {
   permissions: IPermission;
 }
 
-export const getUser = async (): Promise<IUser | undefined> => {
+export const getUser = cache(async (): Promise<IUser | undefined> => {
   try {
     const token = await getToken();
     const headers: HeadersInit = {
@@ -50,7 +51,7 @@ export const getUser = async (): Promise<IUser | undefined> => {
   } catch (error) {
     throw error;
   }
-};
+});
 
 export const getUsers = async (): Promise<IUser[] | undefined> => {
   try {

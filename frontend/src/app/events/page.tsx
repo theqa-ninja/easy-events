@@ -11,6 +11,8 @@ import { DropDown } from "../components/DropDown";
 import { Button } from "../components/Button";
 import { signupsAreClosed } from "./events.helper";
 import { getMySignups } from "./[id]/signups.service";
+import { CreateEventLink } from "./CreateEventLink";
+import { getUser } from "../user/users.service";
 
 export const metadata: Metadata = {
   title: "Upcoming Events",
@@ -41,6 +43,7 @@ const Events = async ({
     params.append("filter", filter);
   }
 
+  const user = await getUser();
   const eventsData = await getEvents(params.toString());
   const loggedIn = await validateToken();
   const userSignups = await getMySignups();
@@ -71,7 +74,10 @@ const Events = async ({
 
   return (
     <>
-      <h1>Events</h1>
+      <header className="flex justify-between items-center mb-4">
+        <h1>Events</h1>
+        <CreateEventLink teamId={user?.team_permissions?.[0]?.team_id} />
+      </header>
       <nav>
         <form className="flex gap-4 mb-4 items-end">
           <DropDown
