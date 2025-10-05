@@ -2287,6 +2287,39 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "remove Org Type to user",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"organizer_types_orgs_team\": {\n        \"user_id\": 6,\n        \"organization_id\": 1,\n        \"team_id\": 1,\n        \"organizer_type_id\": 3\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backend_url}}/organizers_types/remove",
+							"host": [
+								"{{backend_url}}"
+							],
+							"path": [
+								"organizers_types",
+								"remove"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
