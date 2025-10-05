@@ -28,7 +28,7 @@ export const DropDown = ({
         defaultValue={defaultValue}
         onChange={onChange}
       >
-        {helpText && helpText !== "" && <option value="">{helpText}</option>}
+        {helpText && helpText !== "" && <option value="" disabled>{helpText}</option>}
         {choices.map(
           (
             choice: string | { value: string; label: string },
