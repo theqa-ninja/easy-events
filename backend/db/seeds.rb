@@ -86,7 +86,9 @@ unless Rails.env.production?
       end_time: starttime + 3.hours,
       close_time: starttime + 2.hours,
       event_lead_name: FFaker::Name.unique.name,
-      volunteer_role_ids: VolunteerRole.where(team_id: team_id).sample(3).pluck(:id),
+      volunteer_roles:
+      [{ "role_id": VolunteerRole.all.sample.id, "count": (1..3).to_a.sample },
+       { "role_id": VolunteerRole.all.sample.id, "count": (1..3).to_a.sample }],
       adult_slots: (5..12).to_a.sample,
       teenager_slots: (1..10).to_a.sample,
       creator_id: OrganizerTypesOrgsTeam.all.sample.user_id,

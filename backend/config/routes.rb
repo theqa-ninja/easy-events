@@ -4,13 +4,14 @@ Rails.application.routes.draw do
   namespace :api do
     resources :events, only: %i[index show create update destroy], param: :event_id do
       member do
-        get 'signups', to: 'signups#index' # get list of all signups
-        get 'checkins', to: 'events#checkins'
-        get 'signup', to: 'signups#show'
         get 'signup/:signup_id', to: 'signups#show'
         post 'signup', to: 'signups#create' # volunteer signing up
-        patch 'signup/:signup_id', to: 'signups#update'
+        patch 'signup/:signup_id', to: 'signups#update' # lead checks in a volunteer
         delete 'signup/:signup_id', to: 'signups#destroy'
+        get 'signup', to: 'signups#show'
+        # for team leads
+        get 'signups', to: 'signups#index' # get list of all signups
+        get 'checkins', to: 'events#checkins'
       end
     end
     resources :organizations, only: %i[index show create update destroy], param: :org_id do
