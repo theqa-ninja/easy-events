@@ -46,10 +46,14 @@ unless Rails.env.production?
 
   puts 'creating user types...'
   OrganizerType.find_or_create_by!(role: 'internal admin', description: 'Can create orgs', create_org: true, edit_org: true, view_org: true)
-  OrganizerType.find_or_create_by!(role: 'org team event', description: 'Can manage their current org and create new teams', edit_org: true, view_org: true,
-                                   create_team: true, edit_team: true, view_team: true, create_event: true, edit_event: true, view_event: true)
-  OrganizerType.find_or_create_by!(role: 'team event', description: 'Can manage their events', view_team: true, create_event: true, edit_event: true,
-                                   view_event: true)
+  OrganizerType.find_or_create_by!(
+    role: 'org team event', description: 'Can manage their current org and create new teams', edit_org: true, view_org: true,
+    create_team: true, edit_team: true, view_team: true, create_event: true, edit_event: true, view_event: true
+  )
+  OrganizerType.find_or_create_by!(
+    role: 'team event', description: 'Can manage their events', view_team: true, create_event: true, edit_event: true,
+    view_event: true
+  )
 
   puts 'creating user types teams...'
   OrganizerTypesOrgsTeam.find_or_create_by!(user_id: User.first.id, organization_id: nil, organizer_type_id: OrganizerType.first.id)
@@ -86,7 +90,9 @@ unless Rails.env.production?
       end_time: starttime + 3.hours,
       close_time: starttime + 2.hours,
       event_lead_name: FFaker::Name.unique.name,
-      volunteer_role_ids: VolunteerRole.where(team_id: team_id).sample(3).pluck(:id),
+      volunteer_roles:
+      [{ "role_id": VolunteerRole.all.sample.id, "count": (1..3).to_a.sample },
+       { "role_id": VolunteerRole.all.sample.id, "count": (1..3).to_a.sample }],
       adult_slots: (5..12).to_a.sample,
       teenager_slots: (1..10).to_a.sample,
       creator_id: OrganizerTypesOrgsTeam.all.sample.user_id,

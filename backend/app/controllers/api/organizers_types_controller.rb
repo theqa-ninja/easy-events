@@ -45,7 +45,7 @@ module Api
     #   render json: { message: "User permission #{@current_org_type.name} deleted" }, status: :accepted
     # end
 
-    def assign_type
+    def assign_type # rubocop:disable Metrics/MethodLength
       # check if organizer_type exists
       temp_organizers_types_org = OrganizerTypesOrgsTeam.new(organizer_type_org_team_params)
       organizers_types_org = OrganizerTypesOrgsTeam.find_by(

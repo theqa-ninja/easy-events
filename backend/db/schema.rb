@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_04_001103) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_13_213705) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,8 +43,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_04_001103) do
     t.boolean "soft_deleted", default: false, null: false
     t.datetime "deleted_at"
     t.datetime "close_time"
-    t.string "volunteer_role_ids", default: [], array: true
     t.string "event_lead_name", default: ""
+    t.json "volunteer_roles", default: [], array: true
   end
 
   create_table "organizations", force: :cascade do |t|
