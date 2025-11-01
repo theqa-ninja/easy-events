@@ -13,7 +13,7 @@ class Event < ApplicationRecord
     volunteer_roles.each do |v_role|
       role_id = v_role['role_id']
       role = VolunteerRole.find(role_id)
-      result[role_id] = { "count": v_role['count'], "role": role.role, "role_id": role.id, "description": role.description }
+      result[role.role] = { "count": v_role['count'], "role": role.role, "role_id": role.id, "description": role.description }
     end
     result
   end
