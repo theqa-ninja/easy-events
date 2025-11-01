@@ -1,5 +1,5 @@
 import { getSignupsSignup } from "@/app/events/[id]/signups.service";
-import { CancelledAt } from "../CanceledAt";
+import { CancelledAt } from "../CancelledAt";
 import Link from "next/link";
 import { CheckedInAt } from "../CheckedInAt";
 import { Card } from "@/app/components/Card";

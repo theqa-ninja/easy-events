@@ -8,7 +8,7 @@ import { Input } from "@/app/components/Input";
 import { Textarea } from "@/app/components/Textarea";
 import { Button } from "@/app/components/Button";
 import { IToast, Toast } from "@/app/components/Toast";
-import { CancelledAt } from "../../signups/CanceledAt";
+import { CancelledAt } from "../../signups/CancelledAt";
 import { signupsAreClosed } from "@/app/events/events.helper";
 import { IEvent } from "@/app/events/events.service";
 
