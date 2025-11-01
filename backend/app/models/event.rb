@@ -9,11 +9,11 @@ class Event < ApplicationRecord
   delegate :name, to: :team, prefix: true
 
   def possible_volunteer_roles
-    result = {}
+    result = []
     volunteer_roles.each do |v_role|
       role_id = v_role['role_id']
       role = VolunteerRole.find(role_id)
-      result[role.role] = { "count": v_role['count'], "role": role.role, "role_id": role.id, "description": role.description }
+      result << { "count": v_role['count'], "role": role.role, "role_id": role.id, "description": role.description }
     end
     result
   end
@@ -48,6 +48,7 @@ class Event < ApplicationRecord
   end
 
   def as_json(_options = {})
-    super(methods: %i[org_id org_name remaining_adult_slots remaining_teenager_slots team_name possible_volunteer_roles])
+    super(methods: %i[org_id org_name remaining_adult_slots remaining_teenager_slots team_name possible_volunteer_roles],
+          except: %i[volunteer_roles])
   end
 end
