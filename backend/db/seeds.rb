@@ -46,10 +46,14 @@ unless Rails.env.production?
 
   puts 'creating user types...'
   OrganizerType.find_or_create_by!(role: 'internal admin', description: 'Can create orgs', create_org: true, edit_org: true, view_org: true)
-  OrganizerType.find_or_create_by!(role: 'org team event', description: 'Can manage their current org and create new teams', edit_org: true, view_org: true,
-                                   create_team: true, edit_team: true, view_team: true, create_event: true, edit_event: true, view_event: true)
-  OrganizerType.find_or_create_by!(role: 'team event', description: 'Can manage their events', view_team: true, create_event: true, edit_event: true,
-                                   view_event: true)
+  OrganizerType.find_or_create_by!(
+    role: 'org team event', description: 'Can manage their current org and create new teams', edit_org: true, view_org: true,
+    create_team: true, edit_team: true, view_team: true, create_event: true, edit_event: true, view_event: true
+  )
+  OrganizerType.find_or_create_by!(
+    role: 'team event', description: 'Can manage their events', view_team: true, create_event: true, edit_event: true,
+    view_event: true
+  )
 
   puts 'creating user types teams...'
   OrganizerTypesOrgsTeam.find_or_create_by!(user_id: User.first.id, organization_id: nil, organizer_type_id: OrganizerType.first.id)
